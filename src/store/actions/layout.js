@@ -1,0 +1,2 @@
+export const LAYOUT_TITLE = 'LAYOUT_TITLE';
+export const LAYOUT_HOWTO_MODAL = 'LAYOUT_HOWTO_MODAL';

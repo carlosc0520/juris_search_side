@@ -190,7 +190,7 @@ export default {
                 },
                 {
                     key: "FCRCN",
-                    label: "Fcha. Creación",
+                    label: "Fecha de Creación",
                     sortable: true,
                 },
                 {
@@ -242,7 +242,7 @@ export default {
                 },
                 {
                     key: "FCRCN",
-                    label: "Fcha. Creación",
+                    label: "Fecha de Creación",
                     sortable: true,
                 },
                 {

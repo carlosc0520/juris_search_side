@@ -11,8 +11,7 @@
 export default {
   methods: {
     openWhatsApp() {
-      // Cambia el número de teléfono al que quieres dirigir a los usuarios
-      const phoneNumber = '902430068'; // Primer número
+      const phoneNumber = '902430068'; 
       const message = 'Hola, tengo una consulta.';
       const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
       window.open(url, '_blank');
@@ -22,7 +21,6 @@ export default {
 </script>
 
 <style>
-/* // crear root */
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -33,42 +31,29 @@ export default {
 .floating-whatsapp {
   position: fixed;
   bottom: 20px;
-  /* Ajusta la distancia desde la parte inferior */
   right: 20px;
-  /* Ajusta la distancia desde la derecha */
   background-color: #25D366;
-  /* Color de fondo de WhatsApp */
   border-radius: 50%;
-  /* Forma circular */
   width: 60px;
-  /* Ancho del icono */
   height: 60px;
-  /* Alto del icono */
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-  /* Sombra para el efecto de flotación */
   cursor: pointer;
-  /* Cambia el cursor al pasar por encima */
   z-index: 1000;
-  /* Asegura que esté en la parte superior */
   transition: background-color 0.3s;
 }
 
 .floating-whatsapp:hover {
   background-color: #52c4b6;
-  /* Color más oscuro al pasar el mouse */
 }
 
 .fab {
   color: white;
-  /* Color del icono */
   font-size: 28px;
-  /* Tamaño del icono */
 }
 
-/* // crear root */
 
 body {
   background-color: #f9fafb !important;
@@ -77,8 +62,6 @@ body {
 :root {
   --azul-primary: #1764ffff;
   --lila-primary: #e81eb2ff;
-
-  /* // los de arriba en color bebe */
   --azul-primary-b: #d4e1fc;
   --lila-primary-b: rgba(245, 200, 233, 0.8);
   --gray-primary: #fcfcfcff;
@@ -89,7 +72,7 @@ a {
 }
 
 nav a {
-  color: #636363!important;
+  color: #636363 !important;
 }
 
 .bg-blueGray-700 {
@@ -167,12 +150,10 @@ nav a {
 
 .bg-app-primary:hover {
   background-color: #5aa3e6;
-  /* Un azul más oscuro pero aún suave */
 }
 
 .bg-app-secondary:hover {
   background-color: #d195d3;
-  /* Un lila más oscuro pero en la misma tonalidad pastel */
 }
 
 .hover:hover {
@@ -207,25 +188,6 @@ nav a {
   color: rgba(100, 116, 139, 1)
 }
 
-/* .vue-treeselect__input-container {
-  padding: 0 !important;
-  width: 100% !important;
-  height: 2.8rem !important;
-}
-
-.vue-treeselect__control {
-  padding: 0 !important;
-}
-
-.vue-treeselect--multi .vue-treeselect__input {
-  padding-top: none !important;
-}
-
-.vue-treeselect__input {
-  padding: 0.5rem !important;
-  width: 100% !important;
-  height: 1.8rem !important;
-} */
 
 .el-select__wrapper {
   width: 100% !important;
@@ -240,14 +202,12 @@ nav a {
 .el-tree-select__popper {
   position: absolute;
   top: 100%;
-  /* Hace que aparezca justo debajo del campo */
   left: 0;
   z-index: 1000;
-  /* Asegura que esté por encima de otros elementos */
 }
 
-.h-350-px{
-  height: 350px!important;
+.h-350-px {
+  height: 350px !important;
 }
 
 .tree-select-container {
@@ -260,23 +220,13 @@ nav a {
 
 .el-tree-select__tags {
   flex-wrap: wrap;
-  /* Permitir que las etiquetas se envuelvan */
   max-height: 50px;
-  /* Altura máxima para las etiquetas */
   overflow-y: auto;
-  /* Habilitar scroll si es necesario */
 }
 
 .el-input {
   min-height: 38px;
-  /* Ajustar altura mínima del input */
 }
-
-/*
-.el-select__input-wrapper{
-  padding: 0.5rem !important;
-  width: 100% !important;
-} */
 
 
 .b-form-tags-input {
@@ -291,7 +241,6 @@ form label {
   margin-bottom: 0.5rem;
 }
 
-/* TIPO TEXT O password */
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -352,6 +301,11 @@ select {
 
 .btn-create {
   background-color: #10b981 !important;
+  color: white !important;
+}
+
+.btn-share {
+  background-color: #f59e0b !important;
   color: white !important;
 }
 
@@ -431,7 +385,6 @@ select {
 }
 
 
-/* // input file */
 input[type=file]::file-selector-button {
   margin-right: 20px;
   border: none;
@@ -490,7 +443,6 @@ form div.error input {
 
 
 .form-switch input {
-  /* // color */
   color: var(--azul-primary) !important;
 }
 
@@ -512,5 +464,17 @@ form {
 
 .pagination {
   display: flex !important;
+}
+
+.p-autocomplete-overlay {
+  background-color: #fff !important;
+}
+.p-autocomplete-option {
+  color: #000 !important;
+}
+
+.p-autocomplete-option:hover,
+.p-autocomplete-option.p-focus {
+  background-color: #f7f7f7ce !important;
 }
 </style>

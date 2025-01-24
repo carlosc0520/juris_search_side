@@ -34,6 +34,7 @@
 import { createPopper } from "@popperjs/core";
 
 import team2 from "@/assets/img/resources/perfil.png";
+import LoginProxy from "../../proxies/LoginProxy";
 
 export default {
   data() {
@@ -59,7 +60,9 @@ export default {
         });
       }
     },
-    signOut() {
+    async signOut() {
+      await LoginProxy.logout();
+
       localStorage.removeItem("user");
       localStorage.removeItem("accessToken");
       this.$router.push("/auth/login");

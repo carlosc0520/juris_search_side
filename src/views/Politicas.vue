@@ -218,12 +218,9 @@
                                     </p>
                                     <p class="policy-text">
                                     <ul>
-                                        <li>Comercial. A fin de interactuar y perfilar a potenciales clientes o
-                                            administrar la relación con clientes establecidos. </li>
-                                        <li>Marketing. A fin de realizar investigaciones de mercado, hábitos de consumo,
-                                            análisis estadístico y satisfacción de clientes mediante encuestas.</li>
-                                        <li>Eficiencia del sitio web. A fin de hacer su uso más intuitivo y responsivo.
-                                            Analizar el uso que los usuarios dan a nuestro sitio web.</li>
+                                        <li>Comercial. A fin de interactuar y perfilar a potenciales clientes o administrar la relación con clientes establecidos. </li>
+                                        <li>Marketing. A fin de realizar investigaciones de mercado, hábitos de consumo, análisis estadístico y satisfacción de clientes mediante encuestas.</li>
+                                        <li>Eficiencia del sitio web. A fin de hacer su uso más intuitivo y responsivo. Analizar el uso que los usuarios dan a nuestro sitio web.</li>
                                     </ul>
                                     </p>
                                     <p class="policy-sub-title" id="storage">

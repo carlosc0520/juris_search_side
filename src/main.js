@@ -40,6 +40,12 @@ import routes from "./router/RouterIndex";
 import PrimeVue from "primevue/config";
 import Aura from "@primevue/themes/aura";
 
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+import VueTelInput from 'vue3-tel-input'
+import 'vue3-tel-input/dist/vue3-tel-input.css'
+
 const router = createRouter({
   history: createWebHistory(),
   routes,
@@ -50,6 +56,8 @@ app.use(PrimeVue, {
     preset: Aura,
   },
 });
+app.use(VueTelInput);
+app.use(VueSweetalert2);
 
 app.use(Vue3Toastify, {
   autoClose: 3000, // Duración en milisegundos

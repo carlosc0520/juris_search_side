@@ -12,6 +12,13 @@ class UserProxy {
         return data;
     }
 
+    async getReporte(model) {
+        const { data } = await axios.get('/admin/user/reporte-estadisticos', {
+            params: model
+        });
+        return data;
+    }
+
     async addFavorite(IDENTRIE) {
         const { data } = await axios.get('/admin/user/add-favorite?IDENTRIE=' + IDENTRIE,{
             params: {  }
@@ -22,6 +29,11 @@ class UserProxy {
 
     async createDirectory(model) {
         const { data } = await axios.post('/admin/user/add-directory', model);
+        return data;
+    }
+
+    async sharedDirectory(model) {
+        const { data } = await axios.post('/admin/user/shared-directory', model);
         return data;
     }
 
@@ -77,6 +89,14 @@ class UserProxy {
 
     async recover(model) {
         const { data } = await axios.post('/auth/lost-password', model);
+        return data;
+    }
+
+    async deleteFavoriteDirectorio(IDDIRECTORIO, IDENTRIE){
+        const { data } = await axios.post('/admin/user/delete-favorite-directory', {
+            IDDIRECTORIO,
+            IDENTRIE
+        });
         return data;
     }
 

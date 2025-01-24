@@ -72,6 +72,10 @@ export default {
         userType: {
             type: Number,
             default: 0
+        },
+        role: {
+            type: Object,
+            default: () => { }
         }
     },
     data() {
@@ -99,7 +103,8 @@ export default {
     methods: {
         async submit(e) {
             e.preventDefault();
-
+            if(this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
+            
             let validate = await this.$validate();
             if (!validate) return;
 

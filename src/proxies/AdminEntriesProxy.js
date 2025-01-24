@@ -24,6 +24,17 @@ class AdminEntriesProxy {
     return data;
   }
 
+  async getDocumentZipAll(formData) {
+    const { data } = await axios.post(`/admin/entries/list-search-data-allZip`, formData, {
+      responseType: 'blob',
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    return data;
+  }
+
   async edit(formData) {
     const { data } = await axios.post(`/admin/entries/edit`, formData, {
       headers: {
@@ -77,6 +88,13 @@ class AdminEntriesProxy {
   // * BUSQUEDA
   async search(model) {
     const { data } = await axios.get(`/admin/entries/busqueda`, {
+      params: model,
+    });
+    return data;
+  }
+
+  async searchSugges(model) {
+    const { data } = await axios.get(`/admin/entries/busqueda-sugges`, {
       params: model,
     });
     return data;

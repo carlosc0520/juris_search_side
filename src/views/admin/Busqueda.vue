@@ -10,7 +10,12 @@
 
             <div class="row mb-3">
                 <div class="col-md-7 col-12 mb-3" style="height: inherit">
-                    <input type="text" v-model="filter.GLOBAL" class="form-control" placeholder="Buscar..." />
+                    <!-- <input type="text" v-model="filter.GLOBAL" class="form-control" placeholder="Buscar..." /> -->
+                    <div class="p-inputgroup">
+                        <AutoComplete style="width: 100%" v-model="filter.GLOBAL" optionLabel="DESCP"
+                        :suggestions="dataComplete" @complete="searchSugges" />
+                    </div>
+
                 </div>
 
                 <div class="col-md-3 col-12 mb-3" style="height: inherit">
@@ -50,16 +55,21 @@
 
                     <div class=" border-bottom">
                         <div class="form-group text-center">
-                            <div class="btn-group w-full" data-toggle="buttons">
+                            <div class="btn-group w-full buttons-filter" data-toggle="buttons">
                                 <button @click="isFilter = 'generales'"
                                     :class="isFilter === 'generales' ? 'active' : ''" class="btn btn-success p-3"
                                     style="display: flex!important; align-items: center; justify-content: center;">
-                                    CRITERIOS GENERALES
+                                    Criterios generales
                                 </button>
                                 <button @click="isFilter = 'ppjj'" :class="isFilter === 'ppjj' ? 'active' : ''"
                                     :disabled="filter.TYPE === 'legislations'" class="btn btn-success p-3"
                                     style="display: flex!important; align-items: center; justify-content: center;">
-                                    PPJJ y Compliance
+                                    Compliance
+                                </button>
+                                <button @click="isFilter = 'dominio'" :class="isFilter === 'dominio' ? 'active' : ''"
+                                    :disabled="filter.TYPE === 'legislations'" class="btn btn-success p-3"
+                                    style="display: flex!important; align-items: center; justify-content: center;">
+                                    Extinci&oacute;n de dominio
                                 </button>
                             </div>
                         </div>
@@ -120,6 +130,13 @@
                                     no-data-text="No hay opciones disponibles" popper-append-to-body
                                     class="custom-tree-select" />
                             </div>
+
+                            <div class="col-12 mb-3 d-flex align-items-center">
+                                <label for="BLOG" class="form-label mr-3">Casos Emblematicos</label>
+                                <b-form-checkbox switch v-model="filter.BLOG" id="status" size="lg"
+                                    button-variant="black-50" />
+                            </div>
+
                         </div>
                         <div v-else>
                             <div class="col-12 mb-3">
@@ -172,6 +189,42 @@
                                 class="custom-tree-select" />
                         </div>
                     </div>
+
+                    <div v-if="['dominio', 'generales'].includes(isFilter) && filter.TYPE == 'jurisprudences'"
+                        class="row p-3">
+                        <div class="col-12 mb-3" v-if="isFilter == 'dominio'">
+                            <label for="FRESOLUTION2" class="form-label">Año de resolución</label>
+                            <date-picker v-model="filter.FRESOLUTION2" valueType="format" type="year"
+                                @change="filter.FRESOLUTION2 = $event" :value="filter.FRESOLUTION2" range></date-picker>
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label for="KEYWORDS" class="form-label">Palabras clave</label>
+                            <b-form-tags separator="," v-model="filter.KEYWORDS" tag-variant="primary" tag-pills
+                                tag-readonly tag-class="bg-app-secondary-b text-app-primary-b" tag-size="sm"
+                                placeholder="Agregar una palabra clave" addButtonText="Agregar"
+                                removeButtonText="Eliminar" removeOnDeleteKey />
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label for="TEMA" class="form-label">Tema <span class="text-danger">*</span></label>
+                            <input type="text" v-model="filter.TEMA" id="TEMA" class="form-control" />
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label for="SUBTEMA" class="form-label">Subtema <span class="text-danger">*</span></label>
+                            <input type="text" v-model="filter.SUBTEMA" id="SUBTEMA" class="form-control" />
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label for="DELITO" class="form-label">Jurisdicción</label>
+                            <el-tree-select v-model="filter.JURISDICCIÓN" :data="selects['JURISDICCIÓN']" multiple
+                                :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox
+                                check-strictly check-on-click-node filterable clearable collapse-tags
+                                :max-collapse-tags="1" no-data-text="No hay opciones disponibles" popper-append-to-body
+                                class="custom-tree-select" />
+                        </div>
+                    </div>
                 </div>
 
                 <div id="products">
@@ -188,8 +241,7 @@
                                 table.currentPage * table.perPage }} de {{ table.totalRows }} registros en total.
                         </p>
 
-                        <div class="col-12 p-0 mb-3" 
-                        v-for="(item, index) in resultados" :key="index">
+                        <div class="col-12 p-0 mb-3" v-for="(item, index) in resultados" :key="index">
                             <div class="card d-flex m-0 flex-column align-items-center p-0">
                                 <div class="card-header" style="width: 100%; background-color: #f7f7f7ff;">{{
                                     item.TITULO }}</div>
@@ -300,7 +352,8 @@
                                                 </button>
 
                                                 <!-- v-if="item.TYPE == 'jurisprudences' && role?.PERM?.find((valor) => valor == '2')" -->
-                                                <button class="btn btn-export" @click="createPDF(item)" v-if="typeSaarch == 'jurisprudences'"
+                                                <button class="btn btn-export" @click="createPDF(item)"
+                                                    v-if="typeSaarch == 'jurisprudences'"
                                                     title="Descargar Resumen Ejecutivo">
                                                     <i class="fas fa-file-pdf"></i>
                                                 </button>
@@ -322,7 +375,7 @@
 
 
 
-                        
+
                     </div>
                     <div v-else class="row mx-0">
                         <div class="sin_resultados col-12 border rounded-lg">
@@ -346,11 +399,12 @@
 
 <script>
 import { Search } from '@element-plus/icons-vue'
-import { BFormSelect, BPagination } from 'bootstrap-vue-next';
+import { BFormSelect, BPagination, BFormTags, BFormCheckbox } from 'bootstrap-vue-next';
 import ModalMostrarPDF from './Modales/ModalMostrarPDF.vue';
 
 
 import { toast } from 'vue3-toastify';
+import AutoComplete from 'primevue/autocomplete';
 
 // PROXY
 import MagistradoProxy from "../../proxies/Magistrados.Proxy";
@@ -390,6 +444,10 @@ export default {
                 JURISDICCION: null,
                 TITLE: null,
                 CRITERIO: null,
+                KEYWORDS: [],
+                TEMA: null,
+                BLOG: false,
+                SUBTEMA: null
             },
 
             filter: {
@@ -409,6 +467,10 @@ export default {
                 TITLE: null,
                 TYPE: "jurisprudences",
                 CRITERIO: null,
+                KEYWORDS: [],
+                TEMA: null,
+                BLOG: false,
+                SUBTEMA: null,
                 CURRENTPAGE: 1,
                 PERPAGE: 10,
                 INDICADOR: 2
@@ -429,16 +491,39 @@ export default {
             Search,
             pdfUrl: '',
             openModal: false,
+            dataComplete: [],
+
         };
     },
     components: {
         BFormSelect,
         BPagination,
-        ModalMostrarPDF
-
+        ModalMostrarPDF,
+        BFormTags,
+        BFormCheckbox,
+        AutoComplete
     },
 
     methods: {
+        searchSugges() {
+            if (this.filter.GLOBAL?.length < 5) return;
+
+            this.dataComplete.value = []
+            AdminEntriesProxy.searchSugges({
+                GLOBAL: this.filter.GLOBAL,
+                TYPE: this.filter.TYPE
+            })
+                .then((response) => {
+                    this.dataComplete = response?.map((item) => {
+                        return { DESCP: item?.DESCP.trim() }
+                    });
+
+                })
+                .catch(() => {
+                    this.dataComplete = []
+                })
+                .finally(() => this.isLoading = false);
+        },
         // BUSQUEDA
         handleSearch(page) {
             let filtro = {
@@ -450,12 +535,13 @@ export default {
         },
         async search(ffff = {}) {
             let filtro = { ...this.filter, ...ffff };
-
             this.typeSaarch = filtro.TYPE;
             this.isLoading = true;
+
             await AdminEntriesProxy.search({
                 ...filtro,
-                FRESOLUTION: filtro.FRESOLUTION1 ? filtro.FRESOLUTION1.join(",") : null,
+                GLOBAL: filtro.GLOBAL?.DESCP || filtro.GLOBAL,
+                FRESOLUTION: this.isFilter == 'generales' ? (filtro.FRESOLUTION1 ? filtro.FRESOLUTION1.join(",") : null) : (filtro.FRESOLUTION2 ? filtro.FRESOLUTION2.join(",") : null),
                 DELITO: filtro.DELITO ? filtro.DELITO.join(",") : null,
                 RECURSO: filtro.RECURSO ? filtro.RECURSO.join(",") : null,
                 OJURISDICCIONAL: filtro.OJURISDICCIONAL ? filtro.OJURISDICCIONAL.join(",") : null,
@@ -467,13 +553,15 @@ export default {
                 INIT: filtro?.INIT || 0,
                 NMRCN: filtro.NMRCN,
                 TYPE: filtro.TYPE,
+                AMBIT: this.isFilter == 'generales' ? null : (this.isFilter == 'ppjj' ? '466' : (this.isFilter == 'dominio' ? '624' : null)),
                 TPONRMA: filtro.TPONRMA ? filtro.TPONRMA.join(",") : null,
                 OEMISOR: filtro.OEMISOR ? filtro.OEMISOR.join(",") : null,
+                KEYWORDS: filtro.KEYWORDS ? filtro.KEYWORDS.join(",") : null,
+                TEMA: filtro.TEMA,
+                SUBTEMA: filtro.SUBTEMA,
+                BLOG: filtro.BLOG ? 'emblematic' : null,
             })
                 .then((response) => {
-
-
-                    console.log(response);
                     this.resultados = response?.map((item) => {
                         return {
                             ...item,
@@ -492,7 +580,7 @@ export default {
 
                 })
                 .catch((errir) => {
-                    console.log(errir); 
+                    console.log(errir);
                     toast.error("Ocurrió un error al buscar", { toastId: "error" })
                 })
                 .finally(() => this.isLoading = false);
@@ -540,7 +628,7 @@ export default {
                                         {
                                             image: recursos.nuevoLogoJuris,
                                             width: 60,
-                                            link: 'http://web-juris-search-caro.s3-website-us-east-1.amazonaws.com/',
+                                            link: 'https://jurissearch.com/',
                                             alignment: 'center',
                                             margin: [0, 20, 0, 0]
                                         },
@@ -713,6 +801,19 @@ export default {
                                     ],
                                     [
                                         {
+                                            text: 'JURISDICCIÓN',
+                                            bold: true,
+                                            fontSize,
+                                            margin: [10, 15, 10, 15],
+                                        },
+                                        {
+                                            text: data?.JURISDICCION || '-',
+                                            fontSize,
+                                            margin: [10, 15, 10, 15],
+                                        },
+                                    ],
+                                    [
+                                        {
                                             text: 'ÓRGANO JURISDICCIONAL',
                                             bold: true,
                                             fontSize,
@@ -838,6 +939,8 @@ export default {
                     recursos = recursos ? recursos.replace(/\s*,/g, ',') : '';
                     let materias = JSON.parse(response.MATERIA)?.[0]?.LABEL || '';
                     materias = materias ? materias.replace(/\s*,/g, ',') : '';
+                    let jurisdiccion = JSON.parse(response.JURISDICCION)?.[0]?.LABEL || '';
+                    jurisdiccion = jurisdiccion ? jurisdiccion.replace(/\s*,/g, ',') : '';
 
                     data = {
                         ID: response.ID,
@@ -865,6 +968,7 @@ export default {
                         DELITO: delitos,
                         RECURSO: recursos,
                         MATERIA: materias,
+                        JURISDICCION: jurisdiccion,
                     }
 
                 })
@@ -928,8 +1032,11 @@ export default {
         },
         decodeHtmlEntities(text) {
             if (text === null) return '';
+
             text = text.replace(/&[a-z]+;/g, '');
+
             try {
+                text = text.replace(/<br\s*\/?>/gi, '\n');
 
                 if (text.includes('<ul>')) {
                     let t = text.split('<li>').map((item) => {
@@ -944,7 +1051,6 @@ export default {
             } catch (error) {
                 return text.replace(/<[^>]*>?/gm, '');
             }
-
         },
         setPalabras(palabra, cantidad = 15) {
             if (!palabra) return "";
@@ -978,7 +1084,7 @@ export default {
         magistrados(magistrados) {
             this.selects["MAGISTRATES"] = magistrados.map(item => ({
                 value: item.ID,
-                label: `${item.APELLIDOS} ${item.NOMBRES}`,
+                label: `${item.APELLIDOS}  ${item?.NOMBRES ? (", " + item.NOMBRES) : ''}`,
             }));
         },
 
@@ -1005,6 +1111,7 @@ export default {
                         })),
                     })),
                 }));
+
             });
         },
 
@@ -1064,6 +1171,24 @@ export default {
 .card-container li {
     /* // ponerle estilo de li */
     list-style: outside;
+}
+
+.buttons-filter {
+    display: flex;
+    flex-direction: row;
+}
+
+
+@media (max-width: 768px) {
+    .buttons-filter {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .buttons-filter button {
+        width: auto !important;
+        justify-content: center;
+    }
 }
 
 .sin_resultados {

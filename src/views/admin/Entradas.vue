@@ -3,7 +3,7 @@
     <div class="w-full mb-12">
       <div class="w-full mb-12">
         <b-tabs>
-          <b-tab title="Jurisprudencias" @click="updateActive('jurisprudences')">
+          <b-tab title="Jurisprudencia" @click="updateActive('jurisprudences')">
           </b-tab>
           <b-tab title="Legislación" @click="updateActive('legislations')">
           </b-tab>
@@ -29,7 +29,7 @@
             </div>
 
             <div class="col-md-3 col-12 mb-3">
-              <label for="FCRCN" class="form-label">Fecha de Creación </label>
+              <label for="FCRCN" class="form-label">Fecha de Ingreso </label>
               <date-picker v-model="selectedFilter.FCRCN" :value="selectedFilter.FCRCN" valueType="format"
                 :disabledDate="time => time.getTime() > Date.now()"
                 @change="(date) => selectedFilter.FCRCN = date"></date-picker>
@@ -67,21 +67,21 @@
                 <div v-if="active == 'jurisprudences'" class="dropdown bton btn-create">
                   <button class="text-white dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    Crear
+                    Ingresar
                   </button>
                   <ul class="dropdown-menu mt-2 p-0" aria-labelledby="dropdownMenuButton">
                     <li @click="modalEntradaComun.show = true">
                       <i class="fas fa-plus"></i>
-                      Entrada Común
+                      Jurisprudencia Común
                     </li>
                     <li @click="modalAgregarEntradaEmble.show = true">
                       <i class="fas fa-plus"></i>
-                      Entrada Embemático
+                      Jurisprudencia Emblemático
                     </li>
                   </ul>
                 </div>
                 <button v-else class="bton btn-create"
-                  @click="modalAgregarEntradalegislacion.show = true">Crear</button>
+                  @click="modalAgregarEntradalegislacion.show = true">Ingresar</button>
 
                 <div class="dropdown bton btn-export">
                   <button class="text-white dropdown-toggle" type="button" id="dropdownMenuButtonExportar"
@@ -97,6 +97,10 @@
                       <i class="fas fa-book"></i>
                       Resoluciones
                     </li>
+                    <li @click="onClickExportar(3)">
+                      <i class="fas fa-book"></i>
+                      Exportar Pág.
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -105,9 +109,8 @@
           </div>
 
           <card-table v-if="active === 'jurisprudences'" :active="active" title="Entradas de Jurisprudencias"
-            :search="getEntries" :fields="fields" :items="data" :grid="grid" :actions="actions" 
-            :deleteRole="role.IDR == 0"
-            />
+            :search="getEntries" :fields="fields" :items="data" :grid="grid" :actions="actions"
+            :deleteRole="role.IDR == 0" />
 
           <card-table v-if="active === 'legislations'" :active="active" title="Entradas de Legislación"
             :search="getEntries" :fields="fields.filter((field) => field.key !== 'TEMA')" :items="data" :grid="grid"
@@ -119,31 +122,33 @@
 
     <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
 
-    <ModalAgregarEntradaComun :show="modalEntradaComun.show" :close="() => modalEntradaComun.show = false"
+    <ModalAgregarEntradaComun :role="role" :show="modalEntradaComun.show" :close="() => modalEntradaComun.show = false"
       :update="() => getEntries(grid.currentPage, grid.perPage)" :selects="selects" />
 
-    <ModalEditarEntradaComun :show="modalEditarEntradaComun.show" :close="() => modalEditarEntradaComun.show = false"
-      :update="() => getEntries(grid.currentPage, grid.perPage)" :selects="selects"
-      :data="modalEditarEntradaComun.data" />
+    <ModalEditarEntradaComun :role="role" :show="modalEditarEntradaComun.show"
+      :close="() => modalEditarEntradaComun.show = false" :update="() => getEntries(grid.currentPage, grid.perPage)"
+      :selects="selects" :data="modalEditarEntradaComun.data" />
 
-    <ModalAgregarEntradaEmble :show="modalAgregarEntradaEmble.show" :close="() => modalAgregarEntradaEmble.show = false"
-      :update="() => getEntries(grid.currentPage, grid.perPage)" :selects="selects" />
+    <ModalAgregarEntradaEmble :role="role" :show="modalAgregarEntradaEmble.show"
+      :close="() => modalAgregarEntradaEmble.show = false" :update="() => getEntries(grid.currentPage, grid.perPage)"
+      :selects="selects" />
 
-    <ModalEditarEntradaEmble :show="modalEditarEntradaEmble.show" :close="() => modalEditarEntradaEmble.show = false"
-      :update="() => getEntries(grid.currentPage, grid.perPage)" :selects="selects"
-      :data="modalEditarEntradaEmble.data" />
+    <ModalEditarEntradaEmble :role="role" :show="modalEditarEntradaEmble.show"
+      :close="() => modalEditarEntradaEmble.show = false" :update="() => getEntries(grid.currentPage, grid.perPage)"
+      :selects="selects" :data="modalEditarEntradaEmble.data" />
 
-    <ModalAgregarEntradalegislacion :show="modalAgregarEntradalegislacion.show"
+    <ModalAgregarEntradalegislacion :role="role" :show="modalAgregarEntradalegislacion.show"
       :close="() => modalAgregarEntradalegislacion.show = false"
       :update="() => getEntries(grid.currentPage, grid.perPage)" :selects="selects" />
 
-    <ModalEditarEntradaLegislacion :show="modalEditarEntradalegislacion.show"
+    <ModalEditarEntradaLegislacion :role="role" :show="modalEditarEntradalegislacion.show"
       :close="() => modalEditarEntradalegislacion.show = false"
       :update="() => getEntries(grid.currentPage, grid.perPage)" :selects="selects"
       :data="modalEditarEntradalegislacion.data" />
 
-    <ModalEliminar :message="'¿Está seguro de cambiar el estado de este registro?'" :buttonOk="'Si, cambiar'"
-      :action="deleteRow" :openDelete="modalEliminar.show" :closeHandler="() => modalEliminar.show = false" />
+    <ModalEliminar :role="role" :message="'¿Está seguro de cambiar el estado de este registro?'"
+      :buttonOk="'Si, cambiar'" :action="deleteRow" :openDelete="modalEliminar.show"
+      :closeHandler="() => modalEliminar.show = false" />
 
 
   </div>
@@ -243,7 +248,7 @@ export default {
         },
         {
           key: "FCRCN",
-          label: "Fecha de creación",
+          label: "Fecha de Ingreso",
           sortable: true,
           class: "text-center w-130",
         },
@@ -355,6 +360,7 @@ export default {
         delitos: [],
         recursos: [],
         materias: [],
+        jurisdicion: [],
       },
     };
   },
@@ -411,6 +417,39 @@ export default {
       this.getEntries(this.grid.currentPage, this.grid.perPage);
     },
     async onClickExportar(typeFilter) {
+      if (typeFilter == 3) {
+        if (this.data.length == 0) {
+          toast.warning('No se encontraron datos para exportar', { toastId: 'warning-export' });
+          return
+        }
+
+        let paths = this.data.map((item) => {
+          return {
+            ENTRIEFILE: item.ENTRIEFILE,
+            TITLE: item.TITLE,
+            FCRCN: item.FCRCN,
+          }
+        });
+
+        this.isLoading = true;
+        await adminEntriesProxy.getDocumentZipAll({
+          paths: JSON.stringify(paths),
+        })
+          .then((blob) => {
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `Reporte.zip`);
+            document.body.appendChild(link);
+            link.click();
+
+          })
+          .catch((error) => toast.error(error?.MESSAGE || 'Error al obtener el archivo', { toastId: 'error-export' }))
+          .finally(() => this.isLoading = false);
+        return
+      }
+
+
       if (!this.selectedFilter.RTITLE) {
         toast.warning('Debe seleccionar un filtro para exportar', { toastId: 'warning-export' });
         return;
@@ -466,6 +505,8 @@ export default {
       }
     },
     async deleteRow() {
+      if (this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
+
       if (!this.modalEliminar.data.ID) return toast.warning('No se encontró el ID de la entrada');
 
       this.isLoading = true;
@@ -543,6 +584,7 @@ export default {
     },
     async createPDF(data) {
       try {
+        console.log(data)
         let margin = [40, 10, 40, 10];
         let totalPages = 0;
         let fontSize = 11;
@@ -559,7 +601,7 @@ export default {
                     {
                       image: recursos.nuevoLogoJuris,
                       width: 60,
-                      link: 'http://web-juris-search-caro.s3-website-us-east-1.amazonaws.com/',
+                      link: 'https://jurissearch.com/',
                       alignment: 'center',
                       margin: [0, 20, 0, 0]
                     },
@@ -733,6 +775,19 @@ export default {
                   ],
                   [
                     {
+                      text: 'JURISDICCIÓN',
+                      bold: true,
+                      fontSize,
+                      margin: [10, 15, 10, 15],
+                    },
+                    {
+                      text: data?.JURISDICCION || '-',
+                      fontSize,
+                      margin: [10, 15, 10, 15],
+                    },
+                  ],
+                  [
+                    {
                       text: 'ÓRGANO JURISDICCIONAL',
                       bold: true,
                       fontSize,
@@ -858,6 +913,8 @@ export default {
           recursos = recursos ? recursos.replace(/\s*,/g, ',') : '';
           let materias = JSON.parse(response.MATERIA)?.[0]?.LABEL || '';
           materias = materias ? materias.replace(/\s*,/g, ',') : '';
+          let jurisdiccion = JSON.parse(response.JURISDICCION)?.[0]?.LABEL || '';
+          jurisdiccion = jurisdiccion ? jurisdiccion.replace(/\s*,/g, ',') : '';
 
 
           data = {
@@ -886,6 +943,7 @@ export default {
             DELITO: delitos,
             RECURSO: recursos,
             MATERIA: materias,
+            JURISDICCION: jurisdiccion,
           }
 
         })
@@ -909,7 +967,7 @@ export default {
         let materias = !response.MATERIA ? [] : response.MATERIA.split(",").map((item) => parseInt(item)) || [];
         let norma = !response?.TPONRMA ? [] : response?.TPONRMA?.split(",")?.map((item) => parseInt(item)) || [];
         let oemisor = !response?.OEMISOR ? [] : response?.OEMISOR?.split(",")?.map((item) => parseInt(item)) || [];
-
+        let jurisdiccion = !response?.JURISDICCION ? [] : response?.JURISDICCION?.split(",")?.map((item) => parseInt(item)) || [];
 
         if (!response?.ID) {
           toast.warning('No se encontraron datos para la entrada', { toastId: 'warning-entrie' });
@@ -944,6 +1002,7 @@ export default {
           NMRCN: response.NMRCN,
           OEMISOR: oemisor,
           MATERIA: materias,
+          JURISDICCION: jurisdiccion,
         };
 
         return retorno;
@@ -983,8 +1042,11 @@ export default {
     },
     decodeHtmlEntities(text) {
       if (text === null) return '';
+
       text = text.replace(/&[a-z]+;/g, '');
+
       try {
+        text = text.replace(/<br\s*\/?>/gi, '\n');
 
         if (text.includes('<ul>')) {
           let t = text.split('<li>').map((item) => {
@@ -999,7 +1061,6 @@ export default {
       } catch (error) {
         return text.replace(/<[^>]*>?/gm, '');
       }
-
     },
 
     // COMUN
@@ -1016,18 +1077,21 @@ export default {
           label: (item.APELLIDOS + " " + item.NOMBRES).replace(/null/g, ""),
         }));
 
+
         if (filtersResponse && filtersResponse.length > 0) {
           const ambitos = this.configFilter(filtersResponse, "ÁMBITO");
           const jurisdiccionales = this.configFilter(filtersResponse, "ÓRGANO JURISDICCIONAL");
           const delitos = this.configFilter(filtersResponse, "DELITOS");
           const recursos = this.configFilter(filtersResponse, "TIPO DE RECURSO");
           const materias = this.configFilter(filtersResponse, "MATERIA");
+          const jurisdicion = this.configFilter(filtersResponse, "JURISDICCIÓN");
 
           this.selects.ambitos = this.mapNivel(ambitos?.NIVEL_2);
           this.selects.jurisdiccionales = this.mapNivel(jurisdiccionales?.NIVEL_2);
           this.selects.delitos = this.mapNivel(delitos?.NIVEL_2);
           this.selects.recursos = this.mapNivel(recursos?.NIVEL_2);
           this.selects.materias = this.mapNivel(materias?.NIVEL_2);
+          this.selects.jurisdicion = this.mapNivel(jurisdicion?.NIVEL_2);
         }
 
 
@@ -1048,9 +1112,37 @@ export default {
       return nivel?.map(item => ({
         value: item.VALUE,
         label: item.LABEL,
-        children: this.mapNivel(item.NIVEL_3),
+        children: this.mapNivel2(item.NIVEL_3),
       })) || [];
     },
+    mapNivel2(nivel) {
+      return nivel?.map(item => ({
+        value: item.VALUE,
+        label: item.LABEL,
+        children: this.mapNivel3(item.NIVEL_4),
+      })) || [];
+    },
+    mapNivel3(nivel) {
+      return nivel?.map(item => ({
+        value: item.VALUE,
+        label: item.LABEL,
+        children: this.mapNivel4(item.NIVEL_5),
+      })) || [];
+    },
+    mapNivel4(nivel) {
+      return nivel?.map(item => ({
+        value: item.VALUE,
+        label: item.LABEL,
+        children: this.mapNivel5(item.NIVEL_6),
+      })) || [];
+    },
+    mapNivel5(nivel) {
+      return nivel?.map(item => ({
+        value: item.VALUE,
+        label: item.LABEL,
+      })) || [];
+    },
+
     configFilter(data, label) {
       try {
         return data.filter(item => item.LABEL.toUpperCase() === label.toUpperCase())

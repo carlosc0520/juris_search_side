@@ -1,6 +1,6 @@
 <template>
     <b-modal id="modalAgregarEntradaLegislacion" v-model="isShow" @ok="submit" @cancel="close" @hidden="close" size="xl"
-        ok-title="Guardar" cancel-title="Cancelar" title="Agregar Entrada Legislación" bodyScrolling
+        ok-title="Guardar" cancel-title="Cancelar" title="Agregar Legislación" bodyScrolling
         no-close-on-backdrop no-close-on-esc :hide-footer="loadingSubmit">
 
         <form id="formAgregarEntradaLegislacion" @submit.prevent="submit">
@@ -33,8 +33,7 @@
 
                     <el-tree-select v-model="modelo.TPONRMA" :data="selects.norma" :render-after-expand="false"
                         placeholder="Seleccione una opción" show-checkbox check-strictly check-on-click-node filterable
-                        no-data-text="No hay opciones disponibles"  collapse-tags
-                        :max-collapse-tags="1" />
+                        no-data-text="No hay opciones disponibles" collapse-tags :max-collapse-tags="1" />
 
                     <span class="message" v-if="validation.hasError('modelo.TPONRMA')">
                         {{ validation.firstError('modelo.TPONRMA') }}
@@ -83,12 +82,21 @@
                 </div>
             </div>
         </form>
+
+        <div class="d-flex justify-end gap-4 mt-4">
+            <b-button variant="danger" class="text-white" @click="localStorageSave">
+                <span>Guardar</span>
+            </b-button>
+            <b-button variant="success" class="text-white" @click="UpdateLocaleStorage" :disabled="isLoading">
+                <span>Actualizar</span>
+            </b-button>
+        </div>
     </b-modal>
 </template>
 
 
 <script>
-import { BModal, BFormCheckbox } from 'bootstrap-vue-next';
+import { BModal, BFormCheckbox, BButton } from 'bootstrap-vue-next';
 import { Validator } from 'simple-vue-validator';
 import { toast } from 'vue3-toastify';
 
@@ -99,7 +107,8 @@ import adminEntriesProxy from "../../../proxies/AdminEntriesProxy.js";
 export default {
     components: {
         BModal,
-        BFormCheckbox
+        BFormCheckbox,
+        BButton
     },
     props: {
         show: {
@@ -115,6 +124,10 @@ export default {
             default: () => { }
         },
         selects: {
+            type: Object,
+            default: () => { }
+        },
+        role: {
             type: Object,
             default: () => { }
         }
@@ -156,8 +169,16 @@ export default {
         },
     },
     methods: {
+        localStorageSave() {
+            localStorage.setItem("legislationEntrie", JSON.stringify(this.modelo));
+        },
+        UpdateLocaleStorage() {
+            let data = JSON.parse(localStorage.getItem("legislationEntrie"));
+            this.modelo = data;
+        },
         async submit(e) {
             e.preventDefault();
+            if(this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
 
             let validate = await this.$validate();
             if (!validate) return;
@@ -211,8 +232,8 @@ export default {
             }
 
             let inputs = document.querySelectorAll("input[type='file']");
-            if (inputs) inputs.forEach(input => input.value = "");           
-            
+            if (inputs) inputs.forEach(input => input.value = "");
+
             this.validation.reset();
         }
     },

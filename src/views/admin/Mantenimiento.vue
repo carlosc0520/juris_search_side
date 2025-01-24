@@ -64,10 +64,10 @@
         <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
 
         <!-- NOTICIAS -->
-        <ModalNoticiaAgregar :show="modalAgregarNoticia.show" :close="() => modalAgregarNoticia.show = false"
+        <ModalNoticiaAgregar :role="role" :show="modalAgregarNoticia.show" :close="() => modalAgregarNoticia.show = false"
             :update="() => searchNoticia(grid.currentPage, grid.perPage)" />
 
-        <ModalNoticiaEditar :show="modalEditarNoticia.show" :close="() => modalEditarNoticia.show = false"
+        <ModalNoticiaEditar :role="role" :show="modalEditarNoticia.show" :close="() => modalEditarNoticia.show = false"
             :update="() => searchNoticia(grid.currentPage, grid.perPage)" :data="modalEditarNoticia.data" />
 
         <ModalEliminar :message="'¿Está cambiar el estado de la noticia?'" :buttonOk="'Si, eliminar'"
@@ -76,10 +76,10 @@
 
 
         <!-- PREGUNTAS -->
-        <ModalPreguntaAgregar :show="modalAgregarPregunta.show" :close="() => modalAgregarPregunta.show = false"
+        <ModalPreguntaAgregar :role="role" :show="modalAgregarPregunta.show" :close="() => modalAgregarPregunta.show = false"
             :update="() => searchPregunta(grid.currentPage, grid.perPage)" />
 
-        <ModalPreguntaEditar :show="modalEditarPregunta.show" :close="() => modalEditarPregunta.show = false"
+        <ModalPreguntaEditar :role="role" :show="modalEditarPregunta.show" :close="() => modalEditarPregunta.show = false"
             :update="() => searchPregunta(grid.currentPage, grid.perPage)" :data="modalEditarPregunta.data" />
 
         <ModalEliminar :message="'¿Está cambiar el estado de la pregunta?'" :buttonOk="'Si, eliminar'"
@@ -88,10 +88,10 @@
 
 
         <!-- PLANES -->
-        <ModalPlanAgregar :show="modalAgregarPlanes.show" :close="() => modalAgregarPlanes.show = false"
+        <ModalPlanAgregar :role="role" :show="modalAgregarPlanes.show" :close="() => modalAgregarPlanes.show = false"
             :update="() => searchPlanes(grid.currentPage, grid.perPage)" />
 
-        <ModalPlanEditar :show="modalEditarPlanes.show" :close="() => modalEditarPlanes.show = false"
+        <ModalPlanEditar :role="role" :show="modalEditarPlanes.show" :close="() => modalEditarPlanes.show = false"
             :update="() => searchPlanes(grid.currentPage, grid.perPage)" :data="modalEditarPlanes.data" />
 
         <ModalEliminar :message="'¿Está cambiar el estado del plan?'" :buttonOk="'Si, eliminar'"
@@ -158,7 +158,7 @@ export default {
                 { key: "DESCRIPCION", label: "Descripción", width: "30%" },
                 {
                     key: "FCRCN",
-                    label: "Fcha. Creación",
+                    label: "Fecha de Creación",
                     sortable: true,
                 },
                 {
@@ -174,7 +174,7 @@ export default {
                 { key: "DESCRIPCION", label: "Descripción", width: "50%" },
                 {
                     key: "FCRCN",
-                    label: "Fcha. Creación",
+                    label: "Fecha de Creación",
                     sortable: true,
                 },
                 {
@@ -202,7 +202,7 @@ export default {
                 },
                 {
                     key: "FCRCN",
-                    label: "Fcha. Creación",
+                    label: "Fecha de Creación",
                     sortable: true,
                 },
                 {
@@ -310,6 +310,12 @@ export default {
             active: "noticias",
         };
     },
+    props: {
+        role: {
+            type: Object,
+            default: () => { }
+        }
+    },
     methods: {
         async searchNoticia(currentPage, perPage) {
             const init = (currentPage - 1) * perPage;
@@ -391,6 +397,8 @@ export default {
         },
 
         async deleteRowNoticia() {
+            if(this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
+
             if (!this.modalEliminarNoticia.data.ID) return toast.warning('No se encontró el identificador de la noticia', { toastId: 'warning-delete' });
 
             this.isLoading = true;
@@ -409,6 +417,8 @@ export default {
                 .finally(() => this.isLoading = false);
         },
         async deleteRowPregunta() {
+            if(this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
+
             if (!this.modalEliminarPregunta.data.ID) return toast.warning('No se encontró el identificador de la pregunta', { toastId: 'warning-delete' });
 
             this.isLoading = true;
@@ -427,6 +437,8 @@ export default {
                 .finally(() => this.isLoading = false);
         },
         async deleteRowPlanes() {
+            if(this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
+
             if (!this.modalEliminarPlanes.data.ID) return toast.warning('No se encontró el identificador del plan', { toastId: 'warning-delete' });
 
             this.isLoading = true;

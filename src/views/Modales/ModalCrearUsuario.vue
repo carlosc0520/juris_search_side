@@ -6,7 +6,7 @@
         <form id="formAgregarUsuario" @submit.prevent="submit">
             <div class="row">
                 <div class="col-md-4 col-12 mb-3" :class="{ error: validation.hasError('modelo.NOMBRES') }">
-                    <label for="name" class="form-label">Nombres <span class="text-danger">*</span></label>
+                    <label for="name" class="form-label">Nombraaes <span class="text-danger">*</span></label>
                     <input type="text" v-model="modelo.NOMBRES" id="NOMBRES" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.NOMBRES')">
                         {{ validation.firstError('modelo.NOMBRES') }}
@@ -37,12 +37,14 @@
                     </span>
                 </div>
 
-                <div class="col-md-4 col-12 mb-3" :class="{ error: validation.hasError('modelo.TELEFONO') }">
+                <div class="col-md-4 col-12 mb-3" >
                     <label for="name" class="form-label">Nro. Celular <span class="text-danger">*</span></label>
-                    <input type="number" v-model="modelo.TELEFONO" id="TELEFONO" class="form-control" />
-                    <span class="message" v-if="validation.hasError('modelo.TELEFONO')">
-                        {{ validation.firstError('modelo.TELEFONO') }}
-                    </span>
+                    <vue-tel-input 
+                        v-model="modelo.TELEFONO"
+                        id="TELEFONO"
+                        @input="(e) => modelo.TELEFONO = e"
+                        inputOptions="{ placeholder: 'Ingrese su número de celular' }"
+                    ></vue-tel-input>
                 </div>
 
                 <div class="col-md-4 col-12 mb-3">
@@ -130,9 +132,6 @@ export default {
         'modelo.CORREO': function (value) {
             return Validator.value(value).required("Campo requerido").regex(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/, "Correo no válido");
         },
-        'modelo.TELEFONO': function (value) {
-            return Validator.value(value).required("Campo requerido").regex(/^[0-9]{9}$/, "Teléfono no válido");
-        },
     },
     methods: {
         async submit(e) {
@@ -140,6 +139,18 @@ export default {
 
             let validate = await this.$validate();
             if (!validate) return;
+
+            let telefono = document.querySelector('#TELEFONO input').value.trim();
+            if (!telefono) {
+                toast.error("El número de teléfono es requerido");
+                return;
+            }
+
+            // si tiene letras 
+            if (telefono.match(/[a-z]/i)) {
+                toast.error("El número de teléfono no puede contener letras");
+                return;
+            }
 
             this.loadingSubmit = true;
             const loadingToast = toast.loading("Espere un momento...");
@@ -176,13 +187,16 @@ export default {
                 CARGO: null,
                 DIRECCION: null,
             }
-
+            
             this.validation.reset();
+
         }
     },
     watch: {
         show: {
             handler(value) {
+                document.querySelector('#TELEFONO input').value = '';   
+
                 if (!value) {
                     this.reset();
                 }

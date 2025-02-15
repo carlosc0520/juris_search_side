@@ -36,12 +36,14 @@ export default {
       menu:  [
         { name: 'Inicio', route: '/admin/dashboard', icon: 'fas fa-tv' },
         { name: 'Perfil', route: '/admin/settings', icon: 'fas fa-user' },
-        { name: 'Entradas', route: '/admin/entradas', icon: 'fas fa-tools' },
+        { name: 'Jurisprudencia y legislación', route: '/admin/entradas', icon: 'fas fa-tools' },
         { name: 'Usuarios', route: '/admin/usuarios', icon: 'fas fa-users' },
         { name: 'Filtros', route: '/admin/filtros', icon: 'fas fa-table' },
         { name: 'Mantenimiento', route: '/admin/mantenimiento', icon: 'fas fa-wrench' },
         { name: 'Busqueda', route: '/admin/busqueda', icon: 'fas fa-search' },
         { name: "Favoritos", route: "/admin/favoritos", icon: "fas fa-star" },
+        { name: "Boletines", route: "/admin/boletines", icon: "fas fa-newspaper" },
+        { name: "Reportes", route: "/admin/reportes", icon: "fas fa-chart-line" }
       ],
     };
   },
@@ -53,11 +55,11 @@ export default {
   // wathc al router
   watch: {
     $route(to) {
-      this.isVisible = to.path != "/admin/busqueda";
+      this.isVisible = !['/admin/busqueda', '/admin/reportes'].includes(to.path);
     },
   },
   mounted() {
-    this.isVisible = this.$route.path != "/admin/busqueda";
+    this.isVisible = !['/admin/busqueda', '/admin/reportes'].includes(this.$route.path);
   },
 };
 </script>

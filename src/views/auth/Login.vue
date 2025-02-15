@@ -54,6 +54,7 @@
         <!-- // burbujitas -->
         <!-- Burbujitas (actualizado) -->
         <div class="bubbles-container">
+          <!-- <div class="bubble"></div>
           <div class="bubble"></div>
           <div class="bubble"></div>
           <div class="bubble"></div>
@@ -62,8 +63,7 @@
           <div class="bubble"></div>
           <div class="bubble"></div>
           <div class="bubble"></div>
-          <div class="bubble"></div>
-          <div class="bubble"></div>
+          <div class="bubble"></div> -->
         </div>
 
       </div>
@@ -115,7 +115,7 @@ export default {
         EMAIL: '',
         PASSWORD: '',
         IND: null,
-        BANDERA: true
+        BANDERA: false
       },
 
     };
@@ -178,7 +178,33 @@ export default {
             this.$router.push('/redirect');
           }
         })
-        .catch((error) => toast.error(error?.MESSAGE || 'Error al iniciar sesión'))
+        .catch((err) => {
+          if (err?.OPTION == 1) {
+            this.$swal({
+              title: err?.MESSAGE,
+              text: '¿Confirme si desea continuar?',
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              cancelButtonText: "No, cancelar",
+              confirmButtonText: "Sí, continuar",
+              dangerMode: true,
+            })
+              .then((result) => {
+                if (result.isConfirmed) {
+                  this.form.BANDERA = true;
+                  this.signIn();
+                }
+              })
+              .catch((err) => toast.error(err?.MESSAGE || 'Error al iniciar sesión'));
+
+            return;
+          }
+
+
+          toast.error(err?.MESSAGE || 'Error al iniciar sesión')
+        })
         .finally(() => {
           this.isloading = false;
         });
@@ -274,6 +300,7 @@ input:focus {
   animation: rise 5s infinite ease-in;
   opacity: 0.1;
 }
+
 /* background-color: #e81eb2ff;
 background-color: #1764ffff; */
 
@@ -343,14 +370,15 @@ background-color: #1764ffff; */
     transform: translateY(0);
     opacity: 0.1;
   }
+
   50% {
     opacity: 0.1;
   }
+
   100% {
     bottom: 100%;
     transform: translateY(-100%);
     opacity: 0;
   }
 }
-
 </style>

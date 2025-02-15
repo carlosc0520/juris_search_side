@@ -18,7 +18,7 @@
     </div> -->
     <div class="container mx-auto px-4 my-0">
       <h2 class="text-center text-xl font-bold mb-2">Síguenos en Instagram</h2>
-      <p class="text-center">Descubre nuestras últimas publicaciones y actualizaciones.</p>
+      <p class="text-center mb-5">Descubre nuestras últimas publicaciones y actualizaciones.</p>
       <iframe src="https://www.instagram.com/juris.search/embed" class="frame-instagram m-0" frameborder="0"
         scrolling="no" allowfullscreen></iframe>
     </div>

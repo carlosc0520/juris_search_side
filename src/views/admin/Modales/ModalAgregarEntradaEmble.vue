@@ -1,6 +1,6 @@
 <template>
     <b-modal id="modalAgregarEntradaEmble" v-model="isShow" @ok="submit" @cancel="close" @hidden="close" size="xl"
-        ok-title="Guardar" cancel-title="Cancelar" title="Agregar Entrada Emblemático" bodyScrolling
+        ok-title="Guardar" cancel-title="Cancelar" title="Agregar Jurisprudencia Emblemático" bodyScrolling
         no-close-on-backdrop no-close-on-esc :hide-footer="loadingSubmit">
 
         <form id="formAgregarEntradaEmble" @submit.prevent="submit">
@@ -88,6 +88,20 @@
                         collapse-tags :max-collapse-tags="1" />
                 </div>
 
+                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.JURISDICCION') }">
+                    <label for="JURISDICCION" class="form-label">Jurisdicción <span
+                            class="text-danger">*</span></label>
+
+                    <el-tree-select v-model="modelo.JURISDICCION" :data="selects.jurisdicion" multiple
+                        :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox check-strictly
+                        check-on-click-node filterable no-data-text="No hay opciones disponibles" clearable
+                        collapse-tags :max-collapse-tags="1" />
+
+                    <span class="message" v-if="validation.hasError('modelo.JURISDICCION')">
+                        {{ validation.firstError('modelo.JURISDICCION') }}
+                    </span>
+                </div>
+
                 <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.OJURISDICCIONAL') }">
                     <label for="OJURISDICCIONAL" class="form-label">Órgano jurisdiccional <span
                             class="text-danger">*</span></label>
@@ -121,7 +135,7 @@
                             del
                             fallo final adoptado.)</small>
                     </label>
-                    <b-form-tags v-model="modelo.VDESIDENTE" tag-variant="primary" tag-pills tag-readonly
+                    <b-form-tags  separator=","  v-model="modelo.VDESIDENTE" tag-variant="primary" tag-pills tag-readonly
                         tag-class="bg-app-secondary-b text-app-primary-b" tag-size="sm"
                         placeholder="Agregar un voto disidente" addButtonText="Agregar" removeButtonText="Eliminar"
                         removeOnDeleteKey />
@@ -133,7 +147,7 @@
                             argumentación jurídica, pero no del fallo final
                             adoptado.)</small>
                     </label>
-                    <b-form-tags v-model="modelo.CVOTE" tag-variant="primary" tag-pills tag-readonly
+                    <b-form-tags  separator=","  v-model="modelo.CVOTE" tag-variant="primary" tag-pills tag-readonly
                         tag-class="bg-app-secondary-b text-app-primary-b" tag-size="sm"
                         placeholder="Agregar un voto concurrente" addButtonText="Agregar" removeButtonText="Eliminar"
                         removeOnDeleteKey />
@@ -157,7 +171,7 @@
 
                 <div class="col-12 mb-3" :class="{ error: validation.hasError('modelo.ENTRIEFILERESUMEN') }">
                     <label for="KEYWORDS" class="form-label">Palabras clave <span class="text-danger">*</span></label>
-                    <b-form-tags v-model="modelo.KEYWORDS" tag-variant="primary" tag-pills tag-readonly
+                    <b-form-tags  separator=","  v-model="modelo.KEYWORDS" tag-variant="primary" tag-pills tag-readonly
                         tag-class="bg-app-secondary-b text-app-primary-b" tag-size="sm"
                         placeholder="Agregar un voto concurrente" addButtonText="Agregar" removeButtonText="Eliminar"
                         removeOnDeleteKey />
@@ -201,12 +215,21 @@
                 </div>
             </div>
         </form>
+
+        <div class="d-flex justify-end gap-4 mt-4">
+            <b-button variant="danger" class="text-white" @click="localStorageSave">
+                <span>Guardar</span>
+            </b-button>
+            <b-button variant="success" class="text-white" @click="UpdateLocaleStorage" :disabled="isLoading">
+                <span>Actualizar</span>
+            </b-button>
+        </div>
     </b-modal>
 </template>
 
 
 <script>
-import { BModal, BFormCheckbox, BFormTags } from 'bootstrap-vue-next';
+import { BModal, BFormCheckbox, BFormTags, BButton } from 'bootstrap-vue-next';
 import { VueEditor } from "vue3-editor";
 import { Validator } from 'simple-vue-validator';
 import { toast } from 'vue3-toastify';
@@ -220,7 +243,8 @@ export default {
         BModal,
         BFormCheckbox,
         BFormTags,
-        VueEditor
+        VueEditor,
+        BButton
     },
     props: {
         show: {
@@ -236,6 +260,10 @@ export default {
             default: () => { }
         },
         selects: {
+            type: Object,
+            default: () => { }
+        },
+        role: {
             type: Object,
             default: () => { }
         }
@@ -266,6 +294,7 @@ export default {
                 RECURSO: [],
                 DELITO: [],
                 MATERIA: [],
+                JURISDICCION: [],
             },
         }
     },
@@ -282,18 +311,21 @@ export default {
         'modelo.FRESOLUTION': function (value) {
             return Validator.value(value).required("Campo requerido");
         },
+        'modelo.JURISDICCION': function (value) {
+            return Validator.value(value).required("Campo requerido").regex(/[^[]/, "Campo requerido");
+        },
         'modelo.OJURISDICCIONAL': function (value) {
             return Validator.value(value).required("Campo requerido").regex(/[^[]/, "Campo requerido");
         },
         'modelo.MAGISTRATES': function (value) {
             return Validator.value(value).required("Campo requerido").regex(/[^[]/, "Campo requerido");
         },
-        'modelo.VDESIDENTE': function (value) {
-            return Validator.value(value).required("Campo requerido");
-        },
-        'modelo.CVOTE': function (value) {
-            return Validator.value(value).required("Campo requerido");
-        },
+        // 'modelo.VDESIDENTE': function (value) {
+        //     return Validator.value(value).required("Campo requerido");
+        // },
+        // 'modelo.CVOTE': function (value) {
+        //     return Validator.value(value).required("Campo requerido");
+        // },
         'modelo.ENTRIEFILE': function (value) {
             return Validator.value(value).required("Campo requerido");
         },
@@ -317,8 +349,16 @@ export default {
         },
     },
     methods: {
+        localStorageSave() {
+            localStorage.setItem("EmblematicEntrie", JSON.stringify(this.modelo));
+        },
+        UpdateLocaleStorage() {
+            let data = JSON.parse(localStorage.getItem("EmblematicEntrie"));
+            this.modelo = data;
+        },
         async submit(e) {
             e.preventDefault();
+            if(this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
 
             let validate = await this.$validate();
             if (!validate) return;
@@ -347,6 +387,7 @@ export default {
             formData.append("DELITO", this.modelo.DELITO.join(",") || "");
             formData.append("RECURSO", this.modelo.RECURSO.join(",") || "");
             formData.append("MATERIA", this.modelo.MATERIA.join(",") || "");
+            formData.append("JURISDICCION", this.modelo.JURISDICCION.join(","));
 
 
             this.loadingSubmit = true;
@@ -393,11 +434,12 @@ export default {
                 RECURSO: [],
                 DELITO: [],
                 MATERIA: [],
+                JURISDICCION: [],
             }
 
             let inputs = document.querySelectorAll("input[type='file']");
-            if (inputs) inputs.forEach(input => input.value = "");  
-            
+            if (inputs) inputs.forEach(input => input.value = "");
+
             this.validation.reset();
         }
     },

@@ -82,6 +82,13 @@ class AdminEntriesProxy {
     return data;
   }
 
+  async searchSugges(model) {
+    const { data } = await axios.get(`/admin/entries/busqueda-sugges`, {
+      params: model,
+    });
+    return data;
+  }
+
   async searchFavorites(model) {
     const { data } = await axios.get(`/admin/entries/busqueda-favorites`, {
       params: model,

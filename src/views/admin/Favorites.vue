@@ -97,7 +97,7 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                           
+
                                             <div class="col-12 col-md-4 p-2" v-if="typeSaarch == 'jurisprudences'">
                                                 <p style="font-size: 13px; margin-bottom: 5px;"
                                                     class="font-bold text-left">
@@ -233,8 +233,7 @@
 
                                                     <button class="btn btn-export" @click="createPDF(item)"
                                                         title="Descargar Resumen Ejecutivo"
-                                                          v-if="typeSaarch == 'jurisprudences'"
-                                                        >
+                                                        v-if="typeSaarch == 'jurisprudences'">
                                                         <i class="fas fa-file-pdf"></i>
                                                     </button>
 
@@ -265,20 +264,27 @@
                     </div>
                     <div class="row">
                         <div class="row gx-3 align-items-center">
-                            <div class="col-md-3 col-sm-6 col-12 mb-3">
+                            <div class="col-12 mb-3">
                                 <label for="TYPE" class="form-label">Tipo</label>
                                 <b-form-select v-model="filtro.TYPE" :options="[
                                     { text: 'Jurisprudencia', value: 'jurisprudences' },
                                     { text: 'Legislación', value: 'legislations' }
                                 ]" @change="() => {
-                                    this.selected = {}; 
+                                    this.selected = {};
                                     search();
                                 }">
                                 </b-form-select>
                             </div>
-                            <div class="col-md-1 col-sm-3 col-12 d-flex justify-center align-items-center">
-                                <button class="btn btn-create w-100" @click="modalAgregar.show = true">Agregar</button>
+                            <div class="col-12 d-flex justify-end align-items-center gap-2">
+                                <button class="btn btn-create" @click="modalAgregar.show = true">Agregar</button>
+                                <button class="btn btn-share" @click="onShared">Compartir</button>
                             </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <p>Selección Actual: <span v-if="selectedKey">
+                                    {{ selectedKey.isDirectory ? 'Directorio' : 'Documento' }} - {{ selectedKey.label }}
+                                </span></p>
                         </div>
 
                         <div class="row col-md-4 col-12 mb-3">
@@ -288,7 +294,7 @@
                                     @node-unselect="onNodeUnselect"></Tree>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-8 col-12 mb-3 p-2 bg-white rounded p-4">
                             <div v-if="Object.keys(selected).length == 0" class="row mx-0">
                                 <div class="sin_resultados col-12 border rounded-lg">
@@ -400,7 +406,7 @@
                                                 <div class="col-12 p-2">
                                                     <p style="font-size: 13px; margin-bottom: 5px;"
                                                         class="font-bold text-left">
-                                                       Título alternativo
+                                                        Título alternativo
                                                     </p>
                                                     <div>
                                                         <span style="font-size: 11px;" :key="index"
@@ -426,13 +432,12 @@
 
                                                         <button class="btn btn-export" @click="createPDF(selected)"
                                                             title="Descargar Resumen Ejecutivo"
-                                                            v-if="typeSaarch == 'jurisprudences'"
-                                                            >
+                                                            v-if="typeSaarch == 'jurisprudences'">
                                                             <i class="fas fa-file-pdf"></i>
                                                         </button>
 
                                                         <button title="Eliminar de mis favoritos" class="btn btn-delete"
-                                                            @click="deleteFavorite(selected.ID, true)">
+                                                            @click="deleteFavoriteDirectorio()">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </div>
@@ -451,6 +456,10 @@
 
         <ModalAgregarFavorito :show="modalAgregar.show" :close="() => modalAgregar.show = false"
             :update="() => search()" />
+
+        <ModalShared :show="modalShared.show" :data="modalShared.data" :close="() => modalShared.show = false"
+            :update="() => search()" />
+
         <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
 
     </div>
@@ -462,6 +471,7 @@ import { toast } from 'vue3-toastify';
 import { BTabs, BTab, BFormSelect, BPagination } from 'bootstrap-vue-next';
 
 import ModalAgregarFavorito from './ModalesFavoritos/ModalAgregarFavorito.vue';
+import ModalShared from './ModalesFavoritos/ModalCompartirFavorito.vue';
 import UserProxy from '../../proxies/UserProxy';
 import AdminEntriesProxy from '../../proxies/AdminEntriesProxy';
 import recursos from "./recursos";
@@ -476,7 +486,8 @@ export default {
         BTabs,
         BTab,
         BPagination,
-        BFormSelect
+        BFormSelect,
+        ModalShared
     },
     data() {
         return {
@@ -485,7 +496,10 @@ export default {
                 show: false,
                 data: null
             },
-
+            modalShared: {
+                show: false,
+                data: null
+            },
             isLoading: false,
             directorios: [],
             nodes: [],
@@ -538,10 +552,13 @@ export default {
                             label: item.DSCRPCN + (childrens.length > 0 ? ` (${childrens.length})` : " (0)"),
                             icon: 'fa fa-folder',
                             isDirectory: true,
+                            directorio: item.ID,
+                            shared: item.SHARED,
                             children: childrens.map((entrie) => {
                                 return {
                                     key: entrie.ID,
                                     id: entrie.ID,
+                                    directorio: item.ID,
                                     isDirectory: false,
                                     label: entrie.TITULO,
                                     icon: 'fa fa-file',
@@ -557,13 +574,24 @@ export default {
                 })
                 .finally(() => this.isLoading = false);
         },
+        handleSearch(page) {
+            this.table = {
+                ...this.table,
+                INIT: ((page - 1) <= 0 ? 0 : (page - 1)) * this.table.perPage,
+                ROWS: this.table.perPage
+            }
+
+            this.searchFavorites();
+        },
         async searchFavorites() {
+
+            this.typeSaarch = this.filtro.TYPE;
             this.isLoading = true;
             await AdminEntriesProxy.searchFavorites({
                 GLOBAL: this.filtro.TITLE,
                 TYPE: this.filtro.TYPE,
-                ROWS: this.filtro?.ROWS || 10,
-                INIT: this.filtro?.INIT || 0
+                ROWS: this.table?.ROWS || 10,
+                INIT: this.table?.INIT || 0
             })
                 .then((response) => {
                     this.data = response?.map((item) => {
@@ -580,7 +608,6 @@ export default {
                     });
 
                     this.table.totalRows = response?.[0]?.TOTALROWS || 0;
-                    this.table.perPage = response?.length || 0;
                 })
                 .catch((error) => {
                     toast.error(error?.MESSAGE || 'Error al cargar los documentos', { toastId: 'error-documentos' });
@@ -635,6 +662,7 @@ export default {
                 .finally(() => this.isLoading = false);
         },
         async onNodeSelect(e) {
+            this.selectedKey = e;
             if (e && e.isDirectory == false) {
                 if (!e.key) return toast.warning('No se encontró el identificador del documento', { toastId: 'warning-documento' });
 
@@ -651,9 +679,9 @@ export default {
                         if (response) {
                             this.selected = {
                                 ...response[0],
+                                DELITO: JSON.parse(response[0].DELITO),
                                 OEMISOR: JSON.parse(response[0]?.OEMISOR || '[]'),
                                 TPONRMA: JSON.parse(response[0]?.TPONRMA || '[]'),
-                                DELITO: JSON.parse(response[0].DELITO),
                                 OJURISDICCIONAL: JSON.parse(response[0].OJURISDICCIONAL),
                                 FRESOLUTION: response[0].FRESOLUTION ? response[0].FRESOLUTION.split("T")[0] : null,
                                 TEMA: response?.[0].TEMA ? response[0].TEMA.replace(/<[^>]*>?/gm, '') : ''
@@ -724,7 +752,7 @@ export default {
                                         {
                                             image: recursos.nuevoLogoJuris,
                                             width: 60,
-                                            link: 'http://web-juris-search-caro.s3-website-us-east-1.amazonaws.com/',
+                                            link: 'https://jurissearch.com/',
                                             alignment: 'center',
                                             margin: [0, 20, 0, 0]
                                         },
@@ -1076,6 +1104,27 @@ export default {
                 .catch((error) => toast.error(error?.MESSAGE || 'Error al eliminar de favoritos', { toastId: 'error-delete' }))
                 .finally(() => this.isLoading = false);
         },
+        async deleteFavoriteDirectorio() {
+            if (this.selectedKey?.directorio && this.selectedKey?.id) {
+                this.isLoading = true;
+                await UserProxy.deleteFavoriteDirectorio(this.selectedKey.directorio, this.selectedKey.id)
+                    .then((response) => {
+                        const toastMessage = response.MESSAGE;
+                        if (response.STATUS) {
+                            toast.success("Documento eliminado del directorio");
+                            this.selected = {};
+                            this.search();
+                        } else {
+                            toast.error(toastMessage);
+                        }
+                    })
+                    .catch((error) => toast.error(error?.MESSAGE || 'Error al eliminar del directorio', { toastId: 'error-delete' }))
+                    .finally(() => this.isLoading = false);
+                return
+            }
+
+            return toast.warning('No se ha seleccionado un directorio', { toastId: 'error-delete' });
+        },
         renderContent(content, fontSize, margin) {
             let decodedContent = this.decodeHtmlEntities(content);
 
@@ -1097,8 +1146,11 @@ export default {
         },
         decodeHtmlEntities(text) {
             if (text === null) return '';
+
             text = text.replace(/&[a-z]+;/g, '');
+
             try {
+                text = text.replace(/<br\s*\/?>/gi, '\n');
 
                 if (text.includes('<ul>')) {
                     let t = text.split('<li>').map((item) => {
@@ -1113,8 +1165,23 @@ export default {
             } catch (error) {
                 return text.replace(/<[^>]*>?/gm, '');
             }
-
         },
+        onShared() {
+            if (!this.selectedKey) {
+                return toast.warning('No se ha seleccionado un directorio', { toastId: 'error-share' });
+            }
+
+            if (!this.selectedKey.isDirectory) {
+                return toast.warning('No se puede compartir un documento', { toastId: 'error-share' });
+            }
+
+            if (this.selectedKey.shared == 1) {
+                return toast.warning('No tienes permiso para compartir este directorio', { toastId: 'error-share' });
+            }
+
+            this.modalShared.data = this.selectedKey;
+            this.modalShared.show = true;
+        }
     },
     watch: {
         active: {
@@ -1127,9 +1194,10 @@ export default {
 
                 if (value === 'DIRECTORIOS') {
                     this.selected = {};
+                    this.selectedKey = null;
                     this.search();
                 }
-                
+
                 if (value === 'FILES') {
                     this.data = [];
                     this.searchFavorites();
@@ -1164,7 +1232,7 @@ export default {
 }
 
 .card {
-    height: fit-content!important;
+    height: fit-content !important;
 }
 
 .card h3 {
@@ -1178,6 +1246,4 @@ export default {
         max-height: 70vh;
     } */
 }
-
-
 </style>

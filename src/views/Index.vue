@@ -1,9 +1,9 @@
 <template>
   <div class="bg-blueGray-100">
     <index-navbar />
-    <section class="mt-10 md:mt-5 header relative bg-blueGray-100 items-center flex h-screen max-h-860-px">
+    <section class="mt-10 md:mt-5 header relative bg-blueGray-100 items-center flex container-h-screen h-screen max-h-860-px">
       <div class="container mx-auto items-center  flex flex-wrap" style="z-index: 10;">
-        <div class="w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4">
+        <div class="container-text w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4">
           <div id="container-fluid-img" class="pt-32 sm:pt-0">
             <h2 class="font-semibold text-4xl text-blueGray-600">
               El mejor buscador de jurisprudencia y legislación Peruana
@@ -14,7 +14,7 @@
               una base completa y actualizada de jurisprudencia nacional sobre compliance y responsabilidad de personas
               jurídicas.
             </p>
-            <div class="mt-12">
+            <div class="mt-12 flex md:flex-row flex-col gap-4">
               <button onclick="window.location='#mi-seccion'" style="cursor: pointer" class=" text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 
                 bg-app-primary
                 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150">
@@ -28,52 +28,44 @@
           </div>
         </div>
       </div>
-
+  
       <img id="img-inicio"
         class="imagen-logo-main absolute top-0 b-auto right-0 pt-16 sm:w-3/12 -mt-48 sm:mt-0 w-5/12 max-h-860-px"
         :src="patternVue" alt="..." />
     </section>
 
-    <section class="md:mt-48 container-mision-v mt-10 md:mt-40 pb-20 relative bg-blueGray-100">
-      <div class="-mt-20 top-0 bottom-auto left-0 right-0 w-full absolute h-20" style="transform: translateZ(0);">
-        <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
-          version="1.1" viewBox="0 0 2560 10320" x="0" y="0">
-          <polygon class="text-blueGray-100 fill-current" points="2560 0 2560 100 0 100"></polygon>
-        </svg>
-      </div>
+    <section class="md:mt-10 container-mision-v  relative bg-blueGray-100">
       <div class="container mx-auto">
         <div class="flex flex-wrap items-center">
-          <div class="animation-r-l w-12/12 md:w-6/12 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-32">
+          <!-- <div class="animation-r-l w-12/12 md:w-8/12 lg:w-12/12 px-12 md:px-4 mr-auto ml-auto -mt-32">
             <div :class="[
-              'relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg',
-            ]"
-              :style="currentIndex % 2 === 0 ? 'background-color: var(--azul-primary-b)' : 'background-color: var(--lila-primary-b)'">
-            
-              <img :alt="currentNoticia.TITULO" :src="currentNoticia?.IMAGEN2 || 'https://via.placeholder.com/300'"
-                class="align-middle rounded-t-lg w-full h-auto" />
-              <blockquote class="relative p-8 mb-4">
-                <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 583 95"
-                  class="absolute left-0 w-full block h-95-px -top-94-px">
-                  <polygon points="-30,95 583,95 583,65"
-                  :style="currentIndex % 2 === 0 ? 'fill: var(--azul-primary-b)' : 'fill: var(--lila-primary-b)'">
-                </polygon>
-              </svg>
+              'relative flex flex-row min-w-0 break-words w-full mb-6 shadow-lg rounded-lg',
+            ]">
+              <div class="w-full md:w-5/12 flex flex-col align-items-center justify-center">
+                <img :alt="currentNoticia.TITULO" :src="currentNoticia?.IMAGEN2 || 'https://via.placeholder.com/300'"
+                  class="align-middle rounded-t-lg  h-auto"
+                  width="300" 
+                  />
+              </div>
+              <blockquote 
+              :style="currentIndex % 2 === 0 ? 'background-color: var(--azul-primary-b)' : 'background-color: var(--lila-primary-b)'"
+              class="p-4 flex flex-col align-items-center w-full md:w-7/12 justify-center">
                 <h4 class="text-xl font-bold text-black">
                   {{ currentNoticia.TITULO }}
                 </h4>
-                <p class="text-md  mt-2 text-primary-p{">
+                <p class="text-md mt-2 text-primary-p">
                   {{ currentNoticia.DESCRIPCION }}
                 </p>
               </blockquote>
             </div>
-          </div>
+          </div> -->
 
-          <div class="w-full md:w-6/12 px-4 img-container">
+          <div class="w-full md:w-12/12 px-4 img-container">
             <div class="flex flex-wrap">
-              <div class="w-full md:w-6/12 px-4">
+              <div class="w-full-container md:w-6/12 px-4">
                 <div class="relative flex flex-col mt-4">
                   <div class="px-4 py-5 flex-auto container-valor">
-                    <div class="flex md:justify-start justify-center">
+                    <div class="container-imagen flex md:justify-start justify-center">
                       <div
                         class="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
                         <img :src="visionVue" alt="vision" />
@@ -89,13 +81,12 @@
                     </p>
                   </div>
                 </div>
-
-
               </div>
-              <div class="w-full md:w-6/12 px-4">
+
+              <div class="w-full-container md:w-6/12 px-4">
                 <div class="relative flex flex-col min-w-0 mt-4">
                   <div class="px-4 py-5 flex-auto container-valor">
-                    <div class="flex md:justify-start justify-center">
+                    <div class="container-imagen flex  md:justify-start justify-center">
                       <div
                         class="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
                         <img :src="misionVue" alt="mision" />
@@ -118,24 +109,15 @@
     </section>
 
     <section class="pb-5 relative block bg-blueGray-100">
-      <div class="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
-        style="transform: translateZ(0);">
-        <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
-          version="1.1" viewBox="0 0 2560 100" x="0" y="0">
-          <polygon class="text-blueGray-100 fill-current" points="2560 0 2560 100 0 100"></polygon>
-        </svg>
-      </div>
-
       <div class="container mx-auto px-4 lg:pt-16 lg:pb-20">
-
         <div class="animation-b-t flex flex-wrap text-center justify-center">
           <div class="w-full lg:w-6/12 px-4 md:mt-5">
             <h2 class="h2-init text-4xl font-semibold text-black">
               Nuestros Valores
             </h2>
             <p class="text-lg leading-relaxed mt-4 mb-4 text-blueGray-500">
-              En nuestra firma de abogados, valoramos la ética, la transparencia y la confianza. Defendemos la justicia
-              con compromiso y responsabilidad.
+              <!-- En nuestra firma de abogados, valoramos la ética, la transparencia y la confianza. Defendemos la justicia
+              con compromiso y responsabilidad. -->
             </p>
           </div>
         </div>
@@ -258,7 +240,7 @@
               QUE OFRECEMOS
             </h2>
             <p class="text-lg leading-relaxed mt-4 mb-4 text-blueGray-400">
-              Como empresa de tecnología, ofrecemos soluciones digitales innovadoras para el sector legal. Nuestro
+              <!-- Como empresa de tecnología, ofrecemos soluciones digitales innovadoras para el sector legal. Nuestro -->
             </p>
           </div>
         </div>
@@ -353,7 +335,7 @@
               Continua actualización
             </h5>
             <p class="mt-2 mb-4 text-blueGray-400">
-              Pataforma actualizada constantemente.
+              Plataforma actualizada constantemente.
             </p>
           </div>
 
@@ -387,12 +369,12 @@
       </div>
     </section>
 
-    <section class="relative block py-24 lg:pt-0 bg-blueGray-800">
+    <section class="container-contactanos relative block py-24 lg:pt-0 bg-blueGray-800">
       <div class="container mx-auto px-4">
         <div class="flex flex-wrap justify-center lg:-mt-64 -mt-32">
-          <div class="w-full lg:w-6/12 px-4">
+          <div class="contactos-container w-full lg:w-6/12 px-4">
             <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200">
-              <div class="flex-auto p-5 lg:p-10">
+              <div class="flex-auto contacto p-5 lg:p-10">
                 <h4 class="text-2xl font-semibold text-center">
                   CONTÁCTANOS
                 </h4>
@@ -474,7 +456,7 @@
 
         <div class="row flex flex-wrap justify-center gap-4">
           <div class="bg-white col-md-3 col-sm-12 p-0 md:p-4 card-price border-2 hover:border-primary rounded"
-            style="height: auto;" v-for="plan in planes" :key="plan.id">
+            style="width: auto;;height: auto;" v-for="plan in planes" :key="plan.id">
             <div
               class="p-4 flex flex-col border-surface-200 dark:border-surface-600 pricing-card cursor-pointer duration-300 transition-all"
               style="border-radius: 10px">
@@ -738,7 +720,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* Cuando el elemento es visible, se aplicará la animación */
 .animation-b-t.visible {
   animation: frame3 1s ease-in-out;
@@ -757,32 +739,61 @@ export default {
   }
 }
 
-
-/* .animation-b-t {
-  animation: frame3 1s ease-in-out;
-}
-
-.animation-b-t.visible {
-  animation: frame 1s ease-in-out;
-}
-
-
-
-@keyframes frame3 {
-  from {
-    opacity: 0;
-    transform: translateY(100%);
+/* Celulares en modo vertical */
+@media only screen and (max-width: 480px) {
+  /* Estilos para dispositivos móviles */
+  .container-h-screen {
+    margin-bottom: 1rem
   }
 
-  to {
-    opacity: 0.8;
-    transform: translateY(0);
+  .container-contactanos{
+    margin: 0!important;
   }
-} */
+
+  .container-contactanos .contactos-container{
+    padding: 0!important;
+  }
+
+  .container-contactanos .contacto{
+    padding: 2rem!important;
+  }
+}
+/* Tabletas en modo vertical y horizontal */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* Estilos para tabletas */
+  .container-text{
+    width: 100%!important;
+  }
+
+  .container-h-screen {
+    height: 70vh;
+  }
+
+  .w-full-container{
+    width: 100%!important;
+    text-align: justify;
+  }
+
+  .w-full-container .container-imagen{
+    justify-content: center;
+  }
+}
+/* Laptops pequeñas y dispositivos medianos */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  /* Estilos para laptops */
+  .container-text{
+    width: 100%!important;
+  }
+}
+/* Escritorios grandes o pantallas de alta resolución */
+@media only screen and (min-width: 1025px) {
+  /* Estilos para pantallas grandes */
+}
+
+
 
 @media (max-width: 768px) {
   #img-inicio {
-    /* // ocutlar */
     display: none;
   }
 
@@ -811,20 +822,17 @@ export default {
 
 }
 
-/* // estilo de check a ul-list-details */
 .ul-list-details li {
   list-style-type: none;
 }
 
 .card-price:hover {
   border: 1px solid #a5bef5;
-  /* shadow */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 
 .imagen-logo-main {
-  /* // redondear imagen */
   margin-top: 10rem;
   padding: 0 !important;
   margin-right: 5rem;
@@ -832,12 +840,10 @@ export default {
   border-radius: 10px;
   width: 40%;
   height: auto;
-  /* border-radius: 50%; */
   box-shadow: -1px 1px 5px 4px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: -1px 1px 5px 4px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: -1px 1px 5px 4px rgba(0, 0, 0, 0.3);
   opacity: 0.8;
-  /* // que aparesca de derecha a izquierda usa frame */
   animation: frame 1s ease-in-out;
 }
 
@@ -869,6 +875,5 @@ export default {
     transform: translateX(0);
   }
 }
-
 
 </style>

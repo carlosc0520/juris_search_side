@@ -45,6 +45,24 @@
           </b-badge>
         </template>
 
+        <template #cell(IMAGEN)="data">
+          <div style="width: 100px; height: 100px;">
+            <a :href="data.value" target="_blank">
+              <img :src="data.value" alt="imagen" style="width: 100%; height: 100%; object-fit: cover;">
+            </a>
+          </div>
+        </template>
+        
+        
+        <template #cell(BOLETIN)="data">
+          <a :href="data.value" target="_blank">
+            <span>{{
+              data.value.length > 30 ? data.value.substring(0, 30) + '...' : data.value  
+              }}</span>
+          </a>
+        </template>
+        
+
         <template #cell(TEMA)="data">
           <span v-html="data.value"></span>
         </template>
@@ -173,7 +191,7 @@ export default {
     },
     formatoFecha(fecha) {
       try {
-        return moment(fecha).format('DD/MM/YYYY, h:mm a');
+        return moment.utc(fecha).format('DD/MM/YYYY, h:mm a');
       } catch (error) {
         return "";
       }

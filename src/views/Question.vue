@@ -131,7 +131,7 @@ export default {
         leave(el, done) {
             el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             el.style.opacity = 0;
-            el.style.transform = 'translateX(-20px';
+            el.style.transform = 'translateX(-20px)';
             done();
         },
     },

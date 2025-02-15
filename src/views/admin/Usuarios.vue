@@ -49,10 +49,10 @@
 
         <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
 
-        <ModalUsuarioInsertar :show="modalAgregarUsuario.show" :close="() => modalAgregarUsuario.show = false"
+        <ModalUsuarioInsertar :role="role" :show="modalAgregarUsuario.show" :close="() => modalAgregarUsuario.show = false"
             :update="() => search(grid.currentPage, grid.perPage)" :selects="selects" :userType="Number(active)" />
 
-        <ModalUsuarioEditar :show="modalEditarUsuario.show" :close="() => modalEditarUsuario.show = false"
+        <ModalUsuarioEditar :role="role" :show="modalEditarUsuario.show" :close="() => modalEditarUsuario.show = false"
             :update="() => search(grid.currentPage, grid.perPage)" :selects="selects" :data="modalEditarUsuario.data"
             :userType="Number(active)" />
 
@@ -181,6 +181,12 @@ export default {
             }
         };
     },
+    props: {
+        role: {
+            type: Object,
+            default: () => { }
+        }
+    },
     methods: {
         async search(currentPage, perPage) {
             const init = (currentPage - 1) * perPage;
@@ -225,6 +231,8 @@ export default {
             this.modalEditarUsuario.show = true;
         },
         async deleteRow() {
+            if(this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
+
             if (!this.modalEliminar.data.ID) return toast.warning('No se encontró el identificador del usuario', { toastId: 'warning-delete' });
 
             this.isLoading = true;

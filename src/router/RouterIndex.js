@@ -34,11 +34,13 @@ import Entradas from "@/views/admin/Entradas.vue";
 import Filtros from "@/views/admin/Filtros.vue";
 import Busqueda from "@/views/admin/Busqueda.vue";
 import Favorites from "../views/admin/Favorites.vue";
+import Boletines from "../views/admin/Boletines.vue";
 
 import UserProxy from "../proxies/UserProxy";
 import BusquedaUser from "../views/admin/BusquedaUser.vue";
 import FavoritesUser from "../views/admin/FavoritesUser.vue";
 import DashboardUser from "../views/admin/DashboardUser.vue";
+import Reporte from "../views/admin/Reporte.vue";
 
 const ifAuthenticatedAuth = async (to, from, next) => {
   await UserProxy.validate()
@@ -125,32 +127,82 @@ const routes = [
         path: "/admin/usuarios",
         beforeEnter: ifAuthenticatedAdmin,
         component: Usuarios,
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
       },
       {
         path: "/admin/mantenimiento",
         beforeEnter: ifAuthenticatedAdmin,
         component: Mantenimiento,
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
       },
       {
         path: "/admin/filtros",
         beforeEnter: ifAuthenticatedAdmin,
         component: Filtros,
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
       },
       {
         path: "/admin/settings",
         beforeEnter: ifAuthenticatedAdmin,
         component: Settings,
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
       },
       {
         path: "/admin/busqueda",
         beforeEnter: ifAuthenticatedAdmin,
         component: Busqueda,
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
       },
       {
         path: "/admin/favoritos",
         beforeEnter: ifAuthenticatedAdmin,
         component: Favorites,
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
       },
+      {
+        path: "/admin/boletines",
+        beforeEnter: ifAuthenticatedAdmin,
+        component: Boletines,
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
+      },
+      {
+        path: "/admin/reportes",
+        beforeEnter: ifAuthenticatedAdmin,
+        component: Reporte,
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
+      }
     ],
   },
   {
@@ -186,6 +238,17 @@ const routes = [
           role: route?.params?.role || [],
         }),
       },
+      {
+        path: "/usuario/reportes",
+        beforeEnter: ifAuthenticatedAuth,
+        component: Reporte,
+        props: (route) => {
+          return {
+            isUser: true,
+            role: route?.params?.role || [],
+          };
+        }
+      }
     ],
   },
   {

@@ -83,6 +83,10 @@ export default {
             type: Function,
             default: () => { }
         },
+        role: {
+            type: Object,
+            default: () => { }
+        }
     },
     data() {
         return {
@@ -114,6 +118,7 @@ export default {
     methods: {
         async submit(e) {
             e.preventDefault();
+            if(this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
 
             let validate = await this.$validate();
             if (!validate) return;

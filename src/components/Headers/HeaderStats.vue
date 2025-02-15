@@ -10,7 +10,7 @@
               statDescripiron="Since last month" statIconName="fas fa-users" statIconColor="bg-red-500" />
           </div>
           <div class="w-full lg:w-6/12 xl:w-4/12 px-4">
-            <card-stats statSubtitle="ENTRADAS" :statTitle="head?.ENTRADAS || 0" statArrow="down" statPercent="3.48"
+            <card-stats statSubtitle="JURISPRUDENCIA Y LEGISLACIÓN" :statTitle="head?.ENTRADAS || 0" statArrow="down" statPercent="3.48"
               statPercentColor="text-red-500" statDescripiron="Since last week" statIconName="fas fa-blog"
               statIconColor="bg-orange-500" />
           </div>

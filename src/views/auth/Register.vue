@@ -72,7 +72,7 @@
         </div>
       </div>
     </div>
-    <div class="bubbles-container">
+    <!-- <div class="bubbles-container">
       <div class="bubble"></div>
       <div class="bubble"></div>
       <div class="bubble"></div>
@@ -83,7 +83,7 @@
       <div class="bubble"></div>
       <div class="bubble"></div>
       <div class="bubble"></div>
-    </div>
+    </div> -->
 
   </div>
 </template>
@@ -209,11 +209,10 @@ export default {
 
 
 <style>
-body {
+/* body {
   /* background-color: rgb(248, 242, 235) !important; */
-}
 
-.bubbles-container {
+/* .bubbles-container {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -236,7 +235,7 @@ body {
 background-color: #1764ffff; */
 
 /* // par fusia impar azul */
-.bubble:nth-child(odd) {
+/* .bubble:nth-child(odd) {
   background-color: #1764ffff;
 }
 
@@ -311,5 +310,5 @@ background-color: #1764ffff; */
     transform: translateY(-100%);
     opacity: 0;
   }
-}
+} */
 </style>

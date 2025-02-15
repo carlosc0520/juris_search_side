@@ -97,6 +97,10 @@
                       <i class="fas fa-book"></i>
                       Resoluciones
                     </li>
+                    <li @click="onClickExportar(3)">
+                      <i class="fas fa-book"></i>
+                      Exportar Pág.
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -413,6 +417,39 @@ export default {
       this.getEntries(this.grid.currentPage, this.grid.perPage);
     },
     async onClickExportar(typeFilter) {
+      if (typeFilter == 3) {
+        if (this.data.length == 0) {
+          toast.warning('No se encontraron datos para exportar', { toastId: 'warning-export' });
+          return
+        }
+
+        let paths = this.data.map((item) => {
+          return {
+            ENTRIEFILE: item.ENTRIEFILE,
+            TITLE: item.TITLE,
+            FCRCN: item.FCRCN,
+          }
+        });
+
+        this.isLoading = true;
+        await adminEntriesProxy.getDocumentZipAll({
+          paths: JSON.stringify(paths),
+        })
+          .then((blob) => {
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `Reporte.zip`);
+            document.body.appendChild(link);
+            link.click();
+
+          })
+          .catch((error) => toast.error(error?.MESSAGE || 'Error al obtener el archivo', { toastId: 'error-export' }))
+          .finally(() => this.isLoading = false);
+        return
+      }
+
+
       if (!this.selectedFilter.RTITLE) {
         toast.warning('Debe seleccionar un filtro para exportar', { toastId: 'warning-export' });
         return;

@@ -179,7 +179,6 @@ import MagistradoProxy from "../../proxies/Magistrados.Proxy";
 import filterProxy from "../../proxies/FilterProxy.js";
 import ModalEliminar from "./Modales/ModalEliminar.vue";
 
-
 export default {
   components: {
     CardTable,
@@ -457,7 +456,7 @@ export default {
 
       this.isLoading = true;
       if (typeFilter == 1) {
-        await adminEntriesProxy.listSearchDataFull({ RTITLE: this.selectedFilter.RTITLE, TYPE: this.active })
+        await adminEntriesProxy.listSearchDataFull({ RTITLE: this.selectedFilter.RTITLE, TYPE: this.active, BLOG: this.selectedFilter.BLOG })
           .then((blob) => {
             const url = window.URL.createObjectURL(new Blob([blob]));
             const link = document.createElement('a');
@@ -472,7 +471,7 @@ export default {
         return
       }
 
-      await adminEntriesProxy.getDocumentZip({ RTITLE: this.selectedFilter.RTITLE, TYPE: this.active })
+      await adminEntriesProxy.getDocumentZip({ RTITLE: this.selectedFilter.RTITLE, TYPE: this.active, BLOG: this.selectedFilter.BLOG })
         .then((blob) => {
           const url = window.URL.createObjectURL(new Blob([blob]));
           const link = document.createElement('a');

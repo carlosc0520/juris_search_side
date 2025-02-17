@@ -13,10 +13,8 @@
       </div>
     </div>
     <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
-
   </div>
 </template>
-
 
 <script>
 import CardSettings from "@/components/Cards/CardSettings.vue";

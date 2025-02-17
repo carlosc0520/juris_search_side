@@ -49,13 +49,16 @@ export default {
             label: year,
             backgroundColor: colores[index],
             borderColor: colores[index],
-            data: data.map((item) => item.VALUE),
+            data: meses.map((mes) => {
+              let item = data.find((item) => item.MES === meses.indexOf(mes) + 1);
+              return item ? item.VALUE : 0;
+            }),
             fill: false,
           };
           datasets.push(dataset);
         });
 
-        let labels = this.DATA.map((item) => meses[item.MES - 1]);
+        let labels = meses;
 
         var config = {
           type: "line",

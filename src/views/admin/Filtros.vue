@@ -3,7 +3,6 @@
         <div class="w-full mb-12">
             <div class="w-full mb-12 tabs-pointer">
                 <b-tabs v-model="active">
-
                     <b-tab title="Magistrados" id="0">
                     </b-tab>
                     <b-tab title="Filtros" id="1">
@@ -22,7 +21,6 @@
 
                 <div class="bg-white p-4 shadow-lg">
                     <h7 class="mb-2">{{
-
                         active === 0 ? '' :
                             active === 1 ? '' :
                                 active === 2 ? `${this.title.ID2}` :
@@ -111,14 +109,11 @@
             :update="() => searchFiltros(grid.currentPage, grid.perPage, active == 1 ? null : this.Niveles?.[`ID${Number(active) - 1}`])" 
             :active="active" :data="modalEditarFiltros.data" :niveles="Niveles" />
 
-
-        <!-- MAGISTRADOS -->
         <ModalAgregarMagistrado :show="modalAgregarMagistrados.show" :close="() => modalAgregarMagistrados.show = false"
             :update="() => searchMagistrados(grid.currentPage, grid.perPage)" />
 
         <ModalEditarMagistrado :show="modalEditarMagistrados.show" :close="() => modalEditarMagistrados.show = false"
             :update="() => searchMagistrados(grid.currentPage, grid.perPage)" :data="modalEditarMagistrados.data" />
-
 
         <ModalEliminar :message="'¿Está seguro de cambiar el estado de este registro?'" :buttonOk="'Si, cambiar'"
             :action="deleteRowMagistrados" :openDelete="modalEliminarMagistrados.show"
@@ -131,7 +126,6 @@
 
     </div>
 </template>
-
 
 <script>
 import CardTable from "@/components/Cards/CardTable.vue";
@@ -518,7 +512,6 @@ export default {
     }
 };
 </script>
-
 
 <style>
 .no-click {

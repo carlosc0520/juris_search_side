@@ -33,7 +33,6 @@
                                 <button class="bton btn-search"
                                     @click="search(grid.currentPage, grid.perPage)">Buscar</button>
                                 <button class="bton btn-create" @click="modalAgregarUsuario.show = true">Crear</button>
-
                             </div>
                         </div>
 
@@ -43,7 +42,6 @@
                         :grid="grid" :actions="actions" />
 
                 </div>
-
             </div>
         </div>
 
@@ -171,7 +169,7 @@ export default {
                 data: null,
             },
 
-            // SELECTS
+            // SELECTS....
             filter: {
                 NOMBRES: null,
                 CDESTDO: null,
@@ -223,8 +221,6 @@ export default {
             };
             this.search(this.grid.currentPage, this.grid.perPage);
         },
-
-        // ACTIONS ... 
         async edit(data) {
             if(!data.ID) return toast.warning('No se encontró el identificador del usuario', { toastId: 'warning-edit' }); 
             this.modalEditarUsuario.data = data;

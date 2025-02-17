@@ -27,7 +27,6 @@
                             </b-form-select>
                         </div>
 
-
                         <div class="col-md-12 col-12 mb-3">
                             <div class="flex justify-end gap-4">
                                 <button class="bton btn-search" @click="() => {
@@ -40,10 +39,8 @@
                                     if (active === 'preguntas') modalAgregarPregunta.show = true;
                                     if (active === 'planes') modalAgregarPlanes.show = true;
                                 }">Crear</button>
-
                             </div>
                         </div>
-
                     </div>
 
                     <card-table v-if="active === 'noticias'" :active="active" title="Usuarios" :search="searchNoticia"
@@ -57,7 +54,6 @@
                         :fields="fieldsPlanes" :items="dataPlanes" :grid="grid" :actions="actionsPlanes" />
 
                 </div>
-
             </div>
         </div>
 
@@ -74,7 +70,6 @@
             :action="deleteRowNoticia" :openDelete="modalEliminarNoticia.show"
             :closeHandler="() => modalEliminarNoticia.show = false" />
 
-
         <!-- PREGUNTAS -->
         <ModalPreguntaAgregar :role="role" :show="modalAgregarPregunta.show" :close="() => modalAgregarPregunta.show = false"
             :update="() => searchPregunta(grid.currentPage, grid.perPage)" />
@@ -86,7 +81,6 @@
             :action="deleteRowPregunta" :openDelete="modalEliminarPregunta.show"
             :closeHandler="() => modalEliminarPregunta.show = false" />
 
-
         <!-- PLANES -->
         <ModalPlanAgregar :role="role" :show="modalAgregarPlanes.show" :close="() => modalAgregarPlanes.show = false"
             :update="() => searchPlanes(grid.currentPage, grid.perPage)" />
@@ -97,7 +91,6 @@
         <ModalEliminar :message="'¿Está cambiar el estado del plan?'" :buttonOk="'Si, eliminar'"
             :action="deleteRowPlanes" :openDelete="modalEliminarPlanes.show"
             :closeHandler="() => modalEliminarPlanes.show = false" />
-
     </div>
 </template>
 

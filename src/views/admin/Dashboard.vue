@@ -1,30 +1,44 @@
 <template>
   <div>
-    <div class="flex flex-wrap mt-4">
-      <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
+    <div class="flex flex-wrap row-container mt-4">
+      <div class="xl:mb-0 px-4">
         <card-line-chart :DATA="head.ENTRADAS" />
       </div>
-      <div class="w-full xl:w-4/12 px-4">
+      <div class="px-4">
         <card-bar-chart :DATA="head.USUARIOS" />
       </div>
     </div>
+
     <div class="flex flex-wrap mt-4">
-      <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
+      <div class="w-full xl:w-12/12 mb-12 xl:mb-0 px-4">
         <card-page-palabras :data="head.PALABRAS" />
       </div>
       <div class="d-none w-full xl:w-4/12 px-4">
-        <!-- <card-social-traffic /> -->
         <card-page-visits />
       </div>
     </div>
   </div>
 </template>
+
+<style>
+.row-container{
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+}
+
+@media (max-width: 768px) {
+  .row-container{
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+}
+</style>
+
 <script>
 import CardLineChart from "@/components/Cards/CardLineChart.vue";
 import CardBarChart from "@/components/Cards/CardBarChart.vue";
 import CardPageVisits from "@/components/Cards/CardPageVisits.vue";
 import CardPagePalabras from "../../components/Cards/CardPagePalabras.vue";
-// import CardSocialTraffic from "@/components/Cards/CardSocialTraffic.vue";
 import helpersProxy from "../../proxies/helpersProxy";
 import { toast } from 'vue3-toastify';
 

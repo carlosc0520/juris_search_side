@@ -595,6 +595,7 @@
     <footer-component />
   </div>
 </template>
+
 <script>
 import Navbar from "@/components/Navbars/AuthNavbar.vue";
 import FooterComponent from "@/components/Footers/Footer.vue";

@@ -1,4 +1,4 @@
-div<template>
+<template>
     <div :class="isUser ? '' : 'pt-5 mb-5'">
         <div :class="isUser ? '' : 'pt-5 mb-5'">
             <div class="row px-4">

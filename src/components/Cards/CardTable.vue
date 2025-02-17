@@ -191,7 +191,7 @@ export default {
     },
     formatoFecha(fecha) {
       try {
-        return moment.utc(fecha).format('DD/MM/YYYY, h:mm a');
+        return moment.utc(fecha).local().format('DD/MM/YYYY, h:mm a');
       } catch (error) {
         return "";
       }

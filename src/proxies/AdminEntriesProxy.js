@@ -14,7 +14,7 @@ class AdminEntriesProxy {
 
   // * CONSULTA OBTENDRA UN ZIP DE RESPUESTA
   async getDocumentZip(formData) {
-    const { data } = await axios.get(`/admin/entries/list-search-data?RTITLE=${formData.RTITLE}&TYPE=${formData.TYPE}`, {
+    const { data } = await axios.get(`/admin/entries/list-search-data?RTITLE=${formData.RTITLE}&TYPE=${formData.TYPE}&BLOG=${formData.BLOG}`, {
       responseType: 'blob',
       headers: {
         Accept: "application/json",
@@ -54,7 +54,7 @@ class AdminEntriesProxy {
   }
 
   async listSearchDataFull(model) {
-    const { data } = await axios.get(`/admin/entries/list-search-data-full?RTITLE=${model.RTITLE}&TYPE=${model.TYPE}`, {
+    const { data } = await axios.get(`/admin/entries/list-search-data-full?RTITLE=${model.RTITLE}&TYPE=${model.TYPE}&BLOG=${model.BLOG}`, {
       responseType: 'blob',
       headers: {
         Accept: "application/json",

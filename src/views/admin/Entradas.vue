@@ -164,7 +164,6 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import recursos from "./recursos.js";
 
 import adminEntriesProxy from "../../proxies/AdminEntriesProxy.js";
-import moment from 'moment';
 
 // MODALES
 import ModalAgregarEntradaComun from "./Modales/ModalAgregarEntradaComun.vue";
@@ -218,7 +217,12 @@ export default {
           label: "Publicación",
           sortable: true,
           formatter: (value) => {
-            return moment(value).format('DD/MM/YYYY');
+            // 2024-11-06T05:00:00.000Z, lo quiero en formato DD/MM/YYYY
+            return value.split('T')[0].split('-').reverse().join('/');
+
+            // console.log(value);
+            // console.log(moment.utc(value).format('DD/MM/YYYY'));
+            // return moment.utc(value).format('DD/MM/YYYY');
           },
         },
         {
@@ -427,6 +431,7 @@ export default {
             ENTRIEFILE: item.ENTRIEFILE,
             TITLE: item.TITLE,
             FCRCN: item.FCRCN,
+            FLGDOC: item.FLGDOC,
           }
         });
 

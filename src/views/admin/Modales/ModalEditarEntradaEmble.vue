@@ -173,6 +173,9 @@
                             </svg>
                         </small>
                     </a>
+                    <span v-if="modelo.ENTRIEFILE" class="text-gray-600 text-sm pt-2">
+                        <b>Nombre de archivo: </b>{{ formatNameFile(modelo.ENTRIEFILE) }}
+                    </span>
                 </div>
 
                 <h5 class="text-app-primary">CONTENIDO</h5>
@@ -368,6 +371,14 @@ export default {
         },
     },
     methods: {
+        formatNameFile(file) {
+            if (!file) return "";
+
+            const regex = /^jurisprudences\/emblematic\/(.+?)\/[a-f0-9-]+\.pdf$/;
+            const match = file.match(regex);
+
+            return match ? `${match[1]}.pdf` : "";
+        },
         localStorageSave() {
             localStorage.setItem("emblematiceEntriesEdit", JSON.stringify(this.modelo));
         },

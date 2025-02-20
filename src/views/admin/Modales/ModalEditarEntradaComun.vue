@@ -156,23 +156,26 @@
                 <h5 class="text-app-primary">DOCUMENTOS</h5>
                 <hr>
 
-                <div class="col-md-8 col-12 mb-3 flex flex-col">
+                <div class="col-12 mb-3 flex flex-col">
                     <label for="file" class="forml-label">Documento Principal <span class="text-danger">*</span></label>
                     <input class="custom-input" type="file" accept=".pdf" name="file_input" placeholder="Escribe aquí"
                         @change="modelo.NENTRIEFILE = $event.target.files[0]">
-                    <a v-if="modelo.ENTRIEFILE" download @click="downloadFile(modelo.ENTRIEFILE, 'ENTRADA PRINCIPAL')"
-                        class="text-blue-500 text-sm cursor-pointer flex items-center flex flex-row">
-                        <small class="flex flex-row gap-2 pt-2">Descargar archivo
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cloud-download"
-                                width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M19 18a3.5 3.5 0 0 0 0 -7h-1a5 4.5 0 0 0 -11 -2a4.6 4.4 0 0 0 -2.1 8.4" />
-                                <path d="M12 13l0 9" />
-                                <path d="M9 19l3 3l3 -3" />
-                            </svg>
-                        </small>
-                    </a>
+                        <a v-if="modelo.ENTRIEFILE" download @click="downloadFile(modelo.ENTRIEFILE, 'ENTRADA PRINCIPAL')"
+                            class="text-blue-500 text-sm cursor-pointer flex items-center flex flex-row">
+                            <small class="flex flex-row gap-2 pt-2">Descargar archivo
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cloud-download"
+                                    width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M19 18a3.5 3.5 0 0 0 0 -7h-1a5 4.5 0 0 0 -11 -2a4.6 4.4 0 0 0 -2.1 8.4" />
+                                    <path d="M12 13l0 9" />
+                                    <path d="M9 19l3 3l3 -3" />
+                                </svg>
+                            </small>
+                        </a>
+                        <span v-if="modelo.ENTRIEFILE" class="text-gray-600 text-sm pt-2">
+                            <b>Nombre de archivo: </b>{{ formatNameFile(modelo.ENTRIEFILE) }}
+                        </span>
                 </div>
 
                 <div class="col-12 mb-3">
@@ -370,6 +373,14 @@ export default {
         },
     },
     methods: {
+        formatNameFile(file) {
+            if (!file) return "";
+
+            const regex = /^jurisprudences\/common\/(.+?)\/[a-f0-9-]+\.pdf$/;
+            const match = file.match(regex);
+
+            return match ? `${match[1]}.pdf` : "";
+        },  
         localStorageSave() {
             localStorage.setItem("commonEntrieEdit", JSON.stringify(this.modelo));
         },

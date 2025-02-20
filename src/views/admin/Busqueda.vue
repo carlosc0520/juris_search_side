@@ -377,7 +377,7 @@
 
 
                     </div>
-                    <div v-else class="row mx-0">
+                    <div v-else-if="!isLoading && !resultados.length" class="row mx-0">
                         <div class="sin_resultados col-12 border rounded-lg">
                             <img src="@/assets/img/resources/no-results.png" alt="No se encontraron resultados"
                                 width="50" height="50" class="w-1/4 mx-auto" />
@@ -530,7 +530,6 @@ export default {
                 INIT: ((page - 1) <= 0 ? 0 : (page - 1)) * this.table.perPage,
                 ROWS: this.table.perPage
             };
-
             this.search(filtro);
         },
         async search(ffff = {}) {
@@ -1140,6 +1139,7 @@ export default {
     },
     mounted() {
         this.filtersAll()
+        this.handleSearch(1);
     }
 };
 </script>

@@ -23,7 +23,7 @@
                         no-data-text="No hay opciones disponibles" popper-append-to-body class="custom-tree-select" />
                 </div>
 
-                <div class="col-md-3 col-12 mb-3">
+                <div class="col-md-3 col-12 mb-3" v-if="![1].includes(formData.IND)">
                     <label for="DELITOS" class="form-label">Delito</label>
                     <el-tree-select :disabled="[1].includes(formData.IND)" v-model="formData.DELITOS"
                         :data="selects.DELITOS" multiple :render-after-expand="false"
@@ -47,17 +47,17 @@
                         :SUBTITLE="head.REPORTE?.length > 0 ? (formData.IND === 1 ? 'Top 20 Magistrados' : formData.IND === 2 ? 'Top 20 Delitos' : '') : 'Top Palabras'" />
                 </div>
             </div>
-            <div class="flex flex-wrap mt-4">
+            <!-- <div class="flex flex-wrap mt-4">
                 <div class="w-full xl:w-12/12 mb-12 xl:mb-0 px-4">
                     <card-page-palabras :data="head.REPORTE"
                         :TITLE="head.REPORTE?.length > 0 ? (formData.IND === 1 ? 'Magistrados' : formData.IND === 2 ? 'Delitos' : '') : 'Palabras'" />
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
 <script>
-import CardPagePalabras from "../../components/Cards/CardPagePalabras.vue";
+// import CardPagePalabras from "../../components/Cards/CardPagePalabras.vue";
 import CardLineChartMagistrados from "../../components/Cards/CardLineChartMagistrados.vue";
 
 import helpersProxy from "../../proxies/helpersProxy";
@@ -71,7 +71,7 @@ export default {
     name: "reporte-page",
     components: {
         CardLineChartMagistrados,
-        CardPagePalabras,
+        // CardPagePalabras,
         BFormSelect,
     },
     props: {

@@ -3,10 +3,10 @@
     <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" />
     <div class="calculator relative bg-blueGray-100 transition-all duration-300"
       :class="isCollapsed ? 'ml-24 w-calc100-6rem' : 'ml-64 w-calc100-16rem'">
-      <admin-navbar />
+      <admin-navbar :RTAFTO="RTAFTO" />
       <header-stats v-if="isVisible" />
       <div class="px-4 md:px-10 mx-auto w-full">
-        <router-view />
+        <router-view :RTAFTO="RTAFTO" :UPDATERTAFTO="UPDATERTAFTO" />
       </div>
 
       <hr>
@@ -31,6 +31,7 @@ export default {
   },
   data() {
     return {
+      RTAFTO: "",
       isCollapsed: false,
       isVisible: true,
       menu:  [
@@ -51,6 +52,9 @@ export default {
     toggleSidebar() {
       this.isCollapsed = !this.isCollapsed;
     },
+    UPDATERTAFTO() {
+        this.RTAFTO = JSON.parse(localStorage.getItem("user"))?.RTAFTO;
+    },
   },
   // wathc al router
   watch: {
@@ -59,6 +63,10 @@ export default {
     },
   },
   mounted() {
+    let user = JSON.parse(localStorage.getItem("user"));
+    let RTAFTO = user?.RTAFTO;
+    if (RTAFTO?.includes("comnull")) RTAFTO = null;
+    this.RTAFTO = RTAFTO;
     this.isVisible = !['/admin/busqueda', '/admin/reportes'].includes(this.$route.path);
   },
 };

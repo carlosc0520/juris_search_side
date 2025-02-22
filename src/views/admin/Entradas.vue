@@ -256,6 +256,12 @@ export default {
           class: "text-center w-130",
         },
         {
+          key: "UCRCN",
+          label: "U. Creación",
+          sortable: true,
+          class: "text-center w-130",
+        },
+        {
           key: "CDESTDO",
           label: "Estado",
           sortable: true,
@@ -588,7 +594,6 @@ export default {
     },
     async createPDF(data) {
       try {
-        console.log(data)
         let margin = [40, 10, 40, 10];
         let totalPages = 0;
         let fontSize = 11;
@@ -772,7 +777,7 @@ export default {
                       margin: [10, 15, 10, 15],
                     },
                     {
-                      text: data.FRESOLUTION,
+                      text: data.FRESOLUTIONSTRING,
                       fontSize,
                       margin: [10, 15, 10, 15],
                     },
@@ -948,6 +953,7 @@ export default {
             RECURSO: recursos,
             MATERIA: materias,
             JURISDICCION: jurisdiccion,
+            FRESOLUTIONSTRING: response.FRESOLUTIONSTRING
           }
 
         })

@@ -3,7 +3,7 @@
     <a class="text-blueGray-500 block" href="#pablo" ref="btnDropdownRef" v-on:click="toggleDropdown($event)">
       <div class="items-center flex">
         <span class="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
-          <img alt="..." class="w-full rounded-full align-middle border-none shadow-lg" :src="team2" />
+          <img id="IMAGEN_AVATAR_LOGIN" alt="..." class="w-full rounded-full align-middle border-none shadow-lg" :src="RTAFTO || team2" v-on:error="team2" /> 
         </span>
       </div>
     </a>
@@ -45,8 +45,15 @@ export default {
       USUARIO: {
         NOMBRES: "",
         EMAIL: "",
+        RTAFTO: "",
       }
     };
+  },
+  props: {
+    RTAFTO: {
+      type: String,
+      default: "",
+    },
   },
   methods: {
     toggleDropdown: function (event) {
@@ -69,6 +76,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.RTAFTO);
     this.USUARIO = JSON.parse(localStorage.getItem("user")) || {};
   },
 };

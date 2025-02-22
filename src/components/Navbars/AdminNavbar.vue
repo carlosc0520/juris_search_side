@@ -32,7 +32,7 @@
       </form>
       <!-- User -->
       <ul class="m-0 flex-col md:flex-row list-none items-center hidden md:flex">
-        <user-dropdown />
+        <user-dropdown :RTAFTO="RTAFTO" />
       </ul>
     </div>
   </nav>
@@ -45,6 +45,12 @@ import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
 export default {
   components: {
     UserDropdown,
+  },
+  props: {
+    RTAFTO: {
+      type: String,
+      default: "",
+    },
   },
 };
 </script>

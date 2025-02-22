@@ -3,10 +3,10 @@
         <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" />
         <div class="calculator relative bg-blueGray-100 transition-all duration-300"
             :class="isCollapsed ? 'ml-24 w-calc100-6rem ' : 'ml-64 w-calc100-16rem '">
-            <admin-navbar />
+            <admin-navbar :RTAFTO="RTAFTO" />
             <div class="px-4 md:px-10 mx-auto w-full bg-view-user">
                 <div class="padding-view-usuario">
-                    <router-view />
+                    <router-view :RTAFTO="RTAFTO" :UPDATERTAFTO="UPDATERTAFTO" />
                 </div>
             </div>
 
@@ -29,6 +29,7 @@ export default {
     },
     data() {
         return {
+            RTAFTO: JSON.parse(localStorage.getItem("user"))?.RTAFTO,
             isCollapsed: false,
             menu: [
                 { name: 'Inicio', route: '/usuario/dashboard', icon: 'fas fa-tv' },
@@ -43,6 +44,15 @@ export default {
         toggleSidebar() {
             this.isCollapsed = !this.isCollapsed;
         },
+        UPDATERTAFTO() {
+            this.RTAFTO = JSON.parse(localStorage.getItem("user"))?.RTAFTO;
+        },
+    },
+    mounted() {
+        let user = JSON.parse(localStorage.getItem("user"));
+        let RTAFTO = user?.RTAFTO;
+        if (RTAFTO?.includes("comnull")) RTAFTO = null;
+        this.RTAFTO = RTAFTO;
     },
 };
 </script>

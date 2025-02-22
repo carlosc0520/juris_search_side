@@ -372,7 +372,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-else class="row mx-0">
+                    <div v-else-if="!isLoading && !resultados.length" class="row mx-0">
                         <div class="sin_resultados col-12 border rounded-lg">
                             <img src="@/assets/img/resources/no-results.png" alt="No se encontraron resultados"
                                 width="50" height="50" class="w-1/4 mx-auto" />
@@ -786,7 +786,7 @@ export default {
                                             margin: [10, 15, 10, 15],
                                         },
                                         {
-                                            text: data.FRESOLUTION,
+                                            text: data.FRESOLUTIONSTRING,
                                             fontSize,
                                             margin: [10, 15, 10, 15],
                                         },
@@ -961,6 +961,7 @@ export default {
                         RECURSO: recursos,
                         MATERIA: materias,
                         JURISDICCION: jurisdiccion,
+                        FRESOLUTIONSTRING: response.FRESOLUTIONSTRING,
                     }
 
                 })
@@ -1068,9 +1069,7 @@ export default {
                 this.filtrosNiveles(filters);
             } catch (error) {
                 toast.error("Ocurrió un error al cargar los filtros", { toastId: "error" });
-            } finally {
-                this.isLoading = false;
-            }
+            } 
         },
 
         magistrados(magistrados) {
@@ -1130,7 +1129,9 @@ export default {
         },
     },
     mounted() {
+        this.isLoading = true;
         this.filtersAll();
+        this.handleSearch(1);
     }
 };
 </script>

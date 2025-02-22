@@ -45,6 +45,7 @@ import Reporte from "../views/admin/Reporte.vue";
 const ifAuthenticatedAuth = async (to, from, next) => {
   await UserProxy.validate()
     .then((response) => {
+      console.log(response);
       if (response?.STATUS && response.DATA.IDR === 2) {
         to.params.role = response.DATA;
         next();
@@ -52,7 +53,8 @@ const ifAuthenticatedAuth = async (to, from, next) => {
         next("/auth/login");
       }
     })
-    .catch(() => {
+    .catch((error) => {
+      console.log(error);
       next("/auth/login");
     });
 };
@@ -61,6 +63,7 @@ const ifAuthenticatedAdmin = async (to, from, next) => {
   try {
     await UserProxy.validate()
       .then((response) => {
+        console.log(response);
         if (response?.STATUS && (response.DATA.IDR === 0 || response.DATA.IDR === 1)) {
           to.params.role = response.DATA;
           next();
@@ -72,6 +75,7 @@ const ifAuthenticatedAdmin = async (to, from, next) => {
         next("/auth/login");
       });
   } catch (error) {
+    console.log(error);
     next("/auth/login");
   }
 };

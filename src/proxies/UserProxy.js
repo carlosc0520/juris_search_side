@@ -20,8 +20,8 @@ class UserProxy {
     }
 
     async addFavorite(IDENTRIE) {
-        const { data } = await axios.get('/admin/user/add-favorite?IDENTRIE=' + IDENTRIE,{
-            params: {  }
+        const { data } = await axios.get('/admin/user/add-favorite?IDENTRIE=' + IDENTRIE, {
+            params: {}
         });
 
         return data;
@@ -64,8 +64,13 @@ class UserProxy {
         return data;
     }
 
-    async editarFoce(model) {
-        const { data } = await axios.post('/admin/user/edit-force', model);
+    async editarFoce(formData) {
+        const { data } = await axios.post('/admin/user/edit-force', formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                Accept: "application/json",
+            },
+        });
         return data;
     }
 
@@ -92,7 +97,7 @@ class UserProxy {
         return data;
     }
 
-    async deleteFavoriteDirectorio(IDDIRECTORIO, IDENTRIE){
+    async deleteFavoriteDirectorio(IDDIRECTORIO, IDENTRIE) {
         const { data } = await axios.post('/admin/user/delete-favorite-directory', {
             IDDIRECTORIO,
             IDENTRIE

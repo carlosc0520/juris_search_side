@@ -1,24 +1,15 @@
 <template>
   <div>
-    <div class="flex flex-wrap mt-4">
-      <div class="w-full lg:w-8/12 px-4">
-        <CardSettings :data="modelo" v-if="!isLoading" 
-          :getUser="getUser" :setLoading="(ban) => isLoading = ban" :isLoading="isLoading"
-        />
-        <el-skeleton :rows="6" v-else />
-      </div>
-      <div class="w-full lg:w-4/12 px-4">
-        <CardProfile :data="modelo" v-if="!isLoading" />
-        <el-skeleton :rows="6" v-else />
-      </div>
-    </div>
+    <CardSettings :data="modelo" v-if="!isLoading"
+      :getUser="getUser" :setLoading="(ban) => isLoading = ban" :isLoading="isLoading"
+    />
+    <el-skeleton :rows="6" v-else />
     <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
   </div>
 </template>
 
 <script>
 import CardSettings from "@/components/Cards/CardSettings.vue";
-import CardProfile from "@/components/Cards/CardProfile.vue";
 import UserProxy from "../../proxies/UserProxy";
 import { toast } from 'vue3-toastify';
  
@@ -26,12 +17,33 @@ import { toast } from 'vue3-toastify';
 export default {
   components: {
     CardSettings,
-    CardProfile,
   },
   data() {
     return {
       isLoading: true,
+      modelo: {
+        APATERNO: "",
+        AMATERNO: "",
+        NOMBRES: "",
+        EMAIL: "",
+        TELEFONO: "",
+        FNACIMIENTO: "",
+        CDESTDO: "",
+        PASSWORD: "",
+        FCRCN: "",
+        PROFESION: "",
+        CARGO: "",
+        DIRECCION: "",
+        DATOS: {},
+        RTAFTO: "",
+      },
     };
+  },
+  props: {
+    UPDATERTAFTO: {
+      type: Function,
+      default: () => {},
+    },
   },
   methods: {
     async getUser() {
@@ -52,7 +64,13 @@ export default {
             CARGO: response.CARGO,
             DIRECCION: response.DIRECCION,
             DATOS: JSON.parse(response.DATOS)?.[0] || {},
+            RTAFTO: response.RTAFTO,
           }
+
+          let USUARIO = JSON.parse(localStorage.getItem("user")) || {};
+          USUARIO.RTAFTO = this.modelo.RTAFTO;
+          localStorage.setItem("user", JSON.stringify(USUARIO));
+          this.UPDATERTAFTO();
         })
         .catch((error) => {
           toast.error(error?.MESSAGE || 'Error al cargar los magistrados', { toastId: 'error-magistrados' })

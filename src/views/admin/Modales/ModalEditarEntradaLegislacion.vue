@@ -76,6 +76,9 @@
                     <label for="file" class="forml-label">Documento Principal <span class="text-danger">*</span></label>
                     <input class="custom-input" type="file" accept=".pdf" name="file_input" placeholder="Escribe aquí"
                         @change="modelo.NENTRIEFILE = $event.target.files[0]">
+                    <span v-if="modelo.ENTRIEFILE" class="text-gray-600 text-sm pt-2">
+                        <b>Nombre de archivo: </b>{{ formatNameFile(modelo.ENTRIEFILE) }}
+                    </span>
                     <a v-if="modelo.ENTRIEFILE" download @click="downloadFile(modelo.ENTRIEFILE, 'ENTRADA PRINCIPAL')"
                         class="text-blue-500 text-sm cursor-pointer flex items-center flex flex-row">
                         <small class="flex flex-row gap-2 pt-2">Descargar archivo
@@ -89,9 +92,6 @@
                             </svg>
                         </small>
                     </a>
-                    <span v-if="modelo.ENTRIEFILE" class="text-gray-600 text-sm pt-2">
-                        <b>Nombre de archivo: </b>{{ formatNameFile(modelo.ENTRIEFILE) }}
-                    </span>
                 </div>
 
 
@@ -195,11 +195,9 @@ export default {
     methods: {
         formatNameFile(file) {
             if (!file) return "";
-
-            const regex = /^jurisprudences\/executive\/(.+?)\/[a-f0-9-]+\.pdf$/;
-            const match = file.match(regex);
-
-            return match ? `${match[1]}.pdf` : "";
+          
+            const regex = file.split("/").pop();
+            return regex ? regex : "";
         },
         localStorageSave() {
             localStorage.setItem("legislationEntrieEdit", JSON.stringify(this.modelo));

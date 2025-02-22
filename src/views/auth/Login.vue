@@ -172,9 +172,9 @@ export default {
       LoginProxy.login(this.form)
         .then((response) => {
           if (response?.status == 201) {
-            let { TOKEN, NOMBRES, EMAIL } = response.data;
+            let { TOKEN, NOMBRES, EMAIL, RTAFTO } = response.data;
             localStorage.setItem('accessToken', TOKEN);
-            localStorage.setItem('user', JSON.stringify({ NOMBRES, EMAIL }));
+            localStorage.setItem('user', JSON.stringify({ NOMBRES, EMAIL, RTAFTO}));
             this.$router.push('/redirect');
           }
         })

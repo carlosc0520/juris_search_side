@@ -793,7 +793,7 @@ export default {
                                             margin: [10, 15, 10, 15],
                                         },
                                         {
-                                            text: data.FRESOLUTION,
+                                            text: data.FRESOLUTIONSTRING,
                                             fontSize,
                                             margin: [10, 15, 10, 15],
                                         },
@@ -968,6 +968,7 @@ export default {
                         RECURSO: recursos,
                         MATERIA: materias,
                         JURISDICCION: jurisdiccion,
+                        FRESOLUTIONSTRING: response.FRESOLUTIONSTRING,
                     }
 
                 })
@@ -1075,8 +1076,6 @@ export default {
                 this.filtrosNiveles(filters);
             } catch (error) {
                 toast.error("Ocurrió un error al cargar los filtros", { toastId: "error" });
-            } finally {
-                this.isLoading = false;
             }
         },
 
@@ -1138,6 +1137,7 @@ export default {
         }
     },
     mounted() {
+        this.isLoading = true;
         this.filtersAll()
         this.handleSearch(1);
     }

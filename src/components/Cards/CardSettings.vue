@@ -1,6 +1,6 @@
 <template>
-  <div class="row gap-2 mt-5">
-    <div class="col-12 col-md-8 relative flex flex-col min-w-0 break-words mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
+  <div class="d-grid gap-3 mt-5 grid-personalize-columns">
+    <div class="relative flex flex-col min-w-0 break-words mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
       <div class="rounded-t bg-white mb-0 px-6 py-6">
         <div class="text-center flex justify-between">
           <h6 class="text-blueGray-700 text-xl font-bold">Mi Perfil</h6>
@@ -139,7 +139,7 @@
       </div>
     </div>
 
-    <div class="col-12 col-md-4 relative flex flex-col min-w-0 break-words bg-white mb-6 shadow-xl rounded-lg mt-16">
+    <div class="relative flex flex-col min-w-0 break-words bg-white mb-6 shadow-xl rounded-lg">
       <div class="px-6">
         <div class="flex justify-center">
           <div class="avatar-container">
@@ -348,4 +348,15 @@ export default {
     display: none;
   }
 
+  @media (min-width: 992px) {
+    .grid-personalize-columns {
+        grid-template-columns: 8fr 4fr !important;
+  }
+
+  .grid-personalize-columns {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+}
 </style>

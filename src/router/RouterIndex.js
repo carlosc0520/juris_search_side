@@ -53,6 +53,7 @@ const ifAuthenticatedAuth = async (to, from, next) => {
       }
     })
     .catch((error) => {
+      console.log(error);
       next("/auth/login");
     });
 };

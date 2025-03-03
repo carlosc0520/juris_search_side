@@ -609,6 +609,7 @@ export default {
         let margin = [40, 10, 40, 10];
         let totalPages = 0;
         let fontSize = 11;
+        let currentYear = new Date().getFullYear();
         let documentoPDF = {
 
           header: () => {
@@ -884,7 +885,7 @@ export default {
             footer: {
               FontFace: 'Calibri',
               fontSize: 10,
-              margin: [40, 50, 40, 10],
+              margin: [40, 40, 40, 10],
             },
           },
           footer: function (currentPage, pageCount) {
@@ -893,17 +894,27 @@ export default {
             }
             return {
               style: 'footer',
-              columns: [
-                { width: '*', text: ``, alignment: 'left', color: 'transparent' },
-                { width: 'auto', text: 'www.', alignment: 'center', color: 'gray' },
-                { width: 'auto', text: 'ccfirma', alignment: 'center', color: '#e81eb2', link: 'https://ccfirma.com/' },
-                { width: 'auto', text: '.com', alignment: 'center', color: 'gray' },
-                { width: '*', text: `Página ${currentPage} de ${pageCount}`, alignment: 'right' }
-              ],
+              stack: [
+                {
+                  columns: [
+                    { width: '*', text: ``, alignment: 'left', color: 'transparent' },
+                    { width: 'auto', text: 'www.', alignment: 'center', color: 'gray' },
+                    { width: 'auto', text: 'jurissearch', alignment: 'center', color: '#e81eb2', link: 'https://jurissearch.com/' },
+                    { width: 'auto', text: '.com', alignment: 'center', color: 'gray' },
+                    { width: '*', text: `Página ${currentPage} de ${pageCount}`, alignment: 'right' },
+                  ],
+                },
+                {
+                  text: `© ${currentYear} JURIS SEARCH - TODOS LOS DERECHOS RESERVADOS`,
+                  alignment: 'right',
+                  color: 'gray',
+                  margin: [0, 10, 40, 0]
+                }
+              ]
             };
           },
 
-          pageMargins: [40, 100, 40, 80],
+          pageMargins: [40, 100, 40, 90],
         }
 
         pdfMake.vfs = await pdfFonts.pdfMake.vfs;

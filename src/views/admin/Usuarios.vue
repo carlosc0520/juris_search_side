@@ -119,8 +119,27 @@ export default {
                 },
                 {
                     key: "FCRCN",
-                    label: "Subscriptor desde",
+                    label: "Fecha de Ingreso",
                     sortable: true,
+                    class: "text-center w-130",
+                },
+                {
+                    key: "UCRCN",
+                    label: "U. Creación",
+                    sortable: true,
+                    class: "text-center w-130",
+                },
+                {
+                    key: "FEDCN",
+                    label: "Fecha de Edición",
+                    sortable: true,
+                    class: "text-center w-130",
+                },
+                {
+                    key: "UEDCN",
+                    label: "U. Edición",
+                    sortable: true,
+                    class: "text-center w-130",
                 },
                 {
                     key: "CDESTDO",

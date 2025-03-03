@@ -1150,22 +1150,22 @@ export default {
             text = text.replace(/&[a-z]+;/g, '');
 
             try {
-                text = text.replace(/<br\s*\/?>/gi, '\n');
+                text = text.replace(/<br\s*\/?>/gi, '\n').replace(/<\/p>/gi, '\n');
 
                 if (text.includes('<ul>')) {
-                    let t = text.split('<li>').map((item) => {
-                        item = item.replace(/<\/?[^>]+(>|$)/g, '');
-                        return item;
-                    }).filter((item) => item.trim() !== '');
+                let t = text.split('<li>').map((item) => {
+                    item = item.replace(/<\/?[^>]+(>|$)/g, '');
+                    return item;
+                }).filter((item) => item.trim() !== '');
 
-                    return t;
+                return t;
                 }
 
                 return text.replace(/<[^>]*>?/gm, '');
             } catch (error) {
                 return text.replace(/<[^>]*>?/gm, '');
             }
-        },
+            },
         onShared() {
             if (!this.selectedKey) {
                 return toast.warning('No se ha seleccionado un directorio', { toastId: 'error-share' });

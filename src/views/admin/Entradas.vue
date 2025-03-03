@@ -262,6 +262,18 @@ export default {
           class: "text-center w-130",
         },
         {
+          key: "FEDCN",
+          label: "Fecha de Edición",
+          sortable: true,
+          class: "text-center w-130",
+        },
+        {
+          key: "UEDCN",
+          label: "U. Edición",
+          sortable: true,
+          class: "text-center w-130",
+        },
+        {
           key: "CDESTDO",
           label: "Estado",
           sortable: true,
@@ -727,7 +739,7 @@ export default {
                       fontSize,
                       margin: [10, 15, 10, 15],
                     },
-                    this.renderContent(data.SHORTSUMMARY, fontSize, [10, 15, 10, 15]),
+                    this.renderContent(data.SHORTSUMMARY, fontSize, [10, 15, 10, 15], 1),
                   ],
                   [
                     {
@@ -1031,8 +1043,11 @@ export default {
       html = html.replace(/>\s+</g, "><");
       return html;
     },
-    renderContent(content, fontSize, margin) {
+    renderContent(content, fontSize, margin, ass = 0) {
       let decodedContent = this.decodeHtmlEntities(content);
+      if(ass == 1){
+        console.log(content)
+      }
 
       if (Array.isArray(decodedContent)) {
         return {
@@ -1056,23 +1071,22 @@ export default {
       text = text.replace(/&[a-z]+;/g, '');
 
       try {
-        text = text.replace(/<br\s*\/?>/gi, '\n');
+          text = text.replace(/<br\s*\/?>/gi, '\n').replace(/<\/p>/gi, '\n');
 
-        if (text.includes('<ul>')) {
+          if (text.includes('<ul>')) {
           let t = text.split('<li>').map((item) => {
-            item = item.replace(/<\/?[^>]+(>|$)/g, '');
-            return item;
+              item = item.replace(/<\/?[^>]+(>|$)/g, '');
+              return item;
           }).filter((item) => item.trim() !== '');
 
           return t;
-        }
+          }
 
-        return text.replace(/<[^>]*>?/gm, '');
+          return text.replace(/<[^>]*>?/gm, '');
       } catch (error) {
-        return text.replace(/<[^>]*>?/gm, '');
+          return text.replace(/<[^>]*>?/gm, '');
       }
     },
-
     // COMUN
     async getAllFilters() {
       try {

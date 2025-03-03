@@ -38,6 +38,10 @@
           <span>{{ formatoFecha(data.value) }}</span>
         </template>
 
+        <template #cell(FEDCN)="data">
+          <span>{{ formatoFecha(data.value) }}</span>
+        </template>
+
         <template #cell(CDESTDO)="data">
           <b-badge :variant="data.value === 'A' ? 'success' : 'danger'"
             :title="data.value === 'A' ? 'Activo' : 'Inactivo'" class="cursor-pointer">

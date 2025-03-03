@@ -152,7 +152,9 @@ export default {
             return noticia;
           }));
         })
-        .catch((error) => toast.error(error?.message || 'Error al cargar las noticias'))
+        .catch((error) => {
+          toast.error(error?.message || 'Error al cargar las noticias')
+        })
         .finally(() => {
           this.isloading = false;
           this.startImageRotation();

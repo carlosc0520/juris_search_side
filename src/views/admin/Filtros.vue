@@ -68,6 +68,7 @@
 
                                 <button class="bton btn-regresar" v-if="[2, 3, 4, 5, 6].includes(active)" @click="() => {
                                     this.active = String(Number(active) - 1);
+                                    this.IDFILTER = (Number(this.active) === 1) ? null : this.Niveles[`ID${Number(this.active) - 1}`];
                                     this.searchFiltros(grid.currentPage, grid.perPage,
                                         (Number(this.active) === 1) ? null : this.Niveles[`ID${Number(this.active) - 1}`]);
                                 }">Regresar</button>
@@ -81,17 +82,17 @@
                         :fields="fieldsMagistrados" :items="dataMagistrados" :grid="grid"
                         :actions="actionsMagistrados" />
 
-                    <card-table v-if="active == 1" :active="active" title="Filtros" :search="searchMagistrados"
+                    <card-table v-if="active == 1" :active="active" title="Filtros" :search="searchFiltros"
                         :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
-                    <card-table v-if="active == 2" :active="active" title="Filtros" :search="searchMagistrados"
+                    <card-table v-if="active == 2" :active="active" title="Filtros" :search="searchFiltros"
                         :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
-                    <card-table v-if="active == 3" :active="active" title="Filtros" :search="searchMagistrados"
+                    <card-table v-if="active == 3" :active="active" title="Filtros" :search="searchFiltros"
                         :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
-                    <card-table v-if="active == 4" :active="active" title="Filtros" :search="searchMagistrados"
+                    <card-table v-if="active == 4" :active="active" title="Filtros" :search="searchFiltros"
                         :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
-                    <card-table v-if="active == 5" :active="active" title="Filtros" :search="searchMagistrados"
+                    <card-table v-if="active == 5" :active="active" title="Filtros" :search="searchFiltros"
                         :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
-                    <card-table v-if="active == 6" :active="active" title="Filtros" :search="searchMagistrados"
+                    <card-table v-if="active == 6" :active="active" title="Filtros" :search="searchFiltros"
                         :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
 
                 </div>
@@ -184,8 +185,27 @@ export default {
                 },
                 {
                     key: "FCRCN",
-                    label: "Fecha de Creación",
+                    label: "Fecha de Ingreso",
                     sortable: true,
+                    class: "text-center w-130",
+                },
+                {
+                    key: "UCRCN",
+                    label: "U. Creación",
+                    sortable: true,
+                    class: "text-center w-130",
+                },
+                {
+                    key: "FEDCN",
+                    label: "Fecha de Edición",
+                    sortable: true,
+                    class: "text-center w-130",
+                },
+                {
+                    key: "UEDCN",
+                    label: "U. Edición",
+                    sortable: true,
+                    class: "text-center w-130",
                 },
                 {
                     key: "CDESTDO",
@@ -324,7 +344,8 @@ export default {
                 ID5: null,
                 ID6: null,
             },
-            dataFilter: {}
+            dataFilter: {},
+            IDFILTER: null,
         };
     },
     methods: {
@@ -352,6 +373,8 @@ export default {
         async searchFiltros(currentPage, perPage, ID = null) {
             const init = (currentPage - 1) * perPage;
             const rows = perPage;
+            ID = this.IDFILTER || ID;
+
 
             this.grid.isLoading = true;
             await FilterProxy.list({
@@ -460,7 +483,8 @@ export default {
             this.Niveles = { ...this.Niveles, [`ID${Number(this.active)}`]: data?.VALUE || null }
             this.active = Number(this.active) + 1
             this.title = { ...this.title, [`ID${Number(this.active)}`]: data?.LABEL || "" }
-            this.searchFiltros(this.grid.currentPage, this.grid.perPage, data.VALUE);
+            this.IDFILTER = data?.VALUE || null;
+            // this.searchFiltros(this.grid.currentPage, this.grid.perPage, data.VALUE);
         },
     },
     mounted() {
@@ -503,10 +527,20 @@ export default {
     // cuando cambie active
     watch: {
         active: function (newVal) {
-            if (newVal == 0) this.searchMagistrados(this.grid.currentPage, this.grid.perPage);
-            else if (newVal == 1) {
-                this.dataFilter = [];
-                this.searchFiltros(this.grid.currentPage, this.grid.perPage);
+            this.grid = {
+                ...this.grid,
+                perPage: 10,
+                currentPage: 1,
+                loading: false,
+            };
+
+            if (newVal == 0) {
+                this.searchMagistrados(this.grid.currentPage, this.grid.perPage);
+            } 
+            
+            if (newVal > 0) {
+                // this.dataFilter = {};
+                // this.searchFiltros(this.grid.currentPage, this.grid.perPage);
             }
         }
     }

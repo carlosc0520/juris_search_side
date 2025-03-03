@@ -6,7 +6,7 @@
         <form id="formAgregarUsuario" @submit.prevent="submit">
             <div class="row">
                 <div class="col-md-4 col-12 mb-3" :class="{ error: validation.hasError('modelo.NOMBRES') }">
-                    <label for="name" class="form-label">Nombraaes <span class="text-danger">*</span></label>
+                    <label for="name" class="form-label">Nombres <span class="text-danger">*</span></label>
                     <input type="text" v-model="modelo.NOMBRES" id="NOMBRES" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.NOMBRES')">
                         {{ validation.firstError('modelo.NOMBRES') }}

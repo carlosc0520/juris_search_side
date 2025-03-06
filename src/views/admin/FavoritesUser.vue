@@ -477,9 +477,7 @@ import ModalAgregarFavorito from './ModalesFavoritos/ModalAgregarFavorito.vue';
 import ModalShared from './ModalesFavoritos/ModalCompartirFavorito.vue';
 import UserProxy from '../../proxies/UserProxy';
 import AdminEntriesProxy from '../../proxies/AdminEntriesProxy';
-import recursos from "./recursos";
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+import createPDFHelper from "../../assets/helpers/generatePdfHelper.js";
 // import he from 'he';
 
 export default {
@@ -960,7 +958,7 @@ export default {
                                     ],
                                     [
                                         {
-                                            text: ['VOTO DISIDENTE\n', {
+                                            text: ['VOTO DEL DESIDENTE\n', {
                                                 text: 'Voto que discrepa del fallo final adoptado.', fontSize: fontSize - 2, bold: false, italics: true
                                             }],
                                             bold: true,
@@ -1133,47 +1131,6 @@ export default {
             }
 
             return toast.warning('No se ha seleccionado un directorio', { toastId: 'error-delete' });
-        },
-        renderContent(content, fontSize, margin) {
-            let decodedContent = this.decodeHtmlEntities(content);
-
-            if (Array.isArray(decodedContent)) {
-                return {
-                    ul: decodedContent,
-                    fontSize,
-                    alignment: 'justify',
-                    margin
-                };
-            }
-
-            return {
-                text: decodedContent,
-                fontSize,
-                alignment: 'justify',
-                margin
-            };
-        },
-        decodeHtmlEntities(text) {
-            if (text === null) return '';
-
-            text = text.replace(/&[a-z]+;/g, '');
-
-            try {
-                text = text.replace(/<br\s*\/?>/gi, '\n').replace(/<\/p>/gi, '\n');
-
-                if (text.includes('<ul>')) {
-                let t = text.split('<li>').map((item) => {
-                    item = item.replace(/<\/?[^>]+(>|$)/g, '');
-                    return item;
-                }).filter((item) => item.trim() !== '');
-
-                return t;
-                }
-
-                return text.replace(/<[^>]*>?/gm, '');
-            } catch (error) {
-                return text.replace(/<[^>]*>?/gm, '');
-            }
         },
         onShared() {
             if (!this.selectedKey) {

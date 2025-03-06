@@ -216,13 +216,8 @@ export default {
           key: "FRESOLUTION",
           label: "Publicación",
           sortable: true,
-          formatter: (value) => {
-            // 2024-11-06T05:00:00.000Z, lo quiero en formato DD/MM/YYYY
+          formatter: (value) => {            
             return value.split('T')[0].split('-').reverse().join('/');
-
-            // console.log(value);
-            // console.log(moment.utc(value).format('DD/MM/YYYY'));
-            // return moment.utc(value).format('DD/MM/YYYY');
           },
         },
         {
@@ -836,7 +831,7 @@ export default {
                   ],
                   [
                     {
-                      text: ['VOTO DEL DESIDENTE\n', {
+                      text: ['VOTO DISIDENTE\n', {
                         text: 'Voto que discrepa del fallo final adoptado.', fontSize: fontSize - 2, bold: false, italics: true
                       }],
                       bold: true,
@@ -1054,11 +1049,8 @@ export default {
       html = html.replace(/>\s+</g, "><");
       return html;
     },
-    renderContent(content, fontSize, margin, ass = 0) {
+    renderContent(content, fontSize, margin) {
       let decodedContent = this.decodeHtmlEntities(content);
-      if(ass == 1){
-        console.log(content)
-      }
 
       if (Array.isArray(decodedContent)) {
         return {
@@ -1102,9 +1094,9 @@ export default {
     async getAllFilters() {
       try {
         const [magistradosResponse, filtersResponse, filtersResponse2] = await Promise.all([
-          MagistradoProxy.list({ ROWS: 1000, INIT: 0, DESC: null }),
-          filterProxy.list({ NIVEL: 5 }, "1"),
-          filterProxy.list({ NIVEL: 5 }, "2"),
+          MagistradoProxy.list({ ROWS: 1000, INIT: 0, DESC: null, CESTDO: null }),
+          filterProxy.list({ NIVEL: 5, CESTDO: ""}, "1"),
+          filterProxy.list({ NIVEL: 5, CESTDO: ""}, "2"),
         ]);
 
         this.selects.magistrados = magistradosResponse.map(item => ({

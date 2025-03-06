@@ -76,7 +76,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.RTAFTO);
     this.USUARIO = JSON.parse(localStorage.getItem("user")) || {};
   },
 };

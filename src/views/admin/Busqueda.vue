@@ -578,8 +578,7 @@ export default {
                     this.table.totalRows = response?.[0]?.TOTALROWS || 0;
 
                 })
-                .catch((errir) => {
-                    console.log(errir);
+                .catch(() => {
                     toast.error("Ocurrió un error al buscar", { toastId: "error" })
                 })
                 .finally(() => this.isLoading = false);
@@ -839,7 +838,7 @@ export default {
                                     ],
                                     [
                                         {
-                                            text: ['VOTO DEL DESIDENTE\n', {
+                                            text: ['VOTO DISIDENTE\n', {
                                                 text: 'Voto que discrepa del fallo final adoptado.', fontSize: fontSize - 2, bold: false, italics: true
                                             }],
                                             bold: true,

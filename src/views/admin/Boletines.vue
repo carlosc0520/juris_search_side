@@ -156,8 +156,7 @@ export default {
     },
     watch: {
         'modalAgregarBoletin.show': {
-            handler(value) {
-                console.log(value)
+            handler() {
             }
         }
     },

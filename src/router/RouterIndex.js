@@ -52,8 +52,7 @@ const ifAuthenticatedAuth = async (to, from, next) => {
         next("/auth/login");
       }
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
       next("/auth/login");
     });
 };

@@ -477,4 +477,8 @@ form {
 .p-autocomplete-option.p-focus {
   background-color: #f7f7f7ce !important;
 }
+
+.mayus{
+  text-transform: uppercase;
+}
 </style>

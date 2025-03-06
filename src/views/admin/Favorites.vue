@@ -951,7 +951,7 @@ export default {
                                     ],
                                     [
                                         {
-                                            text: ['VOTO DEL DESIDENTE\n', {
+                                            text: ['VOTO DISIDENTE\n', {
                                                 text: 'Voto que discrepa del fallo final adoptado.', fontSize: fontSize - 2, bold: false, italics: true
                                             }],
                                             bold: true,

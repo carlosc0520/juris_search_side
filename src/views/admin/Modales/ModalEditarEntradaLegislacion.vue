@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-md-4 col-12 mb-3" :class="{ error: validation.hasError('modelo.TITLE') }">
                     <label for="name" class="form-label">Nombre de la Norma <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.TITLE" id="TITLE" class="form-control" />
+                    <input type="text" v-model="modelo.TITLE" id="TITLE" class="form-control mayus" />
                     <span class="message" v-if="validation.hasError('modelo.TITLE')">
                         {{ validation.firstError('modelo.TITLE') }}
                     </span>

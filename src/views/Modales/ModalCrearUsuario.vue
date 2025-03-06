@@ -42,6 +42,8 @@
                     <vue-tel-input 
                         v-model="modelo.TELEFONO"
                         id="TELEFONO"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
                         @input="(e) => modelo.TELEFONO = e"
                         inputOptions="{ placeholder: 'Ingrese su número de celular' }"
                     ></vue-tel-input>
@@ -208,3 +210,14 @@ export default {
 
 
 </script>
+
+<style>
+.vti__input{
+    padding: 0.2rem!important;
+}
+
+.vue-tel-input {
+    border-radius: 6px!important;
+    border: 1px solid #dfdede!important;
+}
+</style>

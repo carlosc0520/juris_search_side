@@ -33,7 +33,7 @@
                 <label for="Password">
                   Contraseña
                 </label>
-                <div class="input-group position-relative">
+                <div class="input-group position-relative overflow-hidden" style="border-radius: 0.375rem !important;">
                   <input :type="showPassword ? 'text' : 'password'" class="form-control" v-model="form.PASSWORD" id="Password" autocomplete="off" />
                   <button id="btnToggleShowPassword" type="button" class="btn" @click="togglePassword">
                     <i :class="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>

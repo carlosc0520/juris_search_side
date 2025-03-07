@@ -33,7 +33,12 @@
                 <label for="Password">
                   Contraseña
                 </label>
-                <input type="password" class="form-control" v-model="form.PASSWORD" id="Password" autocomplete="off" />
+                <div class="input-group position-relative">
+                  <input :type="showPassword ? 'text' : 'password'" class="form-control" v-model="form.PASSWORD" id="Password" autocomplete="off" />
+                  <button id="btnToggleShowPassword" type="button" class="btn" @click="togglePassword">
+                    <i :class="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
+                  </button>
+                </div>
                 <span class="message" v-if="validation.hasError('form.PASSWORD')">
                   {{ validation.firstError('form.PASSWORD') }}
                 </span>
@@ -112,6 +117,7 @@ export default {
   },
   data() {
     return {
+      showPassword: false,
       github,
       google,
       logoJuris,
@@ -229,6 +235,9 @@ export default {
     },
     updateOpen(){
       console.log("aaaaaaaa")
+    },
+    togglePassword() {
+      this.showPassword = !this.showPassword;
     }
   },
   mounted() {
@@ -400,5 +409,13 @@ background-color: #1764ffff; */
     transform: translateY(-100%);
     opacity: 0;
   }
+}
+
+#btnToggleShowPassword {
+  border: none;
+  position: absolute;
+  right: 0;
+  z-index: 5;
+  top: .4rem;
 }
 </style>

@@ -2,8 +2,9 @@
     <b-modal id="modal-noticia-crear" v-model="show" title="Solo lectura" hide-footer centered size="xl"
         ok-title="Crear" cancel-title="Cancelar">
         <div class="pdf-container">
-            <iframe ref="pdfEmbed" :src="pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1&zoom=100&view=fitH'" 
+            <iframe ref="pdfEmbed" :src="pdfUrl + '#zoom=100&view=fitH'" 
                 style="border: 1px solid black; width: 100%; height: calc(100vh - 140px);"></iframe>
+            <!-- <div class="overlay" v-if="show"></div>
             <div class="overlay" v-if="show"></div>
             <div class="overlay" v-if="show"></div>
             <div class="overlay" v-if="show"></div>
@@ -11,8 +12,7 @@
             <div class="overlay" v-if="show"></div>
             <div class="overlay" v-if="show"></div>
             <div class="overlay" v-if="show"></div>
-            <div class="overlay" v-if="show"></div>
-            <div class="overlay" v-if="show"></div>
+            <div class="overlay" v-if="show"></div> -->
         </div>
     </b-modal>
 </template>

@@ -39,6 +39,12 @@
                 </span>
               </div>
 
+              <div class="flex justify-end mt-2">
+                <a href="#" class="text-blue-500"
+                  @click="modalRecuperarContrasena.show = true;"
+                >¿Olvidaste tu contraseña?</a>
+              </div>
+
               <div class="text-center mt-10">
                 <button
                   class="btn-search text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
@@ -81,6 +87,8 @@
         </transition>
       </div>
 
+      <ModalRecuperarContrasena  :show="modalRecuperarContrasena.show" :close="() => modalRecuperarContrasena.show = false"
+        :update="() => { }" />
       <LoadingOverlay :active="isloading" :is-full-page="false" :loader="'bars'" />
     </div>
   </div>
@@ -92,12 +100,16 @@ import google from "@/assets/img/google.svg";
 import logoJuris from "@/assets/img/logos/logo-completo.png";
 import LoginProxy from "../../proxies/LoginProxy";
 import registerBg2 from "@/assets/img/register_bg_2.png";
+import ModalRecuperarContrasena from "./Modales/ModalRecuperarContrasena.vue";
 
 // FUNCTIONS
 import { toast } from 'vue3-toastify';
 import { Validator } from 'simple-vue-validator';
 
 export default {
+  components: {
+    ModalRecuperarContrasena
+  },
   data() {
     return {
       github,
@@ -110,7 +122,10 @@ export default {
       isloading: false,
       currentNoticia: 0,
 
-
+      modalRecuperarContrasena: {
+        show: false,
+        data: null,
+      },
       form: {
         EMAIL: '',
         PASSWORD: '',
@@ -211,6 +226,9 @@ export default {
           this.isloading = false;
         });
 
+    },
+    updateOpen(){
+      console.log("aaaaaaaa")
     }
   },
   mounted() {

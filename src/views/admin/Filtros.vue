@@ -256,8 +256,27 @@ export default {
                 },
                 {
                     key: "FCRCN",
-                    label: "Fecha de Creación",
+                    label: "Fecha de Ingreso",
                     sortable: true,
+                    class: "text-center w-130",
+                },
+                {
+                    key: "UCRCN",
+                    label: "U. Creación",
+                    sortable: true,
+                    class: "text-center w-130",
+                },
+                {
+                    key: "FEDCN",
+                    label: "Fecha de Edición",
+                    sortable: true,
+                    class: "text-center w-130",
+                },
+                {
+                    key: "UEDCN",
+                    label: "U. Edición",
+                    sortable: true,
+                    class: "text-center w-130",
                 },
                 {
                     key: "CDESTDO",
@@ -384,7 +403,7 @@ export default {
                 DESC: this.filter?.NOMBRES || null,
                 CESTDO: this.filter?.CDESTDO || null,
                 ID: ID || null,
-            }, this.filter.OPTION)
+            }, this.filter.OPTION, 2)
                 .then((dataresponse) => {
                     this.dataFiltros = dataresponse
                     this.grid.totalRows = dataresponse[0]?.TOTALROWS || 0;

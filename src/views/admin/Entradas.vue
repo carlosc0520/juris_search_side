@@ -727,9 +727,9 @@ export default {
     async getAllFilters() {
       try {
         const [magistradosResponse, filtersResponse, filtersResponse2] = await Promise.all([
-          MagistradoProxy.list({ ROWS: 1000, INIT: 0, DESC: null, CESTDO: null }),
-          filterProxy.list({ NIVEL: 5, CESTDO: ""}, "1"),
-          filterProxy.list({ NIVEL: 5, CESTDO: ""}, "2"),
+          MagistradoProxy.list({ ROWS: 1000, INIT: 0, DESC: null, CESTDO: null }, 2),
+          filterProxy.list({ NIVEL: 5, CESTDO: ""}, "1", 2),
+          filterProxy.list({ NIVEL: 5, CESTDO: ""}, "2", 2),
         ]);
 
         this.selects.magistrados = magistradosResponse.map(item => ({

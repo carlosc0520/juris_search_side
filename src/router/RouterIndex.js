@@ -41,6 +41,7 @@ import BusquedaUser from "../views/admin/BusquedaUser.vue";
 import FavoritesUser from "../views/admin/FavoritesUser.vue";
 import DashboardUser from "../views/admin/DashboardUser.vue";
 import Reporte from "../views/admin/Reporte.vue";
+import Recovery from "../views/auth/Recovery.vue";
 
 const ifAuthenticatedAuth = async (to, from, next) => {
   await UserProxy.validate()
@@ -264,6 +265,10 @@ const routes = [
         path: "/auth/autoUser/:token",
         component: Register,
       },
+      {
+        path: "/auth/recovery/:token",
+        component: Recovery,
+      }
     ],
   },
   {

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 class FilterProxy {
-    async list(model, TIPO) {
-        const { data } = await axios.get(`/admin/filtros/list?TIPO=${TIPO}`, {
+    async list(model, TIPO, ESTADO = 1) {
+        const { data } = await axios.get(`/admin/filtros/list?TIPO=${TIPO}&ESTADO=${ESTADO}`, {
             params: model
         });
         return data;

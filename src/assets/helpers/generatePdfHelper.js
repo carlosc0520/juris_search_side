@@ -62,7 +62,8 @@ class createPDFHelper {
               widths: ['35%', '57%'],
               body: [
                 [{ text: '▪ TIPO DE RECURSO:', bold: true }, data?.RECURSO],
-                [{ text: '▪ DELITOS:', bold: true }, data?.DELITO],
+                // reempalzar "," por "\n" en la propiedad DELITO
+                [{ text: '▪ DELITOS:', bold: true }, data?.DELITO?.replace(/,/g, '\n')],
                 [{ text: '▪ VINCULANTE:', bold: true }, data?.ISBINDING]
               ]
             },
@@ -242,7 +243,7 @@ class createPDFHelper {
                     margin: [10, 2, 10, 8],
                   },
                   {
-                    text: data?.VDESIDENTE || '-',
+                    text: data?.VDESIDENTE?.replace(/,/g, ', ')  || '-',
                     fontSize,
                     margin: [10, 2, 10, 8],
                   },
@@ -259,7 +260,7 @@ class createPDFHelper {
                     margin: [10, 2, 10, 8],
                   },
                   {
-                    text: data?.CVOTE || '-',
+                    text: data?.CVOTE?.replace(/,/g, ', ') || '-',
                     fontSize,
                     margin: [10, 2, 10, 8],
                   },
@@ -344,12 +345,8 @@ class createPDFHelper {
     }
   }
 
-  renderContent(content, fontSize, margin, ass = 0) {
+  renderContent(content, fontSize, margin) {
     let decodedContent = this.decodeHtmlEntities(content);
-    if(ass == 1){
-      console.log(content)
-    }
-
     if (Array.isArray(decodedContent)) {
       return {
         ul: decodedContent,
@@ -373,20 +370,20 @@ class createPDFHelper {
     text = text.replace(/&[a-z]+;/g, '');
 
     try {
-        text = text.replace(/<br\s*\/?>/gi, '\n').replace(/<\/p>/gi, '\n');
+      text = text.replace(/<br\s*\/?>/gi, '\n').replace(/<\/p>/gi, '\n');
 
-        if (text.includes('<ul>')) {
+      if (text.includes('<ul>')) {
         let t = text.split('<li>').map((item) => {
-            item = item.replace(/<\/?[^>]+(>|$)/g, '');
-            return item;
+          item = item.replace(/<\/?[^>]+(>|$)/g, '');
+          return item;
         }).filter((item) => item.trim() !== '');
 
         return t;
-        }
+      }
 
-        return text.replace(/<[^>]*>?/gm, '');
+      return text.replace(/<[^>]*>?/gm, '');
     } catch (error) {
-        return text.replace(/<[^>]*>?/gm, '');
+      return text.replace(/<[^>]*>?/gm, '');
     }
   }
 }

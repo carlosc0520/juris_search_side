@@ -67,22 +67,10 @@ export default {
             let validate = await this.$validate();
             if (!validate) return;
 
-            let telefono = document.querySelector('#TELEFONO input').value.trim();
-            if (!telefono) {
-                toast.error("El número de teléfono es requerido");
-                return;
-            }
-
-            // si tiene letras 
-            if (telefono.match(/[a-z]/i)) {
-                toast.error("El número de teléfono no puede contener letras");
-                return;
-            }
-
             this.loadingSubmit = true;
             const loadingToast = toast.loading("Espere un momento...");
 
-            await newUserProxy.solicitud(this.modelo)
+            await newUserProxy.recovery(this.modelo)
                 .then((response) => {
                     const toastMessage = response.STATUS ? "Revise su correo para la confirmación" : response.MESSAGE;
                     if (response.STATUS) {

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 class MagistradoProxy {
-    async list(model) {
-        const { data } = await axios.get(`/admin/magistrados/list`, {
+    async list(model, ESTADO = 1) {
+        const { data } = await axios.get(`/admin/magistrados/list?ESTADO=${ESTADO}`, {
             params: model
         });
         return data;

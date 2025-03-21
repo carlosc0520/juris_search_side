@@ -54,11 +54,6 @@ export default {
   font-size: 28px;
 }
 
-
-body {
-  background-color: #f9fafb !important;
-}
-
 :root {
   --azul-primary: #1764ffff;
   --lila-primary: #e81eb2ff;

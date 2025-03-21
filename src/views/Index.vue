@@ -1,65 +1,45 @@
 <template>
-  <div class="bg-blueGray-100">
+  <div>
     <index-navbar />
-    <section class="mt-10 md:mt-5 header relative bg-blueGray-100 items-center flex container-h-screen h-screen max-h-860-px">
-      <div class="container mx-auto items-center  flex flex-wrap" style="z-index: 10;">
-        <div class="container-text w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4">
-          <div id="container-fluid-img" class="pt-32 sm:pt-0">
-            <h2 class="font-semibold text-4xl text-blueGray-600">
-              El mejor buscador de jurisprudencia y legislación Peruana
-            </h2>
-            <p class="mt-4 text-lg leading-relaxed text-blueGray-500">
-              Juris Search es una herramienta tecnológica online diseñada para facilitar la búsqueda y consulta de
-              jurisprudencia en materia penal, especialmente, en derecho penal económico y de la empresa. Contamos con
-              una base completa y actualizada de jurisprudencia nacional sobre compliance y responsabilidad de personas
-              jurídicas.
-            </p>
-            <div class="mt-12 flex md:flex-row flex-col gap-4">
-              <button onclick="window.location='#mi-seccion'" style="cursor: pointer" class=" text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 
-                bg-app-primary
-                uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150">
-                Adquirir Plan
-              </button>
-              <button onclick="window.location='#mi-nosotros'" style="cursor: pointer!important" class="github-star ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 hover:bg-blueGray-600 
-                uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150" target="_blank">
-                Sobre Nosotros
+    <div :style="{ backgroundImage: `url(${portada})` }" class="relative d-flex bg-contain bg-no-repeat lg:bg-cover lg:bg-center">
+      <div class="degradado"></div>
+      <div class="m-auto container z-2 py-40">
+        <div class="row">
+          <div class="col">
+            <h1>Encuentra en segundos la <span class="text-duo font-bold">jurisprudencia</span> y <span class="text-duo font-bold">legislación</span> peruana que buscas</h1>
+            <span>Consulta jurisprudencia penal en esta herramienta online</span>
+            <div class="pt-5">
+              <button onclick="window.location='#mi-seccion'"
+                class="bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150">
+                Pruébalo gratis
               </button>
             </div>
           </div>
+          <div class="col">
+          </div>
         </div>
       </div>
-  
-      <img id="img-inicio"
-        class="imagen-logo-main absolute top-0 b-auto right-0 pt-16 sm:w-3/12 -mt-48 sm:mt-0 w-5/12 max-h-860-px"
-        :src="patternVue" alt="..." />
+    </div>
+
+    <div class="mt-20"></div>
+    <section class="background-custom relative">
+      <div class="container-custom mx-auto px-lg-5">
+        <p class="text-duo text-2xl text-center">
+          Juris Search es una herramienta tecnológica online diseñada para facilitar la búsqueda y consulta de jurisprudencia en materia penal, especialmente, en derecho penal <br /> económico y de la empresa.
+        </p>
+      </div>
+      <div class="m-auto image-container">
+        <img :src="screen" alt="imagen-1" class="w-full image-outside mx-auto" style="transform: translateY(100px); width: 80%; z-index: 5" />
+      </div>
     </section>
 
-    <section class="md:mt-10 container-mision-v  relative bg-blueGray-100">
+
+    <section class="mt-20 container-mision-v relative">
+      <div class="mx-auto container pt-5">
+        <h2 class="text-center">Conoce <span class="text-blue-500">nuestro próposito</span></h2>
+      </div>
       <div class="container mx-auto">
         <div class="flex flex-wrap items-center">
-          <!-- <div class="animation-r-l w-12/12 md:w-8/12 lg:w-12/12 px-12 md:px-4 mr-auto ml-auto -mt-32">
-            <div :class="[
-              'relative flex flex-row min-w-0 break-words w-full mb-6 shadow-lg rounded-lg',
-            ]">
-              <div class="w-full md:w-5/12 flex flex-col align-items-center justify-center">
-                <img :alt="currentNoticia.TITULO" :src="currentNoticia?.IMAGEN2 || 'https://via.placeholder.com/300'"
-                  class="align-middle rounded-t-lg  h-auto"
-                  width="300" 
-                  />
-              </div>
-              <blockquote 
-              :style="currentIndex % 2 === 0 ? 'background-color: var(--azul-primary-b)' : 'background-color: var(--lila-primary-b)'"
-              class="p-4 flex flex-col align-items-center w-full md:w-7/12 justify-center">
-                <h4 class="text-xl font-bold text-black">
-                  {{ currentNoticia.TITULO }}
-                </h4>
-                <p class="text-md mt-2 text-primary-p">
-                  {{ currentNoticia.DESCRIPCION }}
-                </p>
-              </blockquote>
-            </div>
-          </div> -->
-
           <div class="w-full md:w-12/12 px-4 img-container">
             <div class="flex flex-wrap">
               <div class="w-full-container md:w-6/12 px-4">
@@ -67,14 +47,14 @@
                   <div class="px-4 py-5 flex-auto container-valor">
                     <div class="container-imagen flex md:justify-start justify-center">
                       <div
-                        class="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
+                        class="mb-3">
                         <img :src="visionVue" alt="vision" />
                       </div>
                     </div>
-                    <h6 class="sm-text-center text-xl mb-1 font-semibold">
+                    <h6 class="sm-text-center text-xl mb-2 font-semibold text-blue-500">
                       Visión
                     </h6>
-                    <p class="mb-4 text-blueGray-500">
+                    <p class="mb-4 font-light">
                       Brindar a nuestros usuarios una plataforma digital intuitiva, completa y actualizada, que facilite
                       la consulta y búsqueda de jurisprudencia nacional y extranjera en derecho penal económico y de la
                       empresa.
@@ -88,14 +68,14 @@
                   <div class="px-4 py-5 flex-auto container-valor">
                     <div class="container-imagen flex  md:justify-start justify-center">
                       <div
-                        class="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
+                        class="mb-3">
                         <img :src="misionVue" alt="mision" />
                       </div>
                     </div>
-                    <h6 class="sm-text-center text-xl mb-1 font-semibold">
+                    <h6 class="sm-text-center text-xl mb-1 font-semibold text-blue-500">
                       Misión
                     </h6>
-                    <p class="mb-4 text-blueGray-500">
+                    <p class="mb-4 font-light">
                       Ser la herramienta digital líder en consulta y búsqueda de jurisprudencia en derecho penal
                       económico y de la empresa en Perú.
                     </p>
@@ -104,130 +84,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="pb-5 relative block bg-blueGray-100">
-      <div class="container mx-auto px-4 lg:pt-16 lg:pb-20">
-        <div class="animation-b-t flex flex-wrap text-center justify-center">
-          <div class="w-full lg:w-6/12 px-4 md:mt-5">
-            <h2 class="h2-init text-4xl font-semibold text-black">
-              Nuestros Valores
-            </h2>
-            <p class="text-lg leading-relaxed mt-4 mb-4 text-blueGray-500">
-              <!-- En nuestra firma de abogados, valoramos la ética, la transparencia y la confianza. Defendemos la justicia
-              con compromiso y responsabilidad. -->
-            </p>
-          </div>
-        </div>
-
-        <div class="flex flex-wrap mt-12 justify-center">
-          <div class="animation-b-t w-full lg:w-4/12 px-4 text-center">
-            <div
-              class="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
-              <svg data-v-577fd2ee="" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24"
-                stroke-width="1.5" stroke="#1660ff" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icon-tabler-accessible">
-                <path data-v-577fd2ee="" stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path data-v-577fd2ee="" d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
-                <path data-v-577fd2ee="" d="M10 16.5l2 -3l2 3m-2 -3v-2l3 -1m-6 0l3 1"></path>
-                <circle data-v-577fd2ee="" cx="12" cy="7.5" r=".5" fill="currentColor"></circle>
-              </svg>
-            </div>
-            <h6 class="text-xl mt-5 text-blueGray-500 font-semibold text-black">
-              Accesibilidad
-            </h6>
-            <p class="mt-2 mb-4 text-blueGray-500">
-              Promovemos el libre acceso a la información judicial.
-            </p>
-          </div>
-
-          <div class="animation-b-t w-full lg:w-4/12 px-4 text-center">
-            <div
-              class="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
-              <svg data-v-577fd2ee="" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24"
-                stroke-width="1.5" stroke="#1660ff" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icon-tabler-transfer">
-                <path data-v-577fd2ee="" stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path data-v-577fd2ee="" d="M20 10h-16l5.5 -6"></path>
-                <path data-v-577fd2ee="" d="M4 14h16l-5.5 6"></path>
-              </svg>
-            </div>
-            <h6 class="text-xl mt-5 text-blueGray-500 font-semibold text-black">
-              Transparencia
-            </h6>
-            <p class="mt-2 mb-4 text-blueGray-500">
-              Ofrecemos información judicial precisa, clara y confiable.
-            </p>
-          </div>
-
-          <div class="animation-b-t w-full lg:w-4/12 px-4 text-center">
-            <div
-              class="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
-              <svg data-v-577fd2ee="" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24"
-                stroke-width="1.5" stroke="#1660ff" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icon-tabler-code-circle">
-                <path data-v-577fd2ee="" stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path data-v-577fd2ee="" d="M10 14l-2 -2l2 -2"></path>
-                <path data-v-577fd2ee="" d="M14 10l2 2l-2 2"></path>
-                <path data-v-577fd2ee="" d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
-              </svg>
-            </div>
-            <h6 class="text-xl mt-5 text-blueGray-500 font-semibold text-black">
-              Innovación
-            </h6>
-            <p class="mt-2 mb-4 text-blueGray-500">
-              Nuestras herramientas digitales mejoran continuamente para favorecer la experiencia del usuario.
-            </p>
-          </div>
-
-          <div class="animation-b-t w-full lg:w-4/12 px-4 text-center">
-            <div
-              class="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
-              <svg data-v-577fd2ee="" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24"
-                stroke-width="1.5" stroke="#1660ff" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icon-tabler-users-group">
-                <path data-v-577fd2ee="" stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path data-v-577fd2ee="" d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
-                <path data-v-577fd2ee="" d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1"></path>
-                <path data-v-577fd2ee="" d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
-                <path data-v-577fd2ee="" d="M17 10h2a2 2 0 0 1 2 2v1"></path>
-                <path data-v-577fd2ee="" d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
-                <path data-v-577fd2ee="" d="M3 13v-1a2 2 0 0 1 2 -2h2"></path>
-              </svg>
-            </div>
-            <h6 class="text-xl mt-5 text-blueGray-500 font-semibold text-black">
-              Colaboración
-            </h6>
-            <p class="mt-2 mb-4 text-blueGray-500">
-              Unimos expertos en derecho, tecnología y gestión de la información.
-            </p>
-          </div>
-
-          <div class="animation-b-t w-full lg:w-4/12 px-4 text-center">
-            <div
-              class="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
-              <svg data-v-577fd2ee="" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24"
-                stroke-width="1.5" stroke="#1660ff" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icon-tabler-checklist">
-                <path data-v-577fd2ee="" stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path data-v-577fd2ee="" d="M9.615 20h-2.615a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8">
-                </path>
-                <path data-v-577fd2ee="" d="M14 19l2 2l4 -4"></path>
-                <path data-v-577fd2ee="" d="M9 8h4"></path>
-                <path data-v-577fd2ee="" d="M9 12h2"></path>
-              </svg>
-            </div>
-            <h6 class="text-xl mt-5 text-blueGray-500 font-semibold text-black">
-              Compromiso ético
-            </h6>
-            <p class="mt-2 mb-4 text-blueGray-500">
-              Contribuimos al fortalecimiento del Estado de Derecho y a la construcción de una sociedad más justa
-              mediante el libre y fácil acceso a la información judicial
-            </p>
-          </div>
-
         </div>
       </div>
     </section>
@@ -510,8 +366,10 @@ import { toast } from 'vue3-toastify';
 import IndexNavbar from "@/components/Navbars/IndexNavbar.vue";
 import FooterComponent from "@/components/Footers/Footer.vue";
 import patternVue from "@/assets/img/resources/imagen.png";
-import misionVue from "@/assets/img/resources/mision.png";
-import visionVue from "@/assets/img/resources/vision.png";
+import misionVue from "@/assets/img/resources/Arrow.png";
+import visionVue from "@/assets/img/resources/Show.png";
+import portada from "@/assets/img/resources/portada-inicio.jpg";
+import screen from "@/assets/img/resources/screen-inicio.png";
 
 
 // * PROXIES
@@ -533,6 +391,8 @@ export default {
       currentIndex: 0,
       misionVue,
       visionVue,
+      portada,
+      screen,
       modelo: {
         NOMBRES: null,
         CORREO: null,

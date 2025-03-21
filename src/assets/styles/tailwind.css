@@ -1546,6 +1546,26 @@ video {
   padding-bottom: 6rem;
 }
 
+.py-28 {
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+
+.py-32 {
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+
+.py-36 {
+  padding-top: 9rem;
+  padding-bottom: 9rem;
+}
+
+.py-40 {
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+}
+
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -2396,5 +2416,20 @@ video {
 
   .xl\:w-8\/12 {
     width: 66.666667%;
+  }
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+}
+
+@media (min-width: 1024px) { /* lg breakpoint */
+  .lg\:bg-cover {
+    background-size: cover !important;
+  }
+  
+  .lg\:bg-center {
+    background-position: center !important;
   }
 }

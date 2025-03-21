@@ -1,5 +1,48 @@
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
+
+body {
+    background-color: #FFF !important;
+}
+
+.frame-getPremium {
+    gap: 10px;
+    background: linear-gradient(90deg, rgba(231, 31, 179, 1) 0%, rgba(24, 100, 255, 1) 100%);
+}
+
+.bg-duo {
+    background: linear-gradient(90deg, rgba(231, 31, 179, 1) 0%, rgba(24, 100, 255, 1) 100%);
+}
+
+.text-duo {
+    background: linear-gradient(90deg, rgba(231, 31, 179, 1) 0%, rgba(24, 100, 255, 1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.degradado {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(to right, white 30%, rgba(255, 255, 255, 0.8) 50%, transparent 100%);
+  z-index: 1;
+}
+
+.background-custom {
+  background-image: url('../../assets/img/resources/background-inicio.png');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+.container-custom {
+    max-width: 840px;
+}
+
+.image-outside {
+  display: block;
+  position: relative;
+}

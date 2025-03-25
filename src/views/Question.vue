@@ -1,8 +1,8 @@
 <template>
     <div>
-        <navbar />
+        <navbar v-if="!resumeSection" />
         <main>
-            <div class="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
+            <div v-if="!resumeSection" class="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
                 <div class="absolute top-0 w-full h-full bg-center bg-cover"
                     :style="{ backgroundImage: 'url(' + questionResource + ')', backgroundSize: 'cover', backgroundPosition: 'center' }">
                     <span id="blackOverlay" class="w-full h-full absolute opacity-75 bg-black"></span>
@@ -30,15 +30,16 @@
                     </svg>
                 </div>
             </div>
-            <section class="mt-4 bg-blueGray-100 -mt-24 py-24">
+            <section :class="{'mt-4 -mt-24 py-24': !resumeSection }">
                 <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
 
-                <div class="container mx-auto px-4">
+                <div :class="{'container mx-auto px-4': !resumeSection }">
                     <div class="flex flex-wrap">
                         <div class="container relative mx-auto aparecer-r-to-l">
-                            <div class="content-title-question" v-for="pregunta in preguntas" :key="pregunta.ID">
+                            <div class="content-title-question" v-for="pregunta in (resumeSection ? preguntas.slice(0, 3) : preguntas)" :key="pregunta.ID">
                                 <button @click="togglePregunta(pregunta.ID)"
-                                    class="flex justify-between items-center w-full p-4 bg-blueGray-100 text-left rounded-lg focus:outline-none font-bold sm:text-sm md:text-base lg:text-lg text-blueGray-800 hover:bg-white hover:text-blueGray-800">
+                                    class="flex justify-between items-center w-full text-left rounded-lg focus:outline-none font-bold sm:text-sm md:text-base lg:text-lg text-blueGray-800 hover:bg-white hover:text-blueGray-800"
+                                    :class="!resumeSection ? 'p-4' : 'py-10'">
                                     <span>{{ pregunta?.DESCRIPCION || "" }}</span>
                                     <i v-if="isOpen(pregunta.ID)" class="fas fa-chevron-up"></i>
                                     <i v-else class="fas fa-chevron-down"></i>
@@ -58,7 +59,7 @@
 
 
         </main>
-        <footer-component />
+        <footer-component v-if="!resumeSection" />
     </div>
 </template>
 <script>
@@ -75,6 +76,9 @@ import LoginProxy from "../proxies/LoginProxy";
 import { toast } from 'vue3-toastify';
 
 export default {
+    props: {
+        resumeSection: Boolean,
+    },
     data() {
         return {
             team1,

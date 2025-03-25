@@ -1529,6 +1529,31 @@ video {
   padding-bottom: 0.25rem;
 }
 
+.py-4-tw {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.py-5-tw {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.py-6-tw {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.py-7-tw {
+  padding-top: 1.75rem;
+  padding-bottom: 1.75rem;
+}
+
+.py-8-tw {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .py-10 {
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;

@@ -261,6 +261,84 @@
       <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
     </section> -->
 
+    <section class="relative block" id="mi-nosotros">
+      <div class="animation-b-t mt-0 container mx-auto px-4 lg:pt-24">
+        <h2>Resolvemos tus <span class="text-primary">preguntas frecuentes</span></h2>
+      </div>
+
+      <div class="m-auto container z-2">
+        <div class="row">
+          <div class="col">
+            <img :src="preguntasFrecuentes" alt="imagen-1" class="w-full image-outside mx-auto" />
+          </div>
+          <div class="col bg-white py-0 my-0">
+            <Question :resumeSection="true" />
+            <router-link to="/questions" class="d-inline-flex border border-primary rounded-full px-4 py-3">
+              Ver más preguntas frecuentes
+              <img :src="nextIcon" alt="next-icon" class="ms-2" />
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-4 pt-5 mt-5 bg-comments" :style="{ backgroundImage: `url(${bgComments})` }" id="mi-seccion">
+      <div id="pricing" class="py-6 px-6 mb-0 lg:px-20 my-2 md:my-6">
+        <div class="text-center mb-6">
+          <h2>Lo que <span class="text-primary">nuestros usuarios dicen</span></h2> 
+        </div>
+
+        <div class="container mx-auto">
+          <Carousel
+            :breakpoints="carouselConfig.breakpoints"
+            :wrap-around="carouselConfig.wrapAround"
+            :autoplay="carouselConfig.autoplay"
+            :settings="{ navigationEnabled: true }"
+          >
+            <Slide v-for="comment in comments" :key="comment.id">
+              <div class="flex justify-center p-3">
+                <div class="bg-white text-center p-6 rounded-xl shadow" style="max-width: 400px;">
+                  <img :src="comment.image" class="w-20 h-20 rounded-full mx-auto mb-4" />
+                  <p class="text-gray-600 text-sm mb-4">
+                    {{ comment.text }}
+                  </p>
+                  <h3 class="text-lg font-semibold text-gray-900">{{ comment.name }}</h3>
+                  <p class="text-blue-600 font-medium">{{ comment.profession }}</p>
+                </div>
+              </div>
+            </Slide>
+
+            <template #addons>
+              <CarouselNavigation>
+                <template #prev>
+                  <button class="p-2 bg-gray-200 rounded-full hover:bg-gray-300">
+                    <img :src="leftArrow" alt="left-arrow" class="w-5 h-5" />
+                  </button>
+                </template>
+                <template #next>
+                  <button class="p-2 bg-gray-200 rounded-full hover:bg-gray-300">
+                    <img :src="rightArrow" alt="right-arrow" class="w-5 h-5" />
+                  </button>
+                </template>
+              </CarouselNavigation>
+            </template>
+          </Carousel>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-dark">
+      <div class="container-custom mx-auto p-5">
+        <div class="flex flex-column gap-2 p-3">
+          <h2 class="text-center text-white">¿Necesitas ayuda? Contáctanos y con gusto atenderemos tu consulta</h2>
+          <router-link to="/"
+            class="m-auto bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">
+            Contáctanos ahora
+          </router-link>
+        </div>
+      </div>
+    </section>
+
     <footer-component />
   </div>
 </template>
@@ -275,6 +353,10 @@ import beneficioBg3 from "@/assets/img/resources/beneficios-bg-card-3.png";
 import leftArrow from "@/assets/img/resources/left-arrow.png";
 import rightArrow from "@/assets/img/resources/right-arrow.png";
 import corona from "@/assets/img/resources/Corona.png";
+import preguntasFrecuentes from "@/assets/img/resources/preguntas-frecuentes.png";
+import nextIcon from "@/assets/img/resources/next-icon.png";
+import userExample from "@/assets/img/resources/user-example.png";
+import bgComments from "@/assets/img/resources/bg-comments.png";
 import { Validator } from 'simple-vue-validator';
 import { toast } from 'vue3-toastify';
 import { Carousel, Slide, Navigation as CarouselNavigation } from 'vue3-carousel';
@@ -295,6 +377,7 @@ import LoginProxy from "@/proxies/LoginProxy";
 import SettingsProxy from "@/proxies/SettingsProxy.js";
 import MantenimientoProxy from "@/proxies/MantenimientoProxy.js";
 import ModalCrearUsuario from "./Modales/ModalCrearUsuario.vue";
+import Question from "./Question.vue";
 
 export default {
   data() {
@@ -349,9 +432,22 @@ export default {
           text: "Análisis crítico",
         },
       ],
+      comments: [
+        {
+          id: 1,
+          image: userExample,
+          text: "Lorem ipsum dolor sit amet consectetur. Vulputate integer enim nunc fringilla risus id volutpat.",
+          name: "Martín",
+          profession: "Ingeniero Civil",
+        },
+      ],
       leftArrow,
       rightArrow,
-      corona
+      corona,
+      preguntasFrecuentes,
+      nextIcon,
+      userExample,
+      bgComments
     };
   },
   validators: {
@@ -374,7 +470,8 @@ export default {
     ModalCrearUsuario,
     Carousel,
     CarouselNavigation,
-    Slide
+    Slide,
+    Question
   },
   computed: {
     currentNoticia() {
@@ -746,6 +843,11 @@ export default {
 
 .next-button {
   right: -30px; /* Ajusta la posición derecha */
+}
+
+.bg-comments {
+  background-size: cover;
+  background-position: center top;
 }
 
 </style>

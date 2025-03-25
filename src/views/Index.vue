@@ -38,6 +38,16 @@
       <div class="mx-auto container pt-5">
         <h2 class="text-center">Conoce <span class="text-blue-500">nuestro próposito</span></h2>
       </div>
+      <div class="pt-5 mx-auto container text-center">
+        <button
+          class="button-duo font-bold rounded-full px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150 shadow">
+          <span class="text-duo">Quienes somos</span>
+        </button>
+        <button
+          class="btn ms-4 font-bold px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150 border-0">
+          Nuestros valores
+        </button>
+      </div>
       <div class="container mx-auto">
         <div class="flex flex-wrap items-center">
           <div class="w-full md:w-12/12 px-4 img-container">
@@ -88,144 +98,95 @@
       </div>
     </section>
 
-    <section class="pb-20 relative block bg-blueGray-800" id="mi-nosotros">
-      <div class="animation-b-t mt-0 container mx-auto px-4 lg:pt-24 lg:pb-64">
-        <div class="flex flex-wrap text-center justify-center">
-          <div class="w-full lg:w-6/12 px-4 md:mt-5">
-            <h2 class="h2-init text-4xl font-semibold text-white font-bold">
-              QUE OFRECEMOS
-            </h2>
-            <p class="text-lg leading-relaxed mt-4 mb-4 text-blueGray-400">
-              <!-- Como empresa de tecnología, ofrecemos soluciones digitales innovadoras para el sector legal. Nuestro -->
-            </p>
-          </div>
-        </div>
-
-        <div class="flex flex-wrap mt-12 justify-center">
-          <div class="animation-b-t w-full lg:w-4/12 px-4 text-center">
-            <div
-              class="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
-              <svg data-v-577fd2ee="" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24"
-                stroke-width="1.5" stroke="#1660ff" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icon-tabler-database-star">
-                <path data-v-577fd2ee="" stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path data-v-577fd2ee="" d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3">
-                </path>
-                <path data-v-577fd2ee="" d="M4 6v6c0 1.43 2.67 2.627 6.243 2.927"></path>
-                <path data-v-577fd2ee="" d="M20 10.5v-4.5"></path>
-                <path data-v-577fd2ee="" d="M4 12v6c0 1.546 3.12 2.82 7.128 2.982"></path>
-                <path data-v-577fd2ee=""
-                  d="M17.8 20.817l-2.172 1.138a.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a.39 .39 0 0 1 -.567 .411l-2.172 -1.138z">
-                </path>
-              </svg>
+    <section class="relative block" id="mi-nosotros">
+      <div class="animation-b-t mt-0 container mx-auto px-4 lg:pt-24">
+        <h2>Lo que te <span class="text-primary">ofrecemos</span></h2>
+        <Carousel :breakpoints="carouselConfig.breakpoints" :wrap-around="carouselConfig.wrapAround" :autoplay="carouselConfig.autoplay" :settings="{ navigationEnabled: true }">
+          <Slide v-for="slide in slides" :key="slide.id">
+            <div class="slide-content">
+              <img :src="slide.image" class="slide-image" />
+              <div class="overlay"></div>
+              <p class="slide-text">{{ slide.text }}</p>
             </div>
-            <h6 class="text-xl mt-5 font-semibold text-white">
-              Base de datos actualizada
-            </h6>
-            <p class="mt-2 mb-4 text-blueGray-400">
-              Amplia colección de resoluciones y sentencias sobre la materia.
-            </p>
-          </div>
+          </Slide>
 
-          <div class="animation-b-t w-full lg:w-4/12 px-4 text-center">
-            <div
-              class="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
-              <svg data-v-577fd2ee="" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24"
-                stroke-width="1.5" stroke="#1660ff" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icon-tabler-device-desktop-search">
-                <path data-v-577fd2ee="" stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path data-v-577fd2ee="" d="M11.5 16h-7.5a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v6.5">
-                </path>
-                <path data-v-577fd2ee="" d="M7 20h4"></path>
-                <path data-v-577fd2ee="" d="M9 16v4"></path>
-                <path data-v-577fd2ee="" d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
-                <path data-v-577fd2ee="" d="M20.2 20.2l1.8 1.8"></path>
-              </svg>
-            </div>
-            <h5 class="text-xl mt-5 font-semibold text-white">
-              Búsqueda avanzada
-            </h5>
-            <p class="mt-2 mb-4 text-blueGray-400">
-              Herramienta tecnológica de búsqueda avanzada que permite filtrar jurisprudencia específica de manera
-              rápida y eficiente.
-            </p>
-          </div>
-
-          <div class="animation-b-t w-full lg:w-4/12 px-4 text-center">
-            <div
-              class="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
-              <svg data-v-577fd2ee="" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24"
-                stroke-width="1.5" stroke="#1660ff" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icon-tabler-brand-google-analytics">
-                <path data-v-577fd2ee="" stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path data-v-577fd2ee=""
-                  d="M10 9m0 1.105a1.105 1.105 0 0 1 1.105 -1.105h1.79a1.105 1.105 0 0 1 1.105 1.105v9.79a1.105 1.105 0 0 1 -1.105 1.105h-1.79a1.105 1.105 0 0 1 -1.105 -1.105z">
-                </path>
-                <path data-v-577fd2ee=""
-                  d="M17 3m0 1.105a1.105 1.105 0 0 1 1.105 -1.105h1.79a1.105 1.105 0 0 1 1.105 1.105v15.79a1.105 1.105 0 0 1 -1.105 1.105h-1.79a1.105 1.105 0 0 1 -1.105 -1.105z">
-                </path>
-                <path data-v-577fd2ee="" d="M5 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-              </svg>
-            </div>
-            <h5 class="text-xl mt-5 font-semibold text-white">
-              Análisis crítico
-            </h5>
-            <p class="mt-2 mb-4 text-blueGray-400">
-              Comentarios de expertos acerca de las decisiones judiciales más relevantes, que proporcionan contexto y
-              claridad.
-            </p>
-          </div>
-
-          <div class="animation-b-t w-full lg:w-4/12 px-4 text-center">
-            <div
-              class="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
-              <svg data-v-577fd2ee="" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24"
-                stroke-width="1.5" stroke="#1660ff" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icon-tabler-refresh">
-                <path data-v-577fd2ee="" stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path data-v-577fd2ee="" d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"></path>
-                <path data-v-577fd2ee="" d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path>
-              </svg>
-            </div>
-            <h5 class="text-xl mt-5 font-semibold text-white">
-              Continua actualización
-            </h5>
-            <p class="mt-2 mb-4 text-blueGray-400">
-              Plataforma actualizada constantemente.
-            </p>
-          </div>
-
-          <div class="animation-b-t w-full lg:w-4/12 px-4 text-center">
-            <div
-              class="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
-              <svg data-v-577fd2ee="" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24"
-                stroke-width="1.5" stroke="#1660ff" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icon-tabler-artboard">
-                <path data-v-577fd2ee="" stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path data-v-577fd2ee=""
-                  d="M8 8m0 1a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1z"></path>
-                <path data-v-577fd2ee="" d="M3 8l1 0"></path>
-                <path data-v-577fd2ee="" d="M3 16l1 0"></path>
-                <path data-v-577fd2ee="" d="M8 3l0 1"></path>
-                <path data-v-577fd2ee="" d="M16 3l0 1"></path>
-                <path data-v-577fd2ee="" d="M20 8l1 0"></path>
-                <path data-v-577fd2ee="" d="M20 16l1 0"></path>
-                <path data-v-577fd2ee="" d="M8 20l0 1"></path>
-                <path data-v-577fd2ee="" d="M16 20l0 1"></path>
-              </svg>
-            </div>
-            <h5 class="text-xl mt-5 font-semibold text-white">
-              Interfaz Amigable
-            </h5>
-            <p class="mt-2 mb-4 text-blueGray-400">
-              Diseño intuitivo y de fácil uso para la búsqueda y consulta de documentos jurídicos.
-            </p>
-          </div>
-        </div>
+          <template #addons>
+            <CarouselNavigation>
+              <template #prev>
+                <button>
+                  <img :src="leftArrow" alt="left-arrow" />
+                </button>
+              </template>
+              <template #next>
+                <button>
+                  <img :src="rightArrow" alt="left-arrow" />
+                </button>
+              </template>
+            </CarouselNavigation>
+          </template> 
+        </Carousel>
       </div>
     </section>
 
-    <section class="container-contactanos relative block py-24 lg:pt-0 bg-blueGray-800">
+    <section class="py-4 pt-3" id="mi-seccion">
+      <div id="pricing" class="py-6 px-6 mb-0 lg:px-20 my-2 md:my-6">
+        <div class="text-center mb-6">
+          <h2>Nuestros <span class="text-primary">planes</span></h2> 
+          <span class="text-muted-color text-md">
+            Elige el plan que mejor se adapte a tus necesidades
+          </span>
+        </div>
+
+        <div class="row flex flex-wrap justify-center gap-4 flex-row-reverse pt-4">
+          <div class="bg-white col-md-3 col-sm-12 p-0 md:p-4 card-price border hover:border-primary rounded-3xl overflow-hidden" :class="{ 'scale-custom ms-3 border-primary': plan?.DESCRIPCION === 'PREMIUN' }"
+            style="width: auto;;height: auto;" v-for="plan in planes" :key="plan.id">
+            <div class="text-center p-3 text-primary" :class="{ 'bg-duo text-white': plan?.DESCRIPCION === 'PREMIUN' }">Plan {{ plan?.DESCRIPCION === 'PREMIUN' ? "popular" : "básico" }}</div>
+            <div
+              class="p-4 flex flex-col border-surface-200 dark:border-surface-600 pricing-card cursor-pointer duration-300 transition-all"
+              style="border-radius: 10px; max-width: 300px;">
+              <div class="flex justify-center items-center gap-2">
+                <div v-if="plan?.DESCRIPCION === 'PREMIUN'">
+                  <img :src="corona" />
+                </div>
+                <div class="text-surface-900 dark:text-surface-0 text-center font-bold text-capitalize">
+                  {{ capitalizeFirst(plan?.DESCRIPCION) }}
+                </div>
+              </div>
+              <div class="mb-8 flex flex-col items-center gap-4">
+                <div class="flex items-center">
+                  <span>S/</span>
+                  <span class="text-5xl font-bold mr-2 mt-3 text-surface-900 dark:text-surface-0">
+                    {{ plan?.PRECIO || "" }}
+                  </span> 
+                </div>
+              </div>
+              <button @click="goToPlan(plan)" class="btn btn-outline-primary py-3" style="border-radius: 30px" :class="{ 'shadow-lg pink-button text-white border-0': plan?.DESCRIPCION === 'PREMIUN' }">
+                {{ plan?.DESCRIPCION === 'PREMIUN' ? "Adquirir Plan" : "Probar gratis" }}
+              </button>
+              <ul
+                class="my-8 mt-3 list-none p-0 flex text-surface-900 dark:text-surface-0 flex-col px-8 ul-list-details">
+                <li class="py-2" v-for="restriccion in plan.RESTRICIONES" :key="restriccion">
+                  <i class="fa fa-check text-primary mr-2"></i>
+                  <span class="leading-normal">
+                    {{ restriccion }}
+                  </span>
+                </li>
+              </ul>
+              <hr class="bg-dark mx-auto" />
+              <div class="flex gap-2 mt-3 text-xs text-secondary">
+                <span>*</span>
+                <p>El usuario {{ plan?.DESCRIPCION === 'PREMIUN' ? "Premiun" : "Free" }} sólo podrá hacer uso <b class="pink-text">limitado</b> de {{ plan?.DESCRIPCION === 'PREMIUN' ? "todos" : "los" }} documentos de resoluciones y sentencias.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ModalCrearUsuario :show="modalCrearUsuario.show" :close="() => modalCrearUsuario.show = false"
+        :update="() => { }" />
+    </section>
+
+    <!-- <section class="container-contactanos relative block py-24 lg:pt-0 bg-blueGray-800">
       <div class="container mx-auto px-4">
         <div class="flex flex-wrap justify-center lg:-mt-64 -mt-32">
           <div class="contactos-container w-full lg:w-6/12 px-4">
@@ -298,57 +259,7 @@
         </div>
       </div>
       <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
-    </section>
-
-    <section class="py-4 pt-3" id="mi-seccion">
-      <div id="pricing" class="py-6 px-6 mb-0 lg:px-20 my-2 md:my-6">
-        <div class="text-center mb-6">
-          <h2 class="h2-init text-4xl font-semibold text-black">
-            Nuestros Planes
-          </h2> <span class="text-muted-color text-2xl">
-            Elige el plan que mejor se adapte a tus necesidades
-          </span>
-        </div>
-
-        <div class="row flex flex-wrap justify-center gap-4">
-          <div class="bg-white col-md-3 col-sm-12 p-0 md:p-4 card-price border-2 hover:border-primary rounded"
-            style="width: auto;;height: auto;" v-for="plan in planes" :key="plan.id">
-            <div
-              class="p-4 flex flex-col border-surface-200 dark:border-surface-600 pricing-card cursor-pointer duration-300 transition-all"
-              style="border-radius: 10px">
-              <div class="text-uppercase text-surface-900 dark:text-surface-0 text-center my-8 text-3xl">
-                {{ plan?.DESCRIPCION || "" }}
-              </div>
-              <div class="my-8 flex flex-col items-center gap-4">
-                <div class="flex items-center">
-                  <span class="text-5xl font-bold mr-2 mt-3 text-surface-900 dark:text-surface-0">
-                    S/. {{ plan?.PRECIO || "" }}
-                  </span>
-                  <span class="text-surface-600 dark:text-surface-200">por mes</span>
-                </div>
-                <button @click="goToPlan(plan)" class="btn btn-create btn-hover-s">
-                  Empezar
-                </button>
-              </div>
-              <ul
-                class="my-8 mt-3 list-none p-0 flex text-surface-900 dark:text-surface-0 flex-col px-8 ul-list-details">
-                <li class="py-2" v-for="restriccion in plan.RESTRICIONES" :key="restriccion">
-                  <i class="fa fa-check text-primary mr-2"></i>
-                  <span class="text-xl leading-normal">
-                    {{ restriccion }}
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <ModalCrearUsuario :show="modalCrearUsuario.show" :close="() => modalCrearUsuario.show = false"
-        :update="() => { }" />
-
-
-    </section>
+    </section> -->
 
     <footer-component />
   </div>
@@ -358,9 +269,16 @@
 import login from "@/assets/img/login.jpg";
 import profile from "@/assets/img/profile.jpg";
 import landing from "@/assets/img/landing.jpg";
+import beneficioBg1 from "@/assets/img/resources/beneficios-bg-card-1.png";
+import beneficioBg2 from "@/assets/img/resources/beneficios-bg-card-2.png";
+import beneficioBg3 from "@/assets/img/resources/beneficios-bg-card-3.png";
+import leftArrow from "@/assets/img/resources/left-arrow.png";
+import rightArrow from "@/assets/img/resources/right-arrow.png";
+import corona from "@/assets/img/resources/Corona.png";
 import { Validator } from 'simple-vue-validator';
 import { toast } from 'vue3-toastify';
-
+import { Carousel, Slide, Navigation as CarouselNavigation } from 'vue3-carousel';
+import 'vue3-carousel/dist/carousel.css';
 
 // * USADOS
 import IndexNavbar from "@/components/Navbars/IndexNavbar.vue";
@@ -385,7 +303,6 @@ export default {
       login,
       profile,
       landing,
-
       // VARIABLES USADAS
       noticias: [],
       currentIndex: 0,
@@ -405,7 +322,36 @@ export default {
         data: null,
       },
       planes: [
-      ]
+      ],
+      carouselConfig: {
+        wrapAround: true,
+        autoplay: 5000,
+        breakpoints: {
+          320: { itemsToShow: 1 },
+          768: { itemsToShow: 2 },
+          1024: { itemsToShow: 3 },
+        },
+      },
+      slides: [
+        {
+          id: 1,
+          image: beneficioBg1,
+          text: "Base de datos actualizada",
+        },
+        {
+          id: 2,
+          image: beneficioBg2,
+          text: "Búsqueda avanzada",
+        },
+        {
+          id: 3,
+          image: beneficioBg3,
+          text: "Análisis crítico",
+        },
+      ],
+      leftArrow,
+      rightArrow,
+      corona
     };
   },
   validators: {
@@ -425,7 +371,10 @@ export default {
   components: {
     IndexNavbar,
     FooterComponent,
-    ModalCrearUsuario
+    ModalCrearUsuario,
+    Carousel,
+    CarouselNavigation,
+    Slide
   },
   computed: {
     currentNoticia() {
@@ -433,6 +382,10 @@ export default {
     }
   },
   methods: {
+    capitalizeFirst(text) {
+      if (!text) return "";
+      return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    },
     getNoticias() {
       LoginProxy.list({
         INIT: 0,
@@ -734,6 +687,65 @@ export default {
     opacity: 0.8;
     transform: translateX(0);
   }
+}
+
+:deep(.carousel__viewport) {
+  gap: 20px;
+}
+
+.slide-content {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  margin: 10px;
+}
+
+.slide-image {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+}
+
+.slide-text {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+  z-index: 2;
+}
+
+/* Botones de navegación */
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.prev-button {
+  left: -30px; /* Ajusta la posición izquierda */
+}
+
+.next-button {
+  right: -30px; /* Ajusta la posición derecha */
 }
 
 </style>

@@ -21,6 +21,24 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
+.button-duo {
+    position: relative;
+    display: inline-block;
+    background-color: white; /* Fondo del botón */
+}
+
+.button-duo::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: inherit;
+    background: linear-gradient(90deg, rgba(231, 31, 179, 1) 0%, rgba(24, 100, 255, 1) 100%);
+    z-index: -1; /* Coloca el borde detrás */
+}
+
 .degradado {
   position: absolute;
   top: 0;
@@ -45,4 +63,16 @@ body {
 .image-outside {
   display: block;
   position: relative;
+}
+
+.scale-custom {
+    transform: scale(1.1);
+}
+
+.pink-button {
+    background-color: #F13CCB !important;
+}
+
+.pink-text {
+    color: #F13CCB !important;
 }

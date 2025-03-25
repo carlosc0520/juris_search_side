@@ -14,6 +14,8 @@ import App from "@/App.vue";
 
 import Vue3Toastify from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
+import 'vue3-carousel/dist/carousel.css'
+
 
 import VueLoading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";

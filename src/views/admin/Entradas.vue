@@ -374,6 +374,7 @@ export default {
         recursos: [],
         materias: [],
         jurisdicion: [],
+        jurisdicionV: [],
       },
     };
   },
@@ -670,6 +671,7 @@ export default {
         let norma = !response?.TPONRMA ? [] : response?.TPONRMA?.split(",")?.map((item) => parseInt(item)) || [];
         let oemisor = !response?.OEMISOR ? [] : response?.OEMISOR?.split(",")?.map((item) => parseInt(item)) || [];
         let jurisdiccion = !response?.JURISDICCION ? [] : response?.JURISDICCION?.split(",")?.map((item) => parseInt(item)) || [];
+        let jurisdiccionV = !response?.JURISDICCIONV ? [] : response?.JURISDICCIONV?.split(",")?.map((item) => parseInt(item)) || [];
 
         if (!response?.ID) {
           toast.warning('No se encontraron datos para la entrada', { toastId: 'warning-entrie' });
@@ -705,6 +707,7 @@ export default {
           OEMISOR: oemisor,
           MATERIA: materias,
           JURISDICCION: jurisdiccion,
+          JURISDICCIONV: jurisdiccionV,
         };
 
         return retorno;
@@ -726,6 +729,7 @@ export default {
     // COMUN
     async getAllFilters() {
       try {
+        this.isLoading = true;
         const [magistradosResponse, filtersResponse, filtersResponse2] = await Promise.all([
           MagistradoProxy.list({ ROWS: 1000, INIT: 0, DESC: null, CESTDO: null }, 2),
           filterProxy.list({ NIVEL: 5, CESTDO: ""}, "1", 2),
@@ -745,6 +749,7 @@ export default {
           const recursos = this.configFilter(filtersResponse, "TIPO DE RECURSO");
           const materias = this.configFilter(filtersResponse, "MATERIA");
           const jurisdicion = this.configFilter(filtersResponse, "JURISDICCIÓN");
+          const jurisdicionV = this.configFilter(filtersResponse, "JURISPRUDENCIA VINCULANTE");
 
           this.selects.ambitos = this.mapNivel(ambitos?.NIVEL_2);
           this.selects.jurisdiccionales = this.mapNivel(jurisdiccionales?.NIVEL_2);
@@ -752,6 +757,7 @@ export default {
           this.selects.recursos = this.mapNivel(recursos?.NIVEL_2);
           this.selects.materias = this.mapNivel(materias?.NIVEL_2);
           this.selects.jurisdicion = this.mapNivel(jurisdicion?.NIVEL_2);
+          this.selects.jurisdicionV = this.mapNivel(jurisdicionV?.NIVEL_2);
         }
 
 
@@ -762,10 +768,14 @@ export default {
           let oemisor = this.configFilter(filtersResponse2, "ÓRGANO EMISOR");
           this.selects.oemisor = this.mapNivel(oemisor?.NIVEL_2);
         }
+        
 
       } catch (error) {
         toast.error(error?.MESSAGE || 'Error al cargar los datos', { toastId: 'error-filters' });
         this.selects.magistrados = [];
+      }
+      finally {
+        this.isLoading = false;
       }
     },
     mapNivel(nivel) {

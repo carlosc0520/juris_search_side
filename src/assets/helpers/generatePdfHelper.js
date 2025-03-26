@@ -7,6 +7,7 @@ import timesNewRomanItalics from "../../assets/timesItalics.js";
 
 class createPDFHelper {
   async generate(data) {
+    console.log(data)
     try {
       let margin = [40, 10, 40, 10];
       let totalPages = 0;
@@ -78,7 +79,7 @@ class createPDFHelper {
               {
                 image: recursos.botonDescargarResolucion,
                 width: 120,
-                link: 'https://jurissearch.com/',
+                link: 'https://api.jurissearch.com/login/download-file?PATH=' + data?.ENTRIEFILE + '&TITLE=' + data?.TITLE,
                 alignment: 'center',
                 margin: [0, 10, 0, 10]
               },

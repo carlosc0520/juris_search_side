@@ -113,6 +113,7 @@ export default {
     watch: {
         show: {
             handler(value) {
+                console.log(this.data);
                 if (value) {
                     this.modelo = {
                         ...this.data,

@@ -53,27 +53,32 @@
             <div id="content" class="my-5 mt-5">
                 <div id="filterbar" style="margin-right: 20px;" class="mb-5" :class="isCollapsed ? 'collapse' : ''">
 
-                    <div class=" border-bottom">
+                    <div class="border-bottom">
                         <div class="form-group text-center">
-                            <div class="btn-group w-full buttons-filter" data-toggle="buttons">
-                                <button @click="isFilter = 'generales'"
-                                    :class="isFilter === 'generales' ? 'active' : ''" class="btn btn-success p-3"
-                                    style="display: flex!important; align-items: center; justify-content: center;">
+                            <div class="btn-group w-100 d-flex flex-wrap justify-content-center gap-1" data-toggle="buttons">
+                                <button @click="isFilter = 'generales'" 
+                                    :class="isFilter === 'generales' ? 'active' : ''" 
+                                    class="btn btn-success p-3 flex-grow-1">
                                     Criterios generales
                                 </button>
-                                <button @click="isFilter = 'ppjj'" :class="isFilter === 'ppjj' ? 'active' : ''"
-                                    :disabled="filter.TYPE === 'legislations'" class="btn btn-success p-3"
-                                    style="display: flex!important; align-items: center; justify-content: center;">
+                                <button @click="isFilter = 'ppjj'" 
+                                    v-if="filter.TYPE === 'jurisprudences'"
+                                    :class="isFilter === 'ppjj' ? 'active' : ''" 
+                                    :disabled="filter.TYPE === 'legislations'" 
+                                    class="btn btn-success p-3 flex-grow-1">
                                     Compliance
                                 </button>
-                                <button @click="isFilter = 'dominio'" :class="isFilter === 'dominio' ? 'active' : ''"
-                                    :disabled="filter.TYPE === 'legislations'" class="btn btn-success p-3"
-                                    style="display: flex!important; align-items: center; justify-content: center;">
-                                    Extinci&oacute;n de dominio
+                                <button @click="isFilter = 'dominio'" 
+                                    v-if="filter.TYPE === 'jurisprudences'"
+                                    :class="isFilter === 'dominio' ? 'active' : ''" 
+                                    :disabled="filter.TYPE === 'legislations'" 
+                                    class="btn btn-success p-3 flex-grow-1">
+                                    Extinción de dominio
                                 </button>
                             </div>
                         </div>
                     </div>
+
 
 
                     <div v-if="isFilter === 'generales'" class="row p-3">

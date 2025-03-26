@@ -36,12 +36,12 @@ export default {
       isVisible: true,
       menu:  [
         { name: 'Inicio', route: '/admin/dashboard', icon: 'fas fa-tv' },
+        { name: 'Busqueda', route: '/admin/busqueda', icon: 'fas fa-search' },
         { name: 'Perfil', route: '/admin/settings', icon: 'fas fa-user' },
         { name: 'Jurisprudencia y legislación', route: '/admin/entradas', icon: 'fas fa-tools' },
         { name: 'Usuarios', route: '/admin/usuarios', icon: 'fas fa-users' },
         { name: 'Filtros', route: '/admin/filtros', icon: 'fas fa-table' },
         { name: 'Mantenimiento', route: '/admin/mantenimiento', icon: 'fas fa-wrench' },
-        { name: 'Busqueda', route: '/admin/busqueda', icon: 'fas fa-search' },
         { name: "Favoritos", route: "/admin/favoritos", icon: "fas fa-star" },
         { name: "Boletines", route: "/admin/boletines", icon: "fas fa-newspaper" },
         { name: "Reportes", route: "/admin/reportes", icon: "fas fa-chart-line" }

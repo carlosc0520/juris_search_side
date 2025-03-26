@@ -102,6 +102,16 @@
                     </span>
                 </div>
 
+                <div class="col-md-6 col-12 mb-3">
+                    <label for="JURISDICCIONV" class="form-label">Jurisprudencia vinculante</label>
+
+                    <el-tree-select v-model="modelo.JURISDICCIONV" :data="selects.jurisdicionV" multiple
+                        :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox check-strictly
+                        check-on-click-node filterable no-data-text="No hay opciones disponibles" clearable
+                        collapse-tags :max-collapse-tags="1" />
+
+                </div>
+
                 <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.OJURISDICCIONAL') }">
                     <label for="OJURISDICCIONAL" class="form-label">Órgano jurisdiccional <span
                             class="text-danger">*</span></label>
@@ -314,6 +324,7 @@ export default {
                 DELITO: [],
                 MATERIA: [],
                 JURISDICCION: [],
+                JURISDICCIONV: [],
             },
         }
     },
@@ -420,6 +431,7 @@ export default {
             formData.append("RECURSO", this.modelo.RECURSO?.join(","));
             formData.append("MATERIA", this.modelo.MATERIA?.join(","));
             formData.append("JURISDICCION", this.modelo.JURISDICCION.join(","));
+            formData.append("JURISDICCIONV", this.modelo.JURISDICCIONV.join(","));
 
 
             this.loadingSubmit = true;
@@ -490,6 +502,7 @@ export default {
                 DELITO: [],
                 MATERIA: [],
                 JURISDICCION: [],
+                JURISDICCIONV: [],
             }
 
             let inputs = document.querySelectorAll("input[type='file']");

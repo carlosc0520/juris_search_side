@@ -79,7 +79,7 @@ class createPDFHelper {
               {
                 image: recursos.botonDescargarResolucion,
                 width: 120,
-                link: 'https://api.jurissearch.com/login/download-file?PATH=' + data?.ENTRIEFILE + '&TITLE=' + data?.TITLE,
+                link: 'https://api.jurissearch.com/login/download-file?ID=' + data?.ID,
                 alignment: 'center',
                 margin: [0, 10, 0, 10]
               },

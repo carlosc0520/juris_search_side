@@ -1446,7 +1446,8 @@ video {
 }
 
 .bg-center {
-  background-position: center;
+  background-position: right -70px bottom -70px;
+  background-repeat: no-repeat;
 }
 
 .bg-no-repeat {
@@ -1594,10 +1595,20 @@ video {
   padding-bottom: 9rem;
 }
 
-.py-40 {
-  padding-top: 10rem;
-  padding-bottom: 10rem;
+.pb-89 {
+  padding-bottom: 22.25rem;
 }
+
+@media (min-width: 768px) {
+  .py-40 {
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+  }
+  .pb-89 {
+    padding-bottom: auto;
+  }
+}
+
 
 .py-3 {
   padding-top: 0.75rem;

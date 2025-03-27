@@ -3,7 +3,7 @@
     <div v-if="toggleShowAlert" class="z-50 w-full">
       <div class="d-flex justify-content-between align-items-center frame-getPremium text-white p-2 text-xs">
         <div></div>
-        <div class="d-flex justify-content-center align-items-center gap-2">
+        <div class="d-flex flex-col lg:flex-row justify-content-center align-items-center gap-2">
           <span>Adquiere más funcionalidades con el</span>
           <button class="rounded-full px-3 py-1 d-flex justify-content-center align-items-center border border-white text-xs">
             Plan Premium

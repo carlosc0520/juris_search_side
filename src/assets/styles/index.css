@@ -49,6 +49,14 @@ body {
   z-index: 1;
 }
 
+@media (max-width: 767px) {
+  .degradado {
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(to bottom, white 40%, rgba(255, 255, 255, 0.8) 70%, transparent 100%);
+  }
+}
+
 .background-custom {
   background-image: url('../../assets/img/resources/background-inicio.png');
   background-size: cover;
@@ -65,8 +73,17 @@ body {
   position: relative;
 }
 
-.scale-custom {
-    transform: scale(1.1);
+@media (min-width: 768px) {
+    .scale-custom {
+        transform: scale(1.1);
+    }
+ }
+
+@media (max-width: 767px) {
+    .text-3xl {
+        font-size: 1rem !important;
+        line-height: 1.5rem !important;
+    }
 }
 
 .pink-button {
@@ -105,4 +122,10 @@ body {
 
 .b-from-tags-field div input:focus {
     background-color: transparent !important;
+}
+
+.carousel__pagination-button {
+    border-radius: 100% !important;
+    width: 10px !important;
+    height: 10px !important;
 }

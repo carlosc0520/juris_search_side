@@ -1,158 +1,97 @@
 <template>
-  <footer class="relative bg-app-tercery pt-8 pb-6">
-    <div class="container mx-auto px-4">
-      <div class="flex flex-wrap text-center lg:text-left">
-        <div class="w-full lg:w-6/12 px-4">
-          <h4 class="text-3xl font-semibold">¡Sigamos en contacto!</h4>
-          <h5 class="text-lg mt-0 mb-2 text-blueGray-600">
-            Síguenos en nuestras redes sociales para más información.
-          </h5>
-
-          <!-- CELULAR Y CORREO -->
-          <div class="flex flex-wrap mt-2">
-            <!-- Celular -->
-            <div class="w-full lg:w-6/12">
-              <div class="flex items-center justify-start">
-                <div class="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12">
-                  <i class="fas fa-mobile-alt text-xl"></i>
-                </div>
-                <div class="ml-4">
-                  <a href="tel:+902430068" class="text-blueGray-500">+ 902 430 068</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Correo -->
-            <div class="w-full lg:w-6/12">
-              <div class="flex items-center justify-start">
-                <div class="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12">
-                  <i class="fas fa-envelope text-xl"></i>
-                </div>
-                <div class="ml-4">
-                  <a href="mailto:jsearch@ccfirma.com" class="text-blueGray-500">jsearch@ccfirma.com</a>
-                </div>
-              </div>
-            </div>
+  <footer class="relative bg-white pt-8">
+    <div class="container mx-auto">
+      <div class="flex items-center justify-center flex-wrap mb-3">
+        <div class="lg:w-4/12">
+          <div class="flex mb-3 mb-lg-0">
+            <router-link to="/" class="">
+              <img :src="logoJuris" alt="" class="w-36"/>
+            </router-link>
           </div>
         </div>
-        <div class="w-full lg:w-6/12 px-4">
-          <div class="flex flex-wrap items-top mb-6">
-            <div class="w-full lg:w-4/12 px-4 ml-auto">
-              <span class="block uppercase text-left text-blueGray-500 text-sm font-semibold mb-2">
-                Páginas
-              </span>
-              <ul class="list-unstyled text-left">
-                <li>
-                  <router-link to="/"
-                    class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm">
-                    Inicio
-                  </router-link>
-                </li>
-
-                <li>
-                  <router-link to="/noticias"
-                    class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm">
-                    Noticias
-                  </router-link>
-                </li>
-                <li>
-                  <router-link to="/contacto"
-                    class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm">
-                    Contacto
-                  </router-link>
-                </li>
-              </ul>
-            </div>
-            <div class="w-full lg:w-4/12 px-4">
-              <span class="block uppercase text-left text-blueGray-500 text-sm font-semibold mb-2">
-                Otros Recursos
-              </span>
-              <ul class="list-unstyled text-left">
-                <li>
-                  <router-link to="/questions"
-                    class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm">
-                    Preguntas Frecuentes
-                  </router-link>
-                </li>
-                <li>
-                  <router-link to="/politicas&privacidad"
-                    class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm">
-                    Políticas de Privacidad
-                  </router-link>
-                </li>
-                <li>
-                  <router-link to="/cookies"
-                    class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm">
-                    Políticas de Cookies
-                  </router-link>
-                </li>
-                <li>
-                  <router-link to="/contacto"
-                    class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm">
-                    Contacto
-                  </router-link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="mt-6 lg:mb-0 mb-6">
-            <!-- <button
-              class="bg-white text-lightBlue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-              type="button"
-            >
-              <i class="fab fa-twitter"></i>
-            </button> -->
-            <!-- <button
-              class="bg-white text-lightBlue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-              type="button">
-              <i class="fab fa-facebook-square"></i>
-            </button>
-            <button
-              class="bg-white text-pink-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-              type="button">
-              <i class="fab fa-dribbble"></i>
-            </button>
-            <button
-              class="bg-white text-blueGray-800 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-              type="button">
-              <i class="fab fa-github"></i>
-            </button> -->
-            <a href="https://www.instagram.com/juris.search/" target="_blank" rel="noreferrer">
-              <button title="Instagram"
-                class="bg-white text-lightBlue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-                type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="100%" viewBox="0 0 448 512">
-                  <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
-              </button>
-            </a>
-            <a href="https://www.linkedin.com/company/juris-search/" target="_blank" rel="noreferrer">
-              <button title="LinkedIn"
-                class="bg-white text-lightBlue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-                type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="100%" viewBox="0 0 448 512">
-                  <path d="M100.28 448H7.4V148.6h92.88zm-46.44-343c-29.9 0-54.1-24.2-54.1-54.1s24.2-54.1 54.1-54.1c29.9 0 54.1 24.2 54.1 54.1s-24.2 54.1-54.1 54.1zM447.9 448h-92.8V302c0-34.5-.7-79.3-48.3-79.3C303 222 304 267 304 302v146h-92.8V148h89v40h1c12.4-23.5 42.7-48 87.8-48C447.2 140 448 194 447.9 448z"/></svg>
-              </button>
-            </a>
+        <div class="w-full lg:w-8/12">
+          <div class="flex flex-wrap items-center justify-end">
+            <ul class="list-unstyled flex flex-col flex-md-row flex-wrap justify-content-center justify-content-md-end align-items-center w-full gap-4 my-0">
+              <li>
+                <router-link to="/"
+                  class="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm"
+                  :class="{ 'text-primary font-semibold': route.path === '/' }">
+                  Inicio
+                </router-link>
+              </li>
+              <li>
+                <router-link to="/noticias"
+                  class="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm"
+                  :class="{ 'text-primary font-semibold': route.path === '/noticias' }">
+                  Noticias
+                </router-link>
+              </li>
+              <li>
+                <router-link to="/contacto"
+                  class="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm"
+                  :class="{ 'text-primary font-semibold': route.path === '/contacto' }">
+                  Contáctanos
+                </router-link>
+              </li>
+              <li>
+                <router-link to="/questions"
+                  class="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm"
+                  :class="{ 'text-primary font-semibold': route.path === '/questions' }">
+                  Preguntas Frecuentes
+                </router-link>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/juris.search/" class="mr-2" target="_blank" rel="noreferrer">
+                  <i class="fa-brands fa-instagram text-secondary text-xl"></i>
+                </a>
+                <a href="https://www.linkedin.com/company/juris-search/" target="_blank" rel="noreferrer">
+                  <i class="fa-brands fa-linkedin text-secondary text-xl"></i>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
-      <hr class="my-6 border-blueGray-300" />
-      <div class="flex flex-wrap items-center md:justify-between justify-center">
-        <div class="w-full md:w-4/12 px-4 mx-auto text-center">
-          <div class="text-sm text-blueGray-500 font-semibold py-1">
-            Copyright © {{ date }} JURIS SEARCH
-          </div>
+      <hr class="bg-secondary w-full" />
+      <div class="mt-4 flex flex-wrap items-center md:justify-between justify-center">
+        <div class="text-sm text-gray-500">
+          © {{ date }} Juris Search | Todos los derechos reservados
+        </div>
+        <div>
+          <ul class="list-unstyled flex flex-wrap gap-4">
+            <li>
+              <router-link to="/politicas&privacidad"
+                class="text-blueGray-600 hover:text-blueGray-800 block text-sm"
+                :class="{ 'text-primary font-semibold': route.path === '/politicas&privacidad' }">
+                Políticas de Privacidad
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/cookies"
+                class="text-blueGray-600 hover:text-blueGray-800 block text-sm"
+                :class="{ 'text-primary font-semibold': route.path === '/cookies' }">
+                Políticas de Cookies
+              </router-link>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </footer>
 </template>
 <script>
+import { useRoute } from 'vue-router';
+import logoJuris from "@/assets/img/resources/logo-jurissearch.png";
 
 export default {
+  setup() {
+    const route = useRoute();
+    return { route };
+  },
   data() {
     return {
-      date: new Date().getFullYear()
+      date: new Date().getFullYear(),
+      logoJuris,
     };
   },
 };

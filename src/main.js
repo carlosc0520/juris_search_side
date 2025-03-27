@@ -4,6 +4,7 @@ import { createWebHistory, createRouter } from "vue-router";
 // styles
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import '@fortawesome/fontawesome-free/js/all.js';
 import "@/assets/styles/tailwind.css";
 import "@/providers/AxiosProvider";
 import "@/assets/styles/index.css"; // Importar Tailwind CSS

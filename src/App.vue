@@ -508,4 +508,17 @@ form {
     color: rgb(44, 44, 44) !important; 
 }
 
+.icon-btn-menu img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease-in-out;
+}
+
+
+/* // * PALETA */
+/* B9DBFF */
+.bg-palette-1 {
+  background-color: #B9DBFF !important;
+}
+
 </style>

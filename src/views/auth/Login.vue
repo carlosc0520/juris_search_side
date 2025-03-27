@@ -1,75 +1,5 @@
-<!-- <template>
-  <div class="min-h-screen bg-gray-200 text-gray-900">
-    <div class="bg-gray-50 p-6 flex justify-center items-center h-full">
-      <div class="relative flex flex-col min-w-0 break-words w-10/12 mb-6 rounded-lg z-10">
-        <div class="rounded-t mb-0 px-6 py-6 text-center">
-          <a class="inline-block uppercase hover">
-            <img :src="logoJuris" alt="" class="w-1/2 md:w-64 mx-auto" @click="$router.push('/')" />
-          </a>
-          <hr class="mt-6 border-b-1 border-blueGray-300" />
-        </div>
-
-        <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-          <div class="text-blueGray-400 text-center mb-3 font-bold">
-            <small>
-              Inicia sesión con tus credenciales
-            </small>
-          </div>
-
-          <form @submit.prevent="signIn">
-            <div class="form-group" :class="{ error: validation.hasError('form.EMAIL') }">
-              <label for="Email">
-                Email
-              </label>
-              <input type="text" class="form-control" v-model="form.EMAIL" id="Email" autocomplete="off" />
-              <span class="message" v-if="validation.hasError('form.EMAIL')">
-                {{ validation.firstError('form.EMAIL') }}
-              </span>
-            </div>
-
-            <div class="form-group" :class="{ error: validation.hasError('form.PASSWORD') }">
-              <label for="Password">
-                Contraseña
-              </label>
-              <div class="input-group position-relative overflow-hidden" style="border-radius: 0.375rem !important;">
-                <input :type="showPassword ? 'text' : 'password'" class="form-control" v-model="form.PASSWORD"
-                  id="Password" autocomplete="off" />
-                <button id="btnToggleShowPassword" type="button" class="btn" @click="togglePassword">
-                  <i :class="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
-                </button>
-              </div>
-              <span class="message" v-if="validation.hasError('form.PASSWORD')">
-                {{ validation.firstError('form.PASSWORD') }}
-              </span>
-            </div>
-
-            <div class="flex justify-end mt-2">
-              <a href="#" class="text-blue-500" @click="modalRecuperarContrasena.show = true;">¿Olvidaste tu
-                contraseña?</a>
-            </div>
-
-            <div class="text-center mt-10">
-              <button
-                class="btn-search text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                type="submit">
-                Iniciar sesión
-              </button>
-            </div>
-          </form>
-        </div>
-
-      </div>
-    </div>
-
-    <ModalRecuperarContrasena :show="modalRecuperarContrasena.show" :close="() => modalRecuperarContrasena.show = false"
-      :update="() => { }" />
-    <LoadingOverlay :active="isloading" :is-full-page="false" :loader="'bars'" />
-  </div>
-</template> -->
-
 <template>
   <div class="form-login">
-    <!-- Encabezado -->
     <div class="flex justify-between items-center mb-4 px-5" style="width: 100%;">
       <img src="@/assets/img/logos/logo-full.png" 
       @click="$router.push('/')"
@@ -83,13 +13,11 @@
     <div class="px-5 bg-white p-8 rounded-xl shadow-lg w-5/6">
       <h3 class="text-lato-700 text-center">Ingresa a tu cuenta</h3>
       <div class="social-buttons mt-4">
-        <!-- Botón de Google -->
         <button class="social-btn">
           <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" class="icon">
           Ingresar con Google
         </button>
 
-        <!-- Botón de LinkedIn -->
         <button class="social-btn">
           <img src="https://www.svgrepo.com/show/448234/linkedin.svg" alt="LinkedIn Logo" class="icon">
           Ingresar con LinkedIn
@@ -181,7 +109,6 @@ export default {
       registerBg2,
 
       rememberMe: false,
-      noticias: [],
       isloading: false,
       currentNoticia: 0,
 
@@ -208,42 +135,6 @@ export default {
 
   },
   methods: {
-    fetchNoticias() {
-      this.isloading = true;
-      LoginProxy.list({
-        INIT: 0,
-        ROWS: 4,
-        DESC: null,
-        CESTDO: 'A'
-      })
-        .then(async (response) => {
-          this.noticias = await Promise.all(response.map(async noticia => {
-            const type = noticia.IMAGEN.split('.').pop();
-            let base64String = '';
-
-            if (!noticia.IMAGEN2) return noticia;
-
-            for (let i = 0; i < noticia.IMAGEN2.data.length; i++) {
-              base64String += String.fromCharCode(noticia.IMAGEN2.data[i]);
-            }
-            noticia.IMAGEN2 = `data:image/${type};base64,${window.btoa(base64String)}`;
-            return noticia;
-          }));
-        })
-        .catch((error) => {
-          toast.error(error?.message || 'Error al cargar las noticias')
-        })
-        .finally(() => {
-          this.isloading = false;
-          this.startImageRotation();
-        });
-    },
-    startImageRotation() {
-      setInterval(() => {
-        this.currentNoticia = (this.currentNoticia + 1) % this.noticias.length;
-      }, 4000);
-    },
-
     async signIn() {
       let validate = await this.$validate();
       if (!validate) return;
@@ -290,15 +181,9 @@ export default {
         });
 
     },
-    updateOpen() {
-      console.log("aaaaaaaa")
-    },
     togglePassword() {
       this.showPassword = !this.showPassword;
     }
-  },
-  mounted() {
-    // this.fetchNoticias();
   },
 };
 </script>

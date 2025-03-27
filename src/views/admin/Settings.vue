@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-inicio pt-5">
     <CardSettings :data="modelo" v-if="!isLoading"
       :getUser="getUser" :setLoading="(ban) => isLoading = ban" :isLoading="isLoading"
     />
@@ -84,3 +84,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.container-inicio{
+  margin: 0 auto;
+  max-width: 80%!important;
+}
+</style>

@@ -6,15 +6,13 @@ import timesNewRomanBold from "../../assets/timesBold.js";
 import timesNewRomanItalics from "../../assets/timesItalics.js";
 
 class createPDFHelper {
-  async generate(data) {
-    console.log(data)
+  async generate(data, returnBase64 = false) {
     try {
       let margin = [40, 10, 40, 10];
       let totalPages = 0;
       let fontSize = 11;
       let currentYear = new Date().getFullYear();
       let documentoPDF = {
-
         header: () => {
           return {
             style: 'headerStyle',
@@ -51,7 +49,7 @@ class createPDFHelper {
 
         content: [
           {
-            text: `${data.TITLE}`,
+            text: `${returnBase64 ? data.TITULO : data.TITLE}`,
             style: 'header',
             alignment: 'center',
             margin: [40, -20, 40, 10],
@@ -62,10 +60,10 @@ class createPDFHelper {
             table: {
               widths: ['35%', '57%'],
               body: [
-                [{ text: '▪ TIPO DE RECURSO:', bold: true }, data?.RECURSO],
-                // reempalzar "," por "\n" en la propiedad DELITO
-                [{ text: '▪ DELITOS:', bold: true }, data?.DELITO?.replace(/,/g, '\n')],
-                [{ text: '▪ VINCULANTE:', bold: true }, data?.ISBINDING]
+                [{ text: '▪ TIPO DE RECURSO:', bold: true }, returnBase64 ? data?.RECURSO?.map((item) => item.DESCP).join('\n') : data?.RECURSO],
+                [{ text: '▪ DELITOS:', bold: true }, returnBase64 ? data?.DELITO.map((item) => item.DESCP).join('\n') : data?.DELITO?.replace(/,/g, '\n')],
+                [{ text: '▪ VINCULANTE:', bold: true }, returnBase64 ? (
+                  data?.INDICADOR ? "Si" : "No") : data?.ISBINDING]
               ]
             },
             margin: [70, 0, 0, 0],
@@ -177,7 +175,7 @@ class createPDFHelper {
                     margin: [10, 2, 10, 8],
                   },
                   {
-                    text: data.AMBIT,
+                    text: returnBase64 ? data?.AMBIT?.[0]?.LABEL : data?.AMBIT,
                     fontSize,
                     margin: [10, 2, 10, 8],
                   },
@@ -190,7 +188,7 @@ class createPDFHelper {
                     margin: [10, 2, 10, 8],
                   },
                   {
-                    text: data.FRESOLUTIONSTRING,
+                    text: returnBase64 ? data?.FRESOLUTION : data?.FRESOLUTIONSTRING,
                     fontSize,
                     margin: [10, 2, 10, 8],
                   },
@@ -203,7 +201,7 @@ class createPDFHelper {
                     margin: [10, 2, 10, 8],
                   },
                   {
-                    text: data?.JURISDICCION || '-',
+                    text: returnBase64 ? data?.JURISDICCION?.[0]?.LABEL : data?.JURISDICCION || '-',
                     fontSize,
                     margin: [10, 2, 10, 8],
                   },
@@ -216,7 +214,7 @@ class createPDFHelper {
                     margin: [10, 2, 10, 8],
                   },
                   {
-                    text: data.OJURISDICCIONAL,
+                    text: returnBase64 ? data?.OJURISDICCIONAL?.[0]?.DESCP : data.OJURISDICCIONAL,
                     fontSize,
                     margin: [10, 2, 10, 8],
                   },
@@ -229,7 +227,7 @@ class createPDFHelper {
                     margin: [10, 2, 10, 8],
                   },
                   {
-                    text: data.MAGISTRATES,
+                    text: returnBase64 ? data?.MAGISTRATES?.[0]?.LABEL : data.MAGISTRATES,
                     fontSize,
                     margin: [10, 2, 10, 8],
                   },
@@ -244,7 +242,7 @@ class createPDFHelper {
                     margin: [10, 2, 10, 8],
                   },
                   {
-                    text: data?.VDESIDENTE?.replace(/,/g, ', ')  || '-',
+                    text: data?.VDESIDENTE?.replace(/,/g, ', ') || '-',
                     fontSize,
                     margin: [10, 2, 10, 8],
                   },
@@ -339,7 +337,16 @@ class createPDFHelper {
         }
       };
 
-      await pdfMake.createPdf(documentoPDF).download((`${data.TITLE} - RESUMEN EJECUTIVO`).toUpperCase() + '.pdf');
+      let pdfDocGenerator = pdfMake.createPdf(documentoPDF);
+      if (returnBase64) {
+        return await new Promise((resolve) => {
+          pdfDocGenerator.getBase64((base64Data) => {
+            resolve(base64Data);
+          })
+        });
+      } else {
+        pdfDocGenerator.download((`${data.TITLE} - RESUMEN EJECUTIVO`).toUpperCase() + '.pdf');
+      }
 
     } catch (error) {
       toast.error(error?.MESSAGE || 'Error al obtener el archivo', { toastId: 'error-export' });

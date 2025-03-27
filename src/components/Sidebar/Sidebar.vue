@@ -1,97 +1,56 @@
 <template>
-  <nav :class="[
-    'p-0 md:left-0 md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden  bg-white flex flex-wrap items-center justify-between relative z-10 py-4 transition-all duration-300',
-    isCollapsed ? 'w-24' : 'md:w-64',
-  ]">
-    <div
-      class="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
-      <!-- Toggler para pantallas grandes (botón para colapsar/expandir) -->
-      <button
-        class="cursor-pointer text-black opacity-50 px-3 py-1 text-xl leading-none bg-transparent rounded border-transparent hidden md:block"
-        type="button" :class="isCollapsed ? 'text-center' : 'text-end'" @click="toggleSidebar">
-        <i :class="!isCollapsed ? 'fas fa-bars' : 'fas fa-times'"></i>
-      </button>
+<nav class="fixed top-0 left-0 bottom-0 bg-white px-2 shadow-md z-50 flex flex-col items-center transition-all duration-300 py-2">
+  <!-- Botón de menú y logo -->
+  <div class="flex flex-col align-items-center justify-center w-24 h-24 bg-white rounded-lg shadow-md mb-4">
+    <button class="p-2 rounded-lg transition duration-300 hover:bg-gray-200 flex items-center justify-center mb-2"
+      @click="toggleSidebar"
+    >
+      <img src="@/assets/img/icons/menu.svg" alt="Menu" class="w-6 h-6" />
+    </button>
+    <router-link to="/">
+      <img src="@/assets/img/logos/logo-nav.png" alt="Logo" class="w-24 h-24" />
+    </router-link>
+  </div>
 
-      <!-- Botón para abrir menú en pantallas pequeñas -->
-      <button
-        class="cursor-pointer text-black opacity-50 px-3 py-1 text-xl leading-none bg-transparent rounded border-transparent md:hidden block"
-        type="button" @click="toggleCollapseShow">
-        <i class="fas fa-bars"></i>
-      </button>
+  <!-- Menú -->
+  <div class="flex flex-col w-full overflow-y-auto">
+    <ul class="flex flex-col items-center w-full gap-2 p-0">
+      <li v-for="(item, index) in menuItems" :key="index" class="w-full">
+        <router-link :to="item.route" v-slot="{ href, navigate, isActive }">
+          <a :href="href" @click="navigate"
+            class="flex flex-col items-center rounded-lg transition-all duration-300 ease-in-out text-gray-700"
+            :class="[isActive ? 'bg-palette-1' : 'bg-white']">
 
-      <!-- Brand // ocultar pantalla chica -->
-      <router-link v-if="!isCollapsed" class="text-center md:block
-        hidden
-        text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-lg uppercase font-bold p-4 px-0"
-        :class="isCollapsed ? 'hidden' : ''" to="/">
-        <span style="color: var(--azul-primary); font-family: 'Font Awesome 5 Brands';">JURIS</span>&nbsp;
-        <span style="color: var(--lila-primary); font-family: 'Font Awesome 5 Brands';">SEARCH</span>
-      </router-link>
-      <router-link v-else
-        class="text-center md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-lg uppercase font-bold p-4 px-0"
-        :class="isCollapsed ? 'hidden' : ''" to="/">
-        <img :src="logo" alt="logo" />
-      </router-link>
-      <!-- User (en pantallas pequeñas) -->
-      <!-- Collapse content para pantallas pequeñas -->
-      <div :class="[
-        'md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded',
-        collapseShow ? 'block bg-white h-svh' : 'hidden']"
-        :style="{ height: collapseShow ? '100vh!important' : 'auto' }">
-        <!-- Sidebar Header (colapsable en pantallas pequeñas) -->
-        <div class="md:min-w-full md:hidden block  border-b border-solid border-blueGray-200 flex justify-end my-4"
-          :class="isCollapsed ? 'hidden' : ''">
-          <div class="flex flex-wrap">
-            <div class="w-12/12 flex justify-end">
-              <button type="button"
-                class="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent border-transparent"
-                @click="toggleCollapseShow">
-                <i class="fas fa-times"></i>
-              </button>
+            <div class="w-10 h-10 flex items-center justify-center">
+              <img :src="item.icon" alt="Icon"
+                class="w-6 h-6 opacity-80 transition-opacity duration-200 hover:opacity-100" />
             </div>
-          </div>
-        </div>
 
-        <!-- Heading -->
-        <h6 class="px-4 md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
-          :class="isCollapsed ? 'hidden' : ''">
-          Panel de Administración
-        </h6>
+            <span class="text-xs font-semibold mt-1 text-center">{{ item.name }}</span>
+          </a>
+        </router-link>
+        <hr v-if="index < menuItems.length - 1" class="border-gray-200 my-2 w-2/3">
+      </li>
+    </ul>
+  </div>
+</nav>
 
-        <!-- Menú de items -->
-        <ul class="md:flex-col md:min-w-full flex flex-col list-none"
-        :class="isCollapsed ? 'align-sidebar-responsive' : 'align-sidebar'"
-        >
-          <li class="items-start" v-for="(item, index) in menuItems" :key="index">
-            <router-link :to="item.route" v-slot="{ href, navigate, isActive }">
-              <a :href="href" @click="navigate" class="text-xs uppercase py-3 font-bold block text-left flex gap-4"
-                :class="[isActive ? 'text-emerald-500 hover:text-emerald-600' : 'text-blueGray-700 hover:text-blueGray-500']">
-                <div class="text-center" style="width: 1rem;">
-                  <i :class="item.icon + ' mr-0 md:mr-2 text-sm'"></i>
-                </div>
-                <span :class="isCollapsed ? 'hidden' : ''">{{ item.name }}</span>
-              </a>
-            </router-link>
-          </li>
-        </ul>
-      </div>
-      <ul class="md:hidden m-0 flex-col md:flex-row list-none justify-end items-center mx-4">
-        <user-dropdown />
-      </ul>
-    </div>
-  </nav>
+
+
 </template>
+
+
 
 <script>
 import logo from '@/assets/img/logos/logo.png';
-import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
+// import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
 
 export default {
   data() {
     return {
       logo,
       collapseShow: false,
-      menuItems: this.menu
+      menuItems: this.menu,
     };
   },
   props: {
@@ -109,7 +68,7 @@ export default {
     },
   },
   components: {
-    UserDropdown,
+    // UserDropdown,
   },
   methods: {
     toggleCollapseShow() {
@@ -118,6 +77,10 @@ export default {
   },
 };
 </script>
+
+
+
+
 
 <style scoped>
 nav {
@@ -139,19 +102,19 @@ nav {
   }
 }
 
-.align-sidebar{
+.align-sidebar {
   display: flex;
   justify-content: center;
-  padding-left: 2rem!important;
+  padding-left: 2rem !important;
 }
 
-.align-sidebar-responsive{
+.align-sidebar-responsive {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.h-svh{
-  height: 100vh!important;
+.h-svh {
+  height: 100vh !important;
 }
 </style>

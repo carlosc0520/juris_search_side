@@ -1,16 +1,15 @@
 <template>
     <div>
-        <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" />
-        <div class="calculator relative bg-blueGray-100 transition-all duration-300"
-            :class="isCollapsed ? 'ml-24 w-calc100-6rem ' : 'ml-64 w-calc100-16rem '">
-            <admin-navbar :RTAFTO="RTAFTO" />
-            <div class="px-4 md:px-10 mx-auto w-full bg-view-user">
-                <div class="padding-view-usuario">
-                    <router-view :RTAFTO="RTAFTO" :UPDATERTAFTO="UPDATERTAFTO" />
-                </div>
+        <div :class="isCollapsed ? 'hidden' : 'block'">
+            <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" />
+        </div>
+        <div class="relative bg-blueGray-100 transition-all duration-300">
+            <admin-navbar :RTAFTO="RTAFTO" :toggleSidebar="toggleSidebar" />
+            <div class="mx-auto w-full bg-view-user">
+                <router-view :RTAFTO="RTAFTO" :UPDATERTAFTO="UPDATERTAFTO" />
             </div>
 
-            <footer-admin />
+            <!-- <footer-admin /> -->
         </div>
     </div>
 </template>
@@ -18,25 +17,32 @@
 <script>
 import AdminNavbar from "@/components/Navbars/AdminNavbar.vue";
 import Sidebar from "@/components/Sidebar/Sidebar.vue";
-import FooterAdmin from "@/components/Footers/FooterAdmin.vue";
+// import FooterAdmin from "@/components/Footers/FooterAdmin.vue";
+
+// * icons
+import homeIcon from '@/assets/img/icons/home.svg';
+import busquedaIcon from '@/assets/img/icons/busqueda.svg';
+import perfilIcon from '@/assets/img/icons/perfil.svg';
+import estrellaIcon from '@/assets/img/icons/estrella.svg';
+// import reportIcon from '@/assets/img/icons/report.svg';
 
 export default {
     name: "admin-layout",
     components: {
         AdminNavbar,
         Sidebar,
-        FooterAdmin,
+        // FooterAdmin,
     },
     data() {
         return {
             RTAFTO: JSON.parse(localStorage.getItem("user"))?.RTAFTO,
             isCollapsed: false,
             menu: [
-                { name: 'Inicio', route: '/usuario/dashboard', icon: 'fas fa-tv' },
-                { name: 'Busqueda', route: '/usuario/busqueda', icon: 'fas fa-search' },
-                { name: 'Perfil', route: '/usuario/settings', icon: 'fas fa-user' },
-                { name: "Favoritos", route: "/usuario/favoritos", icon: "fas fa-star" },
-                { name: "Reportes", route: "/usuario/reportes", icon: "fas fa-chart-bar" },
+                { name: 'Inicio', route: '/usuario/dashboard', icon: homeIcon },
+                { name: 'Busqueda', route: '/usuario/busqueda', icon: busquedaIcon },
+                { name: 'Perfil', route: '/usuario/settings', icon: perfilIcon },
+                { name: 'Favoritos', route: '/usuario/favoritos', icon: estrellaIcon },
+                // { name: "Reportes", route: "/usuario/reportes", icon: reportIcon },
             ],
         };
     },
@@ -96,20 +102,19 @@ hr {
     }
 }
 
-.padding-view-usuario{
+.padding-view-usuario {
     padding-top: 6rem;
 }
 
 @media (max-width: 768px) {
-    .padding-view-usuario{
+    .padding-view-usuario {
         padding-top: 1rem;
     }
 }
 
 @media (max-width: 767px) {
-  .calculator {
-    margin: 0!important;
-  }
+    .calculator {
+        margin: 0 !important;
+    }
 }
-
 </style>

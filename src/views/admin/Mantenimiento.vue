@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-wrap mt-4">
-        <div class="w-full mb-12">
+    <div class="container-table flex flex-wrap mt-4 pt-5">
+        <div class="w-full mb-12 pt-5">
             <div class="w-full mb-12">
                 <b-tabs>
                     <b-tab title="Noticias" @click="updateActive('noticias')">
@@ -536,3 +536,10 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.container-table{
+    max-width: 90%;
+    margin: 0 auto;
+}
+</style>

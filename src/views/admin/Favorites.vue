@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-wrap mt-4">
-        <div class="w-full mb-12">
+    <div class="container-table flex flex-wrap mt-4 pt-5">
+        <div class="w-full mb-12 pt-5">
             <div class="w-full mb-12">
                 <b-tabs>
                     <b-tab title="Documentos" @click="(e) => this.active = 'FILES'">
@@ -287,162 +287,169 @@
                                 </span></p>
                         </div>
 
-                        <div class="row col-md-4 col-12 mb-3">
-                            <div class="col-12">
-                                <Tree v-model="selectedKey" :value="data" selectionMode="single" :filter="true"
-                                    filterMode="lenient" class="w-full md:w-[30rem]" @node-select="onNodeSelect"
-                                    @node-unselect="onNodeUnselect"></Tree>
-                            </div>
-                        </div>
-
-                        <div class="col-md-8 col-12 mb-3 p-2 bg-white rounded p-4">
-                            <div v-if="Object.keys(selected).length == 0" class="row mx-0">
-                                <div class="sin_resultados col-12 border rounded-lg">
-                                    <img src="@/assets/img/resources/no-results.png" alt="No se encontraron resultados"
-                                        width="50" height="50" class="w-1/4 mx-auto" />
-                                    <p class="text-center text-gray-500 font-bold text-2xl mt-1">No se encontraron
-                                        resultados
-                                    </p>
-                                    <span class="text-center text-gray-500 font-bold text-lg">Intenta con otra
-                                        búsqueda</span>
+                        <div class="row">
+                            <div class="col-md-4 col-12 mb-3">
+                                <div class="col-12">
+                                    <Tree v-model="selectedKey" :value="data" selectionMode="single" :filter="true"
+                                        filterMode="lenient" class="w-full md:w-[30rem]" @node-select="onNodeSelect"
+                                        @node-unselect="onNodeUnselect"></Tree>
                                 </div>
                             </div>
-                            <div v-else>
-                                <div class="col-12 p-0 mb-3">
-                                    <div class="card d-flex m-0 flex-column align-items-center p-0">
-                                        <div class="card-header" style="width: 100%; background-color: #f7f7f7ff;">{{
-                                            selected.TITULO }}</div>
-                                        <div class="card-body card-container" style="width: 100%;">
-                                            <div class="row p-1">
-                                                <div class="col-12 p-2" v-if="typeSaarch != 'jurisprudences'">
-                                                    <p style="font-size: 13px; margin-bottom: 5px;"
-                                                        class="font-bold text-left">
-                                                        Tipo de Norma:</p>
-                                                    <div>
-                                                        <span v-for="(norma, index) in selected.TPONRMA"
-                                                            style="font-size: 11px;" :key="index"
-                                                            class="d-block text-left">{{ norma.DESCP }}
-                                                        </span>
+
+                            <div class="col-md-8 col-12 mb-3 p-2 bg-white rounded p-4">
+                                <div v-if="Object.keys(selected).length == 0" class="row mx-0">
+                                    <div class="sin_resultados col-12 border rounded-lg">
+                                        <img src="@/assets/img/resources/no-results.png"
+                                            alt="No se encontraron resultados" width="50" height="50"
+                                            class="w-1/4 mx-auto" />
+                                        <p class="text-center text-gray-500 font-bold text-2xl mt-1">No se encontraron
+                                            resultados
+                                        </p>
+                                        <span class="text-center text-gray-500 font-bold text-lg">Intenta con otra
+                                            búsqueda</span>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    <div class="col-12 p-0 mb-3">
+                                        <div class="card d-flex m-0 flex-column align-items-center p-0">
+                                            <div class="card-header" style="width: 100%; background-color: #f7f7f7ff;">
+                                                {{
+                                                    selected.TITULO }}</div>
+                                            <div class="card-body card-container" style="width: 100%;">
+                                                <div class="row p-1">
+                                                    <div class="col-12 p-2" v-if="typeSaarch != 'jurisprudences'">
+                                                        <p style="font-size: 13px; margin-bottom: 5px;"
+                                                            class="font-bold text-left">
+                                                            Tipo de Norma:</p>
+                                                        <div>
+                                                            <span v-for="(norma, index) in selected.TPONRMA"
+                                                                style="font-size: 11px;" :key="index"
+                                                                class="d-block text-left">{{ norma.DESCP }}
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="col-12 p-2" v-if="typeSaarch != 'jurisprudences'">
-                                                    <p style="font-size: 13px; margin-bottom: 5px;"
-                                                        class="font-bold text-left">
-                                                        Órgano emisor:
-                                                    </p>
-                                                    <div>
-                                                        <span v-for="(emisor, index) in selected.OEMISOR"
-                                                            style="font-size: 11px;" :key="index"
-                                                            class="d-block text-left">{{ emisor.DESCP }}
-                                                        </span>
+                                                    <div class="col-12 p-2" v-if="typeSaarch != 'jurisprudences'">
+                                                        <p style="font-size: 13px; margin-bottom: 5px;"
+                                                            class="font-bold text-left">
+                                                            Órgano emisor:
+                                                        </p>
+                                                        <div>
+                                                            <span v-for="(emisor, index) in selected.OEMISOR"
+                                                                style="font-size: 11px;" :key="index"
+                                                                class="d-block text-left">{{ emisor.DESCP }}
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="col-12 col-md-4 p-2" v-if="typeSaarch == 'jurisprudences'">
-                                                    <p style="font-size: 13px; margin-bottom: 5px;"
-                                                        class="font-bold text-left">
-                                                        Pretensión/Delito:</p>
-                                                    <div>
-                                                        <span v-for="(delito, index) in selected.DELITO"
-                                                            style="font-size: 11px;" :key="index"
-                                                            class="d-block text-left">{{ delito.DESCP }}
-                                                        </span>
+                                                    <div class="col-12 col-md-4 p-2"
+                                                        v-if="typeSaarch == 'jurisprudences'">
+                                                        <p style="font-size: 13px; margin-bottom: 5px;"
+                                                            class="font-bold text-left">
+                                                            Pretensión/Delito:</p>
+                                                        <div>
+                                                            <span v-for="(delito, index) in selected.DELITO"
+                                                                style="font-size: 11px;" :key="index"
+                                                                class="d-block text-left">{{ delito.DESCP }}
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="col-12 col-md-4 p-2">
-                                                    <p style="font-size: 13px; margin-bottom: 5px;"
-                                                        class="font-bold text-left">
-                                                        Fecha Resolución:</p>
-                                                    <div>
-                                                        <span style="font-size: 11px;" class="d-block text-left">{{
-                                                            selected.FRESOLUTION }}
-                                                        </span>
+                                                    <div class="col-12 col-md-4 p-2">
+                                                        <p style="font-size: 13px; margin-bottom: 5px;"
+                                                            class="font-bold text-left">
+                                                            Fecha Resolución:</p>
+                                                        <div>
+                                                            <span style="font-size: 11px;" class="d-block text-left">{{
+                                                                selected.FRESOLUTION }}
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="col-12 col-md-4 p-2" v-if="typeSaarch == 'jurisprudences'">
-                                                    <p style="font-size: 13px; margin-bottom: 5px;"
-                                                        class="font-bold text-left">
-                                                        Órgano jurisdiccional:
-                                                    </p>
-                                                    <div>
-                                                        <span v-for="(organo, index) in selected.OJURISDICCIONAL"
-                                                            style="font-size: 11px;" :key="index"
-                                                            class="d-block text-left">{{
-                                                                organo.DESCP }}
-                                                        </span>
+                                                    <div class="col-12 col-md-4 p-2"
+                                                        v-if="typeSaarch == 'jurisprudences'">
+                                                        <p style="font-size: 13px; margin-bottom: 5px;"
+                                                            class="font-bold text-left">
+                                                            Órgano jurisdiccional:
+                                                        </p>
+                                                        <div>
+                                                            <span v-for="(organo, index) in selected.OJURISDICCIONAL"
+                                                                style="font-size: 11px;" :key="index"
+                                                                class="d-block text-left">{{
+                                                                    organo.DESCP }}
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="col-12 p-2" v-if="typeSaarch == 'jurisprudences'">
-                                                    <p style="font-size: 13px; margin-bottom: 5px;"
-                                                        class="font-bold text-left">
-                                                        Tema:
-                                                    </p>
-                                                    <div>
-                                                        <span style="font-size: 11px;" :key="index"
-                                                            class="d-block text-left"
-                                                            v-html="texto_mostrado(selected.TEMA)">
-                                                        </span>
+                                                    <div class="col-12 p-2" v-if="typeSaarch == 'jurisprudences'">
+                                                        <p style="font-size: 13px; margin-bottom: 5px;"
+                                                            class="font-bold text-left">
+                                                            Tema:
+                                                        </p>
+                                                        <div>
+                                                            <span style="font-size: 11px;" :key="index"
+                                                                class="d-block text-left"
+                                                                v-html="texto_mostrado(selected.TEMA)">
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="col-12 p-2" v-if="typeSaarch == 'jurisprudences'">
-                                                    <p style="font-size: 13px; margin-bottom: 5px;"
-                                                        class="font-bold text-left">
-                                                        Palabras clave:
-                                                    </p>
-                                                    <div>
-                                                        <span style="font-size: 11px;" :key="index"
-                                                            class="d-block text-left">{{
-                                                                selected.KEYWORDS }}
-                                                        </span>
+                                                    <div class="col-12 p-2" v-if="typeSaarch == 'jurisprudences'">
+                                                        <p style="font-size: 13px; margin-bottom: 5px;"
+                                                            class="font-bold text-left">
+                                                            Palabras clave:
+                                                        </p>
+                                                        <div>
+                                                            <span style="font-size: 11px;" :key="index"
+                                                                class="d-block text-left">{{
+                                                                    selected.KEYWORDS }}
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <!-- // poner titulo alternativo -->
-                                                <div class="col-12 p-2">
-                                                    <p style="font-size: 13px; margin-bottom: 5px;"
-                                                        class="font-bold text-left">
-                                                        Título alternativo
-                                                    </p>
-                                                    <div>
-                                                        <span style="font-size: 11px;" :key="index"
-                                                            class="d-block text-left">{{
-                                                                selected.TITLEALT }}
-                                                        </span>
+                                                    <!-- // poner titulo alternativo -->
+                                                    <div class="col-12 p-2">
+                                                        <p style="font-size: 13px; margin-bottom: 5px;"
+                                                            class="font-bold text-left">
+                                                            Título alternativo
+                                                        </p>
+                                                        <div>
+                                                            <span style="font-size: 11px;" :key="index"
+                                                                class="d-block text-left">{{
+                                                                    selected.TITLEALT }}
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
 
 
-                                                <div class="col-12 flex justify-start gap-4 p-2">
-                                                    <div style="display: flex; justify-content: start;gap:1rem">
-                                                        <button class="btn btn-view" title="Previsualizar"
-                                                            @click="print(selected.ENTRIEFILE)">
-                                                            <i class="fas fa-eye"></i>
-                                                        </button>
+                                                    <div class="col-12 flex justify-start gap-4 p-2">
+                                                        <div style="display: flex; justify-content: start;gap:1rem">
+                                                            <button class="btn btn-view" title="Previsualizar"
+                                                                @click="print(selected.ENTRIEFILE)">
+                                                                <i class="fas fa-eye"></i>
+                                                            </button>
 
-                                                        <button class="btn btn-primary" @click="download(selected)"
-                                                            title="Descargar Documento">
-                                                            <!-- v-if="role?.PERM?.find((valor) => valor == '2')" -->
-                                                            <i class="fas fa-download"></i>
-                                                        </button>
+                                                            <button class="btn btn-primary" @click="download(selected)"
+                                                                title="Descargar Documento">
+                                                                <!-- v-if="role?.PERM?.find((valor) => valor == '2')" -->
+                                                                <i class="fas fa-download"></i>
+                                                            </button>
 
-                                                        <button class="btn btn-export" @click="createPDF(selected)"
-                                                            title="Descargar Resumen Ejecutivo"
-                                                            v-if="typeSaarch == 'jurisprudences'">
-                                                            <i class="fas fa-file-pdf"></i>
-                                                        </button>
+                                                            <button class="btn btn-export" @click="createPDF(selected)"
+                                                                title="Descargar Resumen Ejecutivo"
+                                                                v-if="typeSaarch == 'jurisprudences'">
+                                                                <i class="fas fa-file-pdf"></i>
+                                                            </button>
 
-                                                        <button title="Eliminar de mis favoritos" class="btn btn-delete"
-                                                            @click="deleteFavoriteDirectorio()">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
+                                                            <button title="Eliminar de mis favoritos"
+                                                                class="btn btn-delete"
+                                                                @click="deleteFavoriteDirectorio()">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                </div>
 
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -875,10 +882,16 @@ export default {
 
 
 <style>
+.container-table{
+    max-width: 90%;
+    margin: 0 auto;
+}
+
 .p-tree {
     margin-top: 1rem !important;
     background: transparent !important;
     padding: 0px !important;
+    max-width: -webkit-fill-available!important;
 }
 
 .p-tree-node-content {

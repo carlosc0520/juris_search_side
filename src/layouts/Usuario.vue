@@ -33,8 +33,8 @@ export default {
             isCollapsed: false,
             menu: [
                 { name: 'Inicio', route: '/usuario/dashboard', icon: 'fas fa-tv' },
-                { name: 'Perfil', route: '/usuario/settings', icon: 'fas fa-user' },
                 { name: 'Busqueda', route: '/usuario/busqueda', icon: 'fas fa-search' },
+                { name: 'Perfil', route: '/usuario/settings', icon: 'fas fa-user' },
                 { name: "Favoritos", route: "/usuario/favoritos", icon: "fas fa-star" },
                 { name: "Reportes", route: "/usuario/reportes", icon: "fas fa-chart-bar" },
             ],

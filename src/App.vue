@@ -269,6 +269,10 @@ div.error select {
   border: 1px solid #f87171;
 }
 
+.error {
+  border: 1px solid #f87171!important;
+}
+
 .mx-datepicker {
   width: 100% !important;
   padding: 0px !important;
@@ -476,4 +480,32 @@ form {
 .mayus{
   text-transform: uppercase;
 }
+
+
+
+.text-lato-700{
+  font-family: Lato;
+  font-weight: 700;
+  line-height: 100%;
+  letter-spacing: 0px;
+}
+
+.text-lato-200{
+  font-family: Lato;
+  font-weight: 600;
+  line-height: 100%;
+  letter-spacing: 0px;
+}
+
+
+.input-group input {
+    border: none!important; ;
+    padding: 0rem!important; ;
+    margin: 0rem!important; ;
+    border-radius: 0rem!important; 
+    box-shadow: none!important;
+    background-color: tranparent!important; 
+    color: rgb(44, 44, 44) !important; 
+}
+
 </style>

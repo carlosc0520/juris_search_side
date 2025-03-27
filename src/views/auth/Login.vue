@@ -1,103 +1,160 @@
-<template>
-  <div class="min-h-screen bg-gray-200 text-gray-900 flex justify-center">
-    <div class="log-grid w-full m-0 sm:m-10 bg-white shadow sm:rounded-lg flex flex-col lg:flex-row">
-      <div class="bg-gray-50 p-6 sm:p-12 flex justify-center items-center h-full relative">
-        <div class="opacity-25 rotate-background" :style="`background-image: url('${registerBg2}');`"></div>
+<!-- <template>
+  <div class="min-h-screen bg-gray-200 text-gray-900">
+    <div class="bg-gray-50 p-6 flex justify-center items-center h-full">
+      <div class="relative flex flex-col min-w-0 break-words w-10/12 mb-6 rounded-lg z-10">
+        <div class="rounded-t mb-0 px-6 py-6 text-center">
+          <a class="inline-block uppercase hover">
+            <img :src="logoJuris" alt="" class="w-1/2 md:w-64 mx-auto" @click="$router.push('/')" />
+          </a>
+          <hr class="mt-6 border-b-1 border-blueGray-300" />
+        </div>
 
-        <div class="relative flex flex-col min-w-0 break-words w-10/12 mb-6 rounded-lg z-10">
-          <div class="rounded-t mb-0 px-6 py-6 text-center">
-            <a class="inline-block uppercase hover">
-              <img :src="logoJuris" alt="" class="w-1/2 md:w-64 mx-auto" @click="$router.push('/')" />
-            </a>
-            <hr class="mt-6 border-b-1 border-blueGray-300" />
+        <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+          <div class="text-blueGray-400 text-center mb-3 font-bold">
+            <small>
+              Inicia sesión con tus credenciales
+            </small>
           </div>
 
-          <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-            <div class="text-blueGray-400 text-center mb-3 font-bold">
-              <small>
-                Inicia sesión con tus credenciales
-              </small>
+          <form @submit.prevent="signIn">
+            <div class="form-group" :class="{ error: validation.hasError('form.EMAIL') }">
+              <label for="Email">
+                Email
+              </label>
+              <input type="text" class="form-control" v-model="form.EMAIL" id="Email" autocomplete="off" />
+              <span class="message" v-if="validation.hasError('form.EMAIL')">
+                {{ validation.firstError('form.EMAIL') }}
+              </span>
             </div>
-            <form @submit.prevent="signIn">
-              <div class="form-group" :class="{ error: validation.hasError('form.EMAIL') }">
-                <label for="Email">
-                  Email
-                </label>
-                <input type="text" class="form-control" v-model="form.EMAIL" id="Email" autocomplete="off" />
-                <span class="message" v-if="validation.hasError('form.EMAIL')">
-                  {{ validation.firstError('form.EMAIL') }}
-                </span>
-              </div>
 
-              <div class="form-group" :class="{ error: validation.hasError('form.PASSWORD') }">
-                <label for="Password">
-                  Contraseña
-                </label>
-                <div class="input-group position-relative overflow-hidden" style="border-radius: 0.375rem !important;">
-                  <input :type="showPassword ? 'text' : 'password'" class="form-control" v-model="form.PASSWORD" id="Password" autocomplete="off" />
-                  <button id="btnToggleShowPassword" type="button" class="btn" @click="togglePassword">
-                    <i :class="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
-                  </button>
-                </div>
-                <span class="message" v-if="validation.hasError('form.PASSWORD')">
-                  {{ validation.firstError('form.PASSWORD') }}
-                </span>
-              </div>
-
-              <div class="flex justify-end mt-2">
-                <a href="#" class="text-blue-500"
-                  @click="modalRecuperarContrasena.show = true;"
-                >¿Olvidaste tu contraseña?</a>
-              </div>
-
-              <div class="text-center mt-10">
-                <button
-                  class="btn-search text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                  type="submit">
-                  Iniciar sesión
+            <div class="form-group" :class="{ error: validation.hasError('form.PASSWORD') }">
+              <label for="Password">
+                Contraseña
+              </label>
+              <div class="input-group position-relative overflow-hidden" style="border-radius: 0.375rem !important;">
+                <input :type="showPassword ? 'text' : 'password'" class="form-control" v-model="form.PASSWORD"
+                  id="Password" autocomplete="off" />
+                <button id="btnToggleShowPassword" type="button" class="btn" @click="togglePassword">
+                  <i :class="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
                 </button>
               </div>
-            </form>
-          </div>
-        </div>
-
-
-        <!-- // burbujitas -->
-        <!-- Burbujitas (actualizado) -->
-        <div class="bubbles-container">
-          <!-- <div class="bubble"></div>
-          <div class="bubble"></div>
-          <div class="bubble"></div>
-          <div class="bubble"></div>
-          <div class="bubble"></div>
-          <div class="bubble"></div>
-          <div class="bubble"></div>
-          <div class="bubble"></div>
-          <div class="bubble"></div>
-          <div class="bubble"></div> -->
-        </div>
-
-      </div>
-
-      <div class="flex-1 brightness xl-w-auto text-center hidden lg:flex rounded-lg">
-        <transition name="fade">
-          <div v-if="noticias.length > 0"
-            class="bg-image-noticia relative w-full bg-contain bg-end-image bg-no-repeat transition-opacity duration-500"
-            :style="{ backgroundImage: `url(${noticias[currentNoticia]?.IMAGEN2 || ''})`, backgroundSize: 'cover' }">
-            <div class="absolute layout-text p-4 text-left">
-              <h2 class="text-lg font-bold text-white">{{ noticias[currentNoticia]?.TITULO || '' }}</h2>
-              <p class="text-sm text-white">{{ noticias[currentNoticia]?.DESCRIPCION || '' }}</p>
+              <span class="message" v-if="validation.hasError('form.PASSWORD')">
+                {{ validation.firstError('form.PASSWORD') }}
+              </span>
             </div>
-          </div>
-        </transition>
+
+            <div class="flex justify-end mt-2">
+              <a href="#" class="text-blue-500" @click="modalRecuperarContrasena.show = true;">¿Olvidaste tu
+                contraseña?</a>
+            </div>
+
+            <div class="text-center mt-10">
+              <button
+                class="btn-search text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                type="submit">
+                Iniciar sesión
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <ModalRecuperarContrasena :show="modalRecuperarContrasena.show" :close="() => modalRecuperarContrasena.show = false"
+      :update="() => { }" />
+    <LoadingOverlay :active="isloading" :is-full-page="false" :loader="'bars'" />
+  </div>
+</template> -->
+
+<template>
+  <div class="form-login">
+    <!-- Encabezado -->
+    <div class="flex justify-between items-center mb-4 px-5" style="width: 100%;">
+      <img src="@/assets/img/logos/logo-full.png" 
+      @click="$router.push('/')"
+      alt="Logo" class="h-10 cursor-pointer" />
+      <div class="text-sm">
+        <span class="text-gray-600 no-tener-cuenta">¿No tienes una cuenta?</span>
+        <button class="btn-registrate ml-2 text-blue-500 hover:underline">Regístrate</button>
+      </div>
+    </div>
+
+    <div class="px-5 bg-white p-8 rounded-xl shadow-lg w-5/6">
+      <h3 class="text-lato-700 text-center">Ingresa a tu cuenta</h3>
+      <div class="social-buttons mt-4">
+        <!-- Botón de Google -->
+        <button class="social-btn">
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" class="icon">
+          Ingresar con Google
+        </button>
+
+        <!-- Botón de LinkedIn -->
+        <button class="social-btn">
+          <img src="https://www.svgrepo.com/show/448234/linkedin.svg" alt="LinkedIn Logo" class="icon">
+          Ingresar con LinkedIn
+        </button>
       </div>
 
-      <ModalRecuperarContrasena  :show="modalRecuperarContrasena.show" :close="() => modalRecuperarContrasena.show = false"
-        :update="() => { }" />
+      <div class="separator">
+        <span>o iniciar sesión con</span>
+      </div>
+
+      <form class="mt-4" @submit.prevent="signIn">
+        <div class="input-group" :class="{ error: validation.hasError('form.EMAIL') }">
+          <img src="@/assets/img/icons/email.svg" alt="Email Icon" class="input-icon">
+          <input type="email" placeholder="Correo electrónico" autocomplete="off" v-model="form.EMAIL"
+            class="input-field">
+        </div>
+
+        <div class="input-group" :class="{ error: validation.hasError('form.PASSWORD') }">
+          <img src="@/assets/img/icons/look.svg" alt="Password Icon" class="input-icon">
+          <input placeholder="Contraseña" class="input-field" id="password" :type="showPassword ? 'text' : 'password'"
+            v-model="form.PASSWORD" autocomplete="off">
+          <button type="button" class="eye-icon" @click="togglePassword">
+            <img v-if="!showPassword" src="@/assets/img/icons/eye.svg" alt="Eye Open Icon" class="eye-icon">
+            <img v-else src="@/assets/img/icons/eye-look.svg" alt="Eye Close Icon" class="eye-icon">
+          </button>
+        </div>
+
+        <div class="options">
+          <label class="remember-me text-lato-200">
+            <input type="checkbox"> Recordar
+          </label>
+          <button class="forgot-password text-lato-200" 
+          @click.prevent="modalRecuperarContrasena.show = true">
+            ¿Olvidaste tu contraseña?
+          </button>
+        </div>
+
+        <button type="submit" class="submit-btn mt-3 text-lato">Iniciar sesión</button>
+      </form>
+
+      <ModalRecuperarContrasena :show="modalRecuperarContrasena.show"
+        :close="() => modalRecuperarContrasena.show = false" :update="() => { }" />
+
       <LoadingOverlay :active="isloading" :is-full-page="false" :loader="'bars'" />
+    </div>
+
+    <div class="flex md:flex-row gap-2 flex-col justify-between items-center mt-4 px-5 text-sm" style="width: 100%">
+      <span style="color: #727370">© {{ new Date().getFullYear() }} Todos los derechos reservados</span>
+      <div class="flex gap-4">
+        <a 
+        @click.prevent="$router.push('/politicas&privacidad')"
+        class="hover:underline text-gray-600 underline cursor-pointer"
+        style="color: #262626"
+        >Políticas de Privacidad</a>
+        <a 
+        @click.prevent="$router.push('/cookies')"
+        class="hover:underline text-gray-600 underline cursor-pointer"
+        style="color: #262626"
+        >Políticas de Cookies</a>
+      </div>
     </div>
   </div>
 </template>
+
+
 
 <script>
 import github from "@/assets/img/github.svg";
@@ -197,7 +254,7 @@ export default {
           if (response?.status == 201) {
             let { TOKEN, NOMBRES, EMAIL, RTAFTO } = response.data;
             localStorage.setItem('accessToken', TOKEN);
-            localStorage.setItem('user', JSON.stringify({ NOMBRES, EMAIL, RTAFTO}));
+            localStorage.setItem('user', JSON.stringify({ NOMBRES, EMAIL, RTAFTO }));
             this.$router.push('/redirect');
           }
         })
@@ -233,7 +290,7 @@ export default {
         });
 
     },
-    updateOpen(){
+    updateOpen() {
       console.log("aaaaaaaa")
     },
     togglePassword() {
@@ -241,179 +298,202 @@ export default {
     }
   },
   mounted() {
-    this.fetchNoticias();
+    // this.fetchNoticias();
   },
 };
 </script>
 
-<style>
-.log-grid {
-  display: grid;
-  grid-template-columns: 3fr 4fr;
+<style scoped>
+.form-login {
+  background-image: url("../../assets/img/resources/bg-comments.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100dvh; 
+  display: flex;
+  padding: 20px 0px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
-.log-grid input {
+.social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 9999px;
+  /* Equivalente a rounded-full */
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  background-color: white;
+  transition: background 0.3s;
+}
+
+.social-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 16px 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: #d1d5db;
+  margin: 0 10px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  /* background: #f3f4f6; */
+  border: 1px solid #d1d5db;
+  border-radius: 9999px;
+  padding: 10px;
+  margin-bottom: 12px;
+}
+
+.input-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+.input-field {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+}
+
+/* Estilo del botón de ojo */
+.eye-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.eye-icon img {
+  width: 18px;
+  height: 18px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.eye-icon:hover img {
+  opacity: 1;
+}
+
+/* Botón de enviar */
+.submit-btn {
+  width: 100%;
+  background: #2563eb;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background: #1e40af;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0px;
+  font-size: 14px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
   margin: 0;
 }
 
+.remember-me input {
+  accent-color: #2563eb;
+}
 
-@media (max-width: 1024px) {
-  .log-grid {
-    display: block;
-  }
+.forgot-password {
+  font-size: 12px;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
 }
 
 
-input {
-  background-color: #f2f6f9 !important;
+.btn-registrate {
+  background: #E71FB3;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-input:focus {
-  background-color: #f2f6f9 !important;
-}
-
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.bg-image-noticia {
-  mask-image: linear-gradient(right, rgb(160, 114, 114) 98%, transparent);
-}
-
-.layout-text {
-  bottom: 40%;
-  left: 0;
-  width: 100%;
-  margin: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.layout-text h2 {
-  font-size: 1.5rem;
-  letter-spacing: 0.1rem;
-}
-
-.layout-text p {
-  letter-spacing: 0.1rem;
-  font-size: 1rem;
-}
-
-
-/* // * animation */
-.opacity-25 {
-  opacity: 0.25;
-}
-
-.bubbles-container {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.bubble {
-  position: absolute;
-  bottom: -80px;
-  width: 70px;
-  height: 50px;
-  border-radius: 50%;
-  animation: rise 5s infinite ease-in;
-  opacity: 0.1;
-}
-
-/* background-color: #e81eb2ff;
-background-color: #1764ffff; */
-
-/* // par fusia impar azul */
-.bubble:nth-child(odd) {
-  background-color: #1764ffff;
-}
-
-.bubble:nth-child(even) {
-  background-color: #e81eb2ff;
-}
-
-
-.bubble:nth-child(1) {
-  left: 10%;
-  animation-delay: 0s;
-}
-
-.bubble:nth-child(2) {
-  left: 20%;
-  animation-delay: 2s;
-}
-
-.bubble:nth-child(3) {
-  left: 30%;
-  animation-delay: 1s;
-}
-
-.bubble:nth-child(4) {
-  left: 40%;
-  animation-delay: 4s;
-}
-
-.bubble:nth-child(5) {
-  left: 50%;
-  animation-delay: 6s;
-}
-
-.bubble:nth-child(6) {
-  left: 60%;
-  animation-delay: 5s;
-}
-
-.bubble:nth-child(7) {
-  left: 70%;
-  animation-delay: 3s;
-}
-
-.bubble:nth-child(8) {
-  left: 80%;
-  animation-delay: 6s;
-}
-
-.bubble:nth-child(9) {
-  left: 90%;
-  animation-delay: 5s;
-}
-
-.bubble:nth-child(10) {
-  left: 95%;
-  animation-delay: 4s;
-}
-
-@keyframes rise {
-  0% {
-    bottom: 0;
-    transform: translateY(0);
-    opacity: 0.1;
+@media (max-width: 768px) {
+  .no-tener-cuenta {
+    display: none;
   }
 
-  50% {
-    opacity: 0.1;
-  }
-
-  100% {
-    bottom: 100%;
-    transform: translateY(-100%);
-    opacity: 0;
+  .form-login{
+    padding: 10px 10px;
+    justify-content: space-around;
   }
 }
 
 #btnToggleShowPassword {
   border: none;
-  position: absolute;
   right: 0;
   z-index: 5;
   top: .4rem;

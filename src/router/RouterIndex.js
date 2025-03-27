@@ -77,6 +77,27 @@ const ifAuthenticatedAdmin = async (to, from, next) => {
   }
 };
 
+
+const ifAuthenticatedAuthToken = async (to, from, next) => {
+  try {
+    await UserProxy.validate()
+      .then((response) => {
+        if (response?.STATUS && response.DATA.IDR === 2) {
+          next("/usuario/busqueda");
+        } else if (response?.STATUS && (response.DATA.IDR === 0 || response.DATA.IDR === 1)) {
+          next("/admin/dashboard");
+        } else {
+          next();
+        }
+      })
+      .catch(() => {
+        next();
+      });
+  } catch (error) {
+    next();
+  }
+}
+
 const routes = [
   {
     path: "/redirect",
@@ -208,7 +229,7 @@ const routes = [
   },
   {
     path: "/usuario",
-    redirect: "/usuario/dashboard",
+    redirect: "/usuario/busqueda",
     component: Usuario,
     children: [
       {
@@ -256,6 +277,7 @@ const routes = [
     path: "/auth",
     redirect: "/auth",
     component: Auth,
+    beforeEnter: ifAuthenticatedAuthToken,
     children: [
       {
         path: "/auth/login",

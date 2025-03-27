@@ -1,19 +1,22 @@
 <template>
   <div>
     <index-navbar />
-    <div :style="{ backgroundImage: `url(${portada})` }" class="relative d-flex bg-contain bg-no-repeat lg:bg-cover lg:bg-center">
+    <div :style="{ backgroundImage: `url(${portada})` }"
+      class="relative d-flex bg-contain bg-no-repeat lg:bg-cover lg:bg-center">
       <div class="degradado"></div>
       <div class="m-auto container z-2 py-40">
         <div class="row">
           <div class="col">
-            <h1>Encuentra en segundos la <span class="text-duo font-bold">jurisprudencia</span> y <span class="text-duo font-bold">legislación</span> peruana que buscas</h1>
+            <h1>Optimiza tu estrategia jurídica con<span class="text-duo font-bold"> jurisprudencia actual</span> y
+              <span class="text-duo font-bold">seleccionada</span>
+            </h1>
             <span>Consulta jurisprudencia penal en esta herramienta online</span>
-            <div class="pt-5">
+            <!-- <div class="pt-5">
               <button onclick="window.location='#mi-seccion'"
                 class="bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150">
                 Pruébalo gratis
               </button>
-            </div>
+            </div> -->
           </div>
           <div class="col">
           </div>
@@ -25,23 +28,26 @@
     <section class="background-custom relative">
       <div class="container-custom mx-auto px-lg-5">
         <p class="text-duo text-2xl text-center">
-          Juris Search es una herramienta tecnológica online diseñada para facilitar la búsqueda y consulta de jurisprudencia en materia penal, especialmente, en derecho penal <br /> económico y de la empresa.
+          Juris Search es una herramienta digital diseñada para simplificar la
+          búsqueda selectiva de jurisprudencia en derecho penal, derecho penal económico y de la
+          empresa
         </p>
       </div>
       <div class="m-auto image-container">
-        <img :src="screen" alt="imagen-1" class="w-full image-outside mx-auto" style="transform: translateY(100px); width: 80%; z-index: 5" />
+        <img :src="screen" alt="imagen-1" class="w-full image-outside mx-auto"
+          style="transform: translateY(100px); width: 80%; z-index: 5" />
       </div>
     </section>
 
 
-    <section class="mt-20 container-mision-v relative">
+    <section class="mt-20 container-mision-v relative" id="conoce-proposito">
       <div class="mx-auto container pt-5">
         <h2 class="text-center">Conoce <span class="text-blue-500">nuestro próposito</span></h2>
       </div>
       <div class="pt-5 mx-auto container text-center">
         <button
           class="button-duo font-bold rounded-full px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150 shadow">
-          <span class="text-duo">Quienes somos</span>
+          <span class="text-duo">¿Quiénes somos?</span>
         </button>
         <button
           class="btn ms-4 font-bold px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150 border-0">
@@ -56,8 +62,7 @@
                 <div class="relative flex flex-col mt-4">
                   <div class="px-4 py-5 flex-auto container-valor">
                     <div class="container-imagen flex md:justify-start justify-center">
-                      <div
-                        class="mb-3">
+                      <div class="mb-3">
                         <img :src="visionVue" alt="vision" />
                       </div>
                     </div>
@@ -77,8 +82,7 @@
                 <div class="relative flex flex-col min-w-0 mt-4">
                   <div class="px-4 py-5 flex-auto container-valor">
                     <div class="container-imagen flex  md:justify-start justify-center">
-                      <div
-                        class="mb-3">
+                      <div class="mb-3">
                         <img :src="misionVue" alt="mision" />
                       </div>
                     </div>
@@ -100,8 +104,10 @@
 
     <section class="relative block" id="mi-nosotros">
       <div class="animation-b-t mt-0 container mx-auto px-4 lg:pt-24">
-        <h2>Lo que te <span class="text-primary">ofrecemos</span></h2>
-        <Carousel :breakpoints="carouselConfig.breakpoints" :wrap-around="carouselConfig.wrapAround" :autoplay="carouselConfig.autoplay" :settings="{ navigationEnabled: true }">
+        <h2 style="text-align: center!important; margin-bottom: 20px!important;">Lo que te <span
+            class="text-primary">ofrecemos</span></h2>
+        <Carousel :breakpoints="carouselConfig.breakpoints" :wrap-around="carouselConfig.wrapAround"
+          :autoplay="carouselConfig.autoplay" :settings="{ navigationEnabled: true }">
           <Slide v-for="slide in slides" :key="slide.id">
             <div class="slide-content">
               <img :src="slide.image" class="slide-image" />
@@ -123,7 +129,7 @@
                 </button>
               </template>
             </CarouselNavigation>
-          </template> 
+          </template>
         </Carousel>
       </div>
     </section>
@@ -131,21 +137,25 @@
     <section class="py-4 pt-3" id="mi-seccion">
       <div id="pricing" class="py-6 px-6 mb-0 lg:px-20 my-2 md:my-6">
         <div class="text-center mb-6">
-          <h2>Nuestros <span class="text-primary">planes</span></h2> 
+          <h2>Nuestros <span class="text-primary">planes</span></h2>
           <span class="text-muted-color text-md">
             Elige el plan que mejor se adapte a tus necesidades
           </span>
         </div>
 
         <div class="row flex flex-wrap justify-center gap-4 flex-row-reverse pt-4">
-          <div class="bg-white col-md-3 col-sm-12 p-0 md:p-4 card-price border hover:border-primary rounded-3xl overflow-hidden" :class="{ 'scale-custom ms-3 border-primary': plan?.DESCRIPCION === 'PREMIUN' }"
+          <div
+            class="bg-white col-md-3 col-sm-12 p-0 md:p-4 card-price border hover:border-primary rounded-3xl overflow-hidden"
+            :class="{ 'scale-custom ms-3 border-primary': plan?.DESCRIPCION === 'PREMIUM' }"
             style="width: auto;;height: auto;" v-for="plan in planes" :key="plan.id">
-            <div class="text-center p-3 text-primary" :class="{ 'bg-duo text-white': plan?.DESCRIPCION === 'PREMIUN' }">Plan {{ plan?.DESCRIPCION === 'PREMIUN' ? "popular" : "básico" }}</div>
+            <div class="text-center p-3 text-primary" :class="{ 'bg-duo text-white': plan?.DESCRIPCION === 'PREMIUM' }">
+              Plan
+              {{ plan?.DESCRIPCION === 'PREMIUM' ? "recomendado" : "básico" }}</div>
             <div
               class="p-4 flex flex-col border-surface-200 dark:border-surface-600 pricing-card cursor-pointer duration-300 transition-all"
               style="border-radius: 10px; max-width: 300px;">
               <div class="flex justify-center items-center gap-2">
-                <div v-if="plan?.DESCRIPCION === 'PREMIUN'">
+                <div v-if="plan?.DESCRIPCION === 'PREMIUM'">
                   <img :src="corona" />
                 </div>
                 <div class="text-surface-900 dark:text-surface-0 text-center font-bold text-capitalize">
@@ -157,11 +167,12 @@
                   <span>S/</span>
                   <span class="text-5xl font-bold mr-2 mt-3 text-surface-900 dark:text-surface-0">
                     {{ plan?.PRECIO || "" }}
-                  </span> 
+                  </span>
                 </div>
               </div>
-              <button @click="goToPlan(plan)" class="btn btn-outline-primary py-3" style="border-radius: 30px" :class="{ 'shadow-lg pink-button text-white border-0': plan?.DESCRIPCION === 'PREMIUN' }">
-                {{ plan?.DESCRIPCION === 'PREMIUN' ? "Adquirir Plan" : "Probar gratis" }}
+              <button @click="goToPlan(plan)" class="btn btn-outline-primary py-3" style="border-radius: 30px"
+                :class="{ 'shadow-lg pink-button text-white border-0': plan?.DESCRIPCION === 'PREMIUM' }">
+                {{ plan?.DESCRIPCION === 'PREMIUM' ? "Adquirir Plan" : "Probar gratis" }}
               </button>
               <ul
                 class="my-8 mt-3 list-none p-0 flex text-surface-900 dark:text-surface-0 flex-col px-8 ul-list-details">
@@ -174,8 +185,8 @@
               </ul>
               <hr class="bg-dark mx-auto" />
               <div class="flex gap-2 mt-3 text-xs text-secondary">
-                <span>*</span>
-                <p>El usuario {{ plan?.DESCRIPCION === 'PREMIUN' ? "Premiun" : "Free" }} sólo podrá hacer uso <b class="pink-text">limitado</b> de {{ plan?.DESCRIPCION === 'PREMIUN' ? "todos" : "los" }} documentos de resoluciones y sentencias.</p>
+                <span v-if="plan?.CDESTDO?.length > 0">*</span>
+                <p>{{ plan?.CDESTDO }}</p>
               </div>
             </div>
           </div>
@@ -282,19 +293,16 @@
       </div>
     </section>
 
-    <section class="py-4 pt-5 mt-5 bg-comments" :style="{ backgroundImage: `url(${bgComments})` }" id="mi-seccion">
+    <section class="hidden d-none py-4 pt-5 mt-5 bg-comments" :style="{ backgroundImage: `url(${bgComments})` }"
+      id="mi-seccion">
       <div id="pricing" class="py-6 px-6 mb-0 lg:px-20 my-2 md:my-6">
         <div class="text-center mb-6">
-          <h2>Lo que <span class="text-primary">nuestros usuarios dicen</span></h2> 
+          <h2 style="text-align: center!important">Lo que <span class="text-primary">nuestros usuarios dicen</span></h2>
         </div>
 
         <div class="container mx-auto">
-          <Carousel
-            :breakpoints="carouselConfig.breakpoints"
-            :wrap-around="carouselConfig.wrapAround"
-            :autoplay="carouselConfig.autoplay"
-            :settings="{ navigationEnabled: true }"
-          >
+          <Carousel :breakpoints="carouselConfig.breakpoints" :wrap-around="carouselConfig.wrapAround"
+            :autoplay="carouselConfig.autoplay" :settings="{ navigationEnabled: true }">
             <Slide v-for="comment in comments" :key="comment.id">
               <div class="flex justify-center p-3">
                 <div class="bg-white text-center p-6 rounded-xl shadow" style="max-width: 400px;">
@@ -327,11 +335,11 @@
       </div>
     </section>
 
-    <section class="bg-dark">
+    <section class="bg-dark mt-5">
       <div class="container-custom mx-auto p-5">
         <div class="flex flex-column gap-2 p-3">
           <h2 class="text-center text-white">¿Necesitas ayuda? Contáctanos y con gusto atenderemos tu consulta</h2>
-          <router-link to="/"
+          <router-link to="/contacto" 
             class="m-auto bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">
             Contáctanos ahora
           </router-link>
@@ -495,7 +503,7 @@ export default {
             const type = noticia.IMAGEN.split('.').pop();
             const imageData = noticia?.IMAGEN2?.data || null;
 
-            if(!imageData) return noticia;
+            if (!imageData) return noticia;
 
             const base64String = imageData.reduce((acc, byte) => acc + String.fromCharCode(byte), '');
             noticia.IMAGEN2 = `data:image/${type};base64,${window.btoa(base64String)}`;
@@ -511,12 +519,6 @@ export default {
         });
     },
     getPlanes() {
-      let restriciones = {
-        1: "Visualización de resoluciones y sentencias",
-        2: "Descarga de resoluciones y sentencias",
-        3: "Configuración de carpetas",
-      }
-
       MantenimientoProxy.listPlanesAbout({
         ROWS: 1000,
         INIT: 0,
@@ -524,19 +526,33 @@ export default {
       }
       ).then((response) => {
         response = response.map((item) => {
-          let res = [];
-          try {
-            res = item.RESTRICIONES.split(',');
-          } catch (error) {
-            res = [];
-          }
-
           item.PRECIO = item.PRECIO.toFixed(2);
           item.TIEMPO = Number((item.TIEMPO / 30).toFixed(0));
-          item.RESTRICIONES = res.map((item) => {
-            return restriciones[item];
-          });
+          
+          if(item.VALOR === '1'){
+            item.RESTRICIONES = [
+              "Accede a filtros de búsqueda especializados.",
+              "Visualiza y descarga resoluciones.",
+              "30 días de prueba",
+            ]
 
+            item.CDESTDO = "El plan básico dura un mes."
+          }
+
+          
+          if(item.VALOR === '2'){
+            item.RESTRICIONES = [
+              "Accede a filtros de búsqueda especializados.",
+              "Visualiza y descarga resoluciones.",
+              "Visualiza y descarga resúmenes ejecutivos.",
+              "Selecciona resoluciones favoritas.",
+              "Crea y comparte carpetas de resoluciones.",
+              "Accede a boletines quincenales y mensuales."
+            ]
+
+            item.CDESTDO = ""
+
+          }
           return item;
         });
 
@@ -651,50 +667,56 @@ export default {
 
 /* Celulares en modo vertical */
 @media only screen and (max-width: 480px) {
+
   /* Estilos para dispositivos móviles */
   .container-h-screen {
     margin-bottom: 1rem
   }
 
-  .container-contactanos{
-    margin: 0!important;
+  .container-contactanos {
+    margin: 0 !important;
   }
 
-  .container-contactanos .contactos-container{
-    padding: 0!important;
+  .container-contactanos .contactos-container {
+    padding: 0 !important;
   }
 
-  .container-contactanos .contacto{
-    padding: 2rem!important;
+  .container-contactanos .contacto {
+    padding: 2rem !important;
   }
 }
+
 /* Tabletas en modo vertical y horizontal */
 @media only screen and (min-width: 481px) and (max-width: 768px) {
+
   /* Estilos para tabletas */
-  .container-text{
-    width: 100%!important;
+  .container-text {
+    width: 100% !important;
   }
 
   .container-h-screen {
     height: 70vh;
   }
 
-  .w-full-container{
-    width: 100%!important;
+  .w-full-container {
+    width: 100% !important;
     text-align: justify;
   }
 
-  .w-full-container .container-imagen{
+  .w-full-container .container-imagen {
     justify-content: center;
   }
 }
+
 /* Laptops pequeñas y dispositivos medianos */
 @media only screen and (min-width: 769px) and (max-width: 1024px) {
+
   /* Estilos para laptops */
-  .container-text{
-    width: 100%!important;
+  .container-text {
+    width: 100% !important;
   }
 }
+
 /* Escritorios grandes o pantallas de alta resolución */
 @media only screen and (min-width: 1025px) {
   /* Estilos para pantallas grandes */
@@ -838,16 +860,17 @@ export default {
 }
 
 .prev-button {
-  left: -30px; /* Ajusta la posición izquierda */
+  left: -30px;
+  /* Ajusta la posición izquierda */
 }
 
 .next-button {
-  right: -30px; /* Ajusta la posición derecha */
+  right: -30px;
+  /* Ajusta la posición derecha */
 }
 
 .bg-comments {
   background-size: cover;
   background-position: center top;
 }
-
 </style>

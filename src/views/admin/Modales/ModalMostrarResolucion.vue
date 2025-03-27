@@ -66,7 +66,7 @@
             </b-tab>
 
             <!-- TAB 2 -->
-            <b-tab event-key="tab2" title="Resúmen de Documento">
+            <b-tab event-key="tab2" title="Resumen Ejecutivo">
                 <b-row>
                     <!-- Primera columna -->
                     <b-col cols="12" lg="4">

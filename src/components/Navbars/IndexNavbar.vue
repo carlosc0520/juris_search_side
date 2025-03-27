@@ -5,7 +5,8 @@
         <div></div>
         <div class="d-flex justify-content-center align-items-center gap-2">
           <span>Adquiere más funcionalidades con el</span>
-          <button class="rounded-full px-3 py-1 d-flex justify-content-center align-items-center border border-white text-xs">
+          <button
+            class="rounded-full px-3 py-1 d-flex justify-content-center align-items-center border border-white text-xs">
             Plan Premium
             <img class="ps-1" src="../../assets/img/resources/Corona.png" />
           </button>
@@ -25,41 +26,35 @@
             <i class="fas fa-bars"></i>
           </button>
         </div>
-        <div class="lg:flex flex-grow items-center justify-between" :class="[navbarOpen ? 'block' : 'hidden']" id="example-navbar-warning">
+        <div class="lg:flex flex-grow items-center justify-between" :class="[navbarOpen ? 'block' : 'hidden']"
+          id="example-navbar-warning">
           <router-link to="/">
-            <a class="text-blueGray-700 text-sm font-bold leading-relaxed inline-block mr-4  uppercase contenedor-logo" href="#pablo">
-              <img :src="logoJuris" alt="" class="logo"/>
+            <a class="text-blueGray-700 text-sm font-bold leading-relaxed inline-block mr-4  uppercase contenedor-logo"
+              href="#pablo">
+              <img :src="logoJuris" alt="" class="logo" />
             </a>
           </router-link>
           <ul class="flex flex-col lg:flex-row list-none mr-auto p-0 m-0">
             <li class="flex items-center justify-content-center">
-              <router-link 
-                to="/"
-                :class="{ 'text-primary': route.path === '/' }"
+              <router-link to="/" :class="{ 'text-primary': route.path === '/' }"
                 class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs">
                 Inicio
               </router-link>
             </li>
             <li class="flex items-center">
-              <router-link 
-                to="/conocenos"
-                :class="{ 'text-primary': route.path === '/conocenos' }"
+              <a href="#conoce-proposito" @click.prevent="scrollToSection"
                 class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs">
-                Conócenos
-              </router-link>
+                Conoce nuestro propósito
+              </a>
             </li>
             <li class="flex items-center">
-              <router-link 
-                to="/noticias"
-                :class="{ 'text-primary': route.path === '/noticias' }"
+              <router-link to="/noticias" :class="{ 'text-primary': route.path === '/noticias' }"
                 class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs">
                 Noticias
               </router-link>
             </li>
             <li class="flex items-center">
-              <router-link 
-                to="/contacto"
-                :class="{ 'text-primary': route.path === '/contacto' }"
+              <router-link to="/contacto" :class="{ 'text-primary': route.path === '/contacto' }"
                 class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs">
                 Contáctanos
               </router-link>
@@ -75,7 +70,7 @@
             <li class="flex items-end">
               <router-link to="/auth/login"
                 class="bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">
-                Pruébalo gratis
+                Empieza ahora
               </router-link>
             </li>
           </ul>
@@ -105,6 +100,12 @@ export default {
     setNavbarOpen: function () {
       this.navbarOpen = !this.navbarOpen;
     },
+    scrollToSection: () => {
+      const section = document.querySelector("#conoce-proposito");
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   },
   components: {
     // IndexDropdown,
@@ -114,7 +115,6 @@ export default {
 
 
 <style>
-
 .contenedor-logo {
   display: flex;
   align-items: center;
@@ -132,9 +132,8 @@ export default {
 }
 
 
-.nav-bottom-gray{
+.nav-bottom-gray {
   /* // linea abajo */
   border-bottom: 1px solid #e3e3e3;
 }
-
 </style>

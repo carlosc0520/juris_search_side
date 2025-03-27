@@ -76,3 +76,33 @@ body {
 .pink-text {
     color: #F13CCB !important;
 }
+
+.el-select__input {
+    width: auto !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.el-select__input:focus {
+    background-color: transparent !important;
+}
+
+.el-select__selection {
+    flex-wrap: nowrap !important;
+}
+
+.el-select__selected-item .el-select__input {
+    width: 0 !important;
+}
+
+.b-from-tags-field div .b-form-tags-button {
+    display: none !important;
+}
+
+.b-from-tags-field div input {
+    box-shadow: none !important;
+}
+
+.b-from-tags-field div input:focus {
+    background-color: transparent !important;
+}

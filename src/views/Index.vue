@@ -1,14 +1,17 @@
 <template>
   <div>
     <index-navbar />
-    <div :style="{ backgroundImage: `url(${portada})` }" class="relative d-flex bg-contain bg-no-repeat lg:bg-cover lg:bg-center">
+    <div :style="{ backgroundImage: `url(${portada})` }"
+      class="relative d-flex bg-contain bg-no-repeat lg:bg-cover lg:bg-center">
       <div class="degradado"></div>
       <div class="m-auto container z-2 py-40 pb-89">
         <div class="row">
           <div class="col">
-            <h1>Encuentra en segundos la <span class="text-duo font-bold">jurisprudencia</span> y <span class="text-duo font-bold">legislación</span> peruana que buscas</h1>
+            <h1>Optimiza tu estrategia jurídica con <span class="text-duo font-bold"> jurisprudencia actual</span>
+              y<span class="text-duo font-bold">
+                seleccionada</span></h1>
             <span>Consulta jurisprudencia penal en esta herramienta online</span>
-            <div class="pt-5">
+            <!-- <div class="pt-5">
               <button onclick="window.location='#mi-seccion'"
                 class="bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150">
                 Adquirir plan
@@ -44,10 +47,9 @@
       <div class="pt-5 mx-auto container text-center">
         <button
           class="button-duo font-bold rounded-full px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150 shadow">
-          <span class="text-duo">Quienes somos</span>
+          <span class="text-duo">¿Quiénes somos?</span>
         </button>
-        <button
-          @click="selectedSection = 'nuestros-valores'"
+        <button @click="selectedSection = 'nuestros-valores'"
           :class="selectedSection === 'nuestros-valores' ? 'button-duo shadow rounded-full px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150' : 'btn'"
           class="ms-4 font-bold px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150 border-0">
           <span :class="selectedSection === 'nuestros-valores' ? 'text-duo' : ''">Nuestros valores</span>
@@ -102,7 +104,8 @@
 
       <div v-if="selectedSection === 'nuestros-valores'" class="container mx-auto">
         <div class="w-full md:w-12/12 px-4">
-          <Carousel :breakpoints="carouselConfig.breakpoints" :wrap-around="carouselConfig.wrapAround" :autoplay="false" :settings="{ navigationEnabled: true }">
+          <Carousel :breakpoints="carouselConfig.breakpoints" :wrap-around="carouselConfig.wrapAround" :autoplay="false"
+            :settings="{ navigationEnabled: true }">
             <Slide class="p-2 mb-5" v-for="valor in valores" :key="valor.id">
               <div class="card border-0 p-3 mr-2" style="height: 100% !important;">
                 <img :src="valor?.image" width="30" />
@@ -112,7 +115,7 @@
                 </div>
               </div>
             </Slide>
-  
+
             <template #addons>
               <CarouselNavigation>
                 <template #prev>
@@ -127,7 +130,7 @@
                 </template>
               </CarouselNavigation>
               <Pagination />
-            </template> 
+            </template>
           </Carousel>
         </div>
       </div>
@@ -141,11 +144,9 @@
           :autoplay="carouselConfig.autoplay" :settings="{ navigationEnabled: true }">
           <Slide v-for="slide in slides" :key="slide.id">
             <div class="slide-content">
-              <img :src="slide?.image" class="slide-image" />
-              <div class="text-container">
-                <h4 class="slide-text text-sm">{{ slide?.text }}</h4>
-                <p class="slide-description text-sm">{{ slide?.description }}</p>
-              </div>
+              <img :src="slide.image" class="slide-image" />
+              <div class="overlay"></div>
+              <p class="slide-text">{{ slide.text }}</p>
             </div>
           </Slide>
 
@@ -177,9 +178,13 @@
         </div>
 
         <div class="row flex flex-wrap justify-center gap-4 flex-row-reverse pt-4">
-          <div class="bg-white col-md-3 col-sm-12 p-0 md:p-4 card-price border hover:border-primary rounded-3xl overflow-hidden" :class="{ 'scale-custom ms-3 border-primary': plan?.DESCRIPCION === 'PREMIUN' }"
+          <div
+            class="bg-white col-md-3 col-sm-12 p-0 md:p-4 card-price border hover:border-primary rounded-3xl overflow-hidden"
+            :class="{ 'scale-custom ms-3 border-primary': plan?.DESCRIPCION === 'PREMIUM' }"
             style="width: auto;;height: auto;" v-for="plan in planes" :key="plan.id">
-            <div class="text-center p-3 text-primary" :class="{ 'bg-duo text-white': plan?.DESCRIPCION === 'PREMIUN' }">Plan {{ plan?.DESCRIPCION === 'PREMIUN' ? "popular" : "básico" }}</div>
+            <div class="text-center p-3 text-primary" :class="{ 'bg-duo text-white': plan?.DESCRIPCION === 'PREMIUM' }">
+              Plan
+              {{ plan?.DESCRIPCION === 'PREMIUM' ? "recomendado" : "básico" }}</div>
             <div
               class="p-4 flex flex-col border-surface-200 dark:border-surface-600 pricing-card cursor-pointer duration-300 transition-all"
               style="border-radius: 10px; max-width: 300px;">
@@ -313,7 +318,8 @@
           </div>
           <div class="col-12 col-md-6 bg-white py-0 my-0">
             <Question :resumeSection="true" />
-            <router-link to="/questions" class="d-inline-flex border border-primary rounded-full px-4 py-3 ms-3 ms-md-0">
+            <router-link to="/questions"
+              class="d-inline-flex border border-primary rounded-full px-4 py-3 ms-3 ms-md-0">
               Ver más preguntas frecuentes
               <img :src="nextIcon" alt="next-icon" class="ms-2" />
             </router-link>
@@ -368,7 +374,7 @@
       <div class="container-custom mx-auto p-5">
         <div class="flex flex-column gap-2 p-3">
           <h2 class="text-center text-white">¿Necesitas ayuda? Contáctanos y con gusto atenderemos tu consulta</h2>
-          <router-link to="/contacto" 
+          <router-link to="/contacto"
             class="m-auto bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">
             Contáctanos ahora
           </router-link>
@@ -623,8 +629,8 @@ export default {
         response = response.map((item) => {
           item.PRECIO = item.PRECIO.toFixed(2);
           item.TIEMPO = Number((item.TIEMPO / 30).toFixed(0));
-          
-          if(item.VALOR === '1'){
+
+          if (item.VALOR === '1') {
             item.RESTRICIONES = [
               "Accede a filtros de búsqueda especializados.",
               "Visualiza y descarga resoluciones.",
@@ -634,8 +640,8 @@ export default {
             item.CDESTDO = "El plan básico dura un mes."
           }
 
-          
-          if(item.VALOR === '2'){
+
+          if (item.VALOR === '2') {
             item.RESTRICIONES = [
               "Accede a filtros de búsqueda especializados.",
               "Visualiza y descarga resoluciones.",

@@ -44,7 +44,7 @@
             <li class="flex items-center">
               <a href="#conoce-proposito" @click.prevent="scrollToSection"
                 class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs">
-                Conoce nuestro propósito
+                Conócenos
               </a>
             </li>
             <li class="flex items-center">

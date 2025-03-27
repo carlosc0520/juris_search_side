@@ -1,44 +1,17 @@
 <template>
-  <div>
-    <!-- <div class="flex flex-wrap mt-4">
-      <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-        <card-line-chart :DATA="head.ENTRADAS" />
-      </div>
-      <div class="w-full xl:w-4/12 px-4">
-        <card-bar-chart :DATA="head.USUARIOS" />
-      </div>
-    </div>
-    <div class="flex flex-wrap mt-4">
-      <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-        <card-page-visits />
-      </div>
-      <div class="w-full xl:w-4/12 px-4">
-        <card-social-traffic />
-      </div>
-    </div> -->
-    <div class="container mx-auto px-4 my-0">
-      <h2 class="text-center text-xl font-bold mb-2">Síguenos en Instagram</h2>
-      <p class="text-center mb-5">Descubre nuestras últimas publicaciones y actualizaciones.</p>
-      <iframe src="https://www.instagram.com/juris.search/embed" class="frame-instagram m-0" frameborder="0"
-        scrolling="no" allowfullscreen></iframe>
-    </div>
+  <div class="container-inicio pt-5">
+    <h2 class="text-center text-xl font-bold mb-2 pt-5">Síguenos en Instagram</h2>
+    <p class="text-center mb-5">Descubre nuestras últimas publicaciones y actualizaciones.</p>
+    <iframe src="https://www.instagram.com/juris.search/embed" class="frame-instagram m-0" frameborder="0"
+      scrolling="no" allowfullscreen></iframe>
   </div>
 </template>
 <script>
-// import CardLineChart from "@/components/Cards/CardLineChart.vue";
-// import CardBarChart from "@/components/Cards/CardBarChart.vue";
-// import CardPageVisits from "@/components/Cards/CardPageVisits.vue";
-// import CardSocialTraffic from "@/components/Cards/CardSocialTraffic.vue";
-// import helpersProxy from "../../proxies/helpersProxy";
-// import { toast } from 'vue3-toastify';
 
 export default {
   name: "dashboard-page",
   components: {
-    // CardLineChart,
-    // CardBarChart,
-    // CardPageVisits,
-    // CardSocialTraffic,
+
   },
   data() {
     return {
@@ -47,23 +20,6 @@ export default {
         ENTRADAS: 0
       },
     };
-  },
-  methods: {
-    // async getHead() {
-    //   await helpersProxy.getHead(2)
-    //     .then((response) => {
-    //       if (typeof response !== 'undefined') {
-    //         this.head = {
-    //           USUARIOS: JSON.parse(response?.[0]?.USUARIOS) || [],
-    //           ENTRADAS: JSON.parse(response?.[0]?.ENTRADAS) || []
-    //         }
-    //       }
-    //     })
-    //     .catch((error) => toast.error(error, { toastId: 'error-head' }));
-    // },
-  },
-  mounted() {
-    // this.getHead();
   },
 };
 </script>
@@ -82,7 +38,16 @@ export default {
   -moz-box-shadow: 8px 2px 14px 1px rgba(214, 214, 214, 0.45);
 }
 
+.container-inicio{
+  margin: 0 auto;
+  max-width: 80%!important;
+}
+
 @media (max-width: 768px) {
+  .container-inicio{
+    max-width: 95%!important;
+  }
+
   .frame-instagram {
     min-height: 500px;
   }

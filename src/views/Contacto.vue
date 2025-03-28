@@ -22,7 +22,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex-auto p-5 lg:p-10">
+                            <div class="flex-auto p-2 py-3 lg:p-10">
                                 <h4 class="text-2xl font-semibold">
                                     CONTÁCTANOS
                                 </h4>

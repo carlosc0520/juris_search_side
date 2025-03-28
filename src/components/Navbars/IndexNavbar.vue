@@ -19,11 +19,18 @@
     <nav
       class="nav-bottom-gray bg-white w-full flex flex-wrap items-center justify-between px-2 navbar-expand-lg p-lg-2">
       <div class="container m-0 px-4 mx-auto flex flex-wrap items-center justify-between flex align-center">
-        <div class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
+        <div class="w-full lg:hidden relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
           <button
             class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
             type="button" v-on:click="setNavbarOpen">
             <i class="fas fa-bars"></i>
+          </button>
+
+          <button>
+            <router-link to="/auth/login"
+              class="leading-none lg:hidden bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">
+              Empieza ahora
+            </router-link>
           </button>
         </div>
         <div class="lg:flex flex-grow items-center justify-between" :class="[navbarOpen ? 'block' : 'hidden']"
@@ -35,7 +42,13 @@
             </a>
           </router-link>
           <ul class="flex flex-col lg:flex-row list-none mr-auto p-0 m-0">
-            <li class="flex items-center justify-content-center">
+             <li class="flex items-center lg:hidden">
+              <router-link to="/auth/login"
+              class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs">
+              Iniciar sesión
+              </router-link>
+            </li>
+            <li class="flex items-center">
               <router-link to="/" :class="{ 'text-primary': route.path === '/' }"
                 class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs">
                 Inicio
@@ -60,7 +73,7 @@
               </router-link>
             </li>
           </ul>
-          <ul class="flex flex-col items-center lg:flex-row list-none m-0">
+          <ul class="flex flex-col items-center lg:flex-row list-none m-0 sm-hidden">
             <li class="flex items-end">
               <router-link to="/auth/login"
                 class="p-0 m-0 text-xs font-medium px-4 py-2 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">
@@ -134,6 +147,18 @@ export default {
 
 .nav-bottom-gray {
   /* // linea abajo */
+  padding: 5px 5px;
   border-bottom: 1px solid #e3e3e3;
+}
+
+/* // celular */
+@media (max-width: 768px) {
+  .nav-bottom-gray {
+    padding: 15px 5px;
+  }
+
+  .sm-hidden {
+    display: none;
+  }
 }
 </style>

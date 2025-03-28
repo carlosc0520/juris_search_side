@@ -8,7 +8,7 @@
     >
       <!-- Brand -->
       <a
-        class="text-white text-sm uppercase hidden lg:inline-block font-semibold"
+        class="text-white text-sm uppercase lg:inline-block font-semibold"
         href="javascript:void(0)"
       >
         <img
@@ -19,7 +19,7 @@
         />
       </a>
       <!-- User -->
-      <ul class="m-0 flex-col md:flex-row list-none items-center hidden md:flex">
+      <ul class="m-0 flex-col md:flex-row list-none items-center md:flex">
         <user-dropdown :RTAFTO="RTAFTO" />
       </ul>
     </div>

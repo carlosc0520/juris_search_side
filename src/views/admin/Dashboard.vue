@@ -71,6 +71,8 @@
 
   .container-inicio{
     max-width: 90%;
+    padding: 3.25rem 0px!important;
+    max-width: 95%!important;
   }
 }
 </style>

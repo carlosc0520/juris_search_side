@@ -28,7 +28,7 @@
         <span>o iniciar sesión con</span>
       </div>
 
-      <form class="mt-4" @submit.prevent="signIn">
+      <form class="mt-4">
         <div class="input-group" :class="{ error: validation.hasError('form.EMAIL') }">
           <img src="@/assets/img/icons/email.svg" alt="Email Icon" class="input-icon">
           <input type="email" placeholder="Correo electrónico" autocomplete="off" v-model="form.EMAIL"
@@ -49,13 +49,15 @@
           <label class="remember-me text-lato-200">
             <input type="checkbox"> Recordar
           </label>
-          <button class="forgot-password text-lato-200" 
+          <button type="button" class="forgot-password text-lato-200" 
           @click.prevent="modalRecuperarContrasena.show = true">
             ¿Olvidaste tu contraseña?
           </button>
         </div>
 
-        <button type="submit" class="submit-btn mt-3 text-lato">Iniciar sesión</button>
+        <button type="button"
+        @click.prevent="signIn"
+         class="submit-btn mt-3 text-lato">Iniciar sesión</button>
       </form>
 
       <ModalRecuperarContrasena :show="modalRecuperarContrasena.show"

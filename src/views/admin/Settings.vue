@@ -90,4 +90,13 @@ export default {
   margin: 0 auto;
   max-width: 80%!important;
 }
+
+@media (max-width: 768px) {
+
+.container-inicio{
+  max-width: 90%;
+  padding: 3.25rem 0px!important;
+  max-width: 95%!important;
+}
+}
 </style>

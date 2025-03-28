@@ -2,12 +2,13 @@
   <div>
     <index-navbar />
     <div :style="{ backgroundImage: `url(${portada})` }"
-      class="relative d-flex bg-contain bg-no-repeat lg:bg-cover lg:bg-center">
+      class="relative container-mobile d-flex bg-contain bg-no-repeat lg:bg-cover lg:bg-center">
       <div class="degradado"></div>
-      <div class="m-auto container z-2 py-40 pb-89">
+      <div class="m-auto container container-text-first z-2 py-40 pb-89">
         <div class="row">
           <div class="col">
-            <h1 style="font-size: 2rem;">Optimiza tu estrategia jurídica con <span class="text-duo font-bold"> jurisprudencia actual</span>
+            <h1 style="font-size: 2rem;">Optimiza tu estrategia jurídica con <span class="text-duo font-bold">
+                jurisprudencia actual</span>
               y<span class="text-duo font-bold">
                 seleccionada</span></h1>
             <span>Consulta jurisprudencia penal en esta herramienta online</span>
@@ -46,8 +47,10 @@
       </div>
       <div class="pt-5 mx-auto container text-center">
         <button
-          class="button-duo font-bold rounded-full px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150 shadow">
-          <span class="text-duo">¿Quiénes somos?</span>
+          @click="selectedSection = 'quienes-somos'"
+          :class="selectedSection === 'quienes-somos' ? 'button-duo shadow rounded-full px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150' : 'btn'"
+          class="ms-4 font-bold px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150 border-0">
+          <span :class="selectedSection === 'quienes-somos' ? 'text-duo' : ''">¿Quiénes somos?</span>
         </button>
         <button @click="selectedSection = 'nuestros-valores'"
           :class="selectedSection === 'nuestros-valores' ? 'button-duo shadow rounded-full px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150' : 'btn'"
@@ -103,7 +106,7 @@
       </div>
 
       <div v-if="selectedSection === 'nuestros-valores'" class="container mx-auto">
-        <div class="w-full md:w-12/12 px-4">
+        <div class="w-full md:w-12/12 px-4 mt-2">
           <Carousel :breakpoints="carouselConfig.breakpoints" :wrap-around="carouselConfig.wrapAround" :autoplay="false"
             :settings="{ navigationEnabled: true }">
             <Slide class="p-2 mb-5" v-for="valor in valores" :key="valor.id">
@@ -138,7 +141,7 @@
 
     <section class="relative block" id="mi-nosotros">
       <div class="animation-b-t mt-0 container mx-auto px-4 lg:pt-24">
-        <h2 style="text-align: center!important; margin-bottom: 20px!important;">Lo que te <span
+        <h2 class="ofrecemos-lo" style="text-align: center!important; margin-bottom: 20px!important;">Lo que te <span
             class="text-primary">ofrecemos</span></h2>
         <Carousel :breakpoints="carouselConfig.breakpoints" :wrap-around="carouselConfig.wrapAround"
           :autoplay="carouselConfig.autoplay" :settings="{ navigationEnabled: true }">
@@ -748,6 +751,36 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 768px) {
+
+  /* // haacer responsive donde se agrega la iagen al incio */
+  .container-mobile {
+    background-image: url("~@/assets/img/resources/portada-inicio.jpg");
+    background-size: cover;
+    background-position: right;
+    background-repeat: no-repeat;
+    height: 50vh;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .container-text-first {
+    margin-top: 15px !important;
+    padding: 20px 0px !important;
+  }
+
+  .container-text-first .row {
+    margin: 0 !important;
+    display: block !important;
+  }
+
+  .ofrecemos-lo{
+    margin-top: 20px 0px 10px 0px!important;
+  }
+}
+
+
 /* Cuando el elemento es visible, se aplicará la animación */
 .animation-b-t.visible {
   animation: frame3 1s ease-in-out;

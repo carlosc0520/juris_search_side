@@ -779,8 +779,10 @@ max-width: 500px;
     }
 
     .btn-search {
-        /* // ocultar */
-        display: none;
+        width: 80%;
+        margin: 10px auto;
+        padding: 12px 0;
+        font-size: 16px;
     }
 
     .search-results {
@@ -811,6 +813,13 @@ max-width: 500px;
 
     .no-results {
         margin-top: 10px;
+    }
+
+    #filterbar{
+        /* // pocisionarlo al inicio */
+        max-width: 350px;
+        margin-left: -330px!important;
+        
     }
 
 }
@@ -1339,6 +1348,10 @@ input[type=range]::-webkit-slider-thumb {
     #filterbar {
         width: 50%
     }
+
+    .form-switch .form-check-input{
+    margin-left: 0rem!important;
+}
 }
 
 @media(max-width: 525.5px) {

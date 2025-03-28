@@ -53,9 +53,6 @@
 
                     <b-col v-if="datos.TYPE != 'jurisprudences'" cols="12" lg="4">
                         <b-list-group>
-                            <b-list-group-item><strong>Año:</strong>
-                                <span>{{datos.FRESOLUTION}}</span>
-                            </b-list-group-item>
                             <b-list-group-item><strong>Numeración:</strong>
                                 <span>{{datos.NMRCN}}</span>
                             </b-list-group-item>

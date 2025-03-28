@@ -191,7 +191,14 @@ nav a {
 
 .el-select__input {
   padding: 0.5rem !important;
-  width: auto;
+  width: auto!important;
+  color: #a9a9a9!important;
+}
+
+.el-select__selected-item .el-select__input {
+  padding: 0.5rem !important;
+  width: auto!important;
+  color: #a9a9a9!important;
 }
 
 .el-tree-select__popper {

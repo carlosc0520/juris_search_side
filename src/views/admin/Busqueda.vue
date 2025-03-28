@@ -12,9 +12,8 @@
             <div class="search-box">
                 <AutoComplete v-model="filter.GLOBAL" :suggestions="dataComplete" @complete="searchSugges"
                     optionLabel="DESCP" class="search-input"
-                    placeholder="Busca por nombre de caso, palabra clave ó selecciona los filtros" 
-                    @keydown.enter="search"
-                    />
+                    placeholder="Busca por nombre de caso, palabra clave ó selecciona los filtros"
+                    @keydown.enter="search" />
 
                 <!-- Botón para limpiar -->
                 <button v-if="filter.GLOBAL" @click="filter.GLOBAL = null" class="btn-clear">
@@ -130,11 +129,12 @@
                                         popper-append-to-body class="custom-tree-select" />
                                 </div>
 
-
-                                <div class="col-12 mb-3 d-flex">
-                                    <label for="BLOG" class="form-label mr-3">Casos Emblematicos</label>
-                                    <b-form-checkbox switch v-model="filter.BLOG" id="status" size="lg"
-                                        button-variant="black-50" />
+                                <div class="switch-container">
+                                    <label for="BLOG" class="switch-label">Casos Emblemáticos</label>
+                                    <label class="switch">
+                                        <input type="checkbox" id="BLOG" v-model="filter.BLOG">
+                                        <span class="slider"></span>
+                                    </label>
                                 </div>
                             </div>
                             <div v-else>
@@ -263,7 +263,7 @@
 
 
                 <!-- Síntesis -->
-                <p class="result-summary">{{ item.SHORTSUMMARY }}</p>
+                <p class="result-summary">{{ item.SHORTSUMMARY2 }}</p>
             </div>
             <div class="col-12 p-0">
                 <b-pagination v-model="table.currentPage" :total-rows="table.totalRows"
@@ -286,16 +286,14 @@
         <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
 
         <ModalMostrarResolucion :openModal="openModal" :toggleModal="() => this.openModal = !this.openModal"
-            :pdfUrl="pdfUrl" 
-            :data="rowData"
-            />
+            :pdfUrl="pdfUrl" :data="rowData" />
 
     </div>
 </template>
 
 <script>
 import { Search } from '@element-plus/icons-vue'
-import { BFormCheckbox, BFormTags, BPagination } from 'bootstrap-vue-next';
+import { BFormTags, BPagination } from 'bootstrap-vue-next';
 
 
 import { toast } from 'vue3-toastify';
@@ -390,7 +388,6 @@ export default {
     },
     components: {
         BPagination,
-        BFormCheckbox,
         BFormTags,
         AutoComplete,
         ModalMostrarResolucion
@@ -479,7 +476,8 @@ export default {
                             FRESOLUTION: item.FRESOLUTION ? item.FRESOLUTION.split("T")[0] : null,
                             TEMA: ![null, undefined, ""].includes(item?.TEMA) ? item.TEMA : null,
                             SUBTEMA: ![null, undefined, ""].includes(item?.SUBTEMA) ? item.SUBTEMA : null,
-                            SHORTSUMMARY: ![null, undefined, ""].includes(item?.SHORTSUMMARY) ? this.setPalabras(item.SHORTSUMMARY.replace(/<[^>]*>?/gm, ''), 18) : null,
+                            SHORTSUMMARY: ![null, undefined, ""].includes(item?.SHORTSUMMARY) ? item.SHORTSUMMARY : null,
+                            SHORTSUMMARY2: ![null, undefined, ""].includes(item?.SHORTSUMMARY) ? this.setPalabras(item.SHORTSUMMARY.replace(/<[^>]*>?/gm, ''), 18) : null,
                         };
                     });
 
@@ -573,9 +571,74 @@ export default {
 
 
 <style scoped>
-.form-switch .form-check-input{
-    margin-left: 0rem!important;
+.switch-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
+
+.switch-label {
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    border: 2px solid #acacac;
+    border-radius: 20px;
+    width: 50px;
+    height: 25px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    margin: 0;
+    /* Color de fondo cuando está apagado */
+    border-radius: 25px;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 0px;
+    bottom: 3.5px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    border: 1px solid #999;
+}
+
+/* Estado activado */
+input:checked+.slider {
+    background-color: #4CAF50;
+    /* Verde cuando está encendido */
+}
+
+input:checked+.slider::before {
+    transform: translateX(24px);
+    background-color: #3b82f6 !important;
+}
+
+.form-switch .form-check-input {
+    margin-left: 0rem !important;
+}
+
 .landing-busqueda {
     background-image: url("../../assets/img/backgrounds/bg-busqueda.png");
     background-size: cover;
@@ -718,13 +781,13 @@ export default {
 }
 
 /* Síntesis */
-#filterbar{
-max-width: 500px;
+#filterbar {
+    max-width: 500px;
 }
 
 /* // en mobil */
 @media (max-width: 500px) {
-    #filterbar{
+    #filterbar {
         width: 100%;
     }
 }
@@ -815,11 +878,11 @@ max-width: 500px;
         margin-top: 10px;
     }
 
-    #filterbar{
+    #filterbar {
         /* // pocisionarlo al inicio */
         max-width: 350px;
-        margin-left: -330px!important;
-        
+        margin-left: -330px !important;
+
     }
 
 }
@@ -1183,7 +1246,7 @@ label {
     position: relative;
     z-index: 1;
     height: 5px;
-    margin: 0 15px
+    margin: 0px;
 }
 
 .slider>.track {
@@ -1349,9 +1412,9 @@ input[type=range]::-webkit-slider-thumb {
         width: 50%
     }
 
-    .form-switch .form-check-input{
-    margin-left: 0rem!important;
-}
+    .form-switch .form-check-input {
+        margin-left: 0rem !important;
+    }
 }
 
 @media(max-width: 525.5px) {

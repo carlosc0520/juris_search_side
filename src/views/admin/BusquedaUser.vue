@@ -12,7 +12,9 @@
             <div class="search-box">
                 <AutoComplete v-model="filter.GLOBAL" :suggestions="dataComplete" @complete="searchSugges"
                     optionLabel="DESCP" class="search-input"
-                    placeholder="Busca por nombre de caso, palabra clave ó selecciona los filtros" />
+                    placeholder="Busca por nombre de caso, palabra clave ó selecciona los filtros" 
+                    @keydown.enter="search"
+                    />
 
                 <!-- Botón para limpiar -->
                 <button v-if="filter.GLOBAL" @click="filter.GLOBAL = null" class="btn-clear">

@@ -12,7 +12,9 @@
             <div class="search-box">
                 <AutoComplete v-model="filter.GLOBAL" :suggestions="dataComplete" @complete="searchSugges"
                     optionLabel="DESCP" class="search-input"
-                    placeholder="Busca por nombre de caso, palabra clave ó selecciona los filtros" />
+                    placeholder="Busca por nombre de caso, palabra clave ó selecciona los filtros" 
+                    @keydown.enter="search"
+                    />
 
                 <!-- Botón para limpiar -->
                 <button v-if="filter.GLOBAL" @click="filter.GLOBAL = null" class="btn-clear">
@@ -74,7 +76,7 @@
 
                         <div v-if="isFilter === 'generales'" class="row p-3">
                             <div class="col-12 mb-3">
-                                <label for="FRESOLUTION1" class="form-label">Año de resolución</label>
+                                <label for="FRESOLUTION1" class="form-label">Año de publicación</label>
                                 <date-picker v-model="filter.FRESOLUTION1" valueType="format" type="year"
                                     @change="filter.FRESOLUTION1 = $event" :value="filter.FRESOLUTION1"
                                     range></date-picker>
@@ -129,7 +131,7 @@
                                 </div>
 
 
-                                <div class="col-12 mb-3 d-flex align-items-center">
+                                <div class="col-12 mb-3 d-flex">
                                     <label for="BLOG" class="form-label mr-3">Casos Emblematicos</label>
                                     <b-form-checkbox switch v-model="filter.BLOG" id="status" size="lg"
                                         button-variant="black-50" />
@@ -163,7 +165,7 @@
 
                         <div v-if="isFilter === 'ppjj' && filter.TYPE == 'jurisprudences'" class="row p-3">
                             <div class="col-12 mb-3">
-                                <label for="FRESOLUTION2" class="form-label">Año de resolución</label>
+                                <label for="FRESOLUTION2" class="form-label">Año de publicación</label>
                                 <date-picker v-model="filter.FRESOLUTION2" valueType="format" type="year"
                                     @change="filter.FRESOLUTION2 = $event" :value="filter.FRESOLUTION2"
                                     range></date-picker>
@@ -191,7 +193,7 @@
                         <div v-if="['dominio', 'generales'].includes(isFilter) && filter.TYPE == 'jurisprudences'"
                             class="row p-3">
                             <div class="col-12 mb-3" v-if="isFilter == 'dominio'">
-                                <label for="FRESOLUTION2" class="form-label">Año de resolución</label>
+                                <label for="FRESOLUTION2" class="form-label">Año de publicación</label>
                                 <date-picker v-model="filter.FRESOLUTION2" valueType="format" type="year"
                                     @change="filter.FRESOLUTION2 = $event" :value="filter.FRESOLUTION2"
                                     range></date-picker>
@@ -293,7 +295,7 @@
 
 <script>
 import { Search } from '@element-plus/icons-vue'
-import { BPagination } from 'bootstrap-vue-next';
+import { BFormCheckbox, BFormTags, BPagination } from 'bootstrap-vue-next';
 
 
 import { toast } from 'vue3-toastify';
@@ -388,6 +390,8 @@ export default {
     },
     components: {
         BPagination,
+        BFormCheckbox,
+        BFormTags,
         AutoComplete,
         ModalMostrarResolucion
     },
@@ -430,6 +434,9 @@ export default {
             this.search(filtro);
         },
         async search(ffff = {}) {
+            this.isCollapsed = true;
+            this.showFilters = true;
+            console.log(this.isCollapsed, this.showFilters)
             let filtro = { ...this.filter, ...ffff };
 
             this.typeSaarch = filtro.TYPE;
@@ -566,6 +573,9 @@ export default {
 
 
 <style scoped>
+.form-switch .form-check-input{
+    margin-left: 0rem;
+}
 .landing-busqueda {
     background-image: url("../../assets/img/backgrounds/bg-busqueda.png");
     background-size: cover;
@@ -708,6 +718,18 @@ export default {
 }
 
 /* Síntesis */
+#filterbar{
+max-width: 500px;
+}
+
+/* // en mobil */
+@media (max-width: 500px) {
+    #filterbar{
+        width: 100%;
+    }
+}
+
+
 .result-summary {
     font-size: 13px;
     color: #555;

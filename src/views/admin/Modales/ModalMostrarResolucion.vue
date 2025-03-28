@@ -9,7 +9,7 @@
             <b-tab event-key="tab1" title="Documento" active>
                 <b-row>
                     <!-- Primera columna -->
-                    <b-col cols="12" lg="4">
+                    <b-col v-if="datos.TYPE == 'jurisprudences'" cols="12" lg="4">
                         <b-list-group>
                             <b-list-group-item><strong>Pretensión Delito:</strong>
                                 <span>{{datos.DELITO?.map(d => d.DESCP).join(', ')}}</span>
@@ -51,6 +51,42 @@
 
                     </b-col>
 
+                    <b-col v-if="datos.TYPE != 'jurisprudences'" cols="12" lg="4">
+                        <b-list-group>
+                            <b-list-group-item><strong>Año:</strong>
+                                <span>{{datos.FRESOLUTION}}</span>
+                            </b-list-group-item>
+                            <b-list-group-item><strong>Numeración:</strong>
+                                <span>{{datos.NMRCN}}</span>
+                            </b-list-group-item>
+                            <b-list-group-item><strong>Denominación oficial:</strong>
+                                <span>{{datos.TPONRMA?.map(o => o.DESCP).join(', ')}}</span>
+                            </b-list-group-item>
+                            <b-list-group-item><strong>Fecha:</strong>
+                                <span>{{ datos.FRESOLUTION }}</span>
+                            </b-list-group-item>
+                            <b-list-group-item v-if="datos.IDFAV == null">
+                                <div class="d-flex align-items-center mt-3">
+                                    <button @click="addFavorite(datos)"
+                                        class="favorito-btn d-flex align-items-center gap-2">
+                                        <img src="@/assets/img/icons/estrella.svg" alt="Agregar a favoritos"
+                                            class="favorito-icon">
+                                        <span class="favorito-text fw-bold">Agregar a favoritos</span>
+                                    </button>
+                                </div>
+                            </b-list-group-item>
+
+                        </b-list-group>
+
+                        <div style="padding: 0.5rem 1rem;">
+                            <button class="mt-3 button-download" @click="descargarResolucion(1)">
+                                Descargar Resolución <img src="@/assets/img/icons/download.svg" alt="Descargar"
+                                    class="descargar-icon">
+                            </button>
+                        </div>
+
+                    </b-col>
+
                     <!-- Segunda columna -->
                     <b-col cols="12" lg="8">
                         <!-- Efecto de carga -->
@@ -66,7 +102,7 @@
             </b-tab>
 
             <!-- TAB 2 -->
-            <b-tab event-key="tab2" title="Resumen Ejecutivo">
+            <b-tab v-if="datos.TYPE == 'jurisprudences'" event-key="tab2" title="Resumen Ejecutivo">
                 <b-row>
                     <!-- Primera columna -->
                     <b-col cols="12" lg="4">
@@ -215,7 +251,6 @@ export default {
             this.show = this.openModal;
         },
         show(val) {
-
             if (!val) {
                 this.toggleModal();
                 this.pdfUrl = '';

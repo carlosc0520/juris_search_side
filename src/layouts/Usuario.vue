@@ -38,10 +38,10 @@ export default {
             RTAFTO: JSON.parse(localStorage.getItem("user"))?.RTAFTO,
             isCollapsed: false,
             menu: [
-                { name: 'Inicio', route: '/usuario/dashboard', icon: homeIcon },
                 { name: 'Busqueda', route: '/usuario/busqueda', icon: busquedaIcon },
-                { name: 'Perfil', route: '/usuario/settings', icon: perfilIcon },
+                { name: 'Publicación', route: '/usuario/dashboard', icon: homeIcon },
                 { name: 'Favoritos', route: '/usuario/favoritos', icon: estrellaIcon },
+                { name: 'Perfil', route: '/usuario/settings', icon: perfilIcon },
                 // { name: "Reportes", route: "/usuario/reportes", icon: reportIcon },
             ],
         };

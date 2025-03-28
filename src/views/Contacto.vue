@@ -98,8 +98,7 @@
                                 <div class="flex flex-wrap justify-center">
                                     <div class="w-full lg:w-9/12 px-4">
                                         <p class="mb-4 text-lg leading-relaxed text-blueGray-700">
-                                            ¿Tienes alguna duda o consulta? Escríbenos y te responderemos a
-                                            la brevedad.
+                                            Estamos para ayudarte.
                                         </p>
                                         <a href="javascript:void(0)" class="font-normal text-emerald-500">
                                             Escríbenos

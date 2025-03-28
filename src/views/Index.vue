@@ -7,7 +7,7 @@
       <div class="m-auto container z-2 py-40 pb-89">
         <div class="row">
           <div class="col">
-            <h1>Optimiza tu estrategia jurídica con <span class="text-duo font-bold"> jurisprudencia actual</span>
+            <h1 style="font-size: 2rem;">Optimiza tu estrategia jurídica con <span class="text-duo font-bold"> jurisprudencia actual</span>
               y<span class="text-duo font-bold">
                 seleccionada</span></h1>
             <span>Consulta jurisprudencia penal en esta herramienta online</span>

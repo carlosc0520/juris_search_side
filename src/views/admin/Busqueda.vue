@@ -574,7 +574,7 @@ export default {
 
 <style scoped>
 .form-switch .form-check-input{
-    margin-left: 0rem;
+    margin-left: 0rem!important;
 }
 .landing-busqueda {
     background-image: url("../../assets/img/backgrounds/bg-busqueda.png");

@@ -36,7 +36,7 @@
       </div>
       <div class="m-auto image-container">
         <img :src="screen" alt="imagen-1" class="w-full image-outside mx-auto"
-          style="transform: translateY(100px); width: 80%; z-index: 5" />
+          style="transform: translateY(100px); width: 80%; z-index: 5; border-radius: 20px" />
       </div>
     </section>
 
@@ -322,7 +322,7 @@
           <div class="col-12 col-md-6 bg-white py-0 my-0">
             <Question :resumeSection="true" />
             <router-link to="/questions"
-              class="d-inline-flex border border-primary rounded-full px-4 py-3 ms-3 ms-md-0">
+              class="mt-3 d-inline-flex border border-primary rounded-full px-4 py-3 ms-3 ms-md-0">
               Ver más preguntas frecuentes
               <img :src="nextIcon" alt="next-icon" class="ms-2" />
             </router-link>
@@ -422,7 +422,7 @@ import patternVue from "@/assets/img/resources/imagen.png";
 import misionVue from "@/assets/img/resources/Arrow.png";
 import visionVue from "@/assets/img/resources/Show.png";
 import portada from "@/assets/img/resources/portada-inicio.jpg";
-import screen from "@/assets/img/resources/screen-inicio.png";
+import screen from "@/assets/img/resources/screen-inicio2.png";
 
 
 // * PROXIES
@@ -543,14 +543,14 @@ export default {
           id: 4,
           image: valorImg4,
           name: "Compromiso Ético",
-          description: "Contribuimos el fortalezimiento del Estado de Derecho y a la construcción de una sociedad mas justa mediante el libre y fácil acceso a la información digital.",
+          description: "Contribuimos el fortalecimiento del Estado de Derecho y a la construcción de una sociedad mas justa mediante el libre y fácil acceso a la información digital.",
         },
-        {
-          id: 5,
-          image: valorImg5,
-          name: "Compromiso Ético",
-          description: "Contribuimos el fortalezimiento del Estado de Derecho y a la construcción de una sociedad mas justa mediante el libre y fácil acceso a la información digital.",
-        },
+        // {
+        //   id: 5,
+        //   image: valorImg5,
+        //   name: "Compromiso Ético",
+        //   description: "Contribuimos el fortalecimiento del Estado de Derecho y a la construcción de una sociedad mas justa mediante el libre y fácil acceso a la información digital.",
+        // },
       ],
       leftArrow,
       rightArrow,

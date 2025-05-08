@@ -12,6 +12,7 @@ class createPDFHelper {
       let totalPages = 0;
       let fontSize = 11;
       let currentYear = new Date().getFullYear();
+
       let documentoPDF = {
         header: () => {
           return {
@@ -60,7 +61,7 @@ class createPDFHelper {
             table: {
               widths: ['35%', '57%'],
               body: [
-                [{ text: '▪ TIPO DE RECURSO:', bold: true }, returnBase64 ? data?.RECURSO?.map((item) => item.DESCP).join('\n') : data?.RECURSO],
+                [{ text: '▪ TIPO DE RECURSO:', bold: true }, returnBase64 ? data?.RECURSO?.map((item) => item.DESCP).join('\n') : data?.RECURSO?.replace(/,/g, '\n')],
                 [{ text: '▪ DELITOS:', bold: true }, returnBase64 ? data?.DELITO.map((item) => item.DESCP).join('\n') : data?.DELITO?.replace(/,/g, '\n')],
                 [{ text: '▪ VINCULANTE:', bold: true }, returnBase64 ? (
                   data?.INDICADOR ? "Si" : "No") : data?.ISBINDING]
@@ -135,7 +136,7 @@ class createPDFHelper {
                 ],
                 [
                   {
-                    text: 'SÍNTESIS DE LOS FUNDAMENTOS JURÍDICOS RELEVANTES',
+                    text: 'SÍNTESIS',
                     bold: true,
                     fontSize,
                     margin: [10, 2, 10, 8],
@@ -188,7 +189,8 @@ class createPDFHelper {
                     margin: [10, 2, 10, 8],
                   },
                   {
-                    text: returnBase64 ? data?.FRESOLUTION : data?.FRESOLUTIONSTRING,
+                    text: returnBase64 ?
+                      this.formateReverse(data?.FRESOLUTION) : data?.FRESOLUTIONSTRING,
                     fontSize,
                     margin: [10, 2, 10, 8],
                   },
@@ -349,6 +351,7 @@ class createPDFHelper {
       }
 
     } catch (error) {
+      console.log(error)
       toast.error(error?.MESSAGE || 'Error al obtener el archivo', { toastId: 'error-export' });
     }
   }
@@ -394,6 +397,18 @@ class createPDFHelper {
       return text.replace(/<[^>]*>?/gm, '');
     }
   }
+
+  formateReverse(date) {
+    try {
+      if (!date) return null;
+      const parts = date.split('-');
+      return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    } catch (error) {
+      console.error("Error al formatear la fecha:", error);
+      return null;
+    }
+  }
+
 }
 
 export default new createPDFHelper();

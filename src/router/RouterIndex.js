@@ -13,7 +13,6 @@ import Settings from "@/views/admin/Settings.vue";
 // views for Auth layout
 
 import Login from "@/views/auth/Login.vue";
-import Register from "@/views/auth/Register.vue";
 
 // views without layouts
 
@@ -42,6 +41,8 @@ import FavoritesUser from "../views/admin/FavoritesUser.vue";
 import DashboardUser from "../views/admin/DashboardUser.vue";
 import Reporte from "../views/admin/Reporte.vue";
 import Recovery from "../views/auth/Recovery.vue";
+import Noticias from "../views/admin/Noticias.vue";
+import Register from "../views/auth/Register.vue";
 
 const ifAuthenticatedAuth = async (to, from, next) => {
   await UserProxy.validate()
@@ -224,6 +225,16 @@ const routes = [
             role: route?.params?.role || [],
           };
         }
+      },
+      {
+        path: "/admin/noticias",
+        beforeEnter: ifAuthenticatedAdmin,
+        component: Noticias,
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
       }
     ],
   },
@@ -284,6 +295,10 @@ const routes = [
         component: Login,
       },
       {
+        path: "/auth/register",
+        component: Register
+      },
+      {
         path: "/auth/autoUser/:token",
         component: Register,
       },
@@ -325,6 +340,13 @@ const routes = [
     path: "/noticias",
     component: () => import("@/views/Noticias.vue"),
   },
+
+  {
+    path: "/noticias/:title/newsletter/:id",
+    name: "noticiaNewsletter",
+    component: () => import("@/views/NoticiaIndividual.vue"),
+  },
+  
   { path: "/:pathMatch(.*)*", redirect: "/" },
 ];
 

@@ -12,6 +12,11 @@ class NewUserProxy {
         return data;
     }
     
+    async registrarFind(model) {
+        const { data } = await axios.post(`/login/generateUserFind`, model);
+        return data;
+    }
+    
 
     async validar(token) {
         const { data } = await axios.get(`/login/validateToken`, {

@@ -10,9 +10,9 @@
                     <input type="text" v-model="modelo.NOMBRES" id="NOMBRES" class="form-control" />
                 </div>
 
-                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.APELLIDOS') }">
+                <div class="col-md-6 col-12 mb-3">
                     <label for="name" class="form-label">Apellidos <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.APELLIDOS" id="APELLIDOS" class="form-control" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.APELLIDOS') }" v-model="modelo.APELLIDOS" id="APELLIDOS" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.APELLIDOS')">
                         {{ validation.firstError('modelo.APELLIDOS') }}
                     </span>
@@ -113,7 +113,6 @@ export default {
     watch: {
         show: {
             handler(value) {
-                console.log(this.data);
                 if (value) {
                     this.modelo = {
                         ...this.data,

@@ -1,72 +1,76 @@
 <template>
-    <div class="container-table flex flex-wrap pt-5">
-        <div class="w-full mb-12 pt-5">
-            <div class="w-full mb-12">
-                <b-tabs>
-                    <b-tab title="Subscriptores" @click="updateActive('2')">
-                    </b-tab>
-                    <b-tab title="Digitadores" @click="updateActive('1')">
-                    </b-tab>
-                    <b-tab title="Administradores" @click="updateActive('0')">
-                    </b-tab>
-                </b-tabs>
-
-                <div class="bg-white p-4 shadow-lg">
-                    <div class="row">
-                        <div class="col-md-9 col-12 mb-3">
-                            <label for="name" class="form-label">Busqueda</label>
-                            <input type="text" v-model="filter.NOMBRES" id="name" class="form-control" />
-                        </div>
-
-                        <div class="col-md-3 col-12 mb-3">
-                            <label for="CDESTDO" class="form-label">Estado</label>
-                            <b-form-select v-model="filter.CDESTDO" :options="[
-                                { text: '-- Seleccione ', value: null },
-                                { text: 'Activo', value: 'A' },
-                                { text: 'Inactivo', value: 'I' }]">
-                            </b-form-select>
-                        </div>
+    <section class="bg-landing mt-4 pt-5">
+        <div class="container-table flex flex-col mt-4 pt-5">
+            <div class="flex mb-3 gap-4 flex-col md:flex-row contenedor-tab">
+                <a class="cursor-pointer" :class="active === 'Subscriptores' ? 'active-tab' : ''"
+                    @click="updateActive('Subscriptores')">
+                    Subscriptores
+                </a>
+                <a class="cursor-pointer" :class="active === 'Digitadores' ? 'active-tab' : ''"
+                    @click="updateActive('Digitadores')">
+                    Digitadores
+                </a>
+                <a class="cursor-pointer" :class="active === 'Administradores' ? 'active-tab' : ''"
+                    @click="updateActive('Administradores')">
+                    Administradores
+                </a>
+            </div>
 
 
-                        <div class="col-md-12 col-12 mb-3">
-                            <div class="flex justify-end gap-4">
-                                <button class="bton btn-search"
-                                    @click="search(grid.currentPage, grid.perPage)">Buscar</button>
-                                <button class="bton btn-create" @click="modalAgregarUsuario.show = true">Crear</button>
-                            </div>
-                        </div>
+            <div class="row">
+                <div class="col-md-9 col-12 mb-3 input-search">
+                    <img :src="searchIcon" alt="search" class="icon-search" />
 
-                    </div>
-
-                    <card-table :active="active" title="Usuarios" :search="search" :fields="fields" :items="data"
-                        :grid="grid" :actions="actions" />
-
+                    <input type="text" class="form-control"
+                        :placeholder="`Buscar por nombres, apellidos o correo electrónico`" v-model="filter.NOMBRES"
+                        id="name" />
                 </div>
+
+                <div class="col-md-3 col-12 mb-3">
+                    <b-form-select v-model="filter.CDESTDO" :options="[
+                        { text: '-- Seleccione Estado ', value: null },
+                        { text: 'Activo', value: 'A' },
+                        { text: 'Inactivo', value: 'I' }]">
+                    </b-form-select>
+                </div>
+
+
+                <div class="col-md-12 col-12 mb-3 btn-actions-view">
+                    <button class="bton btn-search" @click="search(grid.currentPage, grid.perPage)">
+                        Buscar
+                    </button>
+                    <button class="bton btn-create" @click="modalAgregarUsuario.show = true">Crear</button>
+                </div>
+            </div>
+            <div class="w-full mb-12">
+                <card-table :active="active" title="Usuarios" :search="search" :fields="fields" :items="data"
+                    :grid="grid" :actions="actions" />
             </div>
         </div>
 
         <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
 
-        <ModalUsuarioInsertar :role="role" :show="modalAgregarUsuario.show" :close="() => modalAgregarUsuario.show = false"
-            :update="() => search(grid.currentPage, grid.perPage)" :selects="selects" :userType="Number(active)" />
+        <ModalUsuarioInsertar :role="role" :show="modalAgregarUsuario.show"
+            :close="() => modalAgregarUsuario.show = false" :update="() => search(grid.currentPage, grid.perPage)"
+            :selects="selects" :userType="Number(active == 'Administradores' ? 0 : active === 'Digitadores' ? 1 : 2)" />
 
         <ModalUsuarioEditar :role="role" :show="modalEditarUsuario.show" :close="() => modalEditarUsuario.show = false"
             :update="() => search(grid.currentPage, grid.perPage)" :selects="selects" :data="modalEditarUsuario.data"
-            :userType="Number(active)" />
+            :userType="Number(active == 'Administradores' ? 0 : active === 'Digitadores' ? 1 : 2)" />
 
         <ModalEliminar :message="'¿Está seguro de cambiar el estado de este registro?, el usuario perdera su acceso.'"
             :buttonOk="'Si, cambiar'" :action="deleteRow" :openDelete="modalEliminar.show"
             :closeHandler="() => modalEliminar.show = false" />
 
 
-    </div>
+    </section>
 </template>
-
 
 <script>
 import CardTable from "@/components/Cards/CardTable.vue";
-import { BTabs, BTab, BFormSelect } from 'bootstrap-vue-next';
+import { BFormSelect } from 'bootstrap-vue-next';
 import { toast } from 'vue3-toastify';
+import searchIcon from "@/assets/img/icons/search.svg";
 
 // MODALES
 import ModalEliminar from "./Modales/ModalEliminar.vue";
@@ -80,8 +84,6 @@ import MantenimientoProxy from "../../proxies/MantenimientoProxy.js";
 export default {
     components: {
         CardTable,
-        BTabs,
-        BTab,
         BFormSelect,
 
         // MODALES
@@ -91,6 +93,8 @@ export default {
     },
     data() {
         return {
+            searchIcon,
+            active: "Subscriptores",
             currentPage: 10,
             data: [],
             grid: {
@@ -110,7 +114,7 @@ export default {
                     key: "APATERNO",
                     label: "Apellidos y Nombres",
                     sortable: true,
-                    formatter: (value, key, item) => `${item.APATERNO} ${item.AMATERNO}, ${item.NOMBRES}`,
+                    formatter: (value, key, item) => `${item?.APATERNO || ""} ${item?.AMATERNO || ""}, ${item?.NOMBRES || ""}`,
                 },
                 {
                     key: "EMAIL",
@@ -169,8 +173,6 @@ export default {
             },
 
             isLoading: false,
-            // TABS
-            active: "2",
 
             // OPENINGS MODALES
             modalAgregarUsuario: {
@@ -215,7 +217,7 @@ export default {
                 INIT: init,
                 DESC: this.filter?.NOMBRES || null,
                 CESTDO: this.filter?.CDESTDO || null,
-            }, this.active)
+            }, this.active === 'Administradores' ? 0 : this.active === 'Digitadores' ? 1 : 2)
                 .then((dataresponse) => {
                     this.data = dataresponse
                     this.grid.totalRows = dataresponse[0]?.TOTALROWS || 0;
@@ -241,12 +243,12 @@ export default {
             this.search(this.grid.currentPage, this.grid.perPage);
         },
         async edit(data) {
-            if(!data.ID) return toast.warning('No se encontró el identificador del usuario', { toastId: 'warning-edit' }); 
+            if (!data.ID) return toast.warning('No se encontró el identificador del usuario', { toastId: 'warning-edit' });
             this.modalEditarUsuario.data = data;
             this.modalEditarUsuario.show = true;
         },
         async deleteRow() {
-            if(this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
+            if (this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
 
             if (!this.modalEliminar.data.ID) return toast.warning('No se encontró el identificador del usuario', { toastId: 'warning-delete' });
 
@@ -298,9 +300,8 @@ export default {
 </script>
 
 <style scoped>
-.container-table{
+.container-table {
     max-width: 90%;
     margin: 0 auto;
 }
-
 </style>

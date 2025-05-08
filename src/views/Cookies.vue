@@ -1,40 +1,26 @@
 <template>
     <div>
         <navbar />
-        <main class="my-4">
-            <div class="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
-                <div class="absolute top-0 w-full h-full bg-center bg-cover"
-                    :style="{ backgroundImage: 'url(' + questionResource + ')', backgroundSize: 'cover', backgroundPosition: 'center' }">
-                    <span id="blackOverlay" class="w-full h-full absolute opacity-75 bg-black"></span>
-                </div>
-                <div class="container relative mx-auto">
-                    <div class="items-center flex flex-wrap">
-                        <div class="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-                            <div class="pr-12">
-                                <h1 class="text-white font-semibold text-5xl">
-                                    Política de Cookies
-                                </h1>
-                                <p class="mt-4 text-lg text-blueGray-200">
-                                    En esta sección encontrarás la política de cookies de Juris Search.
-                                </p>
-                            </div>
-                        </div>
+        <main>
+            <section class="profile-page">
+                <div class="mt-10"></div>
+                <section class="relative md:px-0 px-2">
+                    <div class="container-custom mx-auto px-lg-5">
+                        <p class="mb-3 py-2 text-duo text-lato-400 text-2xl text-center" style="font-size: 40px;">
+                            Políticas de Cookies
+                        </p>
+                        <p class="pb-3 text-lato-400 text-center" style="font-size: 18px;">
+                            En esta sección encontrarás la política de cookies de Juris Search.                        </p>
                     </div>
-                </div>
-                <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
-                    style="transform: translateZ(0);">
-                    <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg"
-                        preserveAspectRatio="none" version="1.1" viewBox="0 0 2560 100" x="0" y="0">
-                        <polygon class="text-blueGray-100 fill-current" points="2560 0 2560 100 0 100"></polygon>
-                    </svg>
-                </div>
-            </div>
+                </section>
+            </section>
+
             <section class="flex justify-center">
                 <div class="main-policy fade-in">
                     <div class="container">
                         <div class="section-politicas row">
                             <div class="col-md-4 col-12">
-                                <h5 class="policy-card-title">Secciones</h5>
+                                <h3 class="text-politica">Políticas de Cookies</h3>
                                 <div class="policy-card">
                                     <div class="policy-redirect">
                                         <a href="#why" class="d-flex align-items-center justify-content-between">
@@ -54,7 +40,7 @@
                             </div>
                             <div class="col-md-8 col-12">
                                 <div class="content-policy">
-                                    <h1 class="title">Política de Cookies</h1>
+                                    <h3 class="text-politica">Políticas de Cookies</h3>
                                     <p class="policy-text">
                                         A continuación, se informa sobre la Política de Cookies utilizada
                                         por parte de JURIS SEARCH PENAL & COMPLIANCE (en adelante “Juris
@@ -70,7 +56,7 @@
                                         versión actualizada en el presente sitio web.
                                     </p>
 
-                                    <p class="policy-sub-title" id="why">
+                                    <p class="text-politica" id="why">
                                         ¿Qué son las cookies y para que las usamos?
                                     </p>
 
@@ -82,7 +68,7 @@
                                         navegación y poder realizar analítica sobre las visitas a la web.
                                     </p>
 
-                                    <p class="policy-sub-title" id="types">
+                                    <p class="text-politica" id="types">
                                         ¿Qué tipo de cookies utilizamos?
                                     </p>
                                     <p class="policy-text">
@@ -145,6 +131,12 @@ export default {
 </script>
 
 <style scoped>
+.text-politica {
+    font-family: Lato;
+    font-size: 20px;
+    color: #1864FF;
+    margin-bottom: 10px;
+}
 .section-politicas {
     display: flex;
     justify-content: space-between;
@@ -173,15 +165,13 @@ export default {
 }
 
 .policy-card-title {
-    font-family: 'Inter-Medium', sans-serif;
+    font-family: Lato;
     font-weight: 600;
     font-size: 15px;
 }
 
 .policy-card {
     border-radius: 5px;
-    border: 1px solid #dfdfdf;
-    /* $color-light-gray */
 }
 
 .policy-redirect {
@@ -191,7 +181,7 @@ export default {
 }
 
 .policy-redirect a {
-    font-family: 'Inter-Medium', sans-serif;
+    font-family: Lato;
     color: #00171f;
     text-decoration: none;
     display: flex;
@@ -216,7 +206,7 @@ export default {
 }
 
 .title {
-    font-family: 'Inter-Bold', sans-serif;
+    font-family: Lato;
     line-height: 39px;
     padding: 0;
     font-size: 40px;
@@ -229,14 +219,14 @@ export default {
 .policy-sub-title {
     color: #0673f2;
     font-size: 15px;
-    font-family: 'Inter-SemiBold', sans-serif;
+    font-family: Lato;
     margin-top: 32px;
 }
 
 .policy-text {
     color: #00171f;
     font-size: 15px !important;
-    font-family: 'Inter-Regular', sans-serif;
+    font-family: Lato;
 }
 
 ul li {

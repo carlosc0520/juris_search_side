@@ -1,17 +1,20 @@
 <template>
-    <b-modal id="modalRecuperarContrasena" v-model="isShow" @ok="submit"
-     @cancel="close" @hidden="close" size="md"
-        ok-title="Enviar" cancel-title="Cancelar" title="Recuperar contraseña"
-        bodyScrolling no-close-on-backdrop no-close-on-esc :hide-footer="loadingSubmit">
+    <b-modal id="modalRecuperarContrasena" v-model="isShow" @ok="submit" @cancel="close" @hidden="close" size="md"
+        ok-title="Enviar" cancel-title="Cancelar" title="Recuperar contraseña" bodyScrolling no-close-on-backdrop
+        no-close-on-esc :hide-footer="loadingSubmit">
 
         <form id="formRecuperarContrasena" @submit.prevent="submit">
             <div class="row">
-                <div class="col-12 mb-3" :class="{ error: validation.hasError('modelo.EMAIL') }">
-                    <label for="name" class="form-label">Email <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.EMAIL" id="EMAIL" class="form-control" />
-                    <span class="message" v-if="validation.hasError('modelo.EMAIL')">
-                        {{ validation.firstError('modelo.EMAIL') }}
-                    </span>
+                <div>
+                    <p style="font-size: 14px; color: #898987; font-family: Lato;">
+                        Introduzca su dirección de correo electrónico y le enviaremos un enlace para restablecer su
+                        contraseña.
+                    </p>
+                </div>
+                <div class="input-group" :class="{ error: validation.hasError('modelo.EMAIL') }">
+                    <img src="@/assets/img/icons/email.svg" alt="Email Icon" class="input-icon">
+                    <input type="email" placeholder="Correo electrónico" autocomplete="off" v-model="modelo.EMAIL"
+                        class="input-field">
                 </div>
             </div>
         </form>
@@ -94,7 +97,7 @@ export default {
             this.modelo = {
                 EMAIL: null
             }
-            
+
             this.validation.reset();
 
         }
@@ -113,3 +116,31 @@ export default {
 
 
 </script>
+
+
+<style scoped>
+.input-group {
+    display: flex;
+    align-items: center;
+    /* background: #f3f4f6; */
+    border: 1px solid #d1d5db;
+    border-radius: 9999px;
+    padding: 10px;
+    margin-bottom: 12px;
+}
+
+.input-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+.input-field {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+}
+
+</style>

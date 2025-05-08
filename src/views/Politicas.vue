@@ -1,40 +1,27 @@
 <template>
     <div>
         <navbar />
-        <main class="my-4 text-blueGray-700 antialiased">
-            <div class="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
-                <div class="absolute top-0 w-full h-full bg-center bg-cover"
-                    :style="{ backgroundImage: 'url(' + questionResource + ')', backgroundSize: 'cover', backgroundPosition: 'center' }">
-                    <span id="blackOverlay" class="w-full h-full absolute opacity-75 bg-black"></span>
-                </div>
-                <div class="container relative mx-auto">
-                    <div class="items-center flex flex-wrap">
-                        <div class="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-                            <div class="pr-12">
-                                <h1 class="text-white font-semibold text-5xl">
-                                    Políticas y Privacidad
-                                </h1>
-                                <p class="mt-4 text-lg text-blueGray-200">
-                                    Conoce nuestras políticas de privacidad y términos de uso.
-                                </p>
-                            </div>
-                        </div>
+        <main>
+            <section class="profile-page">
+                <div class="mt-10"></div>
+                <section class="relative md:px-0 px-2">
+                    <div class="container-custom mx-auto px-lg-5">
+                        <p class="mb-3 py-2 text-duo text-lato-400 text-2xl text-center" style="font-size: 40px;">
+                            Políticas de privacidad
+                        </p>
+                        <p class="pb-3 text-lato-400 text-center" style="font-size: 18px;">
+                            Conoce nuestras políticas de privacidad y términos de uso.
+                        </p>
                     </div>
-                </div>
-                <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
-                    style="transform: translateZ(0);">
-                    <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg"
-                        preserveAspectRatio="none" version="1.1" viewBox="0 0 2560 100" x="0" y="0">
-                        <polygon class="text-blueGray-100 fill-current" points="2560 0 2560 100 0 100"></polygon>
-                    </svg>
-                </div>
-            </div>
+                </section>
+            </section>
+
             <section class="flex justify-center">
                 <div class="main-policy fade-in">
                     <div class="container">
                         <div class="section-politicas row">
                             <div class="col-md-4 col-12">
-                                <h5 class="policy-card-title">Secciones</h5>
+                                <h3 class="text-politica">Políticas de Privacidad</h3>
                                 <div class="policy-card">
                                     <div class="policy-redirect">
                                         <a href="#starting" class="d-flex align-items-center justify-content-between">
@@ -112,13 +99,13 @@
                             </div>
                             <div class="col-md-8 col-12">
                                 <div class="content-policy">
-                                    <h1 class="title">Políticas de privacidad</h1>
+                                    <h3 class="text-politica">Políticas de Privacidad</h3>
                                     <p class="policy-text">
                                         De acuerdo con la Ley N° 29733, ley de protección de datos
                                         personales y su reglamento, a continuación, te informamos sobre la
                                         Política de Privacidad empleada para la recolección y tratamiento
-                                        de sus datos personales por parte de la JURIS SEARCH PENAL &
-                                        COMPLIANCE (en adelante “Juris Search”), con domicilio legal
+                                        de sus datos personales por parte de la <span>JURIS SEARCH PENAL &
+                                            COMPLIANCE </span> (en adelante “Juris Search”), con domicilio legal
                                         ubicado en la Avenida Víctor Andrés Belaunde Nro. 370, San Isidro.
                                     </p>
                                     <p class="policy-text">
@@ -130,7 +117,7 @@
                                         versión actualizada en el presente sitio web.
                                     </p>
 
-                                    <p class="policy-sub-title" id="starting">
+                                    <p class="text-politica" id="starting">
                                         Principios
                                     </p>
                                     <p class="policy-text">
@@ -139,29 +126,41 @@
                                     </p>
                                     <p class="policy-text">
                                     <ul>
-                                        <li>Consentimiento. Previamente a la recolección y tratamiento de los datos,
+                                        <li><span><i
+                                                    class="fas fa-check"></i>&nbsp;Consentimiento:</span>&nbsp;Previamente
+                                            a la recolección y tratamiento
+                                            de los datos,
                                             siempre solicitamos el consentimiento del titular de los datos personales.
                                         </li>
-                                        <li>Finalidad. La recopilación y tratamiento de los datos personales siguen una
+                                        <li><span><i class="fas fa-check"></i>&nbsp;Finalidad:</span>&nbsp;La
+                                            recopilación y tratamiento de los datos
+                                            personales siguen una
                                             finalidad explícita, determinada y lícita.</li>
-                                        <li>Proporcionalidad. La recolección y tratamiento de los datos personales es
+                                        <li><span><i class="fas fa-check"></i>&nbsp;Proporcionalidad:</span>&nbsp;La
+                                            recolección y tratamiento de los
+                                            datos personales es
                                             razonable y no excesiva.</li>
-                                        <li>Calidad. Los datos personales deben de ser, en la medida de lo posible,
+                                        <li><span><i class="fas fa-check"></i>&nbsp;Calidad:</span>&nbsp;Los datos
+                                            personales deben de ser, en la medida
+                                            de lo posible,
                                             exactos, veraces y actualizados.</li>
-                                        <li>Seguridad. Se garantizará la seguridad de los datos personales, evitando el
+                                        <li><span><i class="fas fa-check"></i>&nbsp;Seguridad:</span>&nbsp; Se
+                                            garantizará la seguridad de los datos
+                                            personales, evitando el
                                             acceso no autorizado.</li>
-                                        <li>Legalidad. Rechazamos la obtención fraudulenta o ilícita de los datos
+                                        <li><span><i class="fas fa-check"></i>&nbsp;Legalidad:</span>&nbsp;Rechazamos la
+                                            obtención fraudulenta o ilícita de los datos
                                             personales.</li>
                                     </ul>
                                     </p>
-                                    <p class="policy-sub-title" id="rights">
+                                    <p class="text-politica" id="rights">
                                         Derechos
                                     </p>
                                     <p class="policy-text">
                                         Puede ejercer sus derechos de acceso, rectificación, oposición, cancelación
                                         (derechos “ARCO”)
                                         sobre sus datos personales. Para su ejercicio, puede enviarnos un correo a
-                                        datospersonales@jurissearch.com.
+                                        <span>jsearch@ccfirma.com.</span>
                                     </p>
                                     <p class="policy-text">
                                         Revisaremos su solicitud y le responderemos dentro del plazo legal (8 días
@@ -173,14 +172,14 @@
                                         los datos personales. Asimismo, debe especificar su petición y el correo o
                                         domicilio donde desea que se le envié las comunicaciones.
                                     </p>
-                                    <p class="policy-sub-title" id="info">
+                                    <p class="text-politica" id="info">
                                         Datos Personales Recolectados y Tratados
                                     </p>
                                     <p class="policy-text">
                                         Puede ejercer sus derechos de acceso, rectificación, oposición, cancelación
                                         (derechos “ARCO”)
                                         sobre sus datos personales. Para su ejercicio, puede enviarnos un correo
-                                        a datospersonales@jurissearch.com.
+                                        a <span>jsearch@ccfirma.com.</span>
                                     </p>
                                     <p class="policy-text">
                                         Juris Search recolecta y trata sus datos personales a través de la información
@@ -192,14 +191,14 @@
                                         buscador de jurisprudencia.
                                     </p>
 
-                                    <p class="policy-sub-title" id="incharge">
+                                    <p class="text-politica" id="incharge">
                                         Encargado de Tratamiento
                                     </p>
                                     <p class="policy-text">
                                         Juris Search no terceriza el tratamiento de sus datos personales, siendo la
                                         propia empresa la encargada del tratamiento.
                                     </p>
-                                    <p class="policy-sub-title" id="time">
+                                    <p class="text-politica" id="time">
                                         Tiempo de almacenamiento
                                     </p>
                                     <p class="policy-text">
@@ -209,7 +208,7 @@
                                         momento en que, como
                                         titular de los datos personales, solicite su eliminación.
                                     </p>
-                                    <p class="policy-sub-title" id="purpose">
+                                    <p class="text-politica" id="purpose">
                                         Finalidad
                                     </p>
                                     <p class="policy-text">
@@ -218,19 +217,25 @@
                                     </p>
                                     <p class="policy-text">
                                     <ul>
-                                        <li>Comercial. A fin de interactuar y perfilar a potenciales clientes o administrar la relación con clientes establecidos. </li>
-                                        <li>Marketing. A fin de realizar investigaciones de mercado, hábitos de consumo, análisis estadístico y satisfacción de clientes mediante encuestas.</li>
-                                        <li>Eficiencia del sitio web. A fin de hacer su uso más intuitivo y responsivo. Analizar el uso que los usuarios dan a nuestro sitio web.</li>
+                                        <li><span><i class="fas fa-check"></i>&nbsp;Comercial:</span> A fin de
+                                            interactuar y perfilar a potenciales clientes o
+                                            administrar la relación con clientes establecidos. </li>
+                                        <li><span><i class="fas fa-check"></i>&nbsp;Marketing:</span> A fin de realizar
+                                            investigaciones de mercado, hábitos de consumo,
+                                            análisis estadístico y satisfacción de clientes mediante encuestas.</li>
+                                        <li><span><i class="fas fa-check"></i>&nbsp;Eficiencia del sitio web:</span> A
+                                            fin de hacer su uso más intuitivo y responsivo.
+                                            Analizar el uso que los usuarios dan a nuestro sitio web.</li>
                                     </ul>
                                     </p>
-                                    <p class="policy-sub-title" id="storage">
+                                    <p class="text-politica" id="storage">
                                         Almacenamiento
                                     </p>
                                     <p class="policy-text">
                                         Juris Search almacena la información de sus usuarios en nuestros propios
                                         servidores ubicados en Lima, Perú.
                                     </p>
-                                    <p class="policy-sub-title" id="time">
+                                    <p class="text-politica" id="time">
                                         Tiempo de almacenamiento
                                     </p>
                                     <p class="policy-text">
@@ -240,7 +245,7 @@
                                         momento en que, como
                                         titular de los datos personales, solicite su eliminación.
                                     </p>
-                                    <p class="policy-sub-title" id="transfer">
+                                    <p class="text-politica" id="transfer">
                                         Trasferencia a terceras partes y flujo transfronterizo
                                     </p>
                                     <p class="policy-text">
@@ -250,7 +255,7 @@
                                         precisamos que su información personal no es objeto de transferencia a nivel
                                         internacional (flujo transfronterizo).
                                     </p>
-                                    <p class="policy-sub-title" id="security">
+                                    <p class="text-politica" id="security">
                                         Seguridad
                                     </p>
                                     <p class="policy-text">
@@ -258,7 +263,7 @@
                                         sus datos personales y que estos no sean alterados, perdidos, accedidos o
                                         procesados de forma no autorizada.
                                     </p>
-                                    <p class="policy-sub-title" id="cookies">
+                                    <p class="text-politica" id="cookies">
                                         Cookies
                                     </p>
                                     <p class="policy-text">
@@ -267,7 +272,7 @@
                                         usa cookies para recolectar información sobre su interacción en el sitio web a
                                         fin de mejorar su y analizar las visitas a la web. Para más información, revise
                                     </p>
-                                    <p class="policy-sub-title" id="age">
+                                    <p class="text-politica" id="age">
                                         Menores de Edad
                                     </p>
                                     <p class="policy-text">
@@ -276,7 +281,7 @@
                                         adoptarán las medidas adecuadas para eliminar dichos datos tan pronto como sea
                                         posible.
                                     </p>
-                                    <p class="policy-sub-title" id="link">
+                                    <p class="text-politica" id="link">
                                         Enlaces a otros sitios web
                                     </p>
                                     <p class="policy-text">
@@ -331,6 +336,28 @@ export default {
 </script>
 
 <style scoped>
+.text-politica {
+    font-family: Lato;
+    font-size: 20px;
+    color: #1864FF;
+    margin-bottom: 10px;
+}
+
+li span {
+    font-weight: bold;
+    color: #1864FF;
+    font-family: Lato;
+}
+
+ul,
+ol {
+    list-style: none !important;
+    margin: 0;
+    padding: 0;
+}
+
+
+
 .section-politicas {
     display: flex;
     justify-content: space-between;
@@ -359,15 +386,13 @@ export default {
 }
 
 .policy-card-title {
-    font-family: 'Inter-Medium', sans-serif;
+    font-family: Lato;
     font-weight: 600;
     font-size: 15px;
 }
 
 .policy-card {
     border-radius: 5px;
-    border: 1px solid #dfdfdf;
-    /* $color-light-gray */
 }
 
 .policy-redirect {
@@ -377,7 +402,7 @@ export default {
 }
 
 .policy-redirect a {
-    font-family: 'Inter-Medium', sans-serif;
+    font-family: Lato;
     color: #00171f;
     text-decoration: none;
     display: flex;
@@ -402,7 +427,7 @@ export default {
 }
 
 .title {
-    font-family: 'Inter-Bold', sans-serif;
+    font-family: Lato;
     line-height: 39px;
     padding: 0;
     font-size: 40px;
@@ -415,21 +440,27 @@ export default {
 .policy-sub-title {
     color: #0673f2;
     font-size: 15px;
-    font-family: 'Inter-SemiBold', sans-serif;
+    font-family: Lato;
     margin-top: 32px;
 }
 
 .policy-text {
-    color: #00171f;
+    color: #262626;
     font-size: 15px !important;
-    font-family: 'Inter-Regular', sans-serif;
+    font-family: Lato;
 }
+
+.policy-text span {
+    color: #1864FF;
+    font-size: 15px !important;
+    font-family: Lato;
+}
+
 
 ul li {
     color: #00171f;
     font-size: 15px !important;
-    list-style-type: disc;
-    margin: 0 10px;
+    list-style-type: none !important;
     padding: 5px;
 }
 

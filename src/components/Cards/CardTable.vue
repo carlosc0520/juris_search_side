@@ -13,7 +13,7 @@
       </div>
     </div> -->
 
-    <div class="flex justify-start mb-3 gap-2 flex-col md:flex-row">
+    <!-- <div class="flex justify-start mb-3 gap-2 flex-col md:flex-row">
       <b-form-select v-model="perPage" :options="grid.pageOptions" class="ml-2"
         style="width: 70px;height: 37px; padding: 1px!important;" @change="() => myCallback(currentPage, perPage)" />
 
@@ -22,9 +22,18 @@
 
       <b-input type="number" v-model="currentPage" @input="currentPage" placeholder="Buscar..." class="ml-2"
         style="width: 70px;height: 37px" />
-    </div>
+    </div> -->
 
     <div class="overflow-x-auto">
+      <div class="table-perOptions">
+        <b-form-select v-model="perPage" :options="grid.pageOptions" style="width: 70px;"
+          @change="() => myCallback(currentPage, perPage)" />
+        <p style="font-size: 14px; color: #727370 !important; margin: 0; padding: 0; font-family: Lato;">
+          Se están mostrando {{ items.length }} de {{ grid.perPage }} registros por página (total: {{ grid.totalRows }}
+          registros)
+        </p>
+      </div>
+
       <b-table :items="items" :fields="fields" :busy="grid.isLoading" busyLoadingText="Cargando..." no-local-sorting
         responsive="sm" :noProviderSorting="false" :noProviderFiltering="false" :noSortableIcon="true" class="mb-4">
         <template #emptyText>
@@ -43,9 +52,23 @@
         </template>
 
         <template #cell(CDESTDO)="data">
-          <b-badge :variant="data.value === 'A' ? 'success' : 'danger'"
-            :title="data.value === 'A' ? 'Activo' : 'Inactivo'" class="cursor-pointer">
-            {{ data.value === 'A' ? 'A' : 'I' }}
+          <b-badge :style="{
+            border: data.value === 'A' ? '1px solid #27AE60!important' : '1px solid #FF4D4D!important',
+            backgroundColor: data.value === 'A' ? '#C7FFDE!important' : '#FFB2B2!important',
+            color: '#727370 !important',
+          }" :title="data.value === 'A' ? 'Activo' : 'Inactivo'" class="cursor-pointer">
+            {{ data.value === 'A' ? 'Activo' : 'Inactivo' }}
+          </b-badge>
+        </template>
+
+
+        <template #cell(ESTADO)="data">
+          <b-badge :style="{
+            border: data.value ? '1px solid #27AE60!important' : '1px solid #FF4D4D!important',
+            backgroundColor: data.value ? '#C7FFDE!important' : '#FFB2B2!important',
+            color: data.value ? '#727370 !important' : '#727370 !important',
+          }" :title="data.value ? 'Aceptado' : 'Pendiente'" class="cursor-pointer">
+            {{ data.value ? 'Aceptado' : 'Pendiente' }}
           </b-badge>
         </template>
 
@@ -56,36 +79,53 @@
             </a>
           </div>
         </template>
-        
-        
+
+
         <template #cell(BOLETIN)="data">
           <a :href="data.value" target="_blank">
             <span>{{
-              data.value.length > 30 ? data.value.substring(0, 30) + '...' : data.value  
-              }}</span>
+              data.value.length > 30 ? data.value.substring(0, 30) + '...' : data.value
+            }}</span>
           </a>
         </template>
-        
 
+        <!-- // HTML -->
         <template #cell(TEMA)="data">
+          <span v-html="data.value"></span>
+        </template>
+
+        <template #cell(DETALLE)="data">
+          <span v-html="data.value"></span>
+        </template>
+
+        <template #cell(AUTOR)="data">
+          <span v-html="data.value"></span>
+        </template>
+
+        <template #cell(DESCRIPCION)="data">
+          <span v-html="data.value"></span>
+        </template>
+
+        <template #cell(RTAFTO)="data">
           <span v-html="data.value"></span>
         </template>
 
         <!-- ACCIONES -->
         <template #cell(ACCIONES)="data">
-          <div class="flex items-center">
+          <div class="flex items-center justify-center gap-2">
             <b-button v-if="actions.edit" :title="actions.edit.label" @click="actions.edit.action(data.item)"
-              class="mr-2 btn-edit" size="sm">
-              <i :class="actions.edit.icon"></i>
+              style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
+              <img src="@/assets/img/icons/edit.svg" alt="edit" width="40" height="40" />
             </b-button>
-            <b-button v-if="actions.delete && deleteRole" :title="actions.delete.label" @click="actions.delete.action(data.item)"
-              class="mr-2 btn-delete" size="sm">
-              <i :class="actions.delete.icon"></i>
+            <b-button v-if="actions.delete && deleteRole" :title="actions.delete.label"
+              @click="actions.delete.action(data.item)"
+              style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
+              <img src="@/assets/img/icons/delete.svg" alt="delete" width="40" height="40" />
             </b-button>
 
             <b-button v-if="actions.view" :title="actions.view.label" @click="actions.view.action(data.item)"
-              class="mr-2 btn-view" size="sm">
-              <i :class="actions.view.icon"></i>
+              style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
+              <img src="@/assets/img/icons/eyeView.svg" alt="visualizar" width="40" height="40" />
             </b-button>
 
             <div v-if="actions.download">
@@ -113,18 +153,16 @@
     </div>
 
     <div class="flex justify-start mb-3 gap-2 flex-col md:flex-row">
-      <b-form-select v-model="perPage" :options="grid.pageOptions" class="ml-2"
-        style="width: 70px;height: 37px; padding: 1px!important;" @change="() => myCallback(currentPage, perPage)" />
       <b-pagination v-model="currentPage" :total-rows="grid.totalRows" @update:model-value="myCallback"
         :per-page="grid.perPage" aria-controls="my-table" class="my-0" />
-      <b-input type="number" v-model="currentPage" @input="currentPage" placeholder="Buscar..." class="ml-2"
-        style="width: 70px;height: 37px" />
+      <!-- <b-input type="number" v-model="currentPage" @input="currentPage" placeholder="Buscar..." class="ml-2"
+        style="width: 70px;height: 37px" /> -->
     </div>
   </div>
 </template>
 <script>
 
-import { BPagination, BTable, BBadge, BButton, BDropdown, BDropdownItem, BInput, BFormSelect } from 'bootstrap-vue-next';
+import { BPagination, BTable, BBadge, BButton, BDropdown, BDropdownItem, BFormSelect } from 'bootstrap-vue-next';
 import moment from 'moment';
 
 export default {
@@ -141,7 +179,6 @@ export default {
     BButton,
     BDropdown,
     BDropdownItem,
-    BInput,
     BFormSelect
   },
   props: {
@@ -212,37 +249,46 @@ export default {
 /* "items-center w-full bg-transparent border-collapse */
 table {
   width: 100% !important;
-  border-collapse: collapse !important;
-}
-
-/* bg-blueGray-50 text-blueGray-500 border-blueGray-100 */
-table th {
-  background-color: #f8fafc !important;
-  color: #64748b !important;
-  border-color: #edf2f7 !important;
+  font-family: Lato;
+  font-size: 16px !important;
 }
 
 table th,
 table td {
-  padding: 1rem !important;
-  text-align: left !important;
-  border: 1px solid #edf2f7 !important;
-}
-
-
-
-table th,
-table td {
-  padding: 1rem 2rem !important;
+  padding: .7rem 1.5rem !important;
 }
 
 table tbody tr td {
-  background-color: white !important;
-  border-color: #edf2f7 !important;
+  padding: 15px;
+  color: #727370 !important;
+  background-color: #ffffff !important;
 }
 
 table thead tr th {
-  background-color: #f7fafcff !important;
-  border-color: #edf2f7 !important;
+  padding: 5px;
+  background-color: #EDF6FF !important;
+  color: #11235A !important;
+  vertical-align: middle !important;
+}
+
+table tbody tr {
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.table-perOptions {
+  display: flex;
+  justify-content: start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* // en celular */
+@media (max-width: 768px) {
+  .table-perOptions {
+    flex-direction: column;
+    align-items: start;
+  }
 }
 </style>

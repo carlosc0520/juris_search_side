@@ -1,113 +1,119 @@
 <template>
-    <div class="container-table flex flex-wrap mt-4 pt-5">
-        <div class="w-full mb-12 pt-5">
-            <div class="w-full mb-12 tabs-pointer">
-                <b-tabs v-model="active">
-                    <b-tab title="Magistrados" id="0">
-                    </b-tab>
-                    <b-tab title="Filtros" id="1">
-                    </b-tab>
-                    <b-tab title="Nivel 2" id="2">
-                    </b-tab>
-                    <b-tab title="Nivel 3" id="3">
-                    </b-tab>
-                    <b-tab title="Nivel 4" id="4">
-                    </b-tab>
-                    <b-tab title="Nivel 5" id="5">
-                    </b-tab>
-                    <b-tab title="Nivel 6" id="6">
-                    </b-tab>
-                </b-tabs>
+    <section class="bg-landing mt-4 pt-5">
+        <div class="container-table flex flex-col mt-4 pt-5">
+            <div class="flex mb-3 gap-4 flex-col md:flex-row contenedor-tab">
+                <a class="cursor-pointer" :class="active == '0' ? 'active-tab' : ''" @click="updateActive('0')">
+                    Magistrados
+                </a>
+                <a class="cursor-pointer" :class="active == '1' ? 'active-tab' : ''" @click="updateActive('1')">
+                    Filtros
+                </a>
+                <a class="disabled cursor-not-allowed" disabled :class="active == '2' ? 'active-tab' : ''">
+                    Nivel 2
+                </a>
+                <a class="disabled cursor-not-allowed" disabled :class="active == '3' ? 'active-tab' : ''">
+                    Nivel 3
+                </a>
+                <a class="disabled cursor-not-allowed" disabled :class="active == '4' ? 'active-tab' : ''">
+                    Nivel 4
+                </a>
+                <a class="disabled cursor-not-allowed" disabled :class="active == '5' ? 'active-tab' : ''">
+                    Nivel 5
+                </a>
+                <a class="disabled cursor-not-allowed" disabled :class="active == '6' ? 'active-tab' : ''">
+                    Nivel 6
+                </a>
+            </div>
 
-                <div class="bg-white p-4 shadow-lg">
-                    <h7 class="mb-2">{{
-                        active === 0 ? '' :
-                            active === 1 ? '' :
-                                active === 2 ? `${this.title.ID2}` :
-                                    active === 3 ? `${this.title.ID2} > ${this.title.ID3}` :
-                                        active === 4 ? `${this.title.ID2} > ${this.title.ID3} > ${this.title.ID4}` :
-                                            active === 5 ? `${this.title.ID2} > ${this.title.ID3} > ${this.title.ID4} > ${this.title.ID5}` :
-                                                active === 6 ? `${this.title.ID2} > ${this.title.ID3} > ${this.title.ID4} > ${this.title.ID5} >
-                        ${this.title.ID6}` : ''
-                    }}</h7>
-                    <div class="row mt-4">
-                        <div class="col-md-6 col-12 mb-3">
-                            <label for="name" class="form-label">Busqueda</label>
-                            <input type="text" v-model="filter.NOMBRES" id="name" class="form-control" />
-                        </div>
+            <div class="row">
+                <h7 class="mb-2">{{
+                    active == 0 ? '' :
+                        active == 1 ? '' :
+                            active == 2 ? `${this.title.ID2}` :
+                                active == 3 ? `${this.title.ID2} > ${this.title.ID3}` :
+                                    active == 4 ? `${this.title.ID2} > ${this.title.ID3} > ${this.title.ID4}` :
+                                        active == 5 ? `${this.title.ID2} > ${this.title.ID3} > ${this.title.ID4} > ${this.title.ID5}` :
+                                            active == 6 ? `${this.title.ID2} > ${this.title.ID3} > ${this.title.ID4} > ${this.title.ID5} >
+                    ${this.title.ID6}` : ''
+                }}</h7>
+                <div class="row">
+                    <div class="col-12 mb-3 input-search" :class="active == 0 ? 'col-md-9' : 'col-md-6'">
+                        <img :src="searchIcon" alt="search" class="icon-search" />
 
-                        <div class="col-md-3 col-12 mb-3" v-if="active != 0">
-                            <label for="OPTION" class="form-label">Tipo</label>
-                            <b-form-select v-model="filter.OPTION" :options="[
-                                { text: 'JURISPRUDENCIA', value: '1' },
-                                { text: 'LEGISLACIÓN', value: '2' }]">
-                            </b-form-select>
-                        </div>
-
-                        <div class="col-md-3 col-12 mb-3">
-                            <label for="CDESTDO" class="form-label">Estado</label>
-                            <b-form-select v-model="filter.CDESTDO" :options="[
-                                { text: '-- Seleccione ', value: null },
-                                { text: 'Activo', value: 'A' },
-                                { text: 'Inactivo', value: 'I' }]">
-                            </b-form-select>
-                        </div>
-
-
-                        <div class="col-md-12 col-12 mb-3">
-                            <div class="flex justify-end gap-4">
-                                <button class="bton btn-search" @click="() => {
-                                    if (active === 0) searchMagistrados(grid.currentPage, grid.perPage);
-                                    else searchFiltros(grid.currentPage, grid.perPage,
-                                        (Number(active) === 1) ? null : this.Niveles[`ID${Number(active) - 1}`]);
-                                }">Buscar</button>
-                                <button class="bton btn-create" @click="() => {
-                                    if (active === 0) modalAgregarMagistrados.show = true;
-                                    else modalAgregarFiltros.show = true;
-                                }">Crear</button>
-
-                                <button class="bton btn-regresar" v-if="[2, 3, 4, 5, 6].includes(active)" @click="() => {
-                                    this.active = String(Number(active) - 1);
-                                    this.IDFILTER = (Number(this.active) === 1) ? null : this.Niveles[`ID${Number(this.active) - 1}`];
-                                    this.searchFiltros(grid.currentPage, grid.perPage,
-                                        (Number(this.active) === 1) ? null : this.Niveles[`ID${Number(this.active) - 1}`]);
-                                }">Regresar</button>
-
-                            </div>
-                        </div>
-
+                        <input type="text" class="form-control"
+                            :placeholder="active == 0 ? 'Buscar por nombres, apellidos' : 'Buscar por descripción'"
+                            v-model="filter.NOMBRES" id="name" />
                     </div>
 
-                    <card-table v-if="active === 0" :active="active" title="Magistrados" :search="searchMagistrados"
-                        :fields="fieldsMagistrados" :items="dataMagistrados" :grid="grid"
-                        :actions="actionsMagistrados" />
+                    <div class="col-md-3 col-12 mb-3" v-if="active != 0">
+                        <b-form-select v-model="filter.OPTION" :options="[
+                            { text: 'JURISPRUDENCIA', value: '1' },
+                            { text: 'LEGISLACIÓN', value: '2' }]">
+                        </b-form-select>
+                    </div>
 
-                    <card-table v-if="active == 1" :active="active" title="Filtros" :search="searchFiltros"
-                        :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
-                    <card-table v-if="active == 2" :active="active" title="Filtros" :search="searchFiltros"
-                        :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
-                    <card-table v-if="active == 3" :active="active" title="Filtros" :search="searchFiltros"
-                        :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
-                    <card-table v-if="active == 4" :active="active" title="Filtros" :search="searchFiltros"
-                        :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
-                    <card-table v-if="active == 5" :active="active" title="Filtros" :search="searchFiltros"
-                        :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
-                    <card-table v-if="active == 6" :active="active" title="Filtros" :search="searchFiltros"
-                        :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
+                    <div class="col-md-3 col-12 mb-3">
+                        <b-form-select v-model="filter.CDESTDO" :options="[
+                            { text: '-- Seleccione Estado ', value: null },
+                            { text: 'Activo', value: 'A' },
+                            { text: 'Inactivo', value: 'I' }]">
+                        </b-form-select>
+                    </div>
+
+                    <div class="col-md-12 col-12 mb-3">
+                        <div class="flex justify-end gap-4">
+                            <button class="bton btn-search" @click="() => {
+                                if (active == 0) searchMagistrados(grid.currentPage, grid.perPage);
+                                else searchFiltros(grid.currentPage, grid.perPage,
+                                    (Number(active) == 1) ? null : this.Niveles[`ID${Number(active) - 1}`]);
+                            }">Buscar</button>
+                            <button class="bton btn-create" @click="() => {
+                                if (active == 0) modalAgregarMagistrados.show = true;
+                                else modalAgregarFiltros.show = true;
+                            }">Crear</button>
+
+                            <button class="bton btn-regresar" v-if="[2, 3, 4, 5, 6].includes(Number(active))" @click="() => {
+                                this.active = String(Number(active) - 1);
+                                this.IDFILTER = (Number(this.active) == 1) ? null : this.Niveles[`ID${Number(this.active) - 1}`];
+                                this.searchFiltros(grid.currentPage, grid.perPage,
+                                    (Number(this.active) == 1) ? null : this.Niveles[`ID${Number(this.active) - 1}`]);
+                            }">Regresar</button>
+
+                        </div>
+                    </div>
 
                 </div>
+            </div>
+
+            <div class="w-full mb-12">
+                <card-table v-if="active == 0" :active="active" title="Magistrados" :search="searchMagistrados"
+                    :fields="fieldsMagistrados" :items="dataMagistrados" :grid="grid" :actions="actionsMagistrados" />
+
+                <card-table v-if="active == 1" :active="active" title="Filtros" :search="searchFiltros"
+                    :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
+                <card-table v-if="active == 2" :active="active" title="Filtros" :search="searchFiltros"
+                    :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
+                <card-table v-if="active == 3" :active="active" title="Filtros" :search="searchFiltros"
+                    :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
+                <card-table v-if="active == 4" :active="active" title="Filtros" :search="searchFiltros"
+                    :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
+                <card-table v-if="active == 5" :active="active" title="Filtros" :search="searchFiltros"
+                    :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
+                <card-table v-if="active == 6" :active="active" title="Filtros" :search="searchFiltros"
+                    :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
 
             </div>
+
         </div>
 
         <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
 
         <ModalAgregarFIltro :show="modalAgregarFiltros.show" :close="() => modalAgregarFiltros.show = false"
-            :update="() => searchFiltros(grid.currentPage, grid.perPage, active == 1 ? null : this.Niveles?.[`ID${Number(active) - 1}`])" 
+            :update="() => searchFiltros(grid.currentPage, grid.perPage, active == 1 ? null : this.Niveles?.[`ID${Number(active) - 1}`])"
             :active="active" :data="dataFilter" :niveles="Niveles" />
-   
+
         <ModalEditarFiltro :show="modalEditarFiltros.show" :close="() => modalEditarFiltros.show = false"
-            :update="() => searchFiltros(grid.currentPage, grid.perPage, active == 1 ? null : this.Niveles?.[`ID${Number(active) - 1}`])" 
+            :update="() => searchFiltros(grid.currentPage, grid.perPage, active == 1 ? null : this.Niveles?.[`ID${Number(active) - 1}`])"
             :active="active" :data="modalEditarFiltros.data" :niveles="Niveles" />
 
         <ModalAgregarMagistrado :show="modalAgregarMagistrados.show" :close="() => modalAgregarMagistrados.show = false"
@@ -123,15 +129,14 @@
         <ModalEliminar :message="'¿Está seguro de cambiar el estado de este registro?'" :buttonOk="'Si, cambiar'"
             :action="deleteRowFiltros" :openDelete="modalEliminarFiltros.show"
             :closeHandler="() => modalEliminarFiltros.show = false" />
-
-
-    </div>
+    </section>
 </template>
 
 <script>
 import CardTable from "@/components/Cards/CardTable.vue";
-import { BTabs, BTab, BFormSelect } from 'bootstrap-vue-next';
+import { BFormSelect } from 'bootstrap-vue-next';
 import { toast } from 'vue3-toastify';
+import searchIcon from "@/assets/img/icons/search.svg";
 
 // MODALES
 import ModalEliminar from "./Modales/ModalEliminar.vue";
@@ -147,8 +152,6 @@ import FilterProxy from '../../proxies/FilterProxy';
 export default {
     components: {
         CardTable,
-        BTabs,
-        BTab,
         BFormSelect,
 
         // MODALES
@@ -162,9 +165,11 @@ export default {
     },
     data() {
         return {
+            searchIcon,
             currentPage: 10,
             dataMagistrados: [],
             dataFiltros: [],
+            active: "0",
 
             grid: {
                 items: [],
@@ -182,18 +187,6 @@ export default {
                 {
                     key: "NOMBRES_C",
                     label: "Nombres y Apellidos"
-                },
-                {
-                    key: "FCRCN",
-                    label: "Fecha de Ingreso",
-                    sortable: true,
-                    class: "text-center w-130",
-                },
-                {
-                    key: "UCRCN",
-                    label: "U. Creación",
-                    sortable: true,
-                    class: "text-center w-130",
                 },
                 {
                     key: "FEDCN",
@@ -312,7 +305,6 @@ export default {
             },
 
             isLoading: false,
-            active: "magistrados",
 
             // OPENINGS MODALES
             modalAgregarMagistrados: {
@@ -428,7 +420,7 @@ export default {
                 loading: false,
             };
 
-            if (text === 'magistrados') this.searchMagistrados(this.grid.currentPage, this.grid.perPage);
+            if (text == '0') this.searchMagistrados(this.grid.currentPage, this.grid.perPage);
             else {
                 this.searchFiltros(this.grid.currentPage, this.grid.perPage);
                 if (text == "1") {
@@ -555,8 +547,8 @@ export default {
 
             if (newVal == 0) {
                 this.searchMagistrados(this.grid.currentPage, this.grid.perPage);
-            } 
-            
+            }
+
             if (newVal > 0) {
                 // this.dataFilter = {};
                 // this.searchFiltros(this.grid.currentPage, this.grid.perPage);
@@ -583,9 +575,8 @@ export default {
     color: #ccc !important;
 }
 
-.container-table{
+.container-table {
     max-width: 90%;
     margin: 0 auto;
 }
-
 </style>

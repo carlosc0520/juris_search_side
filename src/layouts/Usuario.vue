@@ -24,6 +24,7 @@ import homeIcon from '@/assets/img/icons/home.svg';
 import busquedaIcon from '@/assets/img/icons/busqueda.svg';
 import perfilIcon from '@/assets/img/icons/perfil.svg';
 import estrellaIcon from '@/assets/img/icons/estrella.svg';
+import subscripcionIcon from '@/assets/img/icons/subscripcion.svg';
 // import reportIcon from '@/assets/img/icons/report.svg';
 
 export default {
@@ -39,9 +40,10 @@ export default {
             isCollapsed: false,
             menu: [
                 { name: 'Busqueda', route: '/usuario/busqueda', icon: busquedaIcon },
+                { name: 'Perfil', route: '/usuario/settings', icon: perfilIcon },
+                { name: 'Subscripción', route: '/usuario/subscripcion', icon: subscripcionIcon },
                 { name: 'Publicación', route: '/usuario/dashboard', icon: homeIcon },
                 { name: 'Favoritos', route: '/usuario/favoritos', icon: estrellaIcon },
-                { name: 'Perfil', route: '/usuario/settings', icon: perfilIcon },
                 // { name: "Reportes", route: "/usuario/reportes", icon: reportIcon },
             ],
         };

@@ -25,6 +25,7 @@ import filtersIcon from '@/assets/img/icons/filters.svg';
 import usersIcon from '@/assets/img/icons/users.svg';
 import jurisIcon from '@/assets/img/icons/juris.svg';
 import estrellaIcon from '@/assets/img/icons/estrella.svg';
+import noticiasIcon from '@/assets/img/icons/noticias.svg';
 
 export default {
   name: "admin-layout",
@@ -46,6 +47,7 @@ export default {
         { name: 'Filtros', route: '/admin/filtros', icon: filtersIcon },
         { name: 'Mantenimiento', route: '/admin/mantenimiento', icon: mantenimientoIcon },
         { name: "Favoritos", route: "/admin/favoritos", icon: estrellaIcon },
+        { name: "Noticias", route: "/admin/noticias", icon: noticiasIcon },
 
         // { name: 'Busqueda', route: '/admin/busqueda', icon: 'fas fa-search' },
         // { name: 'Perfil', route: '/admin/settings', icon: 'fas fa-user' },

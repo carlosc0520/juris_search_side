@@ -5,50 +5,56 @@
 
         <form id="formEditarUsuario" @submit.prevent="submit">
             <div class="row">
-                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.APATERNO') }">
+                <div class="col-md-6 col-12 mb-3">
                     <label for="name" class="form-label">Apellido Paterno <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.APATERNO" id="APATERNO" class="form-control" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.APATERNO') }"
+                        v-model="modelo.APATERNO" id="APATERNO" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.APATERNO')">
                         {{ validation.firstError('modelo.APATERNO') }}
                     </span>
                 </div>
 
-                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.AMATERNO') }">
+                <div class="col-md-6 col-12 mb-3">
                     <label for="name" class="form-label">Apellido Materno <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.AMATERNO" id="AMATERNO" class="form-control" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.AMATERNO') }"
+                        v-model="modelo.AMATERNO" id="AMATERNO" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.AMATERNO')">
                         {{ validation.firstError('modelo.AMATERNO') }}
                     </span>
                 </div>
 
-                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.NOMBRES') }">
+                <div class="col-md-6 col-12 mb-3">
                     <label for="name" class="form-label">Nombres <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.NOMBRES" id="NOMBRES" class="form-control" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.NOMBRES') }"
+                        v-model="modelo.NOMBRES" id="NOMBRES" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.NOMBRES')">
                         {{ validation.firstError('modelo.NOMBRES') }}
                     </span>
                 </div>
 
 
-                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.EMAIL') }">
+                <div class="col-md-6 col-12 mb-3">
                     <label for="name" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.EMAIL" id="EMAIL" class="form-control" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.EMAIL') }" v-model="modelo.EMAIL"
+                        id="EMAIL" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.EMAIL')">
                         {{ validation.firstError('modelo.EMAIL') }}
                     </span>
                 </div>
 
-                <div class="col-md-4 col-12 mb-3" :class="{ error: validation.hasError('modelo.TELEFONO') }">
+                <div class="col-md-4 col-12 mb-3">
                     <label for="name" class="form-label">Teléfono <span class="text-danger">*</span></label>
-                    <input type="number" v-model="modelo.TELEFONO" id="TELEFONO" class="form-control" />
+                    <input type="number" :class="{ error: validation.hasError('modelo.TELEFONO') }"
+                        v-model="modelo.TELEFONO" id="TELEFONO" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.TELEFONO')">
                         {{ validation.firstError('modelo.TELEFONO') }}
                     </span>
                 </div>
 
-                <div class="col-md-4 col-12 mb-3" :class="{ error: validation.hasError('modelo.FNACIMIENTO') }">
+                <div class="col-md-4 col-12 mb-3">
                     <label for="BLOG3" class="form-label">Fecha Nacimiento <span class="text-danger">*</span></label>
-                    <date-picker v-model="modelo.FNACIMIENTO" :value="modelo.FNACIMIENTO" valueType="format"
+                    <date-picker :class="{ error: validation.hasError('modelo.FNACIMIENTO') }"
+                        v-model="modelo.FNACIMIENTO" :value="modelo.FNACIMIENTO" valueType="format"
                         :disabledDate="time => time.getTime() > Date.now()"
                         @change="(date) => modelo.FNACIMIENTO = date"></date-picker>
                     <span class="message" v-if="validation.hasError('modelo.FNACIMIENTO')">
@@ -146,7 +152,7 @@ export default {
     methods: {
         async submit(e) {
             e.preventDefault();
-            if(this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
+            if (this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
 
             let validate = await this.$validate();
             if (!validate) return;

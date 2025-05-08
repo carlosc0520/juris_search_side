@@ -5,35 +5,33 @@
 
         <form id="formEditaPlan" @submit.prevent="submit">
             <div class="row">
-                <div class="col-12 mb-3" :class="{ error: validation.hasError('modelo.DESCRIPCION') }">
+                <div class="col-12 mb-3">
                     <label for="name" class="form-label">Descripción <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.DESCRIPCION" id="DESCRIPCION" class="form-control" />
+                    <input :class="{ error: validation.hasError('modelo.DESCRIPCION') }" type="text" v-model="modelo.DESCRIPCION" id="DESCRIPCION" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.DESCRIPCION')">
                         {{ validation.firstError('modelo.DESCRIPCION') }}
                     </span>
                 </div>
 
-                <div class="col-md-4 col-12 mb-3 flex flex-col" :class="{ error: validation.hasError('modelo.VALOR') }">
+                <div class="col-md-4 col-12 mb-3 flex flex-col">
                     <label for="name" class="form-label">Valor <span class="text-danger">*</span></label>
-                    <input type="number" v-model="modelo.VALOR" id="VALOR" class="form-control" />
+                    <input :class="{ error: validation.hasError('modelo.VALOR') }" type="number" v-model="modelo.VALOR" id="VALOR" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.VALOR')">
                         {{ validation.firstError('modelo.VALOR') }}
                     </span>
                 </div>
 
-                <div class="col-md-4 col-12 mb-3 flex flex-col"
-                    :class="{ error: validation.hasError('modelo.TIEMPO') }">
+                <div class="col-md-4 col-12 mb-3 flex flex-col">
                     <label for="name" class="form-label">Tiempo <span class="text-danger">*</span></label>
-                    <input type="number" v-model="modelo.TIEMPO" id="TIEMPO" class="form-control" />
+                    <input  :class="{ error: validation.hasError('modelo.TIEMPO') }" type="number" v-model="modelo.TIEMPO" id="TIEMPO" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.TIEMPO')">
                         {{ validation.firstError('modelo.TIEMPO') }}
                     </span>
                 </div>
  
-                <div class="col-md-4 col-12 mb-3 flex flex-col"
-                    :class="{ error: validation.hasError('modelo.PRECIO') }">
+                <div class="col-md-4 col-12 mb-3 flex flex-col">
                     <label for="name" class="form-label">Precio <span class="text-danger">*</span></label>
-                    <input type="number" v-model="modelo.PRECIO" id="PRECIO" class="form-control" />
+                    <input :class="{ error: validation.hasError('modelo.PRECIO') }" type="number" v-model="modelo.PRECIO" id="PRECIO" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.PRECIO')">
                         {{ validation.firstError('modelo.PRECIO') }}
                     </span>

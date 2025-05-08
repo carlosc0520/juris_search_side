@@ -2,47 +2,35 @@
     <div>
         <navbar v-if="!resumeSection" />
         <main>
-            <div v-if="!resumeSection" class="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
-                <div class="absolute top-0 w-full h-full bg-center bg-cover"
-                    :style="{ backgroundImage: 'url(' + questionResource + ')', backgroundSize: 'cover', backgroundPosition: 'center' }">
-                    <span id="blackOverlay" class="w-full h-full absolute opacity-75 bg-black"></span>
-                </div>
-                <div class="container relative mx-auto">
-                    <div class="items-center flex flex-wrap">
-                        <div class="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-                            <div class="pr-12">
-                                <h1 class="text-white font-semibold text-5xl">
-                                    Preguntas frecuentes
-                                </h1>
-                                <p class="mt-4 text-lg text-blueGray-200">
-                                    Aquí encontrarás las preguntas más frecuentes que nuestros
-                                    usuarios nos hacen.
-                                </p>
-                            </div>
-                        </div>
+            <section class="profile-page" v-if="!resumeSection">
+                <div class="mt-10"></div>
+                <section class="relative md:px-0 px-2">
+                    <div class="container-custom mx-auto px-lg-5">
+                        <p class="mb-3 py-2 text-duo text-lato-400 text-2xl text-center" style="font-size: 40px;">
+                            Preguntas Frecuentes
+                        </p>
+                        <p class="pb-3 text-lato-400 text-center" style="font-size: 18px;">
+                            Resuelve tus dudas aquí. Si necesitas más ayuda, contáctanos.
+                        </p>
                     </div>
-                </div>
-                <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
-                    style="transform: translateZ(0);">
-                    <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg"
-                        preserveAspectRatio="none" version="1.1" viewBox="0 0 2560 100" x="0" y="0">
-                        <polygon class="text-blueGray-100 fill-current" points="2560 0 2560 100 0 100"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <section :class="{'mt-4 -mt-24 py-24': !resumeSection }">
+                </section>
+            </section>
+
+            <section :class='{ "py-5": !resumeSection }' v-if="!loading">
                 <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
 
-                <div :class="{'container mx-auto px-4': !resumeSection }">
+                <div :class="{ 'container mx-auto px-4': !resumeSection }">
                     <div class="flex flex-wrap">
                         <div class="container relative mx-auto aparecer-r-to-l">
-                            <div class="content-title-question" v-for="pregunta in (resumeSection ? preguntas.slice(0, 3) : preguntas)" :key="pregunta.ID">
+                            <div class="border-bottom content-title-question"
+                                v-for="pregunta in (resumeSection ? preguntas.slice(0, 3) : preguntas)"
+                                :key="pregunta.ID">
                                 <button @click="togglePregunta(pregunta.ID)"
                                     class="flex justify-between items-center w-full text-left rounded-lg focus:outline-none font-bold sm:text-sm md:text-base lg:text-lg text-blueGray-800 hover:bg-white hover:text-blueGray-800"
                                     :class="!resumeSection ? 'p-4' : 'py-10'">
                                     <span>{{ pregunta?.DESCRIPCION || "" }}</span>
-                                    <i v-if="isOpen(pregunta.ID)" class="fas fa-chevron-up"></i>
-                                    <i v-else class="fas fa-chevron-down"></i>
+                                    <i v-if="isOpen(pregunta.ID)" class="text-blue-500 fas fa-chevron-up"></i>
+                                    <i v-else class="text-blue-500 fas fa-chevron-down"></i>
                                 </button>
                                 <transition name="slide-fade" @before-enter="beforeEnter" @enter="enter" @leave="leave">
                                     <div v-show="isOpen(pregunta.ID)"
@@ -54,8 +42,19 @@
                     </div>
                 </div>
             </section>
-
-
+            <section class="bg-dark" v-if="!resumeSection">
+                <div class="container-custom mx-auto p-5">
+                    <div class="flex flex-column gap-2 p-3">
+                        <h2 class="text-center text-white">
+                            ¿Necesitas ayuda? Contáctanos y con gusto atenderemos tu consulta.
+                        </h2>
+                        <router-link to="/contacto"
+                            class="m-auto bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">
+                            Escríbenos
+                        </router-link>
+                    </div>
+                </div>
+            </section>
 
 
         </main>
@@ -148,6 +147,11 @@ export default {
 <style scoped>
 .aparecer-r-to-l {
     animation: aparecer-r-to-l 1s;
+}
+
+.content-title-question {
+    font-family: Lato;
+    font-style: normal;
 }
 
 @keyframes aparecer-r-to-l {

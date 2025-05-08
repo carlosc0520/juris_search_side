@@ -5,26 +5,28 @@
 
         <form id="formAgregarFiltro" @submit.prevent="submit">
             <div class="row">
-                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.NIVEL') }">
+                <div class="col-md-6 col-12 mb-3">
                     <label for="NIVEL" class="form-label">Nivel <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.NIVEL" :disabled="true" id="NIVEL" class="form-control" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.NIVEL') }" v-model="modelo.NIVEL"
+                        :disabled="true" id="NIVEL" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.NIVEL')">
                         {{ validation.firstError('modelo.NIVEL') }}
                     </span>
                 </div>
 
-                <div class="col-md-6 col-12 mb-3 flex flex-col" :class="{ error: validation.hasError('modelo.TIPO') }">
+                <div class="col-md-6 col-12 mb-3 flex flex-col">
                     <label for="file" class="forml-label">Tipo <span class="text-danger">*</span></label>
-                    <b-form-select v-model="modelo.TIPO" :options="options" class="form-control"
-                    :disabled="this.active != 1" />
+                    <b-form-select :class="{ error: validation.hasError('modelo.TIPO') }" v-model="modelo.TIPO"
+                        :options="options" class="form-control" :disabled="this.active != 1" />
                     <span class="message" v-if="validation.hasError('modelo.TIPO')">
                         {{ validation.firstError('modelo.TIPO') }}
                     </span>
                 </div>
 
-                <div class="col-12 mb-3" :class="{ error: validation.hasError('modelo.LABEL') }">
+                <div class="col-12 mb-3">
                     <label for="LABEL" class="form-label">Etiqueta <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.LABEL" id="LABEL" class="form-control" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.LABEL') }" v-model="modelo.LABEL"
+                        id="LABEL" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.LABEL')">
                         {{ validation.firstError('modelo.LABEL') }}
                     </span>
@@ -110,8 +112,8 @@ export default {
             if (!validate) return;
 
 
-            if(this.active > 1) {
-                if(!this.modelo.IDPARENT) {
+            if (this.active > 1) {
+                if (!this.modelo.IDPARENT) {
                     toast.error("Debe seleccionar un filtro padre");
                     return;
                 }
@@ -164,7 +166,7 @@ export default {
                 if (value) {
                     this.modelo = {
                         NIVEL: `NIVEL ${this.active}`,
-                        TIPO: this.data?.TIPO == "JURISPRUDENCIA" ? 1 : this.data?.TIPO == "LEGISLACIÓN" ? 2 : null, 
+                        TIPO: this.data?.TIPO == "JURISPRUDENCIA" ? 1 : this.data?.TIPO == "LEGISLACIÓN" ? 2 : null,
                         IDPARENT: this.niveles[`ID${this.active - 1}`],
                         LABEL: null,
                         ID: null,

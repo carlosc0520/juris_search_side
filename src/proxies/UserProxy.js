@@ -105,6 +105,36 @@ class UserProxy {
         return data;
     }
 
+    // * CONTACTO
+    async getContactos(params) {
+        const { data } = await axios.get('/admin/user/get-contacts', {
+            params,
+        });
+        return data;
+    }
+
+    async createContacto(model) {
+        const { data } = await axios.post('/admin/user/add-contact', model);
+        return data;
+    }
+
+    async updateContacto(model) {
+        const { data } = await axios.post('/admin/user/edit-contact', model);
+        return data;
+    }
+
+    async deleteContacto(ID) {
+        const { data } = await axios.post('/admin/user/delete-contact', { ID });
+        return data;
+    }
+
+    // NOTIFICACIONES
+    async getNotificaciones(params) {
+        const { data } = await axios.get('/admin/user/get-notifications', {
+            params,
+        });
+        return data;
+    }
 }
 
 export default new UserProxy();

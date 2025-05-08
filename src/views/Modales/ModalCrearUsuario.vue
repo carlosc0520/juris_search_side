@@ -5,33 +5,33 @@
 
         <form id="formAgregarUsuario" @submit.prevent="submit">
             <div class="row">
-                <div class="col-md-4 col-12 mb-3" :class="{ error: validation.hasError('modelo.NOMBRES') }">
+                <div class="col-md-4 col-12 mb-3">
                     <label for="name" class="form-label">Nombres <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.NOMBRES" id="NOMBRES" class="form-control" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.NOMBRES') }" v-model="modelo.NOMBRES" id="NOMBRES" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.NOMBRES')">
                         {{ validation.firstError('modelo.NOMBRES') }}
                     </span>
                 </div>
 
-                <div class="col-md-4 col-12 mb-3" :class="{ error: validation.hasError('modelo.APELLIDOP') }">
+                <div class="col-md-4 col-12 mb-3" >
                     <label for="name" class="form-label">Apellido Paterno <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.APELLIDOP" id="APELLIDOP" class="form-control" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.APELLIDOP') }" v-model="modelo.APELLIDOP" id="APELLIDOP" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.APELLIDOP')">
                         {{ validation.firstError('modelo.APELLIDOP') }}
                     </span>
                 </div>
 
-                <div class="col-md-4 col-12 mb-3" :class="{ error: validation.hasError('modelo.APELLIDOM') }">
+                <div class="col-md-4 col-12 mb-3" >
                     <label for="name" class="form-label">Apellido Materno <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.APELLIDOM" id="APELLIDOM" class="form-control" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.APELLIDOM') }" v-model="modelo.APELLIDOM" id="APELLIDOM" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.APELLIDOM')">
                         {{ validation.firstError('modelo.APELLIDOM') }}
                     </span>
                 </div>
 
-                <div class="col-md-4 col-12 mb-3" :class="{ error: validation.hasError('modelo.CORREO') }">
+                <div class="col-md-4 col-12 mb-3">
                     <label for="name" class="form-label">Correo <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.CORREO" id="CORREO" class="form-control" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.CORREO') }" v-model="modelo.CORREO" id="CORREO" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.CORREO')">
                         {{ validation.firstError('modelo.CORREO') }}
                     </span>

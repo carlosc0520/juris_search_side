@@ -1,314 +1,511 @@
 <template>
-  <div class="container mx-auto px-4 h-full">
-    <div class="flex content-center items-center justify-center h-full">
-      <div style="z-index: 111111111!important;" class="w-full lg:w-6/12 px-4">
-        <div
-          class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-xl rounded-xl bg-blueGray-200 border-0">
-          <div class="flex-auto px-4 pt-5 lg:px-10 py-10 pt-0">
-            <div class="text-center mb-3">
-              <h6 class="text-blueGray-500 text-xl font-bold">
-                Regístrate con tus credenciales
-              </h6>
-            </div>
-            <form>
-              <div class="relative w-full mb-3" :class="{ error: validation.hasError('modelo.NOMBRES') }">
-                <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                  Nombres <span class="text-red-500">*</span>
-                </label>
-                <input type="email" v-model="modelo.NOMBRES" :disabled="true"
-                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="" />
-                <span class="message" v-if="validation.hasError('modelo.NOMBRES')">
-                  {{ validation.firstError('modelo.NOMBRES') }}
-                </span>
-              </div>
-
-              <div class="relative w-full mb-3" :class="{ error: validation.hasError('modelo.CORREO') }">
-                <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                  Correo Electrónico <span class="text-red-500">*</span>
-                </label>
-                <input type="email" v-model="modelo.CORREO" :disabled="true"
-                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="" />
-                <span class="message" v-if="validation.hasError('modelo.CORREO')">
-                  {{ validation.firstError('modelo.CORREO') }}
-                </span>
-              </div>
-
-              <div class="relative w-full mb-3" :class="{ error: validation.hasError('modelo.PASSWORD') }">
-                <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
-                  Contraseña <span class="text-red-500">*</span>
-                </label>
-                <input type="password" v-model="modelo.PASSWORD"
-                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="Password" />
-                <span class="message" v-if="validation.hasError('modelo.PASSWORD')">
-                  {{ validation.firstError('modelo.PASSWORD') }}
-                </span>
-              </div>
-
-              <div class="relative w-full mb-3" :class="{ error: validation.hasError('modelo.PASSWORD_CONFIRM') }">
-                <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                  Confirmar Contraseña <span class="text-red-500">*</span>
-                </label>
-                <input type="password" v-model="modelo.PASSWORD_CONFIRM"
-                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="Password" />
-                <span class="message" v-if="validation.hasError('modelo.PASSWORD_CONFIRM')">
-                  {{ validation.firstError('modelo.PASSWORD_CONFIRM') }}
-                </span>
-              </div>
-
-
-              <div class="text-center mt-6">
-                <button @click="submit"
-                  class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                  type="button">
-                  Registrarse
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+  <div class="form-login">
+    <div class="flex justify-between items-center mb-4 px-5" style="width: 100%;">
+      <img src="@/assets/img/logos/logo-full.png" @click="$router.push('/')" alt="Logo" class="h-10 cursor-pointer" />
+      <div class="text-sm">
+        <span class="text-gray-600 no-tener-cuenta">¿No tienes una cuenta?</span>
+        <button @click.prevent="$router.push('/auth/login')" class="btn-registrate ml-2 text-blue-500 hover:underline">
+          Iniciar sesión
+        </button>
       </div>
     </div>
-    <!-- <div class="bubbles-container">
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-    </div> -->
 
+    <div v-if="paseForm == 1" class="bg-white p-8 rounded-xl shadow-lg w-5/6 form-login-with">
+      <h3 class="text-lato-700 text-center">Registrar cuenta</h3>
+      <div class="social-buttons mt-4">
+        <button class="social-btn">
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" class="icon">
+          Ingresar con Google
+        </button>
+
+        <button class="social-btn">
+          <img src="https://www.svgrepo.com/show/448234/linkedin.svg" alt="LinkedIn Logo" class="icon">
+          Ingresar con LinkedIn
+        </button>
+      </div>
+
+      <div class="separator">
+        <span>o registrar cuenta con</span>
+      </div>
+
+      <form class="mt-4">
+        <div>
+          <div class="input-group" :class="{ error: validation.hasError('form.EMAIL') }">
+            <img src="@/assets/img/icons/email.svg" alt="Email Icon" class="input-icon">
+            <input type="email" placeholder="Correo electrónico" autocomplete="off" v-model="form.EMAIL"
+              class="input-field">
+          </div>
+          <span v-if="validation.hasError('form.EMAIL')" class="text-red-500 text-sm">
+            {{ validation.firstError('form.EMAIL') }}
+          </span>
+        </div>
+
+        <div>
+          <div class="input-group" :class="{ error: validation.hasError('form.PASSWORD') }">
+            <img src="@/assets/img/icons/look.svg" alt="Password Icon" class="input-icon">
+            <input placeholder="Contraseña" class="input-field" id="password" :type="showPassword ? 'text' : 'password'"
+              v-model="form.PASSWORD" autocomplete="off">
+            <button type="button" class="eye-icon" @click="togglePassword(1)">
+              <img v-if="!showPassword" src="@/assets/img/icons/eye.svg" alt="Eye Open Icon" class="eye-icon">
+              <img v-else src="@/assets/img/icons/eye-look.svg" alt="Eye Close Icon" class="eye-icon">
+            </button>
+          </div>
+          <span v-if="validation.hasError('form.PASSWORD')" class="text-red-500 text-sm">
+            {{ validation.firstError('form.PASSWORD') }}
+          </span>
+        </div>
+
+        <div>
+          <div class="input-group" :class="{ error: validation.hasError('form.PASSWORDREO') }">
+            <img src="@/assets/img/icons/look.svg" alt="Password Icon" class="input-icon">
+            <input placeholder="Contraseña" class="input-field" id="password"
+              :type="showPassword2 ? 'text' : 'password'" v-model="form.PASSWORDREO" autocomplete="off">
+            <button type="button" class="eye-icon" @click="togglePassword(2)">
+              <img v-if="!showPassword2" src="@/assets/img/icons/eye.svg" alt="Eye Open Icon" class="eye-icon">
+              <img v-else src="@/assets/img/icons/eye-look.svg" alt="Eye Close Icon" class="eye-icon">
+            </button>
+          </div>
+          <span v-if="validation.hasError('form.PASSWORDREO')" class="text-red-500 text-sm">
+            {{ validation.firstError('form.PASSWORDREO') }}
+          </span>
+        </div>
+
+        <button type="button" @click.prevent="signIn(2)" class="submit-btn mt-3 text-lato">
+          Registrar cuenta
+        </button>
+      </form>
+
+    </div>
+
+    <div v-if="paseForm == 2" class="bg-white p-8 rounded-xl shadow-lg w-5/6 form-login-with">
+      <h3 class="text-lato-700 text-center">Para completar tu registro con éxito, rellena los campos requeridos</h3>
+      <form class="mt-4">
+        <div class="row">
+          <div class="col-md-6 col-12 mb-3">
+            <label for="name" class="form-label">Nombres <span class="text-danger">*</span></label>
+            <input type="text" :class="{ error: validation.hasError('modelo.NOMBRES') }" v-model="modelo.NOMBRES"
+              id="NOMBRES" class="form-control" />
+            <span class="message" v-if="validation.hasError('modelo.NOMBRES')">
+              {{ validation.firstError('modelo.NOMBRES') }}
+            </span>
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label for="name" class="form-label">Apellido Paterno <span class="text-danger">*</span></label>
+            <input type="text" :class="{ error: validation.hasError('modelo.APELLIDOP') }" v-model="modelo.APELLIDOP"
+              id="APELLIDOP" class="form-control" />
+            <span class="message" v-if="validation.hasError('modelo.APELLIDOP')">
+              {{ validation.firstError('modelo.APELLIDOP') }}
+            </span>
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label for="name" class="form-label">Apellido Materno <span class="text-danger">*</span></label>
+            <input type="text" :class="{ error: validation.hasError('modelo.APELLIDOM') }" v-model="modelo.APELLIDOM"
+              id="APELLIDOM" class="form-control" />
+            <span class="message" v-if="validation.hasError('modelo.APELLIDOM')">
+              {{ validation.firstError('modelo.APELLIDOM') }}
+            </span>
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label for="FNACIMIENTO" class="form-label">Fecha Nacimiento </label>
+            <date-picker v-model="modelo.FNACIMIENTO" :value="modelo.FNACIMIENTO" valueType="format"
+              :disabledDate="time => time.getTime() > Date.now()"
+              @change="(date) => modelo.FNACIMIENTO = date"></date-picker>
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label for="name" class="form-label">Nro. Celular <span class="text-danger">*</span></label>
+            <vue-tel-input v-model="modelo.TELEFONO" id="TELEFONO" inputmode="numeric" pattern="[0-9]*"
+              @input="(e) => modelo.TELEFONO = e" 
+              inputOptions="{ placeholder: 'Ingrese su número de celular' }"></vue-tel-input>
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label for="PROFESION" class="form-label">Profesión</label>
+            <input type="text" v-model="modelo.PROFESION" id="PROFESION" class="form-control" />
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label for="CARGO" class="form-label">Cargo</label>
+            <input type="text" v-model="modelo.CARGO" id="CARGO" class="form-control" />
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label for="DIRECCION" class="form-label">Dirección</label>
+            <input type="text" v-model="modelo.DIRECCION" id="DIRECCION" class="form-control" />
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <button type="button" @click.prevent="paseForm = 1" class="btn btn-secondary mt-3 text-lato">
+            Cancelar
+          </button>
+          <button type="button" @click.prevent="signIn(3)" class="btn btn-primary mt-3 text-lato">
+            Guardar
+          </button>
+        </div>
+      </form>
+
+    </div>
+
+    <LoadingOverlay :active="isloading" :is-full-page="false" :loader="'bars'" />
+    <div class="flex md:flex-row gap-2 flex-col justify-between items-center mt-4 px-5 text-sm" style="width: 100%">
+      <span style="color: #727370">© {{ new Date().getFullYear() }} Todos los derechos reservados</span>
+      <div class="flex gap-4">
+        <a @click.prevent="$router.push('/politicas&privacidad')"
+          class="hover:underline text-gray-600 underline cursor-pointer" style="color: #262626">Políticas de
+          Privacidad</a>
+        <a @click.prevent="$router.push('/cookies')" class="hover:underline text-gray-600 underline cursor-pointer"
+          style="color: #262626">Políticas de Cookies</a>
+      </div>
+    </div>
   </div>
 </template>
+
+
+
 <script>
 import github from "@/assets/img/github.svg";
 import google from "@/assets/img/google.svg";
-import { Validator } from 'simple-vue-validator';
+import logoJuris from "@/assets/img/logos/logo-completo.png";
+// import LoginProxy from "../../proxies/LoginProxy";
+import registerBg2 from "@/assets/img/register_bg_2.png";
 import newUserProxy from "../../proxies/NewUserProxy";
-import { jwtDecode } from 'jwt-decode';
+
+// FUNCTIONS
 import { toast } from 'vue3-toastify';
-import confetti from 'canvas-confetti';
+import { Validator } from 'simple-vue-validator';
 
 export default {
+  components: {
+  },
   data() {
     return {
+      paseForm: 1,
+      showPassword: false,
+      showPassword2: false,
       github,
       google,
+      logoJuris,
+      registerBg2,
+
+      rememberMe: false,
+      isloading: false,
+      currentNoticia: 0,
+
+      modalRecuperarContrasena: {
+        show: false,
+        data: null,
+      },
+      form: {
+        EMAIL: '',
+        PASSWORD: '',
+        PASSWORDREO: '',
+        IND: null,
+        BANDERA: false
+      },
       modelo: {
         NOMBRES: null,
-        CORREO: null,
         APELLIDOP: null,
         APELLIDOM: null,
+        CORREO: null,
         TELEFONO: null,
         FNACIMIENTO: null,
         PROFESION: null,
         CARGO: null,
         DIRECCION: null,
-        PASSWORD: null,
-        PASSWORD_CONFIRM: null,
       },
-      token: null,
+
     };
   },
   validators: {
     'modelo.NOMBRES': function (value) {
       return Validator.value(value).required("Campo requerido");
     },
-    'modelo.CORREO': function (value) {
-      return Validator.value(value).required("Campo requerido").email("Correo inválido");
+    'modelo.APELLIDOP': function (value) {
+      return Validator.value(value).required("Campo requerido");
     },
-    'modelo.PASSWORD': function (value) {
-      return Validator.value(value).required("Campo requerido").minLength(8, "Mínimo 9 caracteres");
+    'modelo.APELLIDOM': function (value) {
+      return Validator.value(value).required("Campo requerido");
     },
-    'modelo.PASSWORD_CONFIRM': function () {
-      return Validator.custom(() => {
-        if (this.modelo.PASSWORD !== this.modelo.PASSWORD_CONFIRM) {
-          return "Las contraseñas no coinciden";
-        }
-        return ""
-      });
-    },
-
   },
   methods: {
-    async submit(e) {
-      e.preventDefault();
+    async signIn(paso = 1) {
+      console.log("Paso: ", this.paseForm);
+      if (this.paseForm == 1) {
+        if (this.form.PASSWORD.length < 6)
+          return toast.error("La contraseña debe tener al menos 6 caracteres.");
 
-      let validate = await this.$validate();
-      if (!validate) return;
+        if (this.form.PASSWORD != this.form.PASSWORDREO)
+          return toast.error("Las contraseñas no coinciden.");
 
+        if (!this.form.EMAIL)
+          return toast.error("El correo es requerido.");
 
-      const response = {
-        ...this.modelo,
-        APATERNO: this.modelo.APELLIDOP,
-        AMATERNO: this.modelo.APELLIDOM,
-        EMAIL: this.modelo.CORREO,
-        TOKEN: this.token,
-      };
+        if (!this.form.EMAIL.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/))
+          return toast.error("El correo no es válido.");
+      }
 
-      const loadingToast = toast.loading("Espere un momento...");
-      await newUserProxy.registrar(response)
-        .then(response => {
-          const toastMessage = response.STATUS ? "Se ha registrado con éxito" : "Ya existe un usuario con ese correo";
-          if (response.STATUS) {
+      if (this.paseForm == 2) {
+        let validate = await this.$validate();
+        if (!validate) return;
+        if (!this.modelo.TELEFONO) return toast.error("El teléfono es requerido.");
 
-            confetti({
-              particleCount: 200,
-              spread: 200,
-              origin: { y: 0.6 }
-            });
-
-
-            setTimeout(() => {
-              confetti({
-                particleCount: 200,
-                spread: 200,
-                origin: { y: 0.6 }
-              });
-              this.$router.push("/auth/login");
-            }, 3000);
-          } else {
-            toast.error(toastMessage);
-          }
-
-        })
-        .catch(err => toast.error(err?.MESSAGE || "Error al crear al usuario"))
-        .finally(() => {
-          toast.remove(loadingToast);
-        });
-
-
-    }
-  },
-  async created() {
-    const token = this.$route?.params?.token;
-    if (token) {
-      const response = await newUserProxy.validar(token);
-      if (response) {
-        let decodeToken = await jwtDecode(token);
-        this.token = token;
-        this.modelo = {
-          ...this.modelo,
-          ...decodeToken,
+        let response = {
+          EMAIL: this.form.EMAIL,
+          PASSWORD: this.form.PASSWORD,
+          NOMBRES: this.modelo.NOMBRES,
+          APATERNO: this.modelo.APELLIDOP,
+          AMATERNO: this.modelo.APELLIDOM,
+          TELEFONO: this.modelo.TELEFONO,
+          FNACIMIENTO: this.modelo.FNACIMIENTO,
+          PROFESION: this.modelo.PROFESION,
+          CARGO: this.modelo.CARGO,
+          DIRECCION: this.modelo.DIRECCION,
+          RTAFTO: null
         }
+
+        this.isloading = true;
+        const loadingToast = toast.loading("Espere un momento...");
+        await newUserProxy.registrarFind(response)
+          .then(response => {
+            const toastMessage = response.STATUS ? "Se ha registrado con éxito" : "Ya existe un usuario con ese correo";
+            if (response.STATUS) {
+              toast.success(toastMessage);
+              setTimeout(() => {
+                this.$router.push("/auth/login");
+              }, 1000);
+            } else {
+              toast.error(toastMessage);
+            }
+
+          })
+          .catch(err => toast.error(err?.MESSAGE || "Error al crear al usuario"))
+          .finally(() => {
+            this.isloading = false;
+            toast.remove(loadingToast);
+          });
+
         return;
       }
-    }
 
-    this.$router.push("/auth/login");
+      this.paseForm = paso;
+    },
+    togglePassword(indicador = 1) {
+      if (indicador == 1) {
+        this.showPassword = !this.showPassword;
+      } else if (indicador == 2) {
+        this.showPassword2 = !this.showPassword2;
+      }
+    }
   },
 };
 </script>
 
+<style scoped>
+.form-login {
+  background-image: url("../../assets/img/resources/bg-comments.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100dvh;
+  display: flex;
+  padding: 20px 0px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
 
-<style>
-/* body {
-  /* background-color: rgb(248, 242, 235) !important; */
+.social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-/* .bubbles-container {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 9999px;
+  /* Equivalente a rounded-full */
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  background-color: white;
+  transition: background 0.3s;
 }
 
-.bubble {
-  position: absolute;
-  bottom: -80px;
-  width: 70px;
-  height: 50px;
-  border-radius: 50%;
-  animation: rise 5s infinite ease-in;
-  opacity: 0.1;
+.social-btn:hover {
+  background-color: #f3f4f6;
 }
 
-/* background-color: #e81eb2ff;
-background-color: #1764ffff; */
-
-/* // par fusia impar azul */
-/* .bubble:nth-child(odd) {
-  background-color: #1764ffff;
-}
-
-.bubble:nth-child(even) {
-  background-color: #e81eb2ff;
+.icon {
+  width: 20px;
+  height: 20px;
 }
 
 
-.bubble:nth-child(1) {
-  left: 10%;
-  animation-delay: 0s;
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
 }
 
-.bubble:nth-child(2) {
-  left: 20%;
-  animation-delay: 2s;
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 16px 0;
+  font-size: 14px;
+  color: #6b7280;
 }
 
-.bubble:nth-child(3) {
-  left: 30%;
-  animation-delay: 1s;
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: #d1d5db;
+  margin: 0 10px;
 }
 
-.bubble:nth-child(4) {
-  left: 40%;
-  animation-delay: 4s;
+.input-group {
+  display: flex;
+  align-items: center;
+  /* background: #f3f4f6; */
+  border: 1px solid #d1d5db;
+  border-radius: 9999px;
+  padding: 10px;
 }
 
-.bubble:nth-child(5) {
-  left: 50%;
-  animation-delay: 6s;
+.input-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
 }
 
-.bubble:nth-child(6) {
-  left: 60%;
-  animation-delay: 5s;
+.input-field {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
 }
 
-.bubble:nth-child(7) {
-  left: 70%;
-  animation-delay: 3s;
+/* Estilo del botón de ojo */
+.eye-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 8px;
 }
 
-.bubble:nth-child(8) {
-  left: 80%;
-  animation-delay: 6s;
+.eye-icon img {
+  width: 18px;
+  height: 18px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
 }
 
-.bubble:nth-child(9) {
-  left: 90%;
-  animation-delay: 5s;
+.eye-icon:hover img {
+  opacity: 1;
 }
 
-.bubble:nth-child(10) {
-  left: 95%;
-  animation-delay: 4s;
+/* Botón de enviar */
+.submit-btn {
+  width: 100%;
+  background: #2563eb;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-@keyframes rise {
-  0% {
-    bottom: 0;
-    transform: translateY(0);
-    opacity: 0.2;
+.submit-btn:hover {
+  background: #1e40af;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0px;
+  font-size: 14px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.remember-me input {
+  accent-color: #2563eb;
+}
+
+.forgot-password {
+  font-size: 12px;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+
+.btn-registrate {
+  background: #E71FB3;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+@media (max-width: 768px) {
+  .no-tener-cuenta {
+    display: none;
   }
 
-  50% {
-    opacity: 0.2;
+  .form-login {
+    padding: 10px 10px;
+    justify-content: space-around;
   }
+}
 
-  100% {
-    bottom: 100%;
-    transform: translateY(-100%);
-    opacity: 0;
+#btnToggleShowPassword {
+  border: none;
+  right: 0;
+  z-index: 5;
+  top: .4rem;
+}
+
+.form-login-with {
+  width: 500px;
+}
+
+@media (max-width: 768px) {
+  .form-login-with {
+    width: 90%;
+    padding: 20px;
   }
-} */
+}
 </style>

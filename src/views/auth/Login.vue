@@ -1,16 +1,15 @@
 <template>
   <div class="form-login">
     <div class="flex justify-between items-center mb-4 px-5" style="width: 100%;">
-      <img src="@/assets/img/logos/logo-full.png" 
-      @click="$router.push('/')"
-      alt="Logo" class="h-10 cursor-pointer" />
+      <img src="@/assets/img/logos/logo-full.png" @click="$router.push('/')" alt="Logo" class="h-10 cursor-pointer" />
       <div class="text-sm">
         <span class="text-gray-600 no-tener-cuenta">¿No tienes una cuenta?</span>
-        <button class="btn-registrate ml-2 text-blue-500 hover:underline">Regístrate</button>
+        <button @click.prevent="$router.push('/auth/register')"
+          class="btn-registrate ml-2 text-blue-500 hover:underline">Regístrate</button>
       </div>
     </div>
 
-    <div class="px-5 bg-white p-8 rounded-xl shadow-lg w-5/6">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-5/6 form-login-with">
       <h3 class="text-lato-700 text-center">Ingresa a tu cuenta</h3>
       <div class="social-buttons mt-4">
         <button class="social-btn">
@@ -47,17 +46,14 @@
 
         <div class="options">
           <label class="remember-me text-lato-200">
-            <input type="checkbox"> Recordar
           </label>
-          <button type="button" class="forgot-password text-lato-200" 
-          @click.prevent="modalRecuperarContrasena.show = true">
+          <button type="button" class="forgot-password text-lato-200"
+            @click.prevent="modalRecuperarContrasena.show = true">
             ¿Olvidaste tu contraseña?
           </button>
         </div>
 
-        <button type="button"
-        @click.prevent="signIn"
-         class="submit-btn mt-3 text-lato">Iniciar sesión</button>
+        <button type="button" @click.prevent="signIn" class="submit-btn mt-3 text-lato">Iniciar sesión</button>
       </form>
 
       <ModalRecuperarContrasena :show="modalRecuperarContrasena.show"
@@ -69,16 +65,11 @@
     <div class="flex md:flex-row gap-2 flex-col justify-between items-center mt-4 px-5 text-sm" style="width: 100%">
       <span style="color: #727370">© {{ new Date().getFullYear() }} Todos los derechos reservados</span>
       <div class="flex gap-4">
-        <a 
-        @click.prevent="$router.push('/politicas&privacidad')"
-        class="hover:underline text-gray-600 underline cursor-pointer"
-        style="color: #262626"
-        >Políticas de Privacidad</a>
-        <a 
-        @click.prevent="$router.push('/cookies')"
-        class="hover:underline text-gray-600 underline cursor-pointer"
-        style="color: #262626"
-        >Políticas de Cookies</a>
+        <a @click.prevent="$router.push('/politicas&privacidad')"
+          class="hover:underline text-gray-600 underline cursor-pointer" style="color: #262626">Políticas de
+          Privacidad</a>
+        <a @click.prevent="$router.push('/cookies')" class="hover:underline text-gray-600 underline cursor-pointer"
+          style="color: #262626">Políticas de Cookies</a>
       </div>
     </div>
   </div>
@@ -197,7 +188,7 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  min-height: 100dvh; 
+  min-height: 100dvh;
   display: flex;
   padding: 20px 0px;
   flex-direction: column;
@@ -245,7 +236,16 @@ form {
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  max-width: 400px;
+}
+
+.form-login-with {
+  width: 500px;
+}
+@media (max-width: 768px) {
+  .form-login-with {
+    width: 90%;
+    padding: 20px;
+  }
 }
 
 .separator {
@@ -373,7 +373,7 @@ form {
     display: none;
   }
 
-  .form-login{
+  .form-login {
     padding: 10px 10px;
     justify-content: space-around;
   }

@@ -5,25 +5,28 @@
 
         <form id="formEditarPregunta" @submit.prevent="submit">
             <div class="row">
-                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.DESCRIPCION') }">
+                <div class="col-md-6 col-12 mb-3">
                     <label for="name" class="form-label">Descripción <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.DESCRIPCION" id="DESCRIPCION" class="form-control" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.DESCRIPCION') }"
+                        v-model="modelo.DESCRIPCION" id="DESCRIPCION" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.DESCRIPCION')">
                         {{ validation.firstError('modelo.DESCRIPCION') }}
                     </span>
                 </div>
 
-                <div class="col-md-6 col-12 mb-3 flex flex-col" :class="{ error: validation.hasError('modelo.ORDEN') }">
+                <div class="col-md-6 col-12 mb-3 flex flex-col">
                     <label for="name" class="form-label">Orden <span class="text-danger">*</span></label>
-                    <input type="number" v-model="modelo.ORDEN" id="ORDEN" class="form-control" />
+                    <input type="number" :class="{ error: validation.hasError('modelo.ORDEN') }" v-model="modelo.ORDEN"
+                        id="ORDEN" class="form-control" />
                     <span class="message" v-if="validation.hasError('modelo.ORDEN')">
                         {{ validation.firstError('modelo.ORDEN') }}
                     </span>
                 </div>
 
-                <div class="col-12 mb-3" :class="{ error: validation.hasError('modelo.HTMLTEXT') }">
+                <div class="col-12 mb-3">
                     <label for="theme" class="form-label">Respuesta <span class="text-danger">*</span></label>
-                    <vue-editor v-model="modelo.HTMLTEXT" class="mb-0 pb-0"></vue-editor>
+                    <vue-editor :class="{ error: validation.hasError('modelo.HTMLTEXT') }" v-model="modelo.HTMLTEXT"
+                        class="mb-0 pb-0"></vue-editor>
                     <span class="message" v-if="validation.hasError('modelo.HTMLTEXT')">
                         {{ validation.firstError('modelo.HTMLTEXT') }}
                     </span>
@@ -92,7 +95,7 @@ export default {
             return Validator.value(value).required("Campo requerido");
         },
         'modelo.HTMLTEXT': function (value) {
-            return Validator.value(value).required("Campo requerido").regex(/<[^>]*>/, "No se permiten etiquetas HTML");
+            return Validator.value(value).required("Campo requerido");
         },
         'modelo.ORDEN': function (value) {
             return Validator.value(value).required("Campo requerido").regex(/^\d+$/, "Solo se permiten números");
@@ -101,8 +104,8 @@ export default {
     methods: {
         async submit(e) {
             e.preventDefault();
-            if(this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
-            
+            if (this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
+
             let validate = await this.$validate();
             if (!validate) return;
 

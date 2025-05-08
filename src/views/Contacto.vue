@@ -1,112 +1,120 @@
 <template>
     <div>
         <navbar />
-        <main class="profile-page">
-            <section class="relative block h-500-px">
-                <div class="absolute top-0 w-full h-full bg-center bg-cover"
-                    :style="{ backgroundImage: `url(${currentNoticia.IMAGEN2})` }">
-                    <span id="blackOverlay" class="w-full h-full absolute opacity-50 bg-black"></span>
-                </div>
-            </section>
-            <section class="relative py-16 bg-blueGray-200">
-                <div class="container mx-auto px-4">
-                    <div
-                        class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
-                        <div class="px-6">
-                            <div class="flex flex-wrap justify-center">
-                                <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                                    <div class="relative bg-white">
-                                        <img alt="..." :src="team2"
-                                            class="bg-white shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px" />
-                                    </div>
+        <main>
+            <section class="profile-page">
+                <div class="mt-10"></div>
+                <section class="relative">
+                    <div class="container-custom mx-auto px-lg-5">
+                        <p class="mb-3 text-duo text-lato-400 text-2xl text-center" style="font-size: 40px;">
+                            Contáctanos
+                        </p>
+                        <p class="text-lato-400 text-center" style="font-size: 18px;">
+                            No dudes en contactarnos, nuestro equipo especializado<br> responderá tus consultas
+                            rápidamente.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="container-contacto">
+                    <div class="grid">
+                        <!-- Primera columna -->
+                        <div class="flex flex-col logos-items gap-4 justify-center items-center">
+                            <div class="info-item flex flex-row gap-4">
+                                <div class="icon">
+                                    <img src="@/assets/img/contacto/question.png" alt="Logo" class="h-10 w-10" />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <p class="text-lato-700 font-semibold text-principal">¿Necesitas ayuda?</p>
+                                    <p class="text-lato-400 text-secondary">Completa el formulario</p>
                                 </div>
                             </div>
+                            <div class="info-item flex flex-row gap-4">
+                                <div class="icon">
+                                    <img src="@/assets/img/contacto/warning.png" alt="Logo" class="h-10 w-10" />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <p class="text-lato-700 font-semibold text-principal">¿Tienes preguntas?</p>
+                                    <p class="text-lato-400 text-secondary">Te respondemos <span>aquì</span></p>
+                                </div>
+                            </div>
+                            <div class="info-item flex flex-row gap-4">
+                                <div class="icon">
+                                    <img src="@/assets/img/contacto/phone.png" alt="Logo" class="h-10 w-10" />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <p class="text-lato-700 font-semibold text-principal">Escríbenos</p>
+                                    <p class="text-lato-400 text-secondary">jsearch@ccfirma.com</p>
+                                </div>
+                            </div>
+                            <div class="info-item flex flex-row gap-4">
+                                <div class="icon">
+                                    <img src="@/assets/img/contacto/message.png" alt="Logo" class="h-10 w-10" />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <p class="text-lato-700 font-semibold text-principal">Llámanos</p>
+                                    <p class="text-lato-400 text-secondary">+51 902 430 068</p>
+                                </div>
+                            </div>
+                        </div>
 
-                            <div class="flex-auto p-2 py-3 lg:p-10">
-                                <h4 class="text-2xl font-semibold">
-                                    CONTÁCTANOS
-                                </h4>
-                                <p class="leading-relaxed mt-1 mb-4 text-blueGray-500">
-                                    ¿Tienes alguna duda o consulta? Escríbenos y te responderemos a
-                                    la brevedad.
-                                </p>
-                                <div class="relative w-full mb-3 mt-8" :class="{ error: validation.hasError('modelo.NOMBRES') }">
-                                    <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                        htmlFor="full-name">
-                                        Nombres y apellidos <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="text"
-                                        v-model="modelo.NOMBRES"
-                                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                        placeholder="" />
+                        <!-- Segunda columna -->
+                        <div>
+                            <form class="form flex flex-col gap-3" @submit="submit">
+                                <h2 class="text-lato-700 mb-2"
+                                    style="font-size: 24px; max-width: 80%;   line-height: 1.2;">
+                                    Completa los campos para ponernos en contacto contigo a la brevedad
+                                </h2>
+                                <div>
+                                    <input type="text" v-model="modelo.NOMBRES"
+                                        :class="{ error: validation.hasError('modelo.NOMBRES') }"
+                                        placeholder="Nombre y apellidos">
                                     <span class="message" v-if="validation.hasError('modelo.NOMBRES')">
                                         {{ validation.firstError('modelo.NOMBRES') }}
                                     </span>
                                 </div>
 
-                                <div class="relative w-full mb-3" :class="{ error: validation.hasError('modelo.CORREO') }">
-                                    <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                        htmlFor="email">
-                                        Correo electrónico <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="email"
-                                        v-model="modelo.CORREO"
-                                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                        placeholder="" />
+                                <div>
+                                    <input type="email" v-model="modelo.CORREO"
+                                        :class="{ error: validation.hasError('modelo.CORREO') }"
+                                        placeholder="Correo electrónico">
                                     <span class="message" v-if="validation.hasError('modelo.CORREO')">
                                         {{ validation.firstError('modelo.CORREO') }}
                                     </span>
                                 </div>
 
-                                <div class="relative w-full mb-3"
-                                    :class="{ error: validation.hasError('modelo.ASUNTO') }">
-                                    <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                        htmlFor="email">
-                                        Motivo <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="email" v-model="modelo.ASUNTO"
-                                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                        placeholder="" />
+                                <div>
+                                    <input type="text" v-model="modelo.ASUNTO"
+                                    :class="{ error: validation.hasError('modelo.ASUNTO') }" placeholder="Motivo">
                                     <span class="message" v-if="validation.hasError('modelo.ASUNTO')">
                                         {{ validation.firstError('modelo.ASUNTO') }}
                                     </span>
                                 </div>
 
-                                <div class="relative w-full mb-3"
-                                    :class="{ error: validation.hasError('modelo.MENSAJE') }">
-                                    <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                        htmlFor="message">
-                                        Mensaje <span class="text-red-500">*</span>
-                                    </label>
-                                    <textarea rows="4" cols="80" v-model="modelo.MENSAJE"
-                                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-                                        placeholder="" />
+                                <div>
+                                    <textarea placeholder="Mensaje" v-model="modelo.MENSAJE"
+                                    :class="{ error: validation.hasError('modelo.MENSAJE') }"></textarea>
                                     <span class="message" v-if="validation.hasError('modelo.MENSAJE')">
                                         {{ validation.firstError('modelo.MENSAJE') }}
                                     </span>
                                 </div>
-                                <div class="text-center mt-6">
-                                    <button @click="submit"
-                                        class="bg-app-primary text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                        type="button">
-                                        Enviar Mensaje
-                                    </button>
-                                </div>
-
-                            </div>
-                            <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
-                                <div class="flex flex-wrap justify-center">
-                                    <div class="w-full lg:w-9/12 px-4">
-                                        <p class="mb-4 text-lg leading-relaxed text-blueGray-700">
-                                            Estamos para ayudarte.
-                                        </p>
-                                        <a href="javascript:void(0)" class="font-normal text-emerald-500">
-                                            Escríbenos
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                                <button class="text-lato-600 button" @click="submit">Enviar Mensaje</button>
+                            </form>
                         </div>
+                    </div>
+                </section>
+
+            </section>
+            <section class="bg-dark">
+                <div class="container-custom mx-auto p-5">
+                    <div class="flex flex-column gap-2 p-3">
+                        <h2 class="text-center text-white">
+                            Descubre el plan que se adapta a ti y accede a todos los beneficios
+                        </h2>
+                        <router-link to="/contacto"
+                            class="m-auto bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">
+                            Ver Planes
+                        </router-link>
                     </div>
                 </div>
             </section>
@@ -116,6 +124,7 @@
         <footer-component />
     </div>
 </template>
+
 <script>
 import Navbar from "@/components/Navbars/IndexNavbar.vue";
 import FooterComponent from "@/components/Footers/Footer.vue";
@@ -124,7 +133,6 @@ import { toast } from 'vue3-toastify';
 import team2 from "@/assets/img/logos/logo-completo.png";
 
 // * PROXIES
-import LoginProxy from "@/proxies/LoginProxy";
 import SettingsProxy from "@/proxies/SettingsProxy.js";
 
 export default {
@@ -147,7 +155,8 @@ export default {
             return Validator.value(value).required("Campo requerido");
         },
         'modelo.CORREO': function (value) {
-            return Validator.value(value).required("Campo requerido");
+            return Validator.value(value).required("Campo requerido")
+                .email("El correo electrónico no es válido");
         },
         'modelo.ASUNTO': function (value) {
             return Validator.value(value).required("Campo requerido");
@@ -160,44 +169,7 @@ export default {
         Navbar,
         FooterComponent,
     },
-    computed: {
-        currentNoticia() {
-            return this.noticias[this.currentIndex] || { title: '', description: '', image: '' };
-        }
-    },
     methods: {
-        getNoticias() {
-            LoginProxy.list({
-                INIT: 0,
-                ROWS: 4,
-                DESC: null,
-                CESTDO: 'A'
-            })
-                .then(async (response) => {
-                    const processedResponse = await Promise.all(response.map(noticia => {
-                        const type = noticia.IMAGEN.split('.').pop();
-                        const imageData = noticia?.IMAGEN2?.data || null;
-
-                        if(!imageData) return noticia;
-                        const base64String = imageData.reduce((acc, byte) => acc + String.fromCharCode(byte), '');
-
-                        noticia.IMAGEN2 = `data:image/${type};base64,${window.btoa(base64String)}`;
-                        return noticia;
-                    }));
-
-                    this.noticias = processedResponse;
-                    this.startRotation();
-                })
-                .catch((error) => {
-                    toast.error(error?.message || 'Error al cargar las noticias', { toastId: 'error-noticias' });
-                    this.noticias = []
-                });
-        },
-        startRotation() {
-            setInterval(() => {
-                this.currentIndex = (this.currentIndex + 1) % this.noticias.length;
-            }, 5000);
-        },
         async submit(e) {
             e.preventDefault();
 
@@ -226,14 +198,25 @@ export default {
 
         }
     },
-    mounted() {
-        this.getNoticias();
-    },
 };
 </script>
 
 
 <style>
+.profile-page {
+    background-image: url("../assets/img/backgrounds/bg-contacto.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
 input,
 textarea {
     border: 1px solid #e2e8f0;
@@ -245,7 +228,91 @@ textarea {
 }
 
 
-.h-500-px{
+.h-500-px {
     height: 500px;
+}
+
+.container-contacto {
+    width: 80%;
+    margin: 30px auto 60px auto;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.container-contacto .grid {
+    display: grid;
+    gap: 20px;
+    margin: 20px auto;
+}
+
+@media (min-width: 768px) {
+    .container-contacto .grid {
+        grid-template-columns: 5fr 8fr;
+    }
+}
+
+/* // mobile */
+@media (max-width: 768px) {
+    .container-contacto .grid>div:nth-child(1) {
+        order: 2;
+    }
+
+    /* .container-contacto .logos-items{
+        ju
+    } */
+}
+
+.container-contacto .info-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: -webkit-fill-available;
+}
+
+.container-contacto .info-item .text-principal {
+    margin: 0;
+    font-size: 18px;
+    color: #1864FF;
+}
+
+/* // la p hermano */
+.container-contacto .info-item .text-secondary {
+    margin: 0;
+    font-size: 16px;
+    color: #262626;
+}
+
+.container-contacto .icon {
+    padding: 10px;
+    background: #EDF6FF;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-contacto .form input,
+.container-contacto .form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.container-contacto .form textarea {
+    height: 80px;
+}
+
+.container-contacto .button {
+    background: #007bff;
+    color: white;
+    padding: 15px 15px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    width: fit-content;
 }
 </style>

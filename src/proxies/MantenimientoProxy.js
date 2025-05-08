@@ -44,6 +44,62 @@ class MantenimientoProxy {
         return data;
     }
 
+    // * AUTORES
+    async listAutores(model) {
+        const { data } = await axios.get(`/admin/noticias/list-autores`, {
+            params: model
+        });
+        return data;
+    }
+
+    async createAutor(model) {
+        const { data } = await axios.post(`/admin/noticias/add-autores`, model, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Accept: 'application/json'
+            }
+        });
+        return data;
+    }
+
+    async editAutor(model) {
+        const { data } = await axios.post(`/admin/noticias/edit-autores`, model, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Accept: 'application/json'
+            }
+        });
+        return data;
+    }
+
+    async deleteAutor(ID) {
+        const { data } = await axios.post('/admin/noticias/delete-autores', { ID });
+        return data;
+    }
+
+    // * CATEGORIAS
+    async listCategorias(model) {
+        const { data } = await axios.get(`/admin/noticias/list-categorias`, {
+            params: model
+        });
+        return data;
+    }
+
+    async createCategoria(model) {
+        const { data } = await axios.post(`/admin/noticias/add-categorias`, model);
+        return data;
+    }
+
+    async editCategoria(model) {
+        const { data } = await axios.post(`/admin/noticias/edit-categorias`, model);
+        return data;
+    }
+
+    async deleteCategoria(ID) {
+        const { data } = await axios.post('/admin/noticias/delete-categorias', { ID });
+        return data;
+    }
+
     // * PREGUNTAS
     async listPreguntas(model) {
         const { data } = await axios.get(`/admin/preguntas/list`, {

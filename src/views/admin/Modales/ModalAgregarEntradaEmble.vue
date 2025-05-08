@@ -58,17 +58,14 @@
                     </span>
                 </div>
 
-                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.DELITO') }">
-                    <label for="DELITO" class="form-label">Delito <span class="text-danger">*</span></label>
+                <div class="col-md-6 col-12 mb-3" >
+                    <label for="DELITO" class="form-label">Delito </label>
 
                     <el-tree-select v-model="modelo.DELITO" :data="selects.delitos" multiple
                         :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox check-strictly
                         check-on-click-node filterable clearable collapse-tags :max-collapse-tags="1"
                         no-data-text="No hay opciones disponibles" popper-append-to-body class="custom-tree-select" />
 
-                    <span class="message" v-if="validation.hasError('modelo.DELITO')">
-                        {{ validation.firstError('modelo.DELITO') }}
-                    </span>
                 </div>
 
                 <div class="col-md-6 col-12 mb-3">
@@ -354,9 +351,6 @@ export default {
         },
         'modelo.RESUMEN': function (value) {
             return Validator.value(value).required("Campo requerido");
-        },
-        'modelo.DELITO': function (value) {
-            return Validator.value(value).required("Campo requerido").regex(/[^[]/, "Campo requerido");
         },
     },
     methods: {

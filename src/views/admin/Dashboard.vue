@@ -1,101 +1,51 @@
 <template>
-<div class="container-inicio pt-5">
-    <div class="grid-container">
-      <div class="chart">
-        <card-line-chart :DATA="head.ENTRADAS" />
+  <section class="bg-landing mt-4 pt-5">
+    <div class="container-table flex flex-col mt-4 pt-5">
+      <div class="flex mb-3 gap-4 flex-col md:flex-row contenedor-tab">
+        <a class="cursor-pointer" :class="active === 'Resoluciones' ? 'active-tab' : ''" @click="updateActive('Resoluciones')">
+          Resoluciones
+        </a>
+        <a class="cursor-pointer" :class="active === 'Usuarios' ? 'active-tab' : ''" @click="updateActive('Usuarios')">
+          Usuarios
+        </a>
       </div>
-      <div class="chart">
-        <card-bar-chart :DATA="head.USUARIOS" />
-      </div>
-    </div>
 
-    <div class="grid-container">
-      <div class="full-width">
-        <card-page-palabras :data="head.PALABRAS" />
+      <div class="w-full mb-12">
+        <div v-if="active === 'Resoluciones'">
+          <card-area-chart :DATA="head.ENTRADAS" title="Iteración de Resoluciones"/>
+        </div>
+        <div v-if="active === 'Usuarios'">
+          <card-area-chart :DATA="head.USUARIOS" title="Iteración de Usuarios"/>
+        </div>
+        <card-page-palabras TITLE="Ultimas búsquedas" :data="head.PALABRAS" />
       </div>
+
+      <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
     </div>
-  </div>
+  </section>
 </template>
 
-<style>
-.row-container{
-  display: grid;
-  grid-template-columns: 7fr 5fr;
-}
-
-@media (max-width: 768px) {
-  .row-container{
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-  }
-}
-
-.container-inicio {
-  padding: 20px;
-  max-width: 90%;
-  margin: 0 auto;
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.chart {
-  padding: 10px;
-  background: white;
-  border-radius: 8px;
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.full-width {
-  grid-column: span 2;
-}
-
-.hidden-card {
-  display: none; /* Oculto, pero puedes usar @media para mostrarlo en pantallas grandes */
-}
-
-/* Responsive */
-@media (min-width: 1024px) {
-  .hidden-card {
-    display: block;
-  }
-}
-
-@media (max-width: 768px) {
-
-  .container-inicio{
-    max-width: 90%;
-    padding: 3.25rem 0px!important;
-    max-width: 95%!important;
-  }
-}
-</style>
 
 <script>
-import CardLineChart from "@/components/Cards/CardLineChart.vue";
-import CardBarChart from "@/components/Cards/CardBarChart.vue";
-// import CardPageVisits from "@/components/Cards/CardPageVisits.vue";
 import CardPagePalabras from "../../components/Cards/CardPagePalabras.vue";
-import helpersProxy from "../../proxies/helpersProxy";
+import CardAreaChart from "@/components/Cards/CardAreaChart.vue";
 import { toast } from 'vue3-toastify';
+import searchIcon from "@/assets/img/icons/search.svg";
+import helpersProxy from "../../proxies/helpersProxy";
+
+// PROXIES
+// import MantenimientoProxy from '../../proxies/MantenimientoProxy';
 
 export default {
-  name: "dashboard-page",
   components: {
-    CardLineChart,
-    CardBarChart,
-    // CardPageVisits,
+    CardAreaChart,
     CardPagePalabras
-    // CardSocialTraffic,
   },
   data() {
     return {
+      searchIcon,
+      isLoading: false,
+      active: "Resoluciones",
       head: {
         USUARIOS: 0,
         ENTRADAS: 0,
@@ -103,7 +53,19 @@ export default {
       },
     };
   },
+  props: {
+    role: {
+      type: Object,
+      default: () => { }
+    }
+  },
   methods: {
+    updateActive(text) {
+      this.active = text;
+      // if (text == 'noticias') this.searchNoticias(this.grid.currentPage, this.grid.perPage);
+      // if (text == 'autores') this.searchAutores(this.grid.currentPage, this.grid.perPage);
+      // if (text == 'categorias') this.searchCategorias(this.grid.currentPage, this.grid.perPage);
+    },
     async getHead() {
       await helpersProxy.getHead(2)
         .then((response) => {
@@ -123,3 +85,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.container-table {
+  max-width: 90%;
+  margin: 0 auto;
+}
+</style>

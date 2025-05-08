@@ -18,6 +18,13 @@ class LoginProxy {
         });
         return data;
     }
+
+    async listCategorias(model) {
+        const { data } = await axios.get(`/login/list-categorias`, {
+            params: model
+        });
+        return data;
+    }
     
     // * PREGUNTAS
     async listpreguntas(model) {

@@ -571,7 +571,8 @@ export default {
 
         if (['common', 'emblematic'].includes(blog)) {
           if (type == 1) this.generateWord(entrie, blog);
-          if (type == 2) createPDFHelper.generate(data, blog);
+          // if (type == 2) createPDFHelper.generate(data, blog);
+          if (type == 2) createPDFHelper.generate(data);
         }
 
       } catch (error) {

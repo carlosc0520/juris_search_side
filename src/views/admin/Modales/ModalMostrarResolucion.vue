@@ -11,7 +11,7 @@
                     <!-- Primera columna -->
                     <b-col v-if="datos.TYPE == 'jurisprudences'" cols="12" lg="4">
                         <b-list-group>
-                            <b-list-group-item><strong>Pretensión Delito:</strong>
+                            <b-list-group-item><strong>Delito:</strong>
                                 <span>{{datos.DELITO?.map(d => d.DESCP).join(', ')}}</span>
                             </b-list-group-item>
                             <b-list-group-item><strong>Órgano Jurisdiccional:</strong>
@@ -27,7 +27,7 @@
                                 <span>{{datos.KEYWORDS?.split(',').map(p => p.trim()).join(', ')}}</span>
                             </b-list-group-item>
                             <b-list-group-item><strong>Fecha Resolución:</strong>
-                                <span>{{ datos.FRESOLUTION }}</span>
+                                <span>{{ formateReverse(datos.FRESOLUTION) }}</span>
                             </b-list-group-item>
                             <b-list-group-item v-if="datos.IDFAV == null">
                                 <div class="d-flex align-items-center mt-3">
@@ -39,7 +39,16 @@
                                     </button>
                                 </div>
                             </b-list-group-item>
-
+                            <b-list-group-item v-else>
+                                <div class="d-flex align-items-center mt-3">
+                                    <button @click="deleteFavorite(datos)"
+                                        class="favorito-btn d-flex align-items-center gap-2">
+                                        <img src="@/assets/img/icons/estrella-full.svg" alt="Quitar de favoritos"
+                                            class="favorito-icon">
+                                        <span class="favorito-text fw-bold">Quitar de favoritos</span>
+                                    </button>
+                                </div>
+                            </b-list-group-item>
                         </b-list-group>
 
                         <div style="padding: 0.5rem 1rem;">
@@ -54,13 +63,13 @@
                     <b-col v-if="datos.TYPE != 'jurisprudences'" cols="12" lg="4">
                         <b-list-group>
                             <b-list-group-item><strong>Numeración:</strong>
-                                <span>{{datos.NMRCN}}</span>
+                                <span>{{ datos.NMRCN }}</span>
                             </b-list-group-item>
                             <b-list-group-item><strong>Denominación oficial:</strong>
                                 <span>{{datos.TPONRMA?.map(o => o.DESCP).join(', ')}}</span>
                             </b-list-group-item>
                             <b-list-group-item><strong>Fecha:</strong>
-                                <span>{{ datos.FRESOLUTION }}</span>
+                                <span>{{ formateReverse(datos.FRESOLUTION) }}</span>
                             </b-list-group-item>
                             <b-list-group-item v-if="datos.IDFAV == null">
                                 <div class="d-flex align-items-center mt-3">
@@ -69,6 +78,16 @@
                                         <img src="@/assets/img/icons/estrella.svg" alt="Agregar a favoritos"
                                             class="favorito-icon">
                                         <span class="favorito-text fw-bold">Agregar a favoritos</span>
+                                    </button>
+                                </div>
+                            </b-list-group-item>
+                            <b-list-group-item v-else>
+                                <div class="d-flex align-items-center mt-3">
+                                    <button @click="deleteFavorite(datos)"
+                                        class="favorito-btn d-flex align-items-center gap-2">
+                                        <img src="@/assets/img/icons/estrella-full.svg" alt="Quitar de favoritos"
+                                            class="favorito-icon">
+                                        <span class="favorito-text fw-bold">Quitar de favoritos</span>
                                     </button>
                                 </div>
                             </b-list-group-item>
@@ -123,7 +142,7 @@
                                 <span>{{datos.KEYWORDS?.split(',').map(p => p.trim()).join(', ')}}</span>
                             </b-list-group-item>
                             <b-list-group-item><strong>Fecha Resolución:</strong>
-                                <span>{{ datos.FRESOLUTION }}</span>
+                                <span>{{ formateReverse(datos.FRESOLUTION) }}</span>
                             </b-list-group-item>
                         </b-list-group>
 
@@ -192,6 +211,16 @@ export default {
         };
     },
     methods: {
+        formateReverse(date) {
+            try {
+                if (!date) return null;
+                const parts = date.split('-');
+                return `${parts[2]}-${parts[1]}-${parts[0]}`;
+            } catch (error) {
+                console.error("Error al formatear la fecha:", error);
+                return null;
+            }
+        },
         async print(path) {
             await AdminEntriesProxy.downloadFile({
                 PATH: path
@@ -225,21 +254,37 @@ export default {
             }
         },
         async addFavorite(item) {
-            if(item.IDFAV) return
-            
+            if (item.IDFAV) return
+
             this.isLoading = true;
             await UserProxy.addFavorite(item.ID)
                 .then((response) => {
                     const toastMessage = response.MESSAGE;
                     if (response.STATUS) {
-                        toast.success(toastMessage, { toastId: "success" });
-                        item.IDFAV = response.STATUS;
+                        toast.success("Documento agregado a favoritos", { toastId: "success" });
+                        item.IDFAV = 1;
                     }
                     else toast.error(toastMessage, { toastId: "error" });
                 })
                 .catch(() => {
                     toast.error("Ocurrió un error al agregar a favoritos", { toastId: "error" });
                 })
+                .finally(() => this.isLoading = false);
+        },
+        async deleteFavorite(item) {
+            let IDENTRIE = item.ID;
+            this.isLoading = true;
+            await UserProxy.addFavorite(IDENTRIE)
+                .then((response) => {
+                    const toastMessage = response.MESSAGE;
+                    if (response.STATUS) {
+                        toast.success("Documento eliminado de favoritos");
+                        item.IDFAV = null;
+                    } else {
+                        toast.error(toastMessage);
+                    }
+                })
+                .catch((error) => toast.error(error?.MESSAGE || 'Error al eliminar de favoritos', { toastId: 'error-delete' }))
                 .finally(() => this.isLoading = false);
         },
     },
@@ -256,7 +301,6 @@ export default {
                 this.activeTab = "tab1";
 
             } else {
-                console.log(this.data)
                 this.print(this.data.ENTRIEFILE);
                 this.printResumen(this.data);
                 this.datos = this.data

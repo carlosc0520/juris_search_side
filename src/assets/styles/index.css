@@ -21,6 +21,12 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
+.text-duo-claro {
+    background: linear-gradient(90deg, rgb(241, 121, 209) 0%, rgb(107, 156, 255) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .button-duo {
     position: relative;
     display: inline-block;

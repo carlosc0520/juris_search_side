@@ -14,13 +14,17 @@
                     @click="updateActive('categorias')">
                     Categorías
                 </a>
+                <a class="cursor-pointer" :class="active === 'recursos' ? 'active-tab' : ''"
+                    @click="updateActive('recursos')">
+                    Recursos
+                </a>
             </div>
             <div class="row">
                 <div class="col-md-9 col-12 mb-3 input-search">
                     <img :src="searchIcon" alt="search" class="icon-search" />
 
                     <input type="text" class="form-control"
-                        :placeholder="`Buscar por ${active === 'noticias' ? 'noticia' : active === 'autores' ? 'autor' : 'categoría'}`"
+                        :placeholder="`Buscar por ${active === 'noticias' ? 'noticia' : active === 'autores' ? 'autor' : active === 'categorias' ? 'categoría' : 'recurso'}`"
                         v-model="filter.NOMBRES" id="name" />
                 </div>
 
@@ -37,6 +41,7 @@
                         if (active === 'noticias') searchNoticias(grid.currentPage, grid.perPage);
                         if (active === 'autores') searchAutores(grid.currentPage, grid.perPage);
                         if (active === 'categorias') searchCategorias(grid.currentPage, grid.perPage);
+                        if (active === 'recursos') searchRecursos(grid.currentPage, grid.perPage);
                     }
                     ">
                         Buscar
@@ -45,6 +50,7 @@
                         if (active === 'noticias') modalAgregarNoticia.show = true;
                         if (active === 'autores') modalAgregarAutor.show = true;
                         if (active === 'categorias') modalAgregarCategoria.show = true;
+                        if (active === 'recursos') modalAgregarRecurso.show = true;
                     }">Crear</button>
                 </div>
             </div>
@@ -56,6 +62,8 @@
                     :fields="fieldsAutores" :items="dataAutores" :grid="grid" :actions="actionsAutores" />
                 <card-table v-if="active == 'categorias'" :active="active" title="" :search="searchCategorias"
                     :fields="fieldsCategorias" :items="dataCategorias" :grid="grid" :actions="actionsCategorias" />
+                <card-table v-if="active == 'recursos'" :active="active" title="" :search="searchRecursos"
+                    :fields="fieldsRecursos" :items="dataRecursos" :grid="grid" :actions="actionsRecursos" />
             </div>
 
             <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
@@ -96,6 +104,15 @@
             <ModalEliminar :message="'¿Está seguro de cambiar el estado del registro?'" :buttonOk="'Si, Cambiar'"
                 :action="deleteCategoria" :openDelete="modalEliminarCategoria.show"
                 :closeHandler="() => modalEliminarCategoria.show = false" />
+
+            <!-- RECURSOS -->
+            <ModalRecursoAgregar :role="role" :show="modalAgregarRecurso.show"
+                :close="() => modalAgregarRecurso.show = false"
+                :update="() => searchRecursos(grid.currentPage, grid.perPage)" />
+
+            <ModalEliminar :message="'¿Está seguro de cambiar el estado del registro?'" :buttonOk="'Si, Cambiar'"
+                :action="deleteRecurso" :openDelete="modalEliminarRecurso.show"
+                :closeHandler="() => modalEliminarRecurso.show = false" />
         </div>
     </section>
 </template>
@@ -118,6 +135,8 @@ import ModalCategoriaEditar from "./ModalesMantenimiento/ModalCategoriaEditar.vu
 import ModalAutorAgregar from "./ModalesMantenimiento/ModalAutorAgregar.vue";
 import ModalAutorEditar from "./ModalesMantenimiento/ModalAutorEditar.vue";
 
+import ModalRecursoAgregar from "./ModalesMantenimiento/ModalRecursoAgregar.vue";
+
 // PROXIES
 import MantenimientoProxy from '../../proxies/MantenimientoProxy';
 
@@ -136,6 +155,8 @@ export default {
 
         ModalAutorAgregar,
         ModalAutorEditar,
+
+        ModalRecursoAgregar
     },
     data() {
         return {
@@ -144,6 +165,7 @@ export default {
             dataNoticia: [],
             dataAutores: [],
             dataCategorias: [],
+            dataRecursos: [],
             grid: {
                 items: [],
                 currentPage: 1,
@@ -222,6 +244,23 @@ export default {
                 },
                 { key: "ACCIONES", label: "Acciones", class: "text-center" },
             ],
+            fieldsRecursos: [
+                { key: "RN", label: "" },
+                { key: "NOMBRE", label: "Archivo", width: "30%" },
+                { key: "ENLACE", label: "Enlace", width: "40%" },
+                {
+                    key: "FCRCN",
+                    label: "Fecha de Creación",
+                    sortable: true,
+                },
+                {
+                    key: "CDESTDO",
+                    label: "Estado",
+                    sortable: true,
+                    class: "text-center w-130",
+                },
+                { key: "ACCIONES", label: "Acciones", class: "text-center" },
+            ],
             actionsNoticias: {
                 edit: {
                     label: "Editar",
@@ -257,6 +296,14 @@ export default {
                     class: "btn-edit",
                     action: null,
                 },
+                delete: {
+                    label: "Eliminar",
+                    icon: "fas fa-trash",
+                    class: "btn-delete",
+                    action: null,
+                },
+            },
+            actionsRecursos: {
                 delete: {
                     label: "Eliminar",
                     icon: "fas fa-trash",
@@ -306,6 +353,14 @@ export default {
                 data: null,
             },
 
+            modalAgregarRecurso: {
+                show: false,
+                data: null,
+            },
+            modalEliminarRecurso: {
+                show: false,
+                data: null,
+            },
             // SELECTS
             filter: {
                 NOMBRES: null,
@@ -388,6 +443,27 @@ export default {
                 .catch((error) => {
                     this.dataCategorias = [];
                     toast.error(error?.MESSAGE || 'Error al cargar los planes', { toastId: 'error-planes' });
+                })
+                .finally(() => this.grid.isLoading = false);
+        },
+        async searchRecursos(currentPage, perPage) {
+            const init = (currentPage - 1) * perPage;
+            const rows = perPage;
+
+            this.grid.isLoading = true;
+            await MantenimientoProxy.listRecursos({
+                ROWS: rows,
+                INIT: init,
+                DESC: this.filter?.NOMBRES || null,
+                CESTDO: this.filter?.CDESTDO || null,
+            }, this.active)
+                .then((response) => {
+                    this.dataRecursos = response || [];
+                    this.grid.totalRows = response[0]?.TOTALROWS || 0;
+                })
+                .catch((error) => {
+                    this.dataRecursos = [];
+                    toast.error(error?.MESSAGE || 'Error al cargar los recursos', { toastId: 'error-recursos' });
                 })
                 .finally(() => this.grid.isLoading = false);
         },
@@ -479,6 +555,25 @@ export default {
                 .catch((err) => toast.error(err?.MESSAGE || 'Error al cambiar el estado del registro', { toastId: 'error-delete' }))
                 .finally(() => this.isLoading = false);
         },
+        async deleteRecurso() {
+            if (this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
+
+            if (!this.modalEliminarRecurso.data.ID) return toast.warning('No se encontró el identificador del recurso', { toastId: 'warning-delete' });
+
+            this.isLoading = true;
+            await MantenimientoProxy.deleteRecurso(this.modalEliminarRecurso.data.ID, this.modalEliminarRecurso.data.ENLACE)
+                .then((response) => {
+                    const toastMessage = response?.MESSAGE || 'Ocurrió un error al cambiar el estado del registro';
+
+                    if (response.STATUS) {
+                        toast.success('Registro cambiado de estado correctamente', { toastId: 'success-delete' });
+                        this.searchRecursos(this.grid.currentPage, this.grid.perPage);
+                        this.modalEliminarRecurso.show = false;
+                    } else toast.error(toastMessage, { toastId: 'error-delete' });
+                })
+                .catch((err) => toast.error(err?.MESSAGE || 'Error al cambiar el estado del registro', { toastId: 'error-delete' }))
+                .finally(() => this.isLoading = false);
+        },
 
         updateActive(text) {
             this.active = text;
@@ -541,6 +636,17 @@ export default {
                 action: (data) => {
                     this.modalEliminarCategoria.show = true;
                     this.modalEliminarCategoria.data = data;
+                }
+            },
+        }
+
+        this.actionsRecursos = {
+            ...this.actionsRecursos,
+            delete: {
+                ...this.actionsRecursos.delete,
+                action: (data) => {
+                    this.modalEliminarRecurso.show = true;
+                    this.modalEliminarRecurso.data = data;
                 }
             },
         }

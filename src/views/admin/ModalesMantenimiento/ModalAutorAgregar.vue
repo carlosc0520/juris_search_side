@@ -88,7 +88,7 @@ export default {
             let formData = new FormData();
             formData.append('NOMBRES', this.modelo.NOMBRES);
             formData.append('APELLIDOS', this.modelo.APELLIDOS);
-            formData.append('REDES', this.modelo.REDES.join(','));
+            formData.append('REDES', !this.modelo.REDES ? '' : this.modelo.REDES.join(','));
             formData.append('DETALLE', this.modelo.DETALLE);
             formData.append('RUTA', '');
             if (this.file) {
@@ -145,8 +145,9 @@ export default {
         reset() {
             this.modelo = {
                 NOMBRES: null,
+                APELLIDOS: null,
+                REDES: [],
                 DETALLE: null,
-                IMAGEN: null
             };
             this.preview = null;
             this.file = null;

@@ -43,6 +43,7 @@ import Reporte from "../views/admin/Reporte.vue";
 import Recovery from "../views/auth/Recovery.vue";
 import Noticias from "../views/admin/Noticias.vue";
 import Register from "../views/auth/Register.vue";
+import Subscripcion from "../views/admin/Subscripcion.vue";
 
 const ifAuthenticatedAuth = async (to, from, next) => {
   await UserProxy.validate()
@@ -266,6 +267,14 @@ const routes = [
       {
         path: "/usuario/favoritos",
         component: FavoritesUser,
+        beforeEnter: ifAuthenticatedAuth,
+        props: (route) => ({
+          role: route?.params?.role || [],
+        }),
+      },
+      {
+        path: "/usuario/subscripcion",
+        component: Subscripcion,
         beforeEnter: ifAuthenticatedAuth,
         props: (route) => ({
           role: route?.params?.role || [],

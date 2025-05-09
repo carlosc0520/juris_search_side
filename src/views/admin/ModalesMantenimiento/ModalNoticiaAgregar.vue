@@ -26,17 +26,19 @@
                     </span>
                 </div>
 
-                <div class="col-md-6 col-12 mb-3">
-                    <label class="form-label" for="IDAUTORES">Autores <span class="text-danger">*</span></label>
+                <div class="col-12 mb-3">
+                    <label for="name" class="form-label">Enlace </label>
+                    <input type="text" v-model="modelo.ENLACE"
+                        id="ENLACE" class="form-control" />
+                </div>
 
-                    <el-tree-select :class="{ error: validation.hasError('modelo.IDAUTORES') }"
+                <div class="col-md-6 col-12 mb-3">
+                    <label class="form-label" for="IDAUTORES">Autores </label>
+
+                    <el-tree-select 
                         v-model="modelo.IDAUTORES" :data="selects.autores" multiple :render-after-expand="false"
                         placeholder="Seleccione una opción" show-checkbox check-strictly check-on-click-node filterable
                         no-data-text="No hay opciones disponibles" clearable collapse-tags :max-collapse-tags="1" />
-
-                    <span class="message" v-if="validation.hasError('modelo.IDAUTORES')">
-                        {{ validation.firstError('modelo.IDAUTORES') }}
-                    </span>
                 </div>
 
                 <div class="col-md-6 col-12 mb-3">
@@ -119,6 +121,7 @@ export default {
                 IMAGEN: null,
                 IDAUTORES: null,
                 IDCATEGORIAS: null,
+                ENLACE: null,
             },
         }
     },
@@ -127,9 +130,6 @@ export default {
             return Validator.value(value).required("Campo requerido");
         },
         'modelo.DESCRIPCION': function (value) {
-            return Validator.value(value).required("Campo requerido");
-        },
-        'modelo.IDAUTORES': function (value) {
             return Validator.value(value).required("Campo requerido");
         },
         'modelo.IDCATEGORIAS': function (value) {
@@ -152,8 +152,9 @@ export default {
             formData.append("TITULO", this.modelo.TITULO);
             formData.append("DESCRIPCION", this.modelo.DESCRIPCION);
             formData.append("files", this.file);
-            formData.append("IDAUTORES", this.modelo.IDAUTORES.join(",") || null);
-            formData.append("IDCATEGORIAS", this.modelo.IDCATEGORIAS.join(",") || null);
+            formData.append("IDAUTORES", !this.modelo.IDAUTORES ? '' : this.modelo.IDAUTORES.join(",") || null);
+            formData.append("IDCATEGORIAS", !this.modelo.IDCATEGORIAS ? '' : this.modelo.IDCATEGORIAS.join(",") || null);
+            formData.append("ENLACE", this.modelo.ENLACE || null);
             await MantenimientoProxy.create(formData)
                 .then(response => {
                     const toastMessage = response.STATUS ? "Noticia creada con éxito" : response.MESSAGE;
@@ -211,6 +212,7 @@ export default {
                 IMAGEN: null,
                 IDAUTORES: null,
                 IDCATEGORIAS: null,
+                ENLACE: null,
             }
             this.preview = null;
             this.file = null;

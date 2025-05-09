@@ -468,8 +468,7 @@ export default {
         show: false,
         data: null,
       },
-      planes: [
-      ],
+      planes: [],
       carouselConfig: {
         wrapAround: true,
         autoplay: 5000,
@@ -710,7 +709,6 @@ export default {
         .finally(() => this.isLoading = false);
     },
     async getParams() {
-      // promise de getNoticias y getPlanes
       await Promise.all([this.getNoticias(), this.getPlanes()]);
     }
   },
@@ -842,21 +840,11 @@ export default {
   }
 }
 
-/* Laptops pequeñas y dispositivos medianos */
 @media only screen and (min-width: 769px) and (max-width: 1024px) {
-
-  /* Estilos para laptops */
   .container-text {
     width: 100% !important;
   }
 }
-
-/* Escritorios grandes o pantallas de alta resolución */
-@media only screen and (min-width: 1025px) {
-  /* Estilos para pantallas grandes */
-}
-
-
 
 @media (max-width: 768px) {
   #img-inicio {

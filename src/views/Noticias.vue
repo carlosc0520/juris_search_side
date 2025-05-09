@@ -12,7 +12,7 @@
                         <ul
                             class="py-3 w-full flex flex-row gap-4 justify-center items-center text-white text-sm font-semibold p-2">
                             <li class="cursor-pointer" :key="0" @click="active = 'Todos'"
-                                :class="active === 'Todos' ? 'text-duo-claro' : ''">Todos</li>
+                                :class="active === 'Todos' ? 'text-duo-claro' : ''">TODOS</li>
                             <li class="cursor-pointer" @click="active = cat.DESCP"
                                 :class="active === cat.DESCP ? 'text-duo-claro' : ''" v-for="cat in categorias"
                                 :key="cat.ID">
@@ -29,7 +29,9 @@
                 </div>
                 <section class="container-noticias">
                     <div v-for="noticia in noticias" :key="noticia.ID" class="bg-white rounded-lg shadow-md">
-                        <img :src="noticia.IMAGEN" alt="" class="w-full h-40 object-cover rounded-lg mb-4" />
+                        <a :href="noticia.ENLACE" target="_blank" rel="noopener noreferrer">
+                            <img :src="noticia.IMAGEN" alt="" class="w-full h-40 object-cover rounded-lg mb-4" />
+                        </a>
                         <div class="px-3 pt-3 pb-4">
                             <p class="flex items-center gap-2 mb-2"
                                 style="font-size: 14px; font-weight: 400; color: #262626;">

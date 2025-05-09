@@ -154,6 +154,29 @@ class MantenimientoProxy {
         return data;
     }
 
+    // recurso
+    async listRecursos(model) {
+        const { data } = await axios.get(`/admin/noticias/list-recursos`, {
+            params: model
+        });
+        return data;
+    }
+
+    async deleteRecurso(ID, ENLACE) {
+        const { data } = await axios.post('/admin/noticias/delete-recursos', { ID, ENLACE });
+        return data;
+    }
+
+    async createRecurso(model) {
+        const { data } = await axios.post(`/admin/noticias/add-recursos`, model, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Accept: 'application/json'
+            }
+        });
+        return data;
+    }
+
 
 }
 

@@ -39,8 +39,11 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col gap-2 items-center">
-                            <img :src="noticia?.IMAGEN" alt="" class="rounded-lg w-1/2 h-1/2" />
+                        <div class="display-contenedor">
+                            <a class="imagen-noticia" :href="noticia?.ENLACE || ''" target="_blank"
+                                rel="noopener noreferrer">
+                                <img :src="noticia?.IMAGEN" alt="" class="rounded-lg w-1/2 h-1/2" />
+                            </a>
                             <p class="text-descripcion" v-html="noticia?.DESCRIPCION || ''">
                             </p>
                         </div>
@@ -122,7 +125,7 @@ export default {
                         };
 
                         this.noticia.AUTORES = this.noticia.AUTORES.map((autor) => {
-                            return {
+                            let autorFind = {
                                 ...autor,
                                 AUTORESREDES: autor.REDES.split(","),
                                 REDES: autor.REDES.split(",").map((red) => {
@@ -144,8 +147,13 @@ export default {
                                 }),
                                 IMAGEN: autor.RUTA ? `https://jurissearch.com${autor.RUTA}` : null,
                             };
+
+                            autorFind.REDES = autorFind.REDES.filter((red) => red.red !== "");
+                            return autorFind;
                         });
 
+
+                        console.log(this.noticia);
 
                     } else {
                         this.$router.push("/noticias");
@@ -169,7 +177,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .profile-page {
     background-image: url("../assets/img/backgrounds/bg-contacto.png");
     background-size: cover;
@@ -184,7 +192,7 @@ export default {
     z-index: 1;
 }
 
-.container-noticias-large{
+.container-noticias-large {
     width: 80%;
     margin: 30px auto 60px auto;
     display: flex;
@@ -203,6 +211,20 @@ export default {
 
     font-family: Lato;
     font-size: 15px;
+}
+
+.imagen-noticia {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .breadcrums-letter {
+        display: grid;
+        grid-template-columns: 4fr 1fr;
+    }
+
 }
 
 .breadcrums-letter p {
@@ -278,11 +300,32 @@ export default {
     opacity: 0.7;
 }
 
-.text-descripcion{
+.text-descripcion {
     font-family: Lato;
     font-size: 16px;
     color: #454644;
     text-align: justify;
     margin-top: 20px;
+}
+
+ul li{
+    margin-bottom: 10px;
+    list-style: disc;
+    text-align: justify;
+}
+
+.display-contenedor{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .display-contenedor{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 }
 </style>

@@ -8,8 +8,6 @@
             <div class="mx-auto w-full bg-view-user">
                 <router-view :RTAFTO="RTAFTO" :UPDATERTAFTO="UPDATERTAFTO" />
             </div>
-
-            <!-- <footer-admin /> -->
         </div>
     </div>
 </template>
@@ -17,7 +15,6 @@
 <script>
 import AdminNavbar from "@/components/Navbars/AdminNavbar.vue";
 import Sidebar from "@/components/Sidebar/Sidebar.vue";
-// import FooterAdmin from "@/components/Footers/FooterAdmin.vue";
 
 // * icons
 import homeIcon from '@/assets/img/icons/home.svg';
@@ -25,14 +22,12 @@ import busquedaIcon from '@/assets/img/icons/busqueda.svg';
 import perfilIcon from '@/assets/img/icons/perfil.svg';
 import estrellaIcon from '@/assets/img/icons/estrella.svg';
 import subscripcionIcon from '@/assets/img/icons/subscripcion.svg';
-// import reportIcon from '@/assets/img/icons/report.svg';
 
 export default {
     name: "admin-layout",
     components: {
         AdminNavbar,
         Sidebar,
-        // FooterAdmin,
     },
     data() {
         return {

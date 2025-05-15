@@ -47,6 +47,19 @@
           <span>{{ formatoFecha(data.value) }}</span>
         </template>
 
+        <template #head(CHECK)>
+          <div class="flex items-center justify-center">
+            <input type="checkbox" class="check-head form-check-input"
+              @change="(e) => actions.checkeoud.actionFull(e.target.checked)" />
+          </div>
+        </template>
+
+
+        <template #cell(CHECK)="data">
+          <input type="checkbox" class="check-item form-check-input" :checked="data.item?.checked"
+            v-model="data.item.checked" @change="(e) => actions.checkeoud.action(e.target.checked, data.item)" />
+        </template>
+
         <template #cell(FEDCN)="data">
           <span>{{ formatoFecha(data.value) }}</span>
         </template>
@@ -78,6 +91,14 @@
               <img :src="data.value" alt="imagen" style="width: 100%; height: 100%; object-fit: cover;">
             </a>
           </div>
+        </template>
+
+        <template #cell(TITLEALT)="data">
+          <div v-html="data.value"></div>
+        </template>
+
+        <template #cell(DDIRECTORIO)="data">
+          <div v-html="data.value"></div>
         </template>
 
 
@@ -112,15 +133,30 @@
 
         <!-- ACCIONES -->
         <template #cell(ACCIONES)="data">
-          <div class="flex items-center justify-center gap-2">
+          <div class="flex items-center justify-center gap-0">
             <b-button v-if="actions.edit" :title="actions.edit.label" @click="actions.edit.action(data.item)"
               style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
               <img src="@/assets/img/icons/edit.svg" alt="edit" width="40" height="40" />
             </b-button>
-            <b-button v-if="actions.delete && deleteRole" :title="actions.delete.label"
-              @click="actions.delete.action(data.item)"
+            <b-button v-if="actions.delete && deleteRole && (data.item?.PROP === undefined || data.item.PROP === 1)"
+              :title="actions.delete.label" @click="actions.delete.action(data.item)"
               style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
               <img src="@/assets/img/icons/delete.svg" alt="delete" width="40" height="40" />
+            </b-button>
+            
+            <b-button v-if="actions.shared && (data.item?.PROP === undefined || data.item.PROP === 1)" :title="actions.shared.label" @click="actions.shared.action(data.item)"
+              style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
+              <img src="@/assets/img/icons/shared.svg" alt="share" width="40" height="40" />
+            </b-button>
+
+            <b-button v-if="actions.users" :title="actions.users.label" @click="actions.users.action(data.item)"
+              style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
+              <img src="@/assets/img/icons/usersshared.svg" alt="users" width="40" height="40" />
+            </b-button>
+  
+            <b-button v-if="actions.updateShared && (data.item?.PROP === undefined || data.item.PROP === 1)" :title="actions.updateShared.label" @click="actions.updateShared.action(data.item)"
+              style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
+              <img src="@/assets/img/icons/settings.svg" alt="users" width="40" height="40" />
             </b-button>
 
             <b-button v-if="actions.view" :title="actions.view.label" @click="actions.view.action(data.item)"

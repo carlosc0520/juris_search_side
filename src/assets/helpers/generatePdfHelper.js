@@ -376,7 +376,7 @@ class createPDFHelper {
   }
 
   decodeHtmlEntities(text) {
-    if (text === null) return '';
+    if ([null, undefined].includes(text)) return "";
 
     text = text.replace(/&[a-z]+;/g, '');
 

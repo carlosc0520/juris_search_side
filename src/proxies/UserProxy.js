@@ -27,8 +27,24 @@ class UserProxy {
         return data;
     }
 
+    async deleteFavorite(IDFAV) {
+        const { data } = await axios.post('/admin/user/delete-favorite', { IDFAV });
+        return data;
+    }
+
+    // * DIRECTORIOS
     async createDirectory(model) {
         const { data } = await axios.post('/admin/user/add-directory', model);
+        return data;
+    }
+
+    async updateDirectory(model) {
+        const { data } = await axios.post('/admin/user/edit-directory', model);
+        return data;
+    }
+
+    async deleteDirectory(DIRECTORIOS) {
+        const { data } = await axios.post('/admin/user/delete-directory', { DIRECTORIOS });
         return data;
     }
 
@@ -132,6 +148,19 @@ class UserProxy {
     async getNotificaciones(params) {
         const { data } = await axios.get('/admin/user/get-notifications', {
             params,
+        });
+        return data;
+    }
+
+    // * COMPARTIR
+    async setCompartirEntrada(model) {
+        const { data } = await axios.post('/admin/user/compartir-entradas', model);
+        return data;
+    }
+
+    async getContactosSelecteds(model) {
+        const { data } = await axios.get('/admin/user/get-contacts-selecteds', {
+            params: model,
         });
         return data;
     }

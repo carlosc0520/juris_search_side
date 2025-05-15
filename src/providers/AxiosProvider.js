@@ -7,7 +7,7 @@ axios.defaults.headers.common.Accept = "application/json";
 axios.interceptors.request.use(
   (request) => {
     if (request.url) {
-      // request.url = "https://api.jurissearch.com" + request.url;
+      //  request.url = "https://api.jurissearch.com" + request.url;
       request.url = "http://localhost:3000" + request.url;
     }
     // const token = app.$store.state.auth.token;

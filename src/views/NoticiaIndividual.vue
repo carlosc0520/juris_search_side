@@ -152,9 +152,6 @@ export default {
                             return autorFind;
                         });
 
-
-                        console.log(this.noticia);
-
                     } else {
                         this.$router.push("/noticias");
                         toast.error("Ocurrió un error al cargar las noticias", { toastId: "error" });
@@ -310,8 +307,8 @@ export default {
 
 ul li{
     margin-bottom: 10px;
-    list-style: disc;
-    text-align: justify;
+    list-style: disc!important;
+    text-align: justify!important;
 }
 
 .display-contenedor{

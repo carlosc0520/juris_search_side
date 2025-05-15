@@ -4,6 +4,10 @@
             {{ datos.TITULO }}
         </h4>
 
+        <p class="text-left" v-if="!isFav">
+            <span>{{ datos.TITLEALT }}</span>
+        </p>
+
         <b-tabs content-class="mt-3" v-model="activeTab">
             <!-- TAB 1 -->
             <b-tab event-key="tab1" title="Documento" active>
@@ -31,7 +35,7 @@
                             </b-list-group-item>
                             <b-list-group-item v-if="datos.IDFAV == null">
                                 <div class="d-flex align-items-center mt-3">
-                                    <button @click="addFavorite(datos)"
+                                    <button @click="addFavorite(datos)" v-if="isFav"
                                         class="favorito-btn d-flex align-items-center gap-2">
                                         <img src="@/assets/img/icons/estrella.svg" alt="Agregar a favoritos"
                                             class="favorito-icon">
@@ -40,7 +44,7 @@
                                 </div>
                             </b-list-group-item>
                             <b-list-group-item v-else>
-                                <div class="d-flex align-items-center mt-3">
+                                <div class="d-flex align-items-center mt-3" v-if="isFav">
                                     <button @click="deleteFavorite(datos)"
                                         class="favorito-btn d-flex align-items-center gap-2">
                                         <img src="@/assets/img/icons/estrella-full.svg" alt="Quitar de favoritos"
@@ -188,7 +192,11 @@ export default {
         data: {
             type: Object,
             required: true
-        }
+        },
+        isFav: {
+            type: Boolean,
+            default: true
+        },
     },
     components: {
         BModal,
@@ -201,12 +209,12 @@ export default {
             pdfUrl: '',
             pdfUrlResumen: '',
             datos: {
-                pretension: 'Valor',
-                organo: 'Valor',
-                tema: 'Valor',
-                subtema: 'Valor',
-                palabrasClave: 'Valor',
-                fechaResolucion: 'Valor'
+                pretension: '',
+                organo: '',
+                tema: '',
+                subtema: '',
+                palabrasClave: '',
+                fechaResolucion: ''
             },
         };
     },
@@ -234,7 +242,11 @@ export default {
                 })
         },
         async printResumen(item) {
-            this.pdfUrlResumen = "data:application/pdf;base64," + (await createPDFHelper.generate(item, true));
+            try {
+                this.pdfUrlResumen = "data:application/pdf;base64," + (await createPDFHelper.generate(item, true));
+            } catch (error) {
+                console.error("Error al generar el PDF:", error);
+            }
         },
         descargarResolucion(tipo) {
             if (tipo === 1) {

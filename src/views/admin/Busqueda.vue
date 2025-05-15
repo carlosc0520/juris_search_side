@@ -681,7 +681,6 @@ export default {
                     this.table.totalRows = response?.[0]?.TOTALROWS || 0;
                 })
                 .catch((error) => {
-                    console.log(error)
                     toast.error("Ocurrió un error al buscar", { toastId: "error" });
                 })
                 .finally(() => this.isLoading = false);

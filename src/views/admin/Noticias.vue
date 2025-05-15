@@ -200,7 +200,7 @@ export default {
                             <div class="d-flex align-items-center" style="gap: 1rem; max-width: 400px;">
                                 <div style="flex-shrink: 0;">
                                     <img 
-                                        src="https://jurissearch.com${item.RUTA}" 
+                                        src="${item.RUTA || 'https://placehold.co/50x50'}" 
                                         onerror="this.onerror=null; this.src='https://placehold.co/50x50" 
                                         alt="Foto del autor" 
                                         class="rounded-circle border"

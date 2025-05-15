@@ -127,7 +127,6 @@ export default {
     async getNotifications() {
       await UserProxy.getNotificaciones()
         .then((response) => {
-          console.log("Notificaciones:", response);
           if (response && response?.length > 0) {
             this.notificaciones = response.map((notificacion, index) => {
               return {

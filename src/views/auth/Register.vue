@@ -233,7 +233,6 @@ export default {
   },
   methods: {
     async signIn(paso = 1) {
-      console.log("Paso: ", this.paseForm);
       if (this.paseForm == 1) {
         if (this.form.PASSWORD.length < 6)
           return toast.error("La contraseña debe tener al menos 6 caracteres.");

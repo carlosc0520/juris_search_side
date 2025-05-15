@@ -594,20 +594,22 @@ form {
   background-attachment: fixed;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
+  align-items: start;
   position: relative;
   z-index: 1;
+  min-height: 100vh;
+  /* <-- asegura que ocupa al menos el alto de la pantalla */
 }
 
-.container-table{
-  width: -webkit-fill-available!important;
+.container-table {
+  width: -webkit-fill-available !important;
 }
 
 .container-table:nth-of-type(1) h3 {
   font-size: 1.3rem;
   font-family: Lato;
-  margin: 0!important;
+  margin: 0 !important;
   font-weight: 700;
   color: var(--azul-title);
 }
@@ -646,7 +648,7 @@ form {
 }
 
 
-.btn-actions-view{
+.btn-actions-view {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -669,6 +671,7 @@ form {
   transition: all 0.3s ease;
   font-weight: 500;
 }
+
 .contenedor-tab a.disabled {
   color: #ccc;
   pointer-events: none;
@@ -688,31 +691,31 @@ form {
 }
 
 .dropzone {
-    border: 2px dashed #ccc;
-    border-radius: 10px;
-    padding: 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: background 0.2s;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
 .dropzone:hover {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
 }
 
 .preview {
-    margin-top: 1rem;
-    max-width: 100%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    max-height: 200px;
-    object-fit: contain;
+  margin-top: 1rem;
+  max-width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 200px;
+  object-fit: contain;
 }
 
 
 @media (max-width: 768px) {
-  .contenedor-tab{
+  .contenedor-tab {
     flex-direction: column;
     gap: 0.2rem;
   }
@@ -722,13 +725,13 @@ form {
     align-items: flex-start;
   }
 
-  .btn-actions-view button{
+  .btn-actions-view button {
     width: 100%;
     margin-bottom: 0.5rem;
   }
 }
 
-.btn-transparent{
+.btn-transparent {
   background-color: transparent !important;
   color: var(--azul-primary) !important;
   border: 1px solid var(--azul-primary) !important;
@@ -740,12 +743,25 @@ form {
   transition: all 0.15s ease !important;
   outline: none !important;
 }
-.mx-input{
+
+.mx-input {
   padding: 0.5rem !important;
   border-radius: 0.375rem !important;
   border: 1px solid #e4e4e4 !important;
   background-color: #fff !important;
   color: #4b5563 !important;
   box-shadow: 0 0 0 1px rgba(209, 213, 219, 0.3) !important;
+}
+
+.swal2-modal {
+  padding: 10px !important;
+}
+
+.crear-directorio-swal .swal2-html-container {
+  overflow-x: hidden !important;
+}
+
+.crear-directorio-swal .swal2-html-container input {
+  background: #ffffff !important;
 }
 </style>

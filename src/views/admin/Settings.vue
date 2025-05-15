@@ -17,7 +17,7 @@
           <div class="flex flex-col md:flex-row justify-start gap-4 items-center mb-4">
             <div class="flex flex-row align-items-center gap-4">
               <div class="avatar-container">
-                <img :src="this.modelo.RTAFTO" alt="imagen_usuario" class="avatar" @click="openFileInput"
+                <img :src="this.modelo.RTAFTO || 'https://placehold.co/50x50'" alt="imagen_usuario" class="avatar" @click="openFileInput"
                   :onerror="team2" accept="image/*" />
                 <input type="file" id="avatar-input" @change="changeAvatar" ref="avatarInput" class="avatar-input" />
               </div>
@@ -285,7 +285,7 @@ export default {
             key: "RTAFTO",
             label: "Avatar",
             formatter: (value) => {
-              return `<img src="${value}" 
+              return `<img src="${value || 'https://placehold.co/50x50'}" 
               style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; cursor: pointer;"
               alt="imagen_usuario" class="avatarMiniun" @error="function (e) { e.target.src = 'https://placehold.co/50x50' }" />`;
             },

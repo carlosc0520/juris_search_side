@@ -61,8 +61,13 @@ class createPDFHelper {
             table: {
               widths: ['35%', '57%'],
               body: [
+                [{ text: '▪ CASO EMBLEMÁTICO:', bold: true }, data?.CASO ? data?.CASO : '-'],
                 [{ text: '▪ TIPO DE RECURSO:', bold: true }, returnBase64 ? data?.RECURSO?.map((item) => item.DESCP).join('\n') : data?.RECURSO?.replace(/,/g, '\n')],
-                [{ text: '▪ DELITOS:', bold: true }, returnBase64 ? data?.DELITO.map((item) => item.DESCP).join('\n') : data?.DELITO?.replace(/,/g, '\n')],
+                [{ text: '▪ DELITOS:', bold: true }, returnBase64 ? (
+                  data?.DELITO?.length > 0 ?
+                    data?.DELITO.map((item) => item.DESCP).join('\n') : "-"
+                )
+                  : data?.DELITO?.replace(/,/g, '\n')],
                 [{ text: '▪ VINCULANTE:', bold: true }, returnBase64 ? (
                   data?.INDICADOR ? "Si" : "No") : data?.ISBINDING]
               ]

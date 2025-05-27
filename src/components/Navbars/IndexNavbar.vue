@@ -5,7 +5,7 @@
         <div></div>
         <div class="d-flex flex-col lg:flex-row justify-content-center align-items-center gap-2">
           <span>Adquiere más funcionalidades con el</span>
-          <button
+          <button @click="scrollToSection('mi-seccion-planes')"
             class="rounded-full px-3 py-1 d-flex justify-content-center align-items-center border border-white text-xs">
             Plan Premium
             <img class="ps-1" src="../../assets/img/resources/Corona.png" />
@@ -29,7 +29,7 @@
           <button>
             <router-link to="/auth/login"
               class="leading-none lg:hidden bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">
-              Empieza ahora
+              Iniciar sesión
             </router-link>
           </button>
         </div>
@@ -42,12 +42,12 @@
             </a>
           </router-link>
           <ul class="flex flex-col lg:flex-row list-none mr-auto p-0 m-0">
-             <li class="flex items-center lg:hidden">
+            <!-- <li class="flex items-center lg:hidden">
               <router-link to="/auth/login"
-              class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs">
-              Iniciar sesión
+                class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs">
+                Iniciar sesión
               </router-link>
-            </li>
+            </li> -->
             <li class="flex items-center">
               <router-link to="/" :class="{ 'text-primary': route.path === '/' }"
                 class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs">
@@ -55,15 +55,15 @@
               </router-link>
             </li>
             <li class="flex items-center">
-              <a href="#conoce-proposito" @click.prevent="scrollToSection"
+              <a href="#conoce-proposito" @click.prevent="scrollToSection('conoce-proposito')"
                 class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs">
                 Conócenos
               </a>
             </li>
             <li class="flex items-center">
-              <router-link to="/noticias" :class="{ 'text-primary': route.path === '/noticias' }"
+              <router-link to="/publicaciones" :class="{ 'text-primary': route.path === '/publicaciones' }"
                 class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs">
-                Noticias
+                Publicaciones
               </router-link>
             </li>
             <li class="flex items-center">
@@ -74,16 +74,16 @@
             </li>
           </ul>
           <ul class="flex flex-col items-center lg:flex-row list-none m-0 sm-hidden">
-            <li class="flex items-end">
+            <!-- <li class="flex items-end">
               <router-link to="/auth/login"
                 class="p-0 m-0 text-xs font-medium px-4 py-2 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">
                 Iniciar sesión
               </router-link>
-            </li>
+            </li> -->
             <li class="flex items-end">
               <router-link to="/auth/login"
                 class="bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">
-                Empieza ahora
+                Iniciar sesión
               </router-link>
             </li>
           </ul>
@@ -113,8 +113,8 @@ export default {
     setNavbarOpen: function () {
       this.navbarOpen = !this.navbarOpen;
     },
-    scrollToSection: () => {
-      const section = document.querySelector("#conoce-proposito");
+    scrollToSection: (seccion = "conoce-proposito") => {
+      const section = document.querySelector("#" + seccion);
       if (section) {
         section.scrollIntoView({ behavior: "smooth" });
       }

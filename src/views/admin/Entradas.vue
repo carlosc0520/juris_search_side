@@ -1,122 +1,124 @@
 <template>
-  <div class="container-table flex flex-wrap mt-4 pt-5">
-    <div class="w-full mb-12 pt-5">
-      <div class="w-full mb-12">
-        <b-tabs>
-          <b-tab title="Jurisprudencia" @click="updateActive('jurisprudences')">
-          </b-tab>
-          <b-tab title="Legislación" @click="updateActive('legislations')">
-          </b-tab>
-        </b-tabs>
+  <section class="bg-landing mt-4 pt-5">
+    <div class="container-table flex flex-col mt-4 pt-5">
+      <div class="flex mb-3 gap-4 flex-col md:flex-row contenedor-tab">
+        <a class="cursor-pointer" :class="active === 'jurisprudences' ? 'active-tab' : ''"
+          @click="updateActive('jurisprudences')">
+          Jurisprudencia
+        </a>
+        <a class="cursor-pointer" :class="active === 'legislations' ? 'active-tab' : ''"
+          @click="updateActive('legislations')">
+          Legislación
+        </a>
+      </div>
 
-        <div class="bg-white p-4 shadow-lg">
-          <div class="row">
-            <div class="col-md-4 col-12 mb-3">
-              <label for="name" class="form-label">Título</label>
-              <input type="text" v-model="selectedFilter.name" id="name" class="form-control" />
-            </div>
-
-            <div class="col-md-4 col-12 mb-3">
-              <label for="RTITLE: " class="form-label">Título alternativo</label>
-              <input type="text" v-model="selectedFilter.RTITLE" id="RTITLE: " class="form-control" />
-            </div>
-
-            <div class="col-md-4 col-12 mb-3">
-              <label for="BLOG3" class="form-label">Fecha de resolución</label>
-              <date-picker v-model="selectedFilter.FRESOLUTION" :value="selectedFilter.FRESOLUTION" valueType="format"
-                :disabledDate="time => time.getTime() > Date.now()"
-                @change="(date) => selectedFilter.FRESOLUTION = date"></date-picker>
-            </div>
-
-            <div class="col-md-3 col-12 mb-3">
-              <label for="FCRCN" class="form-label">Fecha de Ingreso </label>
-              <date-picker v-model="selectedFilter.FCRCN" :value="selectedFilter.FCRCN" valueType="format"
-                :disabledDate="time => time.getTime() > Date.now()"
-                @change="(date) => selectedFilter.FCRCN = date"></date-picker>
-            </div>
-
-            <div class="col-md-3 col-12 mb-3">
-              <label for="TEMA" class="form-label">Tema</label>
-              <input type="text" v-model="selectedFilter.TEMA" id="TEMA" class="form-control" />
-            </div>
-
-            <div class="col-md-3 col-12 mb-3">
-              <label for="BLOG2" class="form-label">Tipo de entrada</label>
-              <b-form-select v-model="selectedFilter.BLOG" :options="[
-                { text: '-- Seleccione ', value: null },
-                { text: 'Común', value: 'common' },
-                { text: 'Emblemático', value: 'emblematic' },
-                { text: 'Ejecutivo', value: 'executive' }]">
-              </b-form-select>
-            </div>
-
-
-            <div class="col-md-3 col-12 mb-3">
-              <label for="CDESTDO" class="form-label">Estado</label>
-              <b-form-select v-model="selectedFilter.CDESTDO" :options="[
-                { text: '-- Seleccione ', value: null },
-                { text: 'Activo', value: 'A' },
-                { text: 'Inactivo', value: 'I' }]">
-              </b-form-select>
-            </div>
-
-
-            <div class="col-md-12 col-12 mb-3">
-              <div class="flex justify-end gap-4">
-                <button class="bton btn-search" @click="getEntries(grid.currentPage, grid.perPage)">Buscar</button>
-                <div v-if="active == 'jurisprudences'" class="dropdown bton btn-create">
-                  <button class="text-white dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Ingresar
-                  </button>
-                  <ul class="dropdown-menu mt-2 p-0" aria-labelledby="dropdownMenuButton">
-                    <li @click="modalEntradaComun.show = true">
-                      <i class="fas fa-plus"></i>
-                      Jurisprudencia Común
-                    </li>
-                    <li @click="modalAgregarEntradaEmble.show = true">
-                      <i class="fas fa-plus"></i>
-                      Jurisprudencia Emblemático
-                    </li>
-                  </ul>
-                </div>
-                <button v-else class="bton btn-create"
-                  @click="modalAgregarEntradalegislacion.show = true">Ingresar</button>
-
-                <div class="dropdown bton btn-export">
-                  <button class="text-white dropdown-toggle" type="button" id="dropdownMenuButtonExportar"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Exportar
-                  </button>
-                  <ul class="dropdown-menu mt-2 p-0" aria-labelledby="dropdownMenuButtonExportar">
-                    <li @click="onClickExportar(1)">
-                      <i class="fas fa-file-pdf"></i>
-                      Resumen Ejecutivo
-                    </li>
-                    <li @click="onClickExportar(2)">
-                      <i class="fas fa-book"></i>
-                      Resoluciones
-                    </li>
-                    <li @click="onClickExportar(3)">
-                      <i class="fas fa-book"></i>
-                      Exportar Pág.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <card-table v-if="active === 'jurisprudences'" :active="active" title="Entradas de Jurisprudencias"
-            :search="getEntries" :fields="fields" :items="data" :grid="grid" :actions="actions"
-            :deleteRole="role.IDR == 0" />
-
-          <card-table v-if="active === 'legislations'" :active="active" title="Entradas de Legislación"
-            :search="getEntries" :fields="fields.filter((field) => field.key !== 'TEMA')" :items="data" :grid="grid"
-            :actions="actions" :deleteRole="role.IDR == 0" />
+      <div class="row">
+        <div class="col-md-4 col-12 mb-3">
+          <label for="name" class="form-label">Título</label>
+          <input type="text" v-model="selectedFilter.name" id="name" class="form-control" />
         </div>
 
+        <div class="col-md-4 col-12 mb-3">
+          <label for="RTITLE: " class="form-label">Título alternativo</label>
+          <input type="text" v-model="selectedFilter.RTITLE" id="RTITLE: " class="form-control" />
+        </div>
+
+        <div class="col-md-4 col-12 mb-3">
+          <label for="BLOG3" class="form-label">
+            {{ active === 'jurisprudences' ? 'Fecha de resolución' : 'Fecha de publicación' }}
+          </label>
+          <date-picker v-model="selectedFilter.FRESOLUTION" :value="selectedFilter.FRESOLUTION" valueType="format"
+            :disabledDate="time => time.getTime() > Date.now()"
+            @change="(date) => selectedFilter.FRESOLUTION = date"></date-picker>
+        </div>
+
+        <div class="col-md-3 col-12 mb-3">
+          <label for="FCRCN" class="form-label">Fecha de Ingreso </label>
+          <date-picker v-model="selectedFilter.FCRCN" :value="selectedFilter.FCRCN" valueType="format"
+            :disabledDate="time => time.getTime() > Date.now()"
+            @change="(date) => selectedFilter.FCRCN = date"></date-picker>
+        </div>
+
+        <div class="col-md-3 col-12 mb-3">
+          <label for="TEMA" class="form-label">Tema</label>
+          <input type="text" v-model="selectedFilter.TEMA" id="TEMA" class="form-control" />
+        </div>
+
+        <div class="col-md-3 col-12 mb-3">
+          <label for="BLOG2" class="form-label">Tipo de entrada</label>
+          <b-form-select v-model="selectedFilter.BLOG" :options="[
+            { text: '-- Seleccione ', value: null },
+            { text: 'Común', value: 'common' },
+            { text: 'Emblemático', value: 'emblematic' },
+            { text: 'Ejecutivo', value: 'executive' }]">
+          </b-form-select>
+        </div>
+
+
+        <div class="col-md-3 col-12 mb-3">
+          <label for="CDESTDO" class="form-label">Estado</label>
+          <b-form-select v-model="selectedFilter.CDESTDO" :options="[
+            { text: '-- Seleccione ', value: null },
+            { text: 'Activo', value: 'A' },
+            { text: 'Inactivo', value: 'I' }]">
+          </b-form-select>
+        </div>
+
+
+        <div class="col-md-12 col-12 mb-3">
+          <div class="display-buttons">
+            <button class="bton btn-search" @click="getEntries(grid.currentPage, grid.perPage)">Buscar</button>
+            <div v-if="active == 'jurisprudences'" class="dropdown bton btn-create">
+              <button class="text-white dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Ingresar
+              </button>
+              <ul class="dropdown-menu mt-2 p-0" aria-labelledby="dropdownMenuButton">
+                <li @click="modalEntradaComun.show = true">
+                  <i class="fas fa-plus"></i>
+                  Jurisprudencia Común
+                </li>
+                <li @click="modalAgregarEntradaEmble.show = true">
+                  <i class="fas fa-plus"></i>
+                  Jurisprudencia Emblemático
+                </li>
+              </ul>
+            </div>
+            <button v-else class="bton btn-create" @click="modalAgregarEntradalegislacion.show = true">Ingresar</button>
+
+            <div class="dropdown bton btn-export">
+              <button class="text-white dropdown-toggle" type="button" id="dropdownMenuButtonExportar"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Exportar
+              </button>
+              <ul class="dropdown-menu mt-2 p-0" aria-labelledby="dropdownMenuButtonExportar">
+                <li @click="onClickExportar(1)">
+                  <i class="fas fa-file-pdf"></i>
+                  Resumen Ejecutivo
+                </li>
+                <li @click="onClickExportar(2)">
+                  <i class="fas fa-book"></i>
+                  Resoluciones
+                </li>
+                <li @click="onClickExportar(3)">
+                  <i class="fas fa-book"></i>
+                  Exportar Pág.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="w-full mb-12">
+        <card-table v-if="active === 'jurisprudences'" :active="active" title="Entradas de Jurisprudencias"
+          :search="getEntries" :fields="fields" :items="data" :grid="grid" :actions="actions"
+          :deleteRole="role.IDR == 0" />
+
+        <card-table v-if="active === 'legislations'" :active="active" title="Entradas de Legislación"
+          :search="getEntries" :fields="fields.filter((field) => field.key !== 'TEMA')" :items="data" :grid="grid"
+          :actions="actions" :deleteRole="role.IDR == 0" />
       </div>
     </div>
 
@@ -150,14 +152,13 @@
       :buttonOk="'Si, cambiar'" :action="deleteRow" :openDelete="modalEliminar.show"
       :closeHandler="() => modalEliminar.show = false" />
 
-
-  </div>
+  </section>
 </template>
 
 
 <script>
 import CardTable from "@/components/Cards/CardTable.vue";
-import { BTabs, BTab, BFormSelect } from 'bootstrap-vue-next';
+import { BFormSelect } from 'bootstrap-vue-next';
 import { toast } from 'vue3-toastify';
 import adminEntriesProxy from "../../proxies/AdminEntriesProxy.js";
 
@@ -178,8 +179,6 @@ import createPDFHelper from "../../assets/helpers/generatePdfHelper.js";
 export default {
   components: {
     CardTable,
-    BTabs,
-    BTab,
     BFormSelect,
 
     // MODALES
@@ -213,7 +212,7 @@ export default {
           key: "FRESOLUTION",
           label: "Publicación",
           sortable: true,
-          formatter: (value) => {            
+          formatter: (value) => {
             return value.split('T')[0].split('-').reverse().join('/');
           },
         },
@@ -733,8 +732,8 @@ export default {
         this.isLoading = true;
         const [magistradosResponse, filtersResponse, filtersResponse2] = await Promise.all([
           MagistradoProxy.list({ ROWS: 1000, INIT: 0, DESC: null, CESTDO: null }, 2),
-          filterProxy.list({ NIVEL: 5, CESTDO: ""}, "1", 2),
-          filterProxy.list({ NIVEL: 5, CESTDO: ""}, "2", 2),
+          filterProxy.list({ NIVEL: 5, CESTDO: "" }, "1", 2),
+          filterProxy.list({ NIVEL: 5, CESTDO: "" }, "2", 2),
         ]);
 
         this.selects.magistrados = magistradosResponse.map(item => ({
@@ -769,7 +768,7 @@ export default {
           let oemisor = this.configFilter(filtersResponse2, "ÓRGANO EMISOR");
           this.selects.oemisor = this.mapNivel(oemisor?.NIVEL_2);
         }
-        
+
 
       } catch (error) {
         toast.error(error?.MESSAGE || 'Error al cargar los datos', { toastId: 'error-filters' });
@@ -871,9 +870,8 @@ export default {
 </script>
 
 <style scoped>
-.container-table{
-    max-width: 90%;
-    margin: 0 auto;
+.container-table {
+  max-width: 90%;
+  margin: 0 auto;
 }
-
 </style>

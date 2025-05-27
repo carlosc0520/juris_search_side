@@ -47,7 +47,7 @@
                                     <p class="text-lato-400 text-secondary">jsearch@ccfirma.com</p>
                                 </div>
                             </div>
-                            <div class="info-item flex flex-row gap-4">
+                            <!-- <div class="info-item flex flex-row gap-4">
                                 <div class="icon">
                                     <img src="@/assets/img/contacto/message.png" alt="Logo" class="h-10 w-10" />
                                 </div>
@@ -55,7 +55,7 @@
                                     <p class="text-lato-700 font-semibold text-principal">Llámanos</p>
                                     <p class="text-lato-400 text-secondary">+51 902 430 068</p>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
                         <!-- Segunda columna -->
@@ -85,7 +85,7 @@
 
                                 <div>
                                     <input type="text" v-model="modelo.ASUNTO"
-                                    :class="{ error: validation.hasError('modelo.ASUNTO') }" placeholder="Motivo">
+                                        :class="{ error: validation.hasError('modelo.ASUNTO') }" placeholder="Motivo">
                                     <span class="message" v-if="validation.hasError('modelo.ASUNTO')">
                                         {{ validation.firstError('modelo.ASUNTO') }}
                                     </span>
@@ -93,7 +93,7 @@
 
                                 <div>
                                     <textarea placeholder="Mensaje" v-model="modelo.MENSAJE"
-                                    :class="{ error: validation.hasError('modelo.MENSAJE') }"></textarea>
+                                        :class="{ error: validation.hasError('modelo.MENSAJE') }"></textarea>
                                     <span class="message" v-if="validation.hasError('modelo.MENSAJE')">
                                         {{ validation.firstError('modelo.MENSAJE') }}
                                     </span>
@@ -111,7 +111,7 @@
                         <h2 class="text-center text-white">
                             Descubre el plan que se adapta a ti y accede a todos los beneficios
                         </h2>
-                        <router-link to="/contacto"
+                        <router-link to="/#mi-seccion-planes"
                             class="m-auto bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">
                             Ver Planes
                         </router-link>
@@ -197,7 +197,7 @@ export default {
                 .finally(() => this.isLoading = false);
 
         }
-    },
+    }
 };
 </script>
 

@@ -49,20 +49,23 @@
                                 <div class="flex mb-1 gap-1 flex-row contenedor-tab">
                                     <img class="container-nav" src="@/assets/img/icons/corona.svg" alt="Close" />
                                     <p class="container-nav"
-                                        @click="typeSaarch = 'jurisprudences'; isFilter = 'jurisprudences-generales';criterioActual = 'year-publication'"
+                                        @click="typeSaarch = 'jurisprudences'; isFilter = 'jurisprudences-generales'; criterioActual = 'year-publication'"
                                         :class="typeSaarch == 'jurisprudences' ? 'active-criterio' : ''">
                                         Jurisprudencia
                                     </p>
                                 </div>
                                 <ul>
-                                    <li class="container-nav" @click="isFilter = 'jurisprudences-generales';criterioActual = 'year-publication',typeSaarch = 'jurisprudences'"
+                                    <li class="container-nav"
+                                        @click="isFilter = 'jurisprudences-generales'; criterioActual = 'year-publication', typeSaarch = 'jurisprudences'"
                                         :class="isFilter == 'jurisprudences-generales' ? 'active-criterio' : ''">
                                         Criterios Generales
                                     </li>
-                                    <li class="container-nav" @click="isFilter = 'jurisprudences-compliance';criterioActual = 'year-publication',typeSaarch = 'jurisprudences'"
+                                    <li class="container-nav"
+                                        @click="isFilter = 'jurisprudences-compliance'; criterioActual = 'year-publication', typeSaarch = 'jurisprudences'"
                                         :class="isFilter == 'jurisprudences-compliance' ? 'active-criterio' : ''">
                                         Compliance</li>
-                                    <li class="container-nav" @click="isFilter = 'jurisprudences-extincion';criterioActual = 'year-publication',typeSaarch = 'jurisprudences'"
+                                    <li class="container-nav"
+                                        @click="isFilter = 'jurisprudences-extincion'; criterioActual = 'year-publication', typeSaarch = 'jurisprudences'"
                                         :class="isFilter == 'jurisprudences-extincion' ? 'active-criterio' : ''">
                                         Extinción de Dominio
                                     </li>
@@ -70,13 +73,14 @@
                                 <div class="mt-2 flex mb-1 gap-1 flex-row contenedor-tab">
                                     <img class="container-nav" src="@/assets/img/icons/settings.svg" alt="Close" />
                                     <p class="container-nav"
-                                        @click="typeSaarch = 'legislations'; isFilter = 'legislaciones-generales';criterioActual = 'year-publication'"
+                                        @click="typeSaarch = 'legislations'; isFilter = 'legislaciones-generales'; criterioActual = 'year-publication'"
                                         :class="typeSaarch == 'legislations' ? 'active-criterio' : ''">
                                         Legislación
                                     </p>
                                 </div>
                                 <ul>
-                                    <li class="container-nav" @click="isFilter = 'legislaciones-generales',criterioActual = 'year-publication',typeSaarch = 'legislations'"
+                                    <li class="container-nav"
+                                        @click="isFilter = 'legislaciones-generales', criterioActual = 'year-publication', typeSaarch = 'legislations'"
                                         :class="isFilter == 'legislaciones-generales' ? 'active-criterio' : ''">
                                         Criterios Generales</li>
                                 </ul>
@@ -133,7 +137,7 @@
                                                 :class="criterioActual === 'keywords' ? 'active-tab' : ''">
                                                 Palabras Clave
                                             </a>
-                                            <a v-if="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter)"
+                                            <!-- <a v-if="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter)"
                                                 @click="criterioActual = 'tema'"
                                                 :class="criterioActual === 'tema' ? 'active-tab' : ''">
                                                 Tema
@@ -142,7 +146,7 @@
                                                 @click="criterioActual = 'subtema'"
                                                 :class="criterioActual === 'subtema' ? 'active-tab' : ''">
                                                 Subtema
-                                            </a>
+                                            </a> -->
                                             <a v-if="['jurisprudences-compliance'].includes(isFilter)"
                                                 class="cursor-pointer" @click="criterioActual = 'materia'"
                                                 :class="criterioActual === 'materia' ? 'active-tab' : ''">
@@ -205,8 +209,7 @@
                                             :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
                                             collapse-tags :collapse-tags-tooltip="true" :max-collapse-tags="1"
-                                            no-data-text="No hay opciones disponibles"
-                                            class="custom-tree-select" />
+                                            no-data-text="No hay opciones disponibles" class="custom-tree-select" />
                                     </div>
 
                                     <div class="px-3"
@@ -276,7 +279,7 @@
                                             addButtonText="Agregar" removeButtonText="Eliminar" removeOnDeleteKey />
                                     </div>
 
-                                    <div class="px-3"
+                                    <!-- <div class="px-3"
                                         :class="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter) && criterioActual === 'tema' ? 'col-12' : 'd-none'">
                                         <input type="text" v-model="filter.TEMA" id="TEMA" class="form-control" />
                                     </div>
@@ -284,7 +287,7 @@
                                     <div class="px-3"
                                         :class="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter) && criterioActual === 'subtema' ? 'col-12' : 'd-none'">
                                         <input type="text" v-model="filter.SUBTEMA" id="SUBTEMA" class="form-control" />
-                                    </div>
+                                    </div> -->
 
                                     <div class="px-3"
                                         :class="['legislaciones-generales'].includes(isFilter) && criterioActual === 'numeracion' ? 'col-12' : 'd-none'">
@@ -313,20 +316,22 @@
 
                                     <div class="px-3"
                                         :class="['legislaciones-generales'].includes(isFilter) && criterioActual === 'tnorma' ? 'col-12' : 'd-none'">
-                                        <el-tree-select v-model="filter.TPONRMA" :data="selects['TIPO DE NORMA']" multiple
-                                        :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox
-                                        check-strictly check-on-click-node filterable clearable collapse-tags
-                                        :max-collapse-tags="1" no-data-text="No hay opciones disponibles"
-                                        popper-append-to-body class="custom-tree-select" />
+                                        <el-tree-select v-model="filter.TPONRMA" :data="selects['TIPO DE NORMA']"
+                                            multiple :render-after-expand="false" placeholder="Seleccione una opción"
+                                            show-checkbox check-strictly check-on-click-node filterable clearable
+                                            collapse-tags :max-collapse-tags="1"
+                                            no-data-text="No hay opciones disponibles" popper-append-to-body
+                                            class="custom-tree-select" />
                                     </div>
 
                                     <div class="px-3"
                                         :class="['legislaciones-generales'].includes(isFilter) && criterioActual === 'oemisor' ? 'col-12' : 'd-none'">
-                                        <el-tree-select v-model="filter.OEMISOR" :data="selects['ÓRGANO EMISOR']" multiple
-                                        :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox
-                                        check-strictly check-on-click-node filterable clearable collapse-tags
-                                        :max-collapse-tags="1" no-data-text="No hay opciones disponibles"
-                                        popper-append-to-body class="custom-tree-select" />
+                                        <el-tree-select v-model="filter.OEMISOR" :data="selects['ÓRGANO EMISOR']"
+                                            multiple :render-after-expand="false" placeholder="Seleccione una opción"
+                                            show-checkbox check-strictly check-on-click-node filterable clearable
+                                            collapse-tags :max-collapse-tags="1"
+                                            no-data-text="No hay opciones disponibles" popper-append-to-body
+                                            class="custom-tree-select" />
                                     </div>
 
                                 </div>
@@ -357,26 +362,28 @@
                 <!-- Título con flecha -->
                 <div class="result-title" @click="openModalWithData(item)">
                     <span>{{ item.TITULO }}</span>
-                    <img src="@/assets/img/icons/arrow-right.svg" alt="Arrow" />
                 </div>
 
                 <div v-if="item.TYPE == 'jurisprudences'" class="row">
                     <!-- Pretensión / Delito -->
                     <p class="result-info px-2 py-1 px-2 py-1 col-12 col-md-4">
-                        <strong>Pretensión / Delito:</strong><br>{{item.DELITO?.map(o => o.DESCP).join(', ')}}
+                        <strong>Pretensión / Delito:</strong><br>{{item.DELITO?.length > 0 ? item.DELITO?.map(o =>
+                            o.DESCP).join(', ') : '-'}}
                     </p>
                     <p class="result-info px-2 py-1 col-12 col-md-4">
-                        <strong>Tipo de Recurso:</strong> <br>{{item.RECURSO?.map(d => d.DESCP).join(', ')}}
+                        <strong>Tipo de Recurso:</strong> <br>{{item.RECURSO?.length > 0 ? item.RECURSO?.map(o =>
+                            o.DESCP).join(', ') : '-'}}
                     </p>
                     <p class="result-info px-2 py-1 col-12 col-md-4">
-                        <strong>Órgano Jurisdiccional:</strong> <br>{{item.OJURISDICCIONAL?.map(o =>
-                            o.DESCP).join(',')}}
+                        <strong>Órgano Jurisdiccional:</strong> <br>{{item.OJURISDICCIONAL?.length > 0 ?
+                            item.OJURISDICCIONAL?.map(o => o.DESCP).join(', ') : '-'}}
                     </p>
                     <!-- <p class="result-info px-2 py-1 col-12 col-md-4">
                         <strong>Jurisprudencia Vinculante:</strong> {{item.DELITO.map((delito) => delito.DESCP).join(', ')}}
                     </p> -->
                     <p class="result-info px-2 py-1 col-12 col-md-4">
-                        <strong>Caso Emblemático:</strong> <br>{{ item.BLOG == "emblematic" ? 'Sí' : 'No' }}
+                        <strong>Caso Emblemático:</strong> <br>{{ item?.TYPE == "jurisprudences" ?
+                            (item.BLOG == "emblematic" ? 'Sí' : 'No') : (item?.RTITLE || '-') }}
                     </p>
                     <p class="result-info px-2 py-1 col-12 col-md-4">
                         <strong>Caso Vinculante:</strong> <br>{{ item.INDICADOR ? 'Sí' : 'No' }}
@@ -392,14 +399,22 @@
 
                 <div v-if="item.TYPE == 'legislations'" class="row">
                     <!-- Pretensión / Delito -->
-                    <p class="result-info px-2 py-1 px-2 py-1 col-12 col-md-4">
+                    <p class="result-info px-2 py-1 px-2 py-1 col-12 col-md-3">
                         <strong>Numeración:</strong><br>{{ item.NMRCN }}
                     </p>
-                    <p class="result-info px-2 py-1 col-12 col-md-4">
+                    <p class="result-info px-2 py-1 col-12 col-md-3">
                         <strong>Fecha:</strong> <br>{{ formateReverse(item.FRESOLUTION) }}
                     </p>
+                    <p class="result-info px-2 py-1 col-12 col-md-3">
+                        <strong>Órgano emisor:</strong> <br>{{item.OEMISOR?.length > 0 ? item.OEMISOR?.map(o =>
+                            o.DESCP).join(', ') : '-'}}
+                    </p>
+                    <p class="result-info px-2 py-1 col-12 col-md-3">
+                        <strong>Denominación oficial:</strong> <br>{{ item?.RTITLE || '-' }}
+                    </p>
                     <p class="result-info px-2 py-1 col-12">
-                        <strong>Denominación oficial:</strong> <br>{{item.TPONRMA?.map(o => o.DESCP).join(', ')}}
+                        <strong>Tipo de Norma:</strong> <br>{{item.TPONRMA?.length > 0 ? item.TPONRMA?.map(o =>
+                            o.DESCP).join(', ') : '-'}}
                     </p>
 
                 </div>
@@ -653,7 +668,7 @@ export default {
                 BLOG: filtro.BLOG ? 'emblematic' : null,
             })
                 .then((response) => {
-                    if (!response){
+                    if (!response) {
                         this.resultados = [];
                         this.table.totalRows = 0;
                         return;
@@ -680,7 +695,7 @@ export default {
 
                     this.table.totalRows = response?.[0]?.TOTALROWS || 0;
                 })
-                .catch((error) => {
+                .catch(() => {
                     toast.error("Ocurrió un error al buscar", { toastId: "error" });
                 })
                 .finally(() => this.isLoading = false);
@@ -702,6 +717,10 @@ export default {
                 this.filtrosNiveles(filters);
             } catch (error) {
                 toast.error("Ocurrió un error al cargar los filtros", { toastId: "error" });
+                this.isLoading = false;
+
+            } finally {
+                this.isLoading = false;
             }
         },
 
@@ -800,7 +819,7 @@ export default {
     mounted() {
         this.isLoading = true;
         this.filtersAll();
-        this.handleSearch(1);
+        // this.handleSearch(1);
     }
 };
 </script>
@@ -963,7 +982,7 @@ input:checked+.slider::before {
 }
 
 .landing-busqueda {
-    background-image: url("../../assets/img/backgrounds/bg-busqueda.png");
+    /* background-image: url("../../assets/img/backgrounds/bg-busqueda.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -973,7 +992,20 @@ input:checked+.slider::before {
     justify-content: center;
     align-items: center;
     position: relative;
+    z-index: 1; */
+
+    background-image: url("../../assets/img/backgrounds/bg-busqueda.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    position: relative;
     z-index: 1;
+    min-height: 100vh;
 }
 
 
@@ -997,7 +1029,7 @@ input:checked+.slider::before {
 .search-container {
     display: flex;
     align-items: center;
-    width: 80%;
+    width: 90%;
     border-radius: 8px;
     position: relative;
     overflow: visible !important;
@@ -1067,7 +1099,7 @@ input:checked+.slider::before {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    width: 80%;
+    width: 90%;
     margin: auto;
 }
 
@@ -1106,11 +1138,11 @@ input:checked+.slider::before {
 
 /* Síntesis */
 #filterbar {
-    max-width: 500px;
+    max-width: 600px;
 }
 
 /* // en mobil */
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     #filterbar {
         width: 100%;
     }
@@ -1153,7 +1185,7 @@ input:checked+.slider::before {
 }
 
 /* Responsivo */
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     .search-container {
         flex-direction: column;
         align-items: stretch;
@@ -1166,14 +1198,18 @@ input:checked+.slider::before {
     }
 
     .btn-search {
-        width: 80%;
+        width: 90%;
         margin: 10px auto;
         padding: 12px 0;
         font-size: 16px;
     }
 
+
     .search-results {
         max-width: 100%;
+        width: 90% !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     .result-item {
@@ -1230,7 +1266,7 @@ input:checked+.slider::before {
 
 
 /* //celular */
-@media (min-width: 320px) and (max-width: 500px) {
+@media (min-width: 320px) and (max-width: 600px) {
     .text-initial {
         margin-top: 0rem;
     }
@@ -1800,7 +1836,7 @@ input[type=range]::-webkit-slider-thumb {
     }
 
 
-    #filterbar-container .contenedor-tab img{
+    #filterbar-container .contenedor-tab img {
         width: 20px;
         height: 20px;
     }

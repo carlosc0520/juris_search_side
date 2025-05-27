@@ -1,11 +1,11 @@
 <template>
-    <div>
-        <div :class="isCollapsed ? 'hidden' : 'block'">
+  <div class="navbarDesign" :class="{ collapsed: isCollapsed }">
+    <div class="sidebar" :class="isCollapsed ? 'w-content-0' : 'w-content-10'">
             <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" />
         </div>
-        <div class="relative bg-blueGray-100 transition-all duration-300">
+    <div class="main-content transition-all duration-300" :class="isCollapsed ? 'w-content-100' : 'w-content-90'">
             <admin-navbar :RTAFTO="RTAFTO" :toggleSidebar="toggleSidebar" />
-            <div class="mx-auto w-full bg-view-user">
+            <div class="content-wrapper">
                 <router-view :RTAFTO="RTAFTO" :UPDATERTAFTO="UPDATERTAFTO" />
             </div>
         </div>
@@ -17,7 +17,7 @@ import AdminNavbar from "@/components/Navbars/AdminNavbar.vue";
 import Sidebar from "@/components/Sidebar/Sidebar.vue";
 
 // * icons
-import homeIcon from '@/assets/img/icons/home.svg';
+// import homeIcon from '@/assets/img/icons/home.svg';
 import busquedaIcon from '@/assets/img/icons/busqueda.svg';
 import perfilIcon from '@/assets/img/icons/perfil.svg';
 import estrellaIcon from '@/assets/img/icons/estrella.svg';
@@ -37,7 +37,7 @@ export default {
                 { name: 'Busqueda', route: '/usuario/busqueda', icon: busquedaIcon },
                 { name: 'Perfil', route: '/usuario/settings', icon: perfilIcon },
                 { name: 'Subscripción', route: '/usuario/subscripcion', icon: subscripcionIcon },
-                { name: 'Publicación', route: '/usuario/dashboard', icon: homeIcon },
+                // { name: 'Publicación', route: '/usuario/dashboard', icon: homeIcon },
                 { name: 'Favoritos', route: '/usuario/favoritos', icon: estrellaIcon },
                 // { name: "Reportes", route: "/usuario/reportes", icon: reportIcon },
             ],

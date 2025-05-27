@@ -346,15 +346,15 @@ const routes = [
     component: Cookies,
   },
   {
-    path: "/noticias",
-    component: () => import("@/views/Noticias.vue"),
+    path: "/publicaciones",
+    component: () => import("@/views/Publicaciones.vue"),
   },
 
-  {
-    path: "/noticias/:title/newsletter/:id",
-    name: "noticiaNewsletter",
-    component: () => import("@/views/NoticiaIndividual.vue"),
-  },
+    {
+      path: "/noticias/:title/newsletter/:id",
+      name: "noticiaNewsletter",
+      component: () => import("@/views/NoticiaIndividual.vue"),
+    },
   
   { path: "/:pathMatch(.*)*", redirect: "/" },
 ];

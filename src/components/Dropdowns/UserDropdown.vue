@@ -1,7 +1,12 @@
 <template>
   <div class="user-menu">
-    <a href="javascript:void(0);" class="icon-btn" @click="toggleSidebarNotificaciones">
+    <a href="javascript:void(0);" class="icons-notificaciones icon-btn" @click="toggleSidebarNotificaciones">
       <img src="@/assets/img/icons/campany.svg" alt="Notificaciones" />
+      <p
+      v-if="totalNotificaciones > 0"
+      >
+        {{ totalNotificaciones }}
+    </p>
     </a>
 
     <div class="overlay-degrad" v-if="sidebarNotificacionesShow" @click="closeSidebarNotificaciones">
@@ -33,8 +38,14 @@
                   @click="updateContacto(notificacion)" />
                 <img src="@/assets/img/icons/delete.svg" alt="delete" class="cursor-pointer w-4 h-4"
                   @click="deleteContacto(notificacion)" />
-
               </div>
+            </div>
+          </div>
+          <div style="width: fit-content" v-if="notificacion.TIPO == 2"
+            class="flex-shrink-0 mr-3 w-10 bg-blue-100 rounded-full flex flex-col">
+            <p class="text-sm font-semibold text-gray-700 notificacion-text">{{ notificacion.DESCP }}</p>
+            <div class="flex justify-between items-end mt-2">
+              <p class="m-0 flex align-items-end text-xs text-gray-500 notificacion-text">{{ notificacion.FECHA }}</p>
             </div>
           </div>
         </div>
@@ -85,6 +96,7 @@ export default {
       dropdownPopoverShowNotificaciones: false,
       sidebarNotificacionesShow: false,
       team2,
+      totalNotificaciones: 0,
       notificaciones: [],
       USUARIO: {
         NOMBRES: "",
@@ -134,6 +146,7 @@ export default {
                 RN: index + 1,
               };
             });
+            this.totalNotificaciones = this.notificaciones.length;
           } else {
             this.notificaciones = [];
           }
@@ -149,6 +162,7 @@ export default {
           const toastMessage = response.STATUS ? "Notificación eliminada." : response.MESSAGE;
           if (response.STATUS) {
             this.notificaciones = this.notificaciones.filter((notificacion) => notificacion.RN !== item.RN);
+            this.totalNotificaciones = this.notificaciones.length;
             toast.success(toastMessage);
           } else {
             toast.error(toastMessage);
@@ -177,6 +191,8 @@ export default {
               }
               return notificacion;
             });
+
+            this.totalNotificaciones = this.notificaciones.filter((notificacion) => notificacion.ESTADO === 0).length;
           } else {
             toast.error(toastMessage);
           }
@@ -332,5 +348,20 @@ export default {
   .w-sidebar {
     width: 100%;
   }
+}
+
+.icons-notificaciones{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.icons-notificaciones p {
+  background-color: #ff6060;
+  color: white !important;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  font-size: 12px;
+  margin: 0;
 }
 </style>

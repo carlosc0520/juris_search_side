@@ -16,7 +16,6 @@
                 </a>
             </div>
 
-
             <div class="row">
                 <div class="col-md-9 col-12 mb-3 input-search">
                     <img :src="searchIcon" alt="search" class="icon-search" />
@@ -42,6 +41,7 @@
                     <button class="bton btn-create" @click="modalAgregarUsuario.show = true">Crear</button>
                 </div>
             </div>
+
             <div class="w-full mb-12">
                 <card-table :active="active" title="Usuarios" :search="search" :fields="fields" :items="data"
                     :grid="grid" :actions="actions" />

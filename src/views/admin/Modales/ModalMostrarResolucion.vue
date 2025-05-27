@@ -16,10 +16,12 @@
                     <b-col v-if="datos.TYPE == 'jurisprudences'" cols="12" lg="4">
                         <b-list-group>
                             <b-list-group-item><strong>Delito:</strong>
-                                <span>{{datos.DELITO?.map(d => d.DESCP).join(', ')}}</span>
+                                <span>{{datos.DELITO?.length > 0 ? datos.DELITO?.map(d => d.DESCP).join(', ') :
+                                    '-'}}</span>
                             </b-list-group-item>
                             <b-list-group-item><strong>Órgano Jurisdiccional:</strong>
-                                <span>{{datos.OJURISDICCIONAL?.map(o => o.DESCP).join(', ')}}</span>
+                                <span>{{datos.OJURISDICCIONAL?.length > 0 ? datos.OJURISDICCIONAL?.map(o =>
+                                    o.DESCP).join(', ') : '-'}}</span>
                             </b-list-group-item>
                             <b-list-group-item><strong>Tema:</strong>
                                 <p v-html="datos.TEMA"></p>
@@ -70,7 +72,15 @@
                                 <span>{{ datos.NMRCN }}</span>
                             </b-list-group-item>
                             <b-list-group-item><strong>Denominación oficial:</strong>
-                                <span>{{datos.TPONRMA?.map(o => o.DESCP).join(', ')}}</span>
+                                <span>{{ datos.RTITLE }}</span>
+                            </b-list-group-item>
+                            <b-list-group-item><strong>Tipo de Norma:</strong>
+                                <span>{{datos.TPONRMA?.length > 0 ? datos.TPONRMA?.map(o => o.DESCP).join(', ') :
+                                    '-'}}</span>
+                            </b-list-group-item>
+                            <b-list-group-item><strong>Órgano emisor:</strong>
+                                <span>{{datos.OEMISOR?.length > 0 ? datos.OEMISOR?.map(o => o.DESCP).join(', ') :
+                                    '-'}}</span>
                             </b-list-group-item>
                             <b-list-group-item><strong>Fecha:</strong>
                                 <span>{{ formateReverse(datos.FRESOLUTION) }}</span>
@@ -109,13 +119,16 @@
 
                     <!-- Segunda columna -->
                     <b-col cols="12" lg="8">
-                        <!-- Efecto de carga -->
-                        <div v-if="!pdfUrl" class="pdf-loader">
-                            <div class="skeleton"></div>
-                        </div>
+                        <div class="col-pdf">
 
-                        <!-- PDF -->
-                        <iframe v-else :src="pdfUrl + '#zoom=100&view=fitH'" class="pdf-viewer"></iframe>
+                            <!-- Efecto de carga -->
+                            <div v-if="!pdfUrl" class="pdf-loader">
+                                <div class="skeleton"></div>
+                            </div>
+
+                            <!-- PDF -->
+                            <iframe v-else :src="pdfUrl + '#zoom=100&view=fitH'" class="pdf-viewer"></iframe>
+                        </div>
                     </b-col>
 
                 </b-row>
@@ -128,13 +141,15 @@
                     <b-col cols="12" lg="4">
                         <b-list-group>
                             <b-list-group-item><strong>Tipo de Recurso:</strong>
-                                <span>{{datos.RECURSO?.map(d => d.DESCP).join(', ')}}</span>
+                                <span>{{datos.RECURSO?.length > 0 ? datos.RECURSO?.map(d => d.DESCP).join(', ') :
+                                    '-'}}</span>
                             </b-list-group-item>
                             <b-list-group-item><strong>Delitos:</strong>
-                                <span>{{datos.DELITO?.map(o => o.DESCP).join(', ')}}</span>
+                                <span>{{datos.DELITO?.length > 0 ? datos.DELITO?.map(d => d.DESCP).join(', ') :
+                                    '-'}}</span>
                             </b-list-group-item>
                             <b-list-group-item><strong>Vinculante:</strong>
-                                <span>{{ datos.INDOCADOR ? 'Sí' : 'No' }}</span>
+                                <span>{{ datos.INDICADOR ? 'Sí' : 'No' }}</span>
                             </b-list-group-item>
                             <b-list-group-item><strong>Tema:</strong>
                                 <p v-html="datos.TEMA"></p>
@@ -161,8 +176,10 @@
 
                     <!-- Segunda columna -->
                     <b-col cols="12" lg="8">
-                        <iframe :src="pdfUrlResumen + '#zoom=100&view=fitH'"
-                            style="border: 1px solid black; width: 100%; height: 100vh"></iframe>
+                        <div class="col-pdf">
+                            <iframe :src="pdfUrlResumen + '#zoom=100&view=fitH'"
+                                style="border: 1px solid black; width: 100%; height: 100vh"></iframe>
+                        </div>
                     </b-col>
                 </b-row>
             </b-tab>
@@ -421,6 +438,10 @@ export default {
     .tab-content .tab-pane .row {
         display: flex;
         flex-direction: row;
+    }
+
+    .col-pdf {
+        margin-top: 20px;
     }
 }
 </style>

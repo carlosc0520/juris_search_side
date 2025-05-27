@@ -37,6 +37,7 @@ import "vue-datepicker-next/locale/es";
 
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
+import Tooltip from 'primevue/tooltip';
 
 import routes from "./router/RouterIndex";
 
@@ -61,6 +62,7 @@ app.use(PrimeVue, {
 });
 app.use(VueTelInput);
 app.use(VueSweetalert2);
+app.directive('tooltip', Tooltip)
 
 app.use(Vue3Toastify, {
   autoClose: 3000, // Duración en milisegundos

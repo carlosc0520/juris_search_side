@@ -131,6 +131,13 @@ class MantenimientoProxy {
         return data;
     }
 
+    async listPlanUser(model) {
+        const { data } = await axios.get(`/admin/planes/listPlanUser`, {
+            params: model
+        });
+        return data;
+    }
+
     async listPlanesAbout(model) {
         const { data } = await axios.get(`/settings/help/listPlanes`, {
             params: model

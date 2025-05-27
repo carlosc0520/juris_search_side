@@ -1,15 +1,16 @@
 <template>
-  <div>
-    <div :class="isCollapsed ? 'hidden' : 'block'">
+  <div class="navbarDesign" :class="{ collapsed: isCollapsed }">
+    <!-- Sidebar -->
+    <div class="sidebar" :class="isCollapsed ? 'w-content-0' : 'w-content-10'">
       <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" />
     </div>
 
-    <div class="relative bg-blueGray-100 transition-all duration-300">
+    <!-- Contenido principal -->
+    <div class="main-content transition-all duration-300" :class="isCollapsed ? 'w-content-100' : 'w-content-90'">
       <admin-navbar :RTAFTO="RTAFTO" :toggleSidebar="toggleSidebar" />
-      <div class="mx-auto w-full bg-view-user">
+      <div class="content-wrapper">
         <router-view :RTAFTO="RTAFTO" :UPDATERTAFTO="UPDATERTAFTO" />
       </div>
-
     </div>
   </div>
 </template>

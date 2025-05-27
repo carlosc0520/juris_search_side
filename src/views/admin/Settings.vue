@@ -126,8 +126,8 @@
               <label class="block text-blueGray-600 text-xs font-bold mb-2">
                 Teléfono <span class="text-red-500">*</span>
               </label>
-              <input type="text" v-model="modelo.TELEFONO" :class="{ error: validation.hasError('modelo.TELEFONO') }"
-                class=" px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+              <input type="number" v-model="modelo.TELEFONO" :class="{ error: validation.hasError('modelo.TELEFONO') }"
+                class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" />
               <span class="message" v-if="validation.hasError('modelo.TELEFONO')">
                 {{ validation.firstError('modelo.TELEFONO') }}
@@ -193,21 +193,21 @@
             optionLabel="DESCP" class="search-input"
             placeholder="Puedes añadir amigos con su nombre de usuario de Juris Search">
             <template #option="slotProps">
-              <div class="flex justify-between items-center gap-4">
+              <div class="w-100 flex justify-between items-center gap-4">
                 <div class="d-flex align-items-center gap-2">
-                  <img :src="slotProps.option.RTAFTO" alt="imagen_usuario" class="avatarMiniun"
+                  <img :src="slotProps.option.RTAFTO || 'https://placehold.co/50x50'" alt="imagen_usuario" class="avatarMiniun"
                     @error="function (e) { e.target.src = 'https://placehold.co/50x50' }" />
 
-                  <p class="text-sm text-gray-700">
-                    {{ slotProps.option.DESCP }}
+                  <div class="text-sm text-gray-700">
+                    <p class="m-0">{{ slotProps.option.DESCP }}</p>
                     <span class="text-gray-500 text-xs">({{ slotProps.option.EMAIL.toLowerCase() }})</span>
-                  </p>
+                  </div>
                 </div>
 
                 <!-- // boton agregar o sino poner solo contacto Agregado -->
                 <div class="flex justify-end">
                   <button class="btn btn-transparent" type="button" @click.stop="createContact(slotProps.option)">
-                    Agregar Contacto
+                    Agregar
                   </button>
 
 
@@ -322,10 +322,15 @@ export default {
       return Validator.value(value).required('Campo requerido');
     },
     'modelo.EMAIL': function (value) {
-      return Validator.value(value).required('Campo requerido');
+      return Validator.value(value).required('Campo requerido')
+        .email('El correo electrónico no es válido')
+        .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'El correo electrónico no es válido');
     },
     'modelo.TELEFONO': function (value) {
-      return Validator.value(value).required('Campo requerido');
+      return Validator.value(value).required('Campo requerido') 
+        .regex(/^\d+$/, 'El teléfono solo puede contener números')
+        .minLength(9, 'El teléfono debe tener al menos 9 dígitos')
+        .maxLength(15, 'El teléfono no puede tener más de 15 dígitos');
     },
     'modelo.FNACIMIENTO': function (value) {
       return Validator.value(value).required('Campo requerido');
@@ -488,7 +493,6 @@ export default {
         CDESTDO: 'A'
       })
         .then((dataresponse) => {
-          console.log(dataresponse);
           this.contacto.datos = dataresponse.map((item, index) => {
             return {
               RN: index + 1,
@@ -647,6 +651,10 @@ export default {
     max-width: 90%;
     padding: 3.25rem 0px !important;
     max-width: 95% !important;
+  }
+
+  .search-input{
+    padding: 0px!important;
   }
 }
 

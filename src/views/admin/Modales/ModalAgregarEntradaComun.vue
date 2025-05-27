@@ -5,9 +5,9 @@
 
         <form id="formAgregarEntradaComun" @submit.prevent="submit">
             <div class="row">
-                <div class="col-md-4 col-12 mb-3" :class="{ error: validation.hasError('modelo.TITLE') }">
+                <div class="col-md-4 col-12 mb-3">
                     <label for="name" class="form-label">Título de entrada <span class="text-danger">*</span></label>
-                    <input type="text" v-model="modelo.TITLE" id="TITLE" class="form-control mayus" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.TITLE') }" v-model="modelo.TITLE" id="TITLE" class="form-control mayus" />
                     <span class="message" v-if="validation.hasError('modelo.TITLE')">
                         {{ validation.firstError('modelo.TITLE') }}
                     </span>
@@ -17,7 +17,7 @@
                     <input type="text" v-model="modelo.RTITLE" id="description" class="form-control" />
                 </div>
                 <!-- cHECBOX switch -->
-                <div class="col-md-4 col-12 mb-3">
+                <div class="col-md-4 col-12 mb-3 flex-checkbox">
                     <label for="ISBINDING" class="form-label pl-5">Vinculatoriedad
                     </label>
                     <b-form-checkbox switch v-model="modelo.ISBINDING" id="status" class="" size="lg"
@@ -27,9 +27,9 @@
                 <h5 class="text-app-primary">Identificación</h5>
                 <hr>
 
-                <div class="col-md-4 col-12 mb-3" :class="{ error: validation.hasError('modelo.FRESOLUTION') }">
+                <div class="col-md-4 col-12 mb-3">
                     <label for="BLOG3" class="form-label">Fecha de resolución <span class="text-danger">*</span></label>
-                    <date-picker v-model="modelo.FRESOLUTION" :value="modelo.FRESOLUTION" valueType="format"
+                    <date-picker  :class="{ error: validation.hasError('modelo.FRESOLUTION') }" v-model="modelo.FRESOLUTION" :value="modelo.FRESOLUTION" valueType="format"
                         :disabledDate="time => time.getTime() > Date.now()"
                         @change="(date) => modelo.FRESOLUTION = date"></date-picker>
                     <span class="message" v-if="validation.hasError('modelo.FRESOLUTION')">
@@ -40,10 +40,10 @@
                 <div class="col-md-8 col-12">
                 </div>
 
-                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.AMBIT') }">
+                <div class="col-md-6 col-12 mb-3">
                     <label for="name" class="form-label">Ámbito <span class="text-danger">*</span></label>
 
-                    <el-tree-select v-model="modelo.AMBIT" :data="selects.ambitos" multiple :render-after-expand="false"
+                    <el-tree-select :class="{ error: validation.hasError('modelo.AMBIT') }" v-model="modelo.AMBIT" :data="selects.ambitos" multiple :render-after-expand="false"
                         placeholder="Seleccione una opción" show-checkbox check-strictly check-on-click-node filterable
                         no-data-text="No hay opciones disponibles" clearable collapse-tags :max-collapse-tags="1" />
 
@@ -61,11 +61,11 @@
                         no-data-text="No hay opciones disponibles" popper-append-to-body class="custom-tree-select" />
                 </div>
 
-                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.RECURSO') }">
+                <div class="col-md-6 col-12 mb-3">
                     <label for="RECURSO" class="form-label">Recurso <span class="text-danger"> *</span>
                     </label>
 
-                    <el-tree-select v-model="modelo.RECURSO" :data="selects.recursos" multiple
+                    <el-tree-select  :class="{ error: validation.hasError('modelo.RECURSO') }" v-model="modelo.RECURSO" :data="selects.recursos" multiple
                         :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox check-strictly
                         check-on-click-node filterable no-data-text="No hay opciones disponibles" clearable
                         collapse-tags :max-collapse-tags="1" />
@@ -85,10 +85,10 @@
                 </div>
 
 
-                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.JURISDICCION') }">
+                <div class="col-md-6 col-12 mb-3">
                     <label for="JURISDICCION" class="form-label">Jurisdicción <span class="text-danger">*</span></label>
 
-                    <el-tree-select v-model="modelo.JURISDICCION" :data="selects.jurisdicion" multiple
+                    <el-tree-select :class="{ error: validation.hasError('modelo.JURISDICCION') }" v-model="modelo.JURISDICCION" :data="selects.jurisdicion" multiple
                         :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox check-strictly
                         check-on-click-node filterable no-data-text="No hay opciones disponibles" clearable
                         collapse-tags :max-collapse-tags="1" />
@@ -108,11 +108,11 @@
 
                 </div>
 
-                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.OJURISDICCIONAL') }">
+                <div class="col-md-6 col-12 mb-3">
                     <label for="OJURISDICCIONAL" class="form-label">Órgano jurisdiccional <span
                             class="text-danger">*</span></label>
 
-                    <el-tree-select v-model="modelo.OJURISDICCIONAL" :data="selects.jurisdiccionales" multiple
+                    <el-tree-select :class="{ error: validation.hasError('modelo.OJURISDICCIONAL') }" v-model="modelo.OJURISDICCIONAL" :data="selects.jurisdiccionales" multiple
                         :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox check-strictly
                         check-on-click-node filterable no-data-text="No hay opciones disponibles" clearable
                         collapse-tags :max-collapse-tags="1" />
@@ -122,10 +122,10 @@
                     </span>
                 </div>
 
-                <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.MAGISTRATES') }">
+                <div class="col-md-6 col-12 mb-3">
                     <label class="form-label" for="MAGISTRATES">Magistrados <span class="text-danger">*</span></label>
 
-                    <el-tree-select v-model="modelo.MAGISTRATES" :data="selects.magistrados" multiple
+                    <el-tree-select :class="{ error: validation.hasError('modelo.MAGISTRATES') }" v-model="modelo.MAGISTRATES" :data="selects.magistrados" multiple
                         :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox check-strictly
                         check-on-click-node filterable no-data-text="No hay opciones disponibles" clearable
                         collapse-tags :max-collapse-tags="1" />
@@ -162,10 +162,9 @@
                 <h5 class="text-app-primary">DOCUMENTOS</h5>
                 <hr>
 
-                <div class="col-md-8 col-12 mb-3 flex flex-col"
-                    :class="{ error: validation.hasError('modelo.ENTRIEFILE') }">
+                <div class="col-md-8 col-12 mb-3 flex flex-col">
                     <label for="file" class="forml-label">Documento Principal <span class="text-danger">*</span></label>
-                    <input class="custom-input" type="file" accept=".pdf" name="file_input" placeholder="Escribe aquí"
+                    <input class="custom-input" :class="{ error: validation.hasError('modelo.ENTRIEFILE') }" type="file" accept=".pdf" name="file_input" placeholder="Escribe aquí"
                         @change="modelo.ENTRIEFILE = $event.target.files[0]">
                     <span class="message" v-if="validation.hasError('modelo.ENTRIEFILE')">
                         {{ validation.firstError('modelo.ENTRIEFILE') }}
@@ -175,9 +174,9 @@
                 <h5 class="text-app-primary">CONTENIDO</h5>
                 <hr>
 
-                <div class="col-12 mb-3" :class="{ error: validation.hasError('modelo.ENTRIEFILERESUMEN') }">
+                <div class="col-12 mb-3">
                     <label for="KEYWORDS" class="form-label">Palabras clave <span class="text-danger">*</span></label>
-                    <b-form-tags separator="," v-model="modelo.KEYWORDS" tag-variant="primary" tag-pills tag-readonly
+                    <b-form-tags :class="{ error: validation.hasError('modelo.ENTRIEFILERESUMEN') }" separator="," v-model="modelo.KEYWORDS" tag-variant="primary" tag-pills tag-readonly
                         tag-class="bg-app-secondary-b text-app-primary-b" tag-size="sm"
                         placeholder="Agregar un voto concurrente" addButtonText="Agregar" removeButtonText="Eliminar"
                         removeOnDeleteKey />
@@ -186,35 +185,35 @@
                     </span>
                 </div>
 
-                <div class="col-12 mb-3" :class="{ error: validation.hasError('modelo.TEMA') }">
+                <div class="col-12 mb-3">
                     <label for="theme" class="form-label">Tema <span class="text-danger">*</span></label>
-                    <vue-editor v-model="modelo.TEMA" class="mb-0 pb-0"></vue-editor>
+                    <vue-editor :class="{ error: validation.hasError('modelo.TEMA') }" v-model="modelo.TEMA" class="mb-0 pb-0"></vue-editor>
                     <span class="message" v-if="validation.hasError('modelo.TEMA')">
                         {{ validation.firstError('modelo.TEMA') }}
                     </span>
                 </div>
 
-                <div class="col-12 mb-3" :class="{ error: validation.hasError('modelo.SUBTEMA') }">
+                <div class="col-12 mb-3">
                     <label for="theme" class="form-label">Subtema <span class="text-danger">*</span></label>
-                    <vue-editor v-model="modelo.SUBTEMA" class="mb-0 pb-0"></vue-editor>
+                    <vue-editor :class="{ error: validation.hasError('modelo.SUBTEMA') }" v-model="modelo.SUBTEMA" class="mb-0 pb-0"></vue-editor>
                     <span class="message" v-if="validation.hasError('modelo.SUBTEMA')">
                         {{ validation.firstError('modelo.SUBTEMA') }}
                     </span>
                 </div>
 
-                <div class="col-12 mb-3" :class="{ error: validation.hasError('modelo.SHORTSUMMARY') }">
+                <div class="col-12 mb-3">
                     <label for="theme" class="form-label">Síntesis de los fundamentos jurídicos relevantes <span
                             class="text-danger">*</span></label>
-                    <vue-editor v-model="modelo.SHORTSUMMARY" class="mb-0 pb-0"></vue-editor>
+                    <vue-editor :class="{ error: validation.hasError('modelo.SHORTSUMMARY') }" v-model="modelo.SHORTSUMMARY" class="mb-0 pb-0"></vue-editor>
                     <span class="message" v-if="validation.hasError('modelo.SHORTSUMMARY')">
                         {{ validation.firstError('modelo.SHORTSUMMARY') }}
                     </span>
                 </div>
 
-                <div class="col-12 mb-3" :class="{ error: validation.hasError('modelo.RESUMEN') }">
+                <div class="col-12 mb-3">
                     <label for="theme" class="form-label">Fundamentos jurídicos relevantes <span
                             class="text-danger">*</span></label>
-                    <vue-editor v-model="modelo.RESUMEN" class="mb-0 pb-0"></vue-editor>
+                    <vue-editor :class="{ error: validation.hasError('modelo.RESUMEN') }" v-model="modelo.RESUMEN" class="mb-0 pb-0"></vue-editor>
                     <span class="message" v-if="validation.hasError('modelo.RESUMEN')">
                         {{ validation.firstError('modelo.RESUMEN') }}
                     </span>

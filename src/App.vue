@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <router-view />
-    <div class="floating-whatsapp" @click="openWhatsApp">
+    <!-- @click="openWhatsApp" -->
+    <div class="floating-whatsapp" 
+    >
       <i class="fab fa-whatsapp"></i>
     </div>
   </div>
@@ -599,6 +601,7 @@ form {
   position: relative;
   z-index: 1;
   min-height: 100vh;
+  height: inherit;
   /* <-- asegura que ocupa al menos el alto de la pantalla */
 }
 
@@ -720,6 +723,10 @@ form {
     gap: 0.2rem;
   }
 
+  .class-actions {
+    --bs-gutter-x: 0rem !important
+  }
+
   .btn-actions-view {
     flex-direction: column;
     align-items: flex-start;
@@ -763,5 +770,103 @@ form {
 
 .crear-directorio-swal .swal2-html-container input {
   background: #ffffff !important;
+}
+
+.display-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  gap: 1rem;
+}
+
+.flex-checkbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  gap: 0.5rem;
+}
+
+.flex-checkbox label {
+  padding: 0rem !important;
+  margin: 0rem !important;
+}
+
+@media (min-width: 768px) {
+  .gutters {
+    --bs-gutter-x: 1.5rem !important;
+    --bs-gutter-y: 1rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .flex-checkbox {
+    flex-direction: row;
+    gap: 0.5rem;
+    justify-content: start;
+    align-items: center;
+  }
+
+  .display-buttons {
+    flex-direction: column;
+  }
+
+  .display-buttons button {
+    width: 100%;
+  }
+
+  .display-buttons .dropdown {
+    width: 100%;
+  }
+}
+
+.navbarDesign {
+  display: flex;
+  transition: all 0.3s ease;
+}
+
+/* Sidebar visible */
+.navbarDesign .sidebar {
+  transition: all 0.3s ease;
+  overflow: hidden;
+  background-color: #1e293b;
+  /* Ejemplo */
+}
+
+
+
+/* Contenido principal */
+.navbarDesign .main-content {
+  flex: 1;
+  background-color: #f1f5f9;
+  /* Ejemplo */
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  flex: 1;
+  height: 100%;
+}
+
+.w-content-0 {
+  display: none;
+}
+
+.w-content-10 {
+  display: contents;
+  width: 12%;
+}
+
+.w-content-90 {
+  display: contents;
+  width: 88%;
+}
+
+.w-content-100 {
+  display: contents;
+  width: 100%;
 }
 </style>

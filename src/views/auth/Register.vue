@@ -3,7 +3,6 @@
     <div class="flex justify-between items-center mb-4 px-5" style="width: 100%;">
       <img src="@/assets/img/logos/logo-full.png" @click="$router.push('/')" alt="Logo" class="h-10 cursor-pointer" />
       <div class="text-sm">
-        <span class="text-gray-600 no-tener-cuenta">¿No tienes una cuenta?</span>
         <button @click.prevent="$router.push('/auth/login')" class="btn-registrate ml-2 text-blue-500 hover:underline">
           Iniciar sesión
         </button>
@@ -15,12 +14,12 @@
       <div class="social-buttons mt-4">
         <button class="social-btn">
           <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" class="icon">
-          Ingresar con Google
+          Registrarse con Google
         </button>
 
         <button class="social-btn">
           <img src="https://www.svgrepo.com/show/448234/linkedin.svg" alt="LinkedIn Logo" class="icon">
-          Ingresar con LinkedIn
+          Registrarse con LinkedIn
         </button>
       </div>
 

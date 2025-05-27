@@ -25,7 +25,7 @@
                 </a>
             </div>
 
-            <div class="row">
+            <div class="row g-0 gutters">
                 <h7 class="mb-2">{{
                     active == 0 ? '' :
                         active == 1 ? '' :
@@ -36,7 +36,7 @@
                                             active == 6 ? `${this.title.ID2} > ${this.title.ID3} > ${this.title.ID4} > ${this.title.ID5} >
                     ${this.title.ID6}` : ''
                 }}</h7>
-                <div class="row">
+                <div class="row g-0 gutters">
                     <div class="col-12 mb-3 input-search" :class="active == 0 ? 'col-md-9' : 'col-md-6'">
                         <img :src="searchIcon" alt="search" class="icon-search" />
 
@@ -61,7 +61,7 @@
                     </div>
 
                     <div class="col-md-12 col-12 mb-3">
-                        <div class="flex justify-end gap-4">
+                        <div class="display-buttons">
                             <button class="bton btn-search" @click="() => {
                                 if (active == 0) searchMagistrados(grid.currentPage, grid.perPage);
                                 else searchFiltros(grid.currentPage, grid.perPage,

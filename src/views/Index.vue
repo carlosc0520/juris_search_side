@@ -1,10 +1,24 @@
 <template>
   <div>
     <index-navbar />
+    <div class="m-auto container container-text-first z-2 py-40 pb-89 opcion-1">
+      <div class="row">
+        <div class="col">
+          <h1 style="font-size: 2rem;">Optimiza tu estrategia jurídica con <span class="text-duo font-bold">
+              jurisprudencia actual</span>
+            y<span class="text-duo font-bold">
+              seleccionada</span></h1>
+          <span>Consulta jurisprudencia penal en esta herramienta online</span>
+        </div>
+        <div class="col">
+        </div>
+      </div>
+    </div>
+
     <div :style="{ backgroundImage: `url(${portada})` }"
       class="relative container-mobile d-flex bg-contain bg-no-repeat lg:bg-cover lg:bg-center">
       <div class="degradado"></div>
-      <div class="m-auto container container-text-first z-2 py-40 pb-89">
+      <div class="m-auto container container-text-first z-2 py-40 pb-89 opcion-2">
         <div class="row">
           <div class="col">
             <h1 style="font-size: 2rem;">Optimiza tu estrategia jurídica con <span class="text-duo font-bold">
@@ -12,12 +26,6 @@
               y<span class="text-duo font-bold">
                 seleccionada</span></h1>
             <span>Consulta jurisprudencia penal en esta herramienta online</span>
-            <!-- <div class="pt-5">
-              <button onclick="window.location='#mi-seccion'"
-                class="bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150">
-                Adquirir plan
-              </button>
-            </div> -->
           </div>
           <div class="col">
           </div>
@@ -46,8 +54,7 @@
         <h2 class="text-center">Conoce <span class="text-blue-500">nuestro próposito</span></h2>
       </div>
       <div class="pt-5 mx-auto container text-center">
-        <button
-          @click="selectedSection = 'quienes-somos'"
+        <button @click="selectedSection = 'quienes-somos'"
           :class="selectedSection === 'quienes-somos' ? 'button-duo shadow rounded-full px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150' : 'btn'"
           class="ms-4 font-bold px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150 border-0">
           <span :class="selectedSection === 'quienes-somos' ? 'text-duo' : ''">¿Quiénes somos?</span>
@@ -110,7 +117,7 @@
           <Carousel :breakpoints="carouselConfig.breakpoints" :wrap-around="carouselConfig.wrapAround" :autoplay="false"
             :settings="{ navigationEnabled: true }">
             <Slide class="p-2 mb-5" v-for="valor in valores" :key="valor.id">
-              <div class="card border-0 p-3 mr-2" style="height: 100% !important;">
+              <div class="card border-0 p-3 mr-2">
                 <img :src="valor?.image" width="30" />
                 <div>
                   <h4 class="text-sm text-primary">{{ valor?.name }}</h4>
@@ -149,9 +156,15 @@
             <div class="slide-content">
               <img :src="slide.image" class="slide-image" />
               <div class="overlay"></div>
-              <p class="slide-text">{{ slide.text }}</p>
+
+              <div class="text-container">
+                <p class="slide-text">{{ slide.text }}</p>
+                <p class="slide-description">{{ slide.description }}</p>
+
+              </div>
             </div>
           </Slide>
+
 
           <template #addons>
             <CarouselNavigation>
@@ -171,7 +184,7 @@
       </div>
     </section>
 
-    <section class="py-4 pt-3" id="mi-seccion">
+    <section class="py-4 pt-3" id="mi-seccion-planes">
       <div id="pricing" class="py-6 px-6 mb-0 lg:px-20 my-2 md:my-6">
         <div class="text-center mb-6">
           <h2>Nuestros <span class="text-primary">planes</span></h2>
@@ -321,11 +334,13 @@
           </div>
           <div class="col-12 col-md-6 bg-white py-0 my-0">
             <Question :resumeSection="true" />
-            <router-link to="/questions"
-              class="mt-3 d-inline-flex border border-primary rounded-full px-4 py-3 ms-3 ms-md-0">
-              Ver más preguntas frecuentes
-              <img :src="nextIcon" alt="next-icon" class="ms-2" />
-            </router-link>
+            <div class="link-questions">
+              <router-link to="/questions"
+                class="mt-3 d-inline-flex border border-primary rounded-full px-4 py-3 ms-3 ms-md-0">
+                Ver más preguntas frecuentes
+                <img :src="nextIcon" alt="next-icon" class="ms-2" />
+              </router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -714,6 +729,15 @@ export default {
   },
 
   mounted() {
+    // validar si en url viene /#xxxxxxxxxxxx
+    const sectionId = window.location.hash;
+    if (sectionId) {
+      const section = document.querySelector(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
     this.getParams();
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -773,8 +797,8 @@ export default {
     display: block !important;
   }
 
-  .ofrecemos-lo{
-    margin-top: 20px 0px 10px 0px!important;
+  .ofrecemos-lo {
+    margin-top: 20px 0px 10px 0px !important;
   }
 }
 
@@ -978,8 +1002,15 @@ export default {
   bottom: 20px;
 }
 
+.slide-content .slide-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 .slide-content:hover .slide-text {
-  transform: translateY(-10px);
+  transform: translateY(-80px);
 }
 
 .slide-content:hover .slide-description {
@@ -1015,5 +1046,56 @@ export default {
 .bg-comments {
   background-size: cover;
   background-position: center top;
+}
+
+
+.opcion-1 {
+  display: none;
+}
+
+.opcion-2 {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .opcion-1 {
+    display: block;
+  }
+
+  .opcion-2 {
+    display: none;
+  }
+
+  .container-mobile .degradado {
+    display: none;
+  }
+
+  .container-text-first {
+    position: absolute;
+  }
+
+  .container-mobile {
+    filter: opacity(0.3);
+  }
+
+  .card-price {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .slide-content {
+    margin-right: 0 !important;
+  }
+
+  .link-questions {
+    display: flex;
+    justify-content: center;
+  }
+
+  .link-questions a {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    margin-top: 20px !important;
+  }
 }
 </style>

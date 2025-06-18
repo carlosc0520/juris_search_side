@@ -169,6 +169,11 @@ class AdminEntriesProxy {
     return response.data;
   }
 
+  async listTopSearch() {
+    const { data } = await axios.get(`/admin/entries/listTopSearch`);
+    return data;
+  }
+
 }
 
 export default new AdminEntriesProxy();

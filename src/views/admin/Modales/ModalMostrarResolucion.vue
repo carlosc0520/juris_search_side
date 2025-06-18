@@ -35,7 +35,7 @@
                             <b-list-group-item><strong>Fecha Resolución:</strong>
                                 <span>{{ formateReverse(datos.FRESOLUTION) }}</span>
                             </b-list-group-item>
-                            <b-list-group-item v-if="datos.IDFAV == null">
+                            <b-list-group-item v-if="datos.IDFAV == null && ['2', '3', '4'].includes(role?.IDPLN)">
                                 <div class="d-flex align-items-center mt-3">
                                     <button @click="addFavorite(datos)" v-if="isFav"
                                         class="favorito-btn d-flex align-items-center gap-2">
@@ -45,7 +45,7 @@
                                     </button>
                                 </div>
                             </b-list-group-item>
-                            <b-list-group-item v-else>
+                            <b-list-group-item v-if="datos.IDFAV != null && ['2', '3', '4'].includes(role?.IDPLN)">
                                 <div class="d-flex align-items-center mt-3" v-if="isFav">
                                     <button @click="deleteFavorite(datos)"
                                         class="favorito-btn d-flex align-items-center gap-2">
@@ -57,7 +57,7 @@
                             </b-list-group-item>
                         </b-list-group>
 
-                        <div style="padding: 0.5rem 1rem;">
+                        <div style="padding: 0.5rem 1rem;" v-if="['2', '3', '4'].includes(role?.IDPLN)">
                             <button class="mt-3 button-download" @click="descargarResolucion(1)">
                                 Descargar Resolución <img src="@/assets/img/icons/download.svg" alt="Descargar"
                                     class="descargar-icon">
@@ -82,10 +82,13 @@
                                 <span>{{datos.OEMISOR?.length > 0 ? datos.OEMISOR?.map(o => o.DESCP).join(', ') :
                                     '-'}}</span>
                             </b-list-group-item>
-                            <b-list-group-item><strong>Fecha:</strong>
+                            <b-list-group-item><strong>Fecha de publicación:</strong>
                                 <span>{{ formateReverse(datos.FRESOLUTION) }}</span>
                             </b-list-group-item>
-                            <b-list-group-item v-if="datos.IDFAV == null">
+                            <b-list-group-item><strong>Estado:</strong>
+                                <span>{{ datos.SITUACION }}</span>
+                            </b-list-group-item>
+                            <b-list-group-item v-if="datos.IDFAV == null && ['2', '3', '4'].includes(role?.IDPLN)">
                                 <div class="d-flex align-items-center mt-3">
                                     <button @click="addFavorite(datos)"
                                         class="favorito-btn d-flex align-items-center gap-2">
@@ -95,7 +98,7 @@
                                     </button>
                                 </div>
                             </b-list-group-item>
-                            <b-list-group-item v-else>
+                            <b-list-group-item v-if="datos.IDFAV != null && ['2', '3', '4'].includes(role?.IDPLN)">
                                 <div class="d-flex align-items-center mt-3">
                                     <button @click="deleteFavorite(datos)"
                                         class="favorito-btn d-flex align-items-center gap-2">
@@ -108,7 +111,7 @@
 
                         </b-list-group>
 
-                        <div style="padding: 0.5rem 1rem;">
+                        <div style="padding: 0.5rem 1rem;" v-if="['2', '3', '4'].includes(role?.IDPLN)">
                             <button class="mt-3 button-download" @click="descargarResolucion(1)">
                                 Descargar Resolución <img src="@/assets/img/icons/download.svg" alt="Descargar"
                                     class="descargar-icon">
@@ -127,7 +130,9 @@
                             </div>
 
                             <!-- PDF -->
-                            <iframe v-else :src="pdfUrl + '#zoom=100&view=fitH'" class="pdf-viewer"></iframe>
+                            <iframe v-else
+                                :src="pdfUrl + '#zoom=100&view=fitH' + (['2', '3', '4'].includes(role?.IDPLN) ? '' : '&controls=0&toolbar=0')"
+                                class="pdf-viewer"></iframe>
                         </div>
                     </b-col>
 
@@ -135,7 +140,9 @@
             </b-tab>
 
             <!-- TAB 2 -->
-            <b-tab v-if="datos.TYPE == 'jurisprudences'" event-key="tab2" title="Resumen Ejecutivo">
+            <b-tab v-if="datos.TYPE == 'jurisprudences'
+                && ['2', '3', '4'].includes(role?.IDPLN)
+            " event-key="tab2" title="Resumen Ejecutivo">
                 <b-row>
                     <!-- Primera columna -->
                     <b-col cols="12" lg="4">
@@ -165,7 +172,7 @@
                             </b-list-group-item>
                         </b-list-group>
 
-                        <div style="padding: 0.5rem 1rem;">
+                        <div style="padding: 0.5rem 1rem;" v-if="['2', '3', '4'].includes(role?.IDPLN)">
                             <button class="mt-3 button-download-2" @click="descargarResolucion(2)">
                                 Descargar Resumen <img src="@/assets/img/icons/download-dark.svg" alt="Descargar"
                                     class="descargar-icon">
@@ -177,7 +184,7 @@
                     <!-- Segunda columna -->
                     <b-col cols="12" lg="8">
                         <div class="col-pdf">
-                            <iframe :src="pdfUrlResumen + '#zoom=100&view=fitH'"
+                            <iframe :src="pdfUrlResumen + '#zoom=100&view=fitH' + (['2', '3', '4'].includes(role?.IDPLN) ? '' : '&controls=0&toolbar=0')"
                                 style="border: 1px solid black; width: 100%; height: 100vh"></iframe>
                         </div>
                     </b-col>
@@ -214,6 +221,10 @@ export default {
             type: Boolean,
             default: true
         },
+        role: {
+            type: Object,
+            default: () => { }
+        }
     },
     components: {
         BModal,

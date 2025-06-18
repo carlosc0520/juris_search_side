@@ -7,6 +7,16 @@ class UserProxy {
         return data;
     }
 
+    async validateTokenGoogle(token) {
+        const { data } = await axios.get('/admin/user/validate-token', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return data;
+    }
+
+
     async idRolByPath() {
         const { data } = await axios.get('/admin/user/get-role');
         return data;
@@ -29,6 +39,11 @@ class UserProxy {
 
     async deleteFavorite(IDFAV) {
         const { data } = await axios.post('/admin/user/delete-favorite', { IDFAV });
+        return data;
+    }
+
+    async paymentSubscription(model) {
+        const { data } = await axios.post('/admin/user/payment-subscription', model);
         return data;
     }
 
@@ -162,6 +177,11 @@ class UserProxy {
         const { data } = await axios.get('/admin/user/get-contacts-selecteds', {
             params: model,
         });
+        return data;
+    }
+
+    async updateView() {
+        const { data } = await axios.get('/admin/user/update-view');
         return data;
     }
 }

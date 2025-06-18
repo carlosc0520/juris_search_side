@@ -15,6 +15,12 @@ body {
     background: linear-gradient(90deg, rgba(231, 31, 179, 1) 0%, rgba(24, 100, 255, 1) 100%);
 }
 
+.bg-duo-gray{
+    /* // gris claro con gradiente */
+    background: linear-gradient(90deg, rgb(245, 245, 245) 0%, rgba(221, 221, 221, 0.2) 100%);
+    font-weight: bold;
+}
+
 .text-duo {
     background: linear-gradient(90deg, rgba(231, 31, 179, 1) 0%, rgba(24, 100, 255, 1) 100%);
     -webkit-background-clip: text;

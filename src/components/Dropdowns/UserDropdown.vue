@@ -124,6 +124,16 @@ export default {
       }
     },
     toggleSidebarNotificaciones() {
+      // ACTUALIZAR NOTIFICACIONES A 0 
+      if (this.totalNotificaciones > 0) {
+        UserProxy.updateView()
+          .then(() => {
+            this.totalNotificaciones = 0;
+          })
+          .catch((error) => {
+            console.error("Error al actualizar la vista de notificaciones:", error);
+          });
+      }
       this.sidebarNotificacionesShow = !this.sidebarNotificacionesShow;
     },
     closeSidebarNotificaciones() {
@@ -146,7 +156,7 @@ export default {
                 RN: index + 1,
               };
             });
-            this.totalNotificaciones = this.notificaciones.length;
+            this.totalNotificaciones = this.notificaciones.filter((notificacion) => notificacion.CESTDO =='A').length;
           } else {
             this.notificaciones = [];
           }

@@ -2,7 +2,7 @@
   <div class="navbarDesign" :class="{ collapsed: isCollapsed }">
     <!-- Sidebar -->
     <div class="sidebar" :class="isCollapsed ? 'w-content-0' : 'w-content-10'">
-      <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" />
+      <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" :role="role" />
     </div>
 
     <!-- Contenido principal -->
@@ -59,6 +59,12 @@ export default {
         // { name: "Reportes", route: "/admin/reportes", icon: "fas fa-chart-line" }
       ],
     };
+  },
+  props: {
+    role: {
+      type: Object,
+      default: () => {}
+    }
   },
   methods: {
     toggleSidebar() {

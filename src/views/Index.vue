@@ -193,51 +193,48 @@
           </span>
         </div>
 
-        <div class="row flex flex-wrap justify-center gap-4 flex-row-reverse pt-4">
+        <div class="planes-juris row flex flex-wrap mt-5 justify-center gap-4 flex-row-reverse pt-4">
           <div
             class="bg-white col-md-3 col-sm-12 p-0 md:p-4 card-price border hover:border-primary rounded-3xl overflow-hidden"
-            :class="{ 'scale-custom ms-3 border-primary': plan?.DESCRIPCION === 'PREMIUM' }"
-            style="width: auto;;height: auto;" v-for="plan in planes" :key="plan.id">
-            <div class="text-center p-3 text-primary" :class="{ 'bg-duo text-white': plan?.DESCRIPCION === 'PREMIUM' }">
-              Plan
-              {{ plan?.DESCRIPCION === 'PREMIUM' ? "recomendado" : "básico" }}</div>
+            :class="{ 'scale-custom ms-3 border-primary': plan?.PRINCIPAL }" style="width: auto;;height: auto;"
+            v-for="plan in planes" :key="plan.id">
+            <div class="text-center p-3 text-primary flex flex-row justify-center items-center gap-2" :class="{
+              'bg-duo text-white': plan?.PRINCIPAL,
+              'bg-duo-gray': !plan?.PRINCIPAL
+            }">
+              <div v-if="plan?.PRINCIPAL">
+                <img :src="corona" />
+              </div>
+              {{ capitalizeFirst(plan?.DESCRIPCION) }}
+            </div>
             <div
               class="p-4 flex flex-col border-surface-200 dark:border-surface-600 pricing-card cursor-pointer duration-300 transition-all"
               style="border-radius: 10px; max-width: 300px;">
-              <div class="flex justify-center items-center gap-2">
-                <div v-if="plan?.DESCRIPCION === 'PREMIUM'">
-                  <img :src="corona" />
-                </div>
-                <div class="text-surface-900 dark:text-surface-0 text-center font-bold text-capitalize">
-                  {{ capitalizeFirst(plan?.DESCRIPCION) }}
-                </div>
-              </div>
               <div class="mb-8 flex flex-col items-center gap-4">
                 <div class="flex items-center">
                   <span>S/</span>
-                  <span class="text-5xl font-bold mr-2 mt-3 text-surface-900 dark:text-surface-0">
-                    {{ plan?.PRECIO || "" }}
+                  <span 
+                  style="font-size: 2rem; font-weight: 700;"
+                  class="font-bold mr-2 mt-3 text-surface-900 dark:text-surface-0">
+                    {{ plan?.PRECIO || "" }} /
+                    <span style="font-size: 1.3rem; font-weight: 400; color: #6c757d;"
+                    >{{ plan.PERIODO || "" }}</span>
                   </span>
                 </div>
               </div>
               <button @click="goToPlan(plan)" class="btn btn-outline-primary py-3" style="border-radius: 30px"
-                :class="{ 'shadow-lg pink-button text-white border-0': plan?.DESCRIPCION === 'PREMIUM' }">
-                {{ plan?.DESCRIPCION === 'PREMIUM' ? "Adquirir Plan" : "Probar gratis" }}
+                :class="{ 'shadow-lg pink-button text-white border-0': plan?.PRINCIPAL }">
+                {{ plan?.VALOR != "1" ? "Adquirir Plan" : "Probar gratis" }}
               </button>
               <ul
                 class="my-8 mt-3 list-none p-0 flex text-surface-900 dark:text-surface-0 flex-col px-8 ul-list-details">
-                <li class="py-2" v-for="restriccion in plan.RESTRICIONES" :key="restriccion">
+                <li class="py-2" v-for="restriccion in plan.DETALLE.RESTRICIONES" :key="restriccion">
                   <i class="fa fa-check text-primary mr-2"></i>
                   <span class="leading-normal">
                     {{ restriccion }}
                   </span>
                 </li>
               </ul>
-              <hr class="bg-dark mx-auto" />
-              <div class="flex gap-2 mt-3 text-xs text-secondary">
-                <span v-if="plan?.CDESTDO?.length > 0">*</span>
-                <p>{{ plan?.CDESTDO }}</p>
-              </div>
             </div>
           </div>
         </div>
@@ -246,81 +243,6 @@
       <ModalCrearUsuario :show="modalCrearUsuario.show" :close="() => modalCrearUsuario.show = false"
         :update="() => { }" />
     </section>
-
-    <!-- <section class="container-contactanos relative block py-24 lg:pt-0 bg-blueGray-800">
-      <div class="container mx-auto px-4">
-        <div class="flex flex-wrap justify-center lg:-mt-64 -mt-32">
-          <div class="contactos-container w-full lg:w-6/12 px-4">
-            <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200">
-              <div class="flex-auto contacto p-5 lg:p-10">
-                <h4 class="text-2xl font-semibold text-center">
-                  CONTÁCTANOS
-                </h4>
-                <p class="leading-relaxed mt-1 mb-4 text-blueGray-500">
-                  ¿Tienes alguna duda o consulta? Escríbenos y te responderemos a la brevedad.
-                </p>
-                <div class="relative w-full mb-3 mt-8" :class="{ error: validation.hasError('modelo.NOMBRES') }">
-                  <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="full-name">
-                    Nombres y apellidos <span class="text-red-500">*</span>
-                  </label>
-                  <input type="text" v-model="modelo.NOMBRES"
-                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    placeholder="" />
-                  <span class="message" v-if="validation.hasError('modelo.NOMBRES')">
-                    {{ validation.firstError('modelo.NOMBRES') }}
-                  </span>
-                </div>
-
-                <div class="relative w-full mb-3" :class="{ error: validation.hasError('modelo.CORREO') }">
-                  <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="email">
-                    Correo electrónico <span class="text-red-500">*</span>
-                  </label>
-                  <input type="email" v-model="modelo.CORREO"
-                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    placeholder="" />
-                  <span class="message" v-if="validation.hasError('modelo.CORREO')">
-                    {{ validation.firstError('modelo.CORREO') }}
-                  </span>
-                </div>
-
-                <div class="relative w-full mb-3" :class="{ error: validation.hasError('modelo.ASUNTO') }">
-                  <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="email">
-                    Motivo <span class="text-red-500">*</span>
-                  </label>
-                  <input type="email" v-model="modelo.ASUNTO"
-                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    placeholder="" />
-                  <span class="message" v-if="validation.hasError('modelo.ASUNTO')">
-                    {{ validation.firstError('modelo.ASUNTO') }}
-                  </span>
-                </div>
-
-                <div class="relative w-full mb-3" :class="{ error: validation.hasError('modelo.MENSAJE') }">
-                  <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="message">
-                    Mensaje <span class="text-red-500">*</span>
-                  </label>
-                  <textarea rows="4" cols="80" v-model="modelo.MENSAJE"
-                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-                    placeholder="" />
-                  <span class="message" v-if="validation.hasError('modelo.MENSAJE')">
-                    {{ validation.firstError('modelo.MENSAJE') }}
-                  </span>
-                </div>
-                <div class="text-center mt-6">
-                  <button @click="submit"
-                    class="bg-app-primary text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button">
-                    Enviar Mensaje
-                  </button>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
-    </section> -->
 
     <section class="relative block" id="mi-nosotros">
       <div class="animation-b-t mt-0 container mx-auto px-4 lg:pt-24">
@@ -510,7 +432,7 @@ export default {
           id: 3,
           image: beneficioBg3,
           text: "Análisis crítico",
-          description: "comentarios de expertos acerca de las deciciones judiciales más relavantes, que proporcionan contexto y claridad."
+          description: "Comentarios de expertos acerca de las decisiones judiciales más relevantes, que proporcionan contexto y claridad."
         },
         {
           id: 4,
@@ -522,7 +444,7 @@ export default {
           id: 5,
           image: beneficioBg5,
           text: "Interfaz amigable",
-          description: "Diseño intuitivo y de fácil uso para la busqueda y consulta de documentos jurídicos"
+          description: "Diseño intuitivo y de fácil uso para la búsqueda y consulta de documentos jurídicos."
         },
       ],
       comments: [
@@ -566,6 +488,49 @@ export default {
         //   description: "Contribuimos el fortalecimiento del Estado de Derecho y a la construcción de una sociedad mas justa mediante el libre y fácil acceso a la información digital.",
         // },
       ],
+      planesSuggets: {
+        "1": {
+          RESTRICIONES: [
+            "Acceso a filtros de búsqueda especializada.",
+            "Visualiza resoluciones completas.",
+            "Descarga 1 resolución por día.",
+            "Prueba gratuita de 30 días con opción a upgrade.",
+          ],
+          descripcion: "Ideal para estudiantes, curiosos o quienes recién descubren el poder del análisis jurisprudencial.",
+        },
+        "2": {
+          RESTRICIONES: [
+            "Accede a todos los filtros avanzados.",
+            "Visualiza y descarga resoluciones sin límites.",
+            "Accede a resúmenes ejecutivos elaborados por expertos.",
+            "Marca resoluciones como favoritas.",
+            "Crea, organiza y comparte carpetas temáticas.",
+            "Accede a boletines quincenales y mensuales con lo más relevante en jurisprudencia penal y de compliance.",
+            "Recibe alertas de noticias relevantes y cambios normativos.",
+          ],
+          descripcion: "Para penalistas, asesores y compliance officers que viven de la estrategia jurídica.",
+        },
+        "3": {
+          RESTRICIONES: [
+            "Todo lo del Plan Premium.",
+            "Presenta tu correo institucional o constancia de matrícula.",
+            "Accede a recursos para prácticas preprofesionales, tesis y exámenes",
+            "Invitaciones a webinars y/o eventos.",
+          ],
+          descripcion: "Para estudiantes de Derecho con hambre de conocimiento.",
+        },
+        "4": {
+          RESTRICIONES: [
+            "Todo lo del Plan Premium.",
+            "Invitaciones a webinars y/o eventos.",
+            "Acceso anticipado a nuevas funciones.",
+            "Bonus: Informe Top 20 resoluciones del año, edición digital exclusiva.",
+            "Facturación mensual o anual. Puedes cancelar en cualquier momento.",
+            "Alertas de noticias.",
+          ],
+          descripcion: "Para quienes viven del litigio, la estrategia o el cumplimiento normativo.",
+        },
+      },
       leftArrow,
       rightArrow,
       corona,
@@ -646,42 +611,21 @@ export default {
         response = response.map((item) => {
           item.PRECIO = item.PRECIO.toFixed(2);
           item.TIEMPO = Number((item.TIEMPO / 30).toFixed(0));
-
-          if (item.VALOR === '1') {
-            item.RESTRICIONES = [
-              "Accede a filtros de búsqueda especializados.",
-              "Visualiza y descarga resoluciones.",
-              "30 días de prueba",
-            ]
-
-            item.CDESTDO = "El plan básico dura un mes."
-          }
-
-
-          if (item.VALOR === '2') {
-            item.RESTRICIONES = [
-              "Accede a filtros de búsqueda especializados.",
-              "Visualiza y descarga resoluciones.",
-              "Visualiza y descarga resúmenes ejecutivos.",
-              "Selecciona resoluciones favoritas.",
-              "Crea y comparte carpetas de resoluciones.",
-              "Accede a boletines quincenales y mensuales."
-            ]
-
-            item.CDESTDO = ""
-
-          }
+          item["DETALLE"] = this.planesSuggets?.[item.VALOR] || {
+            RESTRICIONES: [],
+            descripcion: ""
+          };
+          item["PERIODO"] = item?.TIEMPO + (item?.TIEMPO <= 1 ? ' mes' : ' meses');
           return item;
         });
 
+        const principalIndex = response.findIndex(item => item.PRINCIPAL);
+        if (principalIndex !== -1 && principalIndex < response.length - 1) {
+          const principalItem = response.splice(principalIndex, 1)[0];
+          response.splice(response.length - 1, 0, principalItem);
+        }
 
-        // ordenar por los que tiene  mas a menos restricciones
-        response = response.sort((a, b) => {
-          return a.RESTRICIONES.length - b.RESTRICIONES.length;
-        });
 
-        // inverso
-        response = response.reverse();
 
         this.planes = response;
       })
@@ -774,6 +718,10 @@ export default {
 
 <style scoped>
 @media (max-width: 768px) {
+
+  .planes-juris {
+    margin-top: 10px !important;
+  }
 
   /* // haacer responsive donde se agrega la iagen al incio */
   .container-mobile {

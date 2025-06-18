@@ -9,13 +9,11 @@
       <router-link to="/">
         <img v-tooltip.left="{
           value: 'Haz click para dirigirte a la página de inicio.',
-          pt: {
-            arrow: {
-              style: {
-                fontSize: '10px',
-              }
-            }
-          }
+          // TAMAÑO DE LETRA PEQUEÑO
+          style: {
+            fontSize: '0.75rem',
+            color: '#4A5568', // Gray 700
+          },
         }" src="@/assets/img/logos/logo-nav.png" alt="Logo" class="w-24 h-24" />
       </router-link>
     </div>
@@ -57,7 +55,7 @@ export default {
     return {
       logo,
       collapseShow: false,
-      menuItems: this.menu,
+      menuItems: []
     };
   },
   props: {
@@ -73,11 +71,23 @@ export default {
       type: Array,
       default: () => [],
     },
+    role: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   methods: {
     toggleCollapseShow() {
       this.collapseShow = !this.collapseShow;
     },
+  },
+  mounted() {
+    if (this.menu && this.menu.length > 0) {
+      this.menuItems = this.menu;
+      if (["1"].includes(this.role.IDPLN)) {
+        this.menuItems = this.menuItems.filter(item => item.name !== 'Favoritos');
+      }
+    }
   },
 };
 </script>
@@ -117,5 +127,4 @@ nav {
 .h-svh {
   height: 100vh !important;
 }
-
 </style>

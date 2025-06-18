@@ -9,7 +9,6 @@
 
 
         <div class="search-container mt-3">
-            <!-- Input con AutoComplete -->
             <div class="search-box">
                 <AutoComplete v-model="filter.GLOBAL" :suggestions="dataComplete" @complete="searchSugges"
                     optionLabel="DESCP" class="search-input"
@@ -39,7 +38,7 @@
                 <div class="separator"></div>
 
                 <!-- Icono de filtro -->
-                <div>
+                <div v-if="['2', '3', '4'].includes(role.IDPLN)">
                     <button class="btn-filter" @click="isCollapsed = !isCollapsed">
                         <img src="@/assets/img/icons/filter.svg" alt="Filter" />
                     </button>
@@ -204,12 +203,13 @@
                                     <div class="px-3"
                                         :class="['jurisprudences-generales'].includes(isFilter) && criterioActual === 'delito' ? 'col-12' : 'd-none'">
 
-                                        <el-tree-select :style="{ width: '100%', maxWidth: '100%', overflow: 'hidden' }"
-                                            visible-options="5" v-model="filter.DELITO" :data="selects.DELITOS" multiple
+                                        <el-tree-select v-model="filter.DELITO" :data="selects['DELITOS']" multiple
                                             :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
-                                            collapse-tags :collapse-tags-tooltip="true" :max-collapse-tags="1"
-                                            no-data-text="No hay opciones disponibles" class="custom-tree-select" />
+                                            collapse-tags :max-collapse-tags="1"
+                                            no-data-text="No hay opciones disponibles" popper-append-to-body
+                                            class="custom-tree-select" />
+
                                     </div>
 
                                     <div class="px-3"
@@ -252,6 +252,7 @@
                                             collapse-tags :max-collapse-tags="1"
                                             no-data-text="No hay opciones disponibles" popper-append-to-body
                                             class="custom-tree-select" />
+
                                     </div>
 
                                     <div class="px-3"
@@ -347,6 +348,28 @@
             </button>
         </div>
 
+        <div class="top-search-container">
+            <Carousel :breakpoints="carouselConfig.breakpoints" :wrap-around="carouselConfig.wrapAround"
+                :autoplay="false" :settings="{ navigationEnabled: true }">
+                <Slide class="p-2 mb-5" v-for="(valor, index) in topSearch" :key="valor.DESCP + '-' + index">
+
+                    <div class="top-search-chip" @click="filter.GLOBAL = valor.DESCP; search()">
+                        <div class="d-flex align-items-center gap-2">
+                            <span>{{ valor.DESCP }}</span>
+                        </div>
+                    </div>
+                </Slide>
+
+
+
+                <template #addons>
+                    <Pagination />
+                </template>
+            </Carousel>
+        </div>
+
+
+
         <div v-if="resultados.length > 0" class="search-results">
             <p class="text-left mt-3 color-blue font-weight-bold">
                 Se está mostrando {{ table.perPage }} registros, de {{ (table.currentPage - 1) *
@@ -383,7 +406,7 @@
                     </p> -->
                     <p class="result-info px-2 py-1 col-12 col-md-4">
                         <strong>Caso Emblemático:</strong> <br>{{ item?.TYPE == "jurisprudences" ?
-                            (item.BLOG == "emblematic" ? 'Sí' : 'No') : (item?.RTITLE || '-') }}
+                            (item?.CASO || "-") : (item?.RTITLE || '-') }}
                     </p>
                     <p class="result-info px-2 py-1 col-12 col-md-4">
                         <strong>Caso Vinculante:</strong> <br>{{ item.INDICADOR ? 'Sí' : 'No' }}
@@ -403,20 +426,23 @@
                         <strong>Numeración:</strong><br>{{ item.NMRCN }}
                     </p>
                     <p class="result-info px-2 py-1 col-12 col-md-3">
-                        <strong>Fecha:</strong> <br>{{ formateReverse(item.FRESOLUTION) }}
+                        <strong>Fecha de publicación:</strong> <br>{{ formateReverse(item.FRESOLUTION) }}
                     </p>
                     <p class="result-info px-2 py-1 col-12 col-md-3">
                         <strong>Órgano emisor:</strong> <br>{{item.OEMISOR?.length > 0 ? item.OEMISOR?.map(o =>
                             o.DESCP).join(', ') : '-'}}
                     </p>
                     <p class="result-info px-2 py-1 col-12 col-md-3">
+                        <strong>Estado:</strong> <br>
+                        <span>{{ item.SITUACION }}</span>
+                    </p>
+                    <p class="result-info px-2 py-1 col-12 col-md-8">
                         <strong>Denominación oficial:</strong> <br>{{ item?.RTITLE || '-' }}
                     </p>
-                    <p class="result-info px-2 py-1 col-12">
+                    <p class="result-info px-2 py-1 col-12 col-md-4">
                         <strong>Tipo de Norma:</strong> <br>{{item.TPONRMA?.length > 0 ? item.TPONRMA?.map(o =>
                             o.DESCP).join(', ') : '-'}}
                     </p>
-
                 </div>
             </div>
             <div class="col-12 p-0">
@@ -459,16 +485,16 @@
         <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
 
         <ModalMostrarResolucion :openModal="openModal" :toggleModal="() => this.openModal = !this.openModal"
-            :pdfUrl="pdfUrl" :data="rowData" />
+            :pdfUrl="pdfUrl" :data="rowData" :role="role" />
 
     </div>
 </template>
 
 <script>
 import { Search } from '@element-plus/icons-vue'
-// import { BFormTags, BPagination } from 'bootstrap-vue-next';
 import { BFormTags, BPagination } from 'bootstrap-vue-next';
-
+import { Carousel, Slide, Pagination } from 'vue3-carousel';
+import 'vue3-carousel/dist/carousel.css';
 
 import { toast } from 'vue3-toastify';
 import AutoComplete from 'primevue/autocomplete';
@@ -482,6 +508,28 @@ import ModalMostrarResolucion from './Modales/ModalMostrarResolucion.vue';
 export default {
     data() {
         return {
+            carouselConfig: {
+                autoplay: 5000,
+                breakpoints: {
+                    640: {
+                        itemsToShow: 1,
+                        itemsToScroll: 1,
+                    },
+                    768: {
+                        itemsToShow: 2,
+                        itemsToScroll: 2,
+                    },
+                    1024: {
+                        itemsToShow: 3,
+                        itemsToScroll: 3,
+                    },
+                    1280: {
+                        itemsToShow: 3,
+                        itemsToScroll: 3,
+                    },
+                },
+            },
+            topSearch: [],
             typeSaarch: "jurisprudences",
             isFilter: "jurisprudences-generales",
             criterioActual: "year-publication",
@@ -567,7 +615,10 @@ export default {
         BPagination,
         BFormTags,
         AutoComplete,
-        ModalMostrarResolucion
+        ModalMostrarResolucion,
+        Slide,
+        Pagination,
+        Carousel,
     },
     props: {
         role: {
@@ -604,7 +655,8 @@ export default {
 
             this.dataComplete.value = []
             AdminEntriesProxy.searchSugges({
-                GLOBAL: this.filter.GLOBAL
+                GLOBAL: this.filter.GLOBAL,
+                TYPE: this.typeSaarch
             })
                 .then((response) => {
                     this.dataComplete = response?.map((item) => {
@@ -625,6 +677,29 @@ export default {
             };
 
             this.search(filtro);
+        },
+        async listTopSearch() {
+            await AdminEntriesProxy.listTopSearch()
+                .then((response) => {
+                    this.topSearch = [];
+                    if (!response) {
+                        return;
+                    }
+
+                    this.topSearch = response?.map((item) => {
+                        return { DESCP: item?.DESCP.trim() }
+                    });
+
+                    // campos unicos 
+                    this.topSearch = this.topSearch.filter((item, index, self) =>
+                        index === self.findIndex((t) => (
+                            t.DESCP === item.DESCP
+                        ))
+                    );
+                })
+                .catch(() => {
+                    this.topSearch = [];
+                });
         },
         async search(ffff = {}) {
             this.isCollapsed = true;
@@ -659,7 +734,7 @@ export default {
                 INIT: filtro?.INIT || 0,
                 NMRCN: filtro.NMRCN,
                 TYPE: this.typeSaarch,
-                AMBIT: this.isFilter == 'generales' ? null : (this.isFilter == 'ppjj' ? '466' : (this.isFilter == 'dominio' ? '624' : null)),
+                AMBIT: this.isFilter == 'generales' ? null : (this.isFilter == 'jurisprudences-compliance' ? '466' : (this.isFilter == 'jurisprudences-extincion' ? '624' : null)),
                 TPONRMA: filtro.TPONRMA ? filtro.TPONRMA.join(",") : null,
                 OEMISOR: filtro.OEMISOR ? filtro.OEMISOR.join(",") : null,
                 KEYWORDS: filtro.KEYWORDS ? filtro.KEYWORDS.join(",") : null,
@@ -698,7 +773,10 @@ export default {
                 .catch(() => {
                     toast.error("Ocurrió un error al buscar", { toastId: "error" });
                 })
-                .finally(() => this.isLoading = false);
+                .finally(() => {
+                    this.isLoading = false;
+                    this.listTopSearch();
+                });
 
         },
         setPalabras(palabra, cantidad = 15, isBandera = true) {
@@ -723,14 +801,14 @@ export default {
                 this.isLoading = false;
             }
         },
-
         magistrados(magistrados) {
-            this.selects["MAGISTRATES"] = magistrados.map(item => ({
-                value: item.ID,
-                label: `${item.APELLIDOS} ${item.NOMBRES}`,
-            }));
+            this.selects["MAGISTRATES"] = magistrados
+                .map(item => ({
+                    value: item.ID,
+                    label: `${item.APELLIDOS} ${item.NOMBRES}`,
+                }))
+                .sort((a, b) => a.label.localeCompare(b.label));
         },
-
         filtrosNiveles(data) {
             data.forEach(item => {
                 const NIVEL_2 = JSON.parse(item.NIVEL_2);
@@ -806,6 +884,7 @@ export default {
             },
             immediate: true,
         },
+
         "isFilter": {
             handler() {
                 this.filter = {
@@ -818,8 +897,8 @@ export default {
     },
     mounted() {
         this.isLoading = true;
+        this.listTopSearch();
         this.filtersAll();
-        // this.handleSearch(1);
     }
 };
 </script>
@@ -1116,7 +1195,7 @@ input:checked+.slider::before {
     justify-content: start;
     gap: 2px;
     align-items: center;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     color: #1864FF;
     cursor: pointer;
@@ -1130,7 +1209,7 @@ input:checked+.slider::before {
 
 /* Pretensión / Delito */
 .result-info {
-    font-size: 13px;
+    font-size: 11px;
     font-family: Lato;
     margin: 6px 0;
     color: #727370;
@@ -1892,5 +1971,63 @@ input[type=range]::-webkit-slider-thumb {
 .el-select-dropdown__wrap {
     max-height: 200px;
     overflow-y: auto;
+}
+
+
+.top-search-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    /* evita que el contenedor se expanda */
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.top-search-carousel {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    gap: 5px;
+    border-radius: 8px;
+    position: relative;
+    overflow: visible !important;
+    /* Firefox */
+}
+
+/* Oculta scroll en navegadores Webkit */
+.top-search-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.top-search-chip {
+    flex-shrink: 0;
+    background-color: #fde6fa;
+    color: #e71fb3;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.top-search-chip:hover {
+    background-color: #f5d3f3;
+    border-color: #e71fb3;
+}
+
+@media (max-width: 600px) {
+    .top-search-carousel {
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+    }
+
+    .top-search-chip {
+        font-size: 10px;
+        padding: 4px 10px;
+    }
 }
 </style>

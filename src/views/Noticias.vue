@@ -59,7 +59,7 @@
                 <div class="container-custom mx-auto p-5">
                     <div class="flex flex-column gap-2 p-3">
                         <h2 class="text-center text-white">
-                            Suscríbete y te enviaremos un resumen semanal de las publicaciones más populares
+                            Crea una cuenta y accede a material académico exclusivo
                         </h2>
                         <router-link to="/contacto"
                             class="m-auto bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">

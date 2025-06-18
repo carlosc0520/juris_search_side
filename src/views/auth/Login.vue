@@ -12,12 +12,12 @@
     <div class="bg-white p-8 rounded-xl shadow-lg w-5/6 form-login-with">
       <h3 class="text-lato-700 text-center">Ingresa a tu cuenta</h3>
       <div class="social-buttons mt-4">
-        <button class="social-btn">
+        <button class="social-btn" @click="loginWithGoogle">
           <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" class="icon">
           Ingresar con Google
         </button>
 
-        <button class="social-btn">
+        <button class="social-btn" @click="loginWithLinkedin">
           <img src="https://www.svgrepo.com/show/448234/linkedin.svg" alt="LinkedIn Logo" class="icon">
           Ingresar con LinkedIn
         </button>
@@ -88,6 +88,7 @@ import ModalRecuperarContrasena from "./Modales/ModalRecuperarContrasena.vue";
 // FUNCTIONS
 import { toast } from 'vue3-toastify';
 import { Validator } from 'simple-vue-validator';
+import UserProxy from "../../proxies/UserProxy";
 
 export default {
   components: {
@@ -115,7 +116,8 @@ export default {
         IND: null,
         BANDERA: false
       },
-
+      // urlApi: 'https://api.jurissearch.com'
+      urlApi: 'https://api.jurissearch.com'
     };
   },
   validators: {
@@ -174,9 +176,85 @@ export default {
         });
 
     },
+    async loginWithGoogle() {
+      window.location.href = `${this.urlApi}/auth/google`;
+    },
+    async loginWithLinkedin() {
+      window.location.href = `${this.urlApi}/auth/linkedin`;
+    },
     togglePassword() {
       this.showPassword = !this.showPassword;
     }
+  },
+  async mounted() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get('onsuccess');
+    if (success) {
+      const message = urlParams.get('message');
+      if (success === 'true') {
+        // validar token 
+        const accessToken = urlParams.get('accessToken');
+
+        await UserProxy.validateTokenGoogle(accessToken)
+          .then((response) => {
+            if (response.STATUS) {
+              const user = urlParams.get('user');
+
+              this.$swal({
+                title: "¡Éxito!",
+                text: "Has iniciado sesión correctamente.",
+                icon: "success",
+                buttons: false,
+              })
+                .then(() => {
+                  localStorage.setItem('accessToken', accessToken);
+                  localStorage.setItem('user', user);
+                  this.$router.push('/redirect');
+                });
+              return
+            } else {
+              this.$swal({
+                title: "Error",
+                text: response.MESSAGE || "Token inválido o expirado",
+                icon: "error",
+                buttons: false,
+              })
+                .then(() => {
+                  this.$router.push('/auth/login');
+                });
+              return;
+            }
+          })
+          .catch((error) => {
+            this.$swal({
+              title: "Error",
+              text: error?.MESSAGE || "Token inválido o expirado",
+              icon: "error",
+              buttons: false,
+            })
+              .then(() => {
+                this.$router.push('/auth/login');
+              });
+            return;
+          });
+
+
+      } else {
+        this.$swal({
+          title: "Error",
+          text: message,
+          icon: "error",
+          buttons: false,
+        })
+          .then(() => {
+            this.$router.push('/auth/login');
+          });
+      }
+    }
+
   },
 };
 </script>
@@ -241,6 +319,7 @@ form {
 .form-login-with {
   width: 500px;
 }
+
 @media (max-width: 768px) {
   .form-login-with {
     width: 90%;

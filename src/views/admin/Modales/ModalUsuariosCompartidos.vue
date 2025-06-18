@@ -93,7 +93,8 @@ export default {
         async getContactos() {
             await UserProxy.getContactosSelecteds({
                     INIT: 0, ROWS: 10000, 
-                    IDFAV: this.data.ID
+                    IDFAV: this.data.ID,
+                    DESC: this.SEARCH
                 })
                 .then((response) => {
                     this.contactos = response.map(contacto => {
@@ -147,6 +148,7 @@ export default {
             if (!val) {
                 this.toggleModal();
                 this.contactos = [];
+                this.SEARCH = "";
             } else {
                 this.getContactos();
             }

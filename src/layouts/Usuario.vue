@@ -1,7 +1,7 @@
 <template>
   <div class="navbarDesign" :class="{ collapsed: isCollapsed }">
     <div class="sidebar" :class="isCollapsed ? 'w-content-0' : 'w-content-10'">
-            <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" />
+            <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" :role="role"/>
         </div>
     <div class="main-content transition-all duration-300" :class="isCollapsed ? 'w-content-100' : 'w-content-90'">
             <admin-navbar :RTAFTO="RTAFTO" :toggleSidebar="toggleSidebar" />
@@ -28,6 +28,12 @@ export default {
     components: {
         AdminNavbar,
         Sidebar,
+    },
+    props: {
+        role: {
+            type: Object,
+            default: () => {}
+        }
     },
     data() {
         return {

@@ -203,13 +203,12 @@
                                     <div class="px-3"
                                         :class="['jurisprudences-generales'].includes(isFilter) && criterioActual === 'delito' ? 'col-12' : 'd-none'">
 
-                                        <el-tree-select v-model="filter.DELITO" :data="selects['DELITOS']" multiple
+                                        <el-tree-select :style="{ width: '100%', maxWidth: '100%', overflow: 'hidden' }"
+                                            visible-options="5" v-model="filter.DELITO" :data="selects.DELITOS" multiple
                                             :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
-                                            collapse-tags :max-collapse-tags="1"
-                                            no-data-text="No hay opciones disponibles" popper-append-to-body
-                                            class="custom-tree-select" />
-
+                                            collapse-tags :collapse-tags-tooltip="true" :max-collapse-tags="1"
+                                            no-data-text="No hay opciones disponibles" class="custom-tree-select" />
                                     </div>
 
                                     <div class="px-3"
@@ -252,7 +251,6 @@
                                             collapse-tags :max-collapse-tags="1"
                                             no-data-text="No hay opciones disponibles" popper-append-to-body
                                             class="custom-tree-select" />
-
                                     </div>
 
                                     <div class="px-3"
@@ -734,7 +732,7 @@ export default {
                 INIT: filtro?.INIT || 0,
                 NMRCN: filtro.NMRCN,
                 TYPE: this.typeSaarch,
-                AMBIT: this.isFilter == 'generales' ? null : (this.isFilter == 'jurisprudences-compliance' ? '466' : (this.isFilter == 'jurisprudences-extincion' ? '624' : null)),
+                AMBIT: this.isFilter == 'generales' ? null : (this.isFilter == 'ppjj' ? '466' : (this.isFilter == 'dominio' ? '624' : null)),
                 TPONRMA: filtro.TPONRMA ? filtro.TPONRMA.join(",") : null,
                 OEMISOR: filtro.OEMISOR ? filtro.OEMISOR.join(",") : null,
                 KEYWORDS: filtro.KEYWORDS ? filtro.KEYWORDS.join(",") : null,
@@ -884,7 +882,6 @@ export default {
             },
             immediate: true,
         },
-
         "isFilter": {
             handler() {
                 this.filter = {

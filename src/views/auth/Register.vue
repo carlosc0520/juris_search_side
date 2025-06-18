@@ -12,12 +12,12 @@
     <div v-if="paseForm == 1" class="bg-white p-8 rounded-xl shadow-lg w-5/6 form-login-with">
       <h3 class="text-lato-700 text-center">Registrar cuenta</h3>
       <div class="social-buttons mt-4">
-        <button class="social-btn">
+        <button class="social-btn" @click="loginWithGoogle">
           <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" class="icon">
           Registrarse con Google
         </button>
 
-        <button class="social-btn">
+        <button class="social-btn" @click="loginWithLinkedin">
           <img src="https://www.svgrepo.com/show/448234/linkedin.svg" alt="LinkedIn Logo" class="icon">
           Registrarse con LinkedIn
         </button>
@@ -117,7 +117,7 @@
           <div class="col-md-6 col-12 mb-3">
             <label for="name" class="form-label">Nro. Celular <span class="text-danger">*</span></label>
             <vue-tel-input v-model="modelo.TELEFONO" id="TELEFONO" inputmode="numeric" pattern="[0-9]*"
-              @input="(e) => modelo.TELEFONO = e" 
+              @input="(e) => modelo.TELEFONO = e"
               inputOptions="{ placeholder: 'Ingrese su número de celular' }"></vue-tel-input>
           </div>
 
@@ -162,8 +162,6 @@
     </div>
   </div>
 </template>
-
-
 
 <script>
 import github from "@/assets/img/github.svg";
@@ -216,7 +214,8 @@ export default {
         CARGO: null,
         DIRECCION: null,
       },
-
+      // urlApi: 'https://api.jurissearch.com'
+      urlApi: 'https://api.jurissearch.com'
     };
   },
   validators: {
@@ -291,6 +290,12 @@ export default {
 
       this.paseForm = paso;
     },
+    async loginWithGoogle() {
+      window.location.href = `${this.urlApi}/auth/google-register`;
+    },
+    async loginWithLinkedin() {
+      window.location.href = `${this.urlApi}/auth/linkedin-register`;
+    },
     togglePassword(indicador = 1) {
       if (indicador == 1) {
         this.showPassword = !this.showPassword;
@@ -298,6 +303,39 @@ export default {
         this.showPassword2 = !this.showPassword2;
       }
     }
+  },
+  async mounted() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get('onsuccess');
+    if (success) {
+      const message = urlParams.get('message');
+      if (success === 'true') {
+
+        this.$swal({
+          title: "¡Registro exitoso!",
+          text: "Estimado usuario, su cuenta ha sido creada exitosamente, verifica tu correo electrónico, en caso de no recibir el correo, ponte en contacto con nosotros.",
+          icon: "success",
+          buttons: false,
+        })
+          .then(() => {
+            this.$router.push('/auth/login');
+          });
+        return
+
+
+      } else {
+        this.$swal({
+          title: "Error",
+          text: message,
+          icon: "error",
+          buttons: false,
+        })
+          .then(() => {
+            this.$router.push('/auth/register');
+          });
+      }
+    }
+
   },
 };
 </script>

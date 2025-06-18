@@ -1,5 +1,5 @@
 const PARAMETROS = {
-    development: 'http://localhost:3000',
+    development: 'https://api.jurissearch.com',
     production: 'https://api.myapp.com'
 }
 

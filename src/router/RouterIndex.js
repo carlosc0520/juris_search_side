@@ -50,6 +50,10 @@ const ifAuthenticatedAuth = async (to, from, next) => {
     .then((response) => {
       if (response?.STATUS && response.DATA.IDR === 2) {
         to.params.role = response.DATA;
+        if(to.fullPath === "/usuario/favoritos" && ["1"].includes(response.DATA.IDPLN)) {
+          next("/usuario/busqueda");
+          return;
+        }
         next();
       } else {
         next("/auth/login");
@@ -131,6 +135,11 @@ const routes = [
     path: "/admin",
     redirect: "/admin/dashboard",
     component: Admin,
+    props: (route) => {
+      return {
+        role: route?.params?.role || [],
+      };
+    },
     children: [
       {
         path: "/admin/dashboard",
@@ -243,6 +252,11 @@ const routes = [
     path: "/usuario",
     redirect: "/usuario/busqueda",
     component: Usuario,
+    props: (route) => {
+      return {
+        role: route?.params?.role || [],
+      };
+    },
     children: [
       {
         path: "/usuario/dashboard",

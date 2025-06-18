@@ -117,7 +117,7 @@
             <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
 
             <ModalMostrarResolucion :openModal="openModal" :toggleModal="() => this.openModal = !this.openModal"
-                :pdfUrl="pdfUrl" :data="rowData" :isFav="false" />
+                :pdfUrl="pdfUrl" :data="rowData" :isFav="false" :role="role" />
 
             <ModalCompartirEntrada :openModal="openModalCompartir"
                 :toggleModal="() => this.openModalCompartir = !this.openModalCompartir" :data="rowDataCompartir" />
@@ -273,6 +273,12 @@ export default {
                 }
             },
 
+        }
+    },
+    props: {
+        role: {
+            type: Object,
+            default: () => { }
         }
     },
     methods: {
@@ -656,7 +662,6 @@ export default {
     mounted() {
         this.searchDocuments();
         this.getDirectorios();
-
         this.actionsDocuments = {
             ...this.actionsDocuments,
             view: {
@@ -812,9 +817,9 @@ export default {
 }
 
 @media (max-width: 759px) {
-    .actions-container-tiem{
-       --bs-gutter-y: 0.2rem;
-         --bs-gutter-x: 0.2rem;
+    .actions-container-tiem {
+        --bs-gutter-y: 0.2rem;
+        --bs-gutter-x: 0.2rem;
     }
 }
 </style>

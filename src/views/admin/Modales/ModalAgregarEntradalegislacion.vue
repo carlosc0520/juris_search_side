@@ -19,11 +19,20 @@
                     <input type="text" v-model="modelo.RTITLE" id="description" class="form-control" />
                 </div>
 
-                <div class="col-md-4 col-12 mb-3 flex-checkbox">
+                <!-- <div class="col-md-4 col-12 mb-3 flex-checkbox">
                     <label for="ISBINDING" class="form-label pl-5">Estado
                     </label>
                     <b-form-checkbox switch v-model="modelo.ISBINDING" id="status" class="" size="lg"
                         buttonVariant="black-50" />
+                </div> -->
+                <div class="col-md-4 col-12  mb-3">
+                    <label for="SITUACION" class="form-label">Estado </label>
+                    <select style="padding: .70rem !important" class="form-select" v-model="modelo.SITUACION" aria-label="Default select example">
+                        <option selected value="">-- Seleccione</option>
+                        <option value="Vigente">Vigente</option>
+                        <option value="Modificado">Modificado</option>
+                        <option value="Derogado">Derogado</option>
+                    </select>
                 </div>
 
                 <h5 class="text-app-primary">Contenido</h5>
@@ -101,7 +110,7 @@
 
 
 <script>
-import { BModal, BFormCheckbox, BButton } from 'bootstrap-vue-next';
+import { BModal, BButton } from 'bootstrap-vue-next';
 import { Validator } from 'simple-vue-validator';
 import { toast } from 'vue3-toastify';
 
@@ -112,7 +121,6 @@ import adminEntriesProxy from "../../../proxies/AdminEntriesProxy.js";
 export default {
     components: {
         BModal,
-        BFormCheckbox,
         BButton
     },
     props: {
@@ -150,6 +158,7 @@ export default {
                 NMRCN: null,
                 FRESOLUTION: null,
                 ENTRIEFILE: null,
+                SITUACION: ""
             },
         }
     },
@@ -200,6 +209,7 @@ export default {
             formData.append("FRESOLUTION", this.modelo.FRESOLUTION);
             formData.append("TYPE", "legislations")
             formData.append("TIPO", "executive")
+            formData.append("SITUACION", this.modelo.SITUACION);
             formData.append("OEMISOR", this.modelo.OEMISOR.join(",") || this.modelo.OEMISOR);
 
 
@@ -234,6 +244,7 @@ export default {
                 NMRCN: null,
                 FRESOLUTION: null,
                 ENTRIEFILE: null,
+                SITUACION: "",
             }
 
             let inputs = document.querySelectorAll("input[type='file']");

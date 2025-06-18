@@ -19,7 +19,9 @@
         </div>
 
         <div class="col-md-4 col-12 mb-3">
-          <label for="RTITLE: " class="form-label">Título alternativo</label>
+          <label for="RTITLE" class="form-label">
+            {{ active === 'jurisprudences' ? 'Título alternativo' : 'Denominación oficial' }}
+          </label>
           <input type="text" v-model="selectedFilter.RTITLE" id="RTITLE: " class="form-control" />
         </div>
 
@@ -708,6 +710,7 @@ export default {
           MATERIA: materias,
           JURISDICCION: jurisdiccion,
           JURISDICCIONV: jurisdiccionV,
+          SITUACION: response.SITUACION,
         };
 
         return retorno;

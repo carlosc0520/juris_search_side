@@ -13,7 +13,9 @@
                 <AutoComplete v-model="filter.GLOBAL" :suggestions="dataComplete" @complete="searchSugges"
                     optionLabel="DESCP" class="search-input"
                     placeholder="Busca por nombre de caso, palabra clave ó selecciona los filtros"
-                    @keydown.enter="search">
+                    @keydown.enter="search"
+                     @item-select="search"
+                    >
                     <template #option="slotProps">
                         <div class="d-flex align-items-center gap-2">
                             <svg width="16" height="15" viewBox="0 0 16 15" fill="none"
@@ -38,182 +40,127 @@
                 <div class="separator"></div>
 
                 <!-- Icono de filtro -->
-                <div v-if="['2', '3', '4'].includes(role.IDPLN)">
-                    <button class="btn-filter" @click="isCollapsed = !isCollapsed">
+                <!-- <div v-if="['2', '3', '4'].includes(role.IDPLN)"> -->
+                <div>
+                    <button class="btn-filter" @click="() => {
+                        isCollapsed2 = !isCollapsed2;
+                        isCollapsed = true;
+                    }">
+                        <img src="@/assets/img/icons/settings-arrow.svg" alt="Filter" />
+                    </button>
+                    <div id="filterbar-container2" v-show="!isCollapsed2" ref="filterMenu2" class="px-5 py-2">
+                        <div class="form-check" style="display: flex; align-items: center; gap: 3px"
+                            v-for="opcion in opcionesFiltro" :key="opcion.valor">
+                            <input class="form-check-input" type="radio" style="cursor: pointer" name="modoBusqueda"
+                                :id="'radio-' + opcion.valor" :value="opcion.valor" v-model="modoBusqueda" />
+                            <label style="font-size:15px" class="form-check-label"
+                                :for="'radio-' + opcion.valor">
+                                {{ opcion.texto }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn-filter" @click="() => {
+                        isCollapsed = !isCollapsed;
+                        isCollapsed2 = true;
+                    }">
                         <img src="@/assets/img/icons/filter.svg" alt="Filter" />
                     </button>
                     <div id="filterbar-container" v-show="!isCollapsed" ref="filterMenu">
                         <div class="filter">
                             <div class="filter-header">
-                                <div class="flex mb-1 gap-1 flex-row contenedor-tab">
-                                    <img class="container-nav" src="@/assets/img/icons/corona.svg" alt="Close" />
-                                    <p class="container-nav"
-                                        @click="typeSaarch = 'jurisprudences'; isFilter = 'jurisprudences-generales'; criterioActual = 'year-publication'"
-                                        :class="typeSaarch == 'jurisprudences' ? 'active-criterio' : ''">
-                                        Jurisprudencia
-                                    </p>
+                                <div class="flex flex-row contenedor-tab-global">
+                                    <div @click="typeSaarch = 'jurisprudences'; isFilter = 'jurisprudences-generales'; criterioActual = 'year-publication'"
+                                        :class="typeSaarch == 'jurisprudences' ? 'active-criterio' : ''"
+                                        class="flex gap-1 p-2 flex-row justify-content-center contenedor-tab align-items-center">
+                                        <img class="container-nav" src="@/assets/img/icons/corona-2.svg" alt="Close" />
+                                        <p class="container-nav">
+                                            Jurisprudencia
+                                        </p>
+                                    </div>
+                                    <div @click="typeSaarch = 'legislations'; isFilter = 'legislaciones-generales'; criterioActual = 'year-publication'"
+                                        :class="typeSaarch == 'legislations' ? 'active-criterio' : ''"
+                                        class="flex gap-1 p-2 flex-row justify-content-center contenedor-tab align-items-center">
+                                        <img class="container-nav" src="@/assets/img/icons/settings-2.svg"
+                                            alt="Close" />
+                                        <p class="container-nav">
+                                            Legislación
+                                        </p>
+                                    </div>
                                 </div>
-                                <ul>
-                                    <li class="container-nav"
+                                <div class="d-flex flex-row contenedor-tab gap-0 text-center">
+                                    <a v-if="typeSaarch == 'jurisprudences'" class="flex-grow-1 p-2 container-nav"
                                         @click="isFilter = 'jurisprudences-generales'; criterioActual = 'year-publication', typeSaarch = 'jurisprudences'"
                                         :class="isFilter == 'jurisprudences-generales' ? 'active-criterio' : ''">
                                         Criterios Generales
-                                    </li>
-                                    <li class="container-nav"
+                                    </a>
+                                    <a v-if="typeSaarch == 'jurisprudences'" class="flex-grow-1 p-2 container-nav"
                                         @click="isFilter = 'jurisprudences-compliance'; criterioActual = 'year-publication', typeSaarch = 'jurisprudences'"
                                         :class="isFilter == 'jurisprudences-compliance' ? 'active-criterio' : ''">
-                                        Compliance</li>
-                                    <li class="container-nav"
+                                        Compliance
+                                    </a>
+                                    <a v-if="typeSaarch == 'jurisprudences'" class="flex-grow-1 p-2 container-nav"
                                         @click="isFilter = 'jurisprudences-extincion'; criterioActual = 'year-publication', typeSaarch = 'jurisprudences'"
                                         :class="isFilter == 'jurisprudences-extincion' ? 'active-criterio' : ''">
                                         Extinción de Dominio
-                                    </li>
-                                </ul>
-                                <div class="mt-2 flex mb-1 gap-1 flex-row contenedor-tab">
-                                    <img class="container-nav" src="@/assets/img/icons/settings.svg" alt="Close" />
-                                    <p class="container-nav"
-                                        @click="typeSaarch = 'legislations'; isFilter = 'legislaciones-generales'; criterioActual = 'year-publication'"
-                                        :class="typeSaarch == 'legislations' ? 'active-criterio' : ''">
-                                        Legislación
-                                    </p>
-                                </div>
-                                <ul>
-                                    <li class="container-nav"
+                                    </a>
+                                    <a v-if="typeSaarch == 'legislations'" class="flex-grow-1 p-2 container-nav"
                                         @click="isFilter = 'legislaciones-generales', criterioActual = 'year-publication', typeSaarch = 'legislations'"
                                         :class="isFilter == 'legislaciones-generales' ? 'active-criterio' : ''">
-                                        Criterios Generales</li>
-                                </ul>
+                                        Criterios Generales
+                                    </a>
+                                </div>
                             </div>
                             <div class="contenedor-filtros">
-                                <div class="row-contenedor"
-                                    style="position: relative; overflow-x: auto; white-space: nowrap; padding: 0 1rem;">
-                                    <!-- Botón izquierda -->
-                                    <button @click="scrollLeft"
-                                        style="position: absolute; left: 0; top: 45%; transform: translateY(-50%); z-index: 10; padding: 0.5rem; background-color: white;">
-                                        ◀
-                                    </button>
-                                    <div ref="scrollContainer" class="no-scroll"
-                                        style="scroll-behavior: smooth;overflow-x: auto; white-space: nowrap;">
-                                        <div class="contenedor-cabeceras-a flex flex-row contenedor-tab">
-                                            <a class="cursor-pointer"
-                                                v-if="['legislaciones-generales', 'jurisprudences-generales', 'jurisprudences-compliance', 'jurisprudences-extincion'].includes(isFilter)"
-                                                @click="criterioActual = 'year-publication'"
-                                                :class="criterioActual === 'year-publication' ? 'active-tab' : ''">
-                                                Año de Publicación
-                                            </a>
-                                            <a v-if="['jurisprudences-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'delito'"
-                                                :class="criterioActual === 'delito' ? 'active-tab' : ''">
-                                                Delito
-                                            </a>
-                                            <a v-if="['jurisprudences-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'recurso'"
-                                                :class="criterioActual === 'recurso' ? 'active-tab' : ''">
-                                                Recurso
-                                            </a>
-                                            <a v-if="['jurisprudences-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'organos'"
-                                                :class="criterioActual === 'organos' ? 'active-tab' : ''">
-                                                Órgano Jurisdiccional
-                                            </a>
-                                            <a v-if="['jurisprudences-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'magistrados'"
-                                                :class="criterioActual === 'magistrados' ? 'active-tab' : ''">
-                                                Magistrado
-                                            </a>
-                                            <a v-if="['jurisprudences-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'jvinculante'"
-                                                :class="criterioActual === 'jvinculante' ? 'active-tab' : ''">
-                                                Jurisprudencia Vinculante
-                                            </a>
-                                            <a v-if="['jurisprudences-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'cemblematico'"
-                                                :class="criterioActual === 'cemblematico' ? 'active-tab' : ''">
-                                                Caso Emblemático
-                                            </a>
-                                            <a v-if="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter)"
-                                                @click="criterioActual = 'keywords'"
-                                                :class="criterioActual === 'keywords' ? 'active-tab' : ''">
-                                                Palabras Clave
-                                            </a>
-                                            <!-- <a v-if="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter)"
-                                                @click="criterioActual = 'tema'"
-                                                :class="criterioActual === 'tema' ? 'active-tab' : ''">
-                                                Tema
-                                            </a>
-                                            <a v-if="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter)"
-                                                @click="criterioActual = 'subtema'"
-                                                :class="criterioActual === 'subtema' ? 'active-tab' : ''">
-                                                Subtema
-                                            </a> -->
-                                            <a v-if="['jurisprudences-compliance'].includes(isFilter)"
-                                                class="cursor-pointer" @click="criterioActual = 'materia'"
-                                                :class="criterioActual === 'materia' ? 'active-tab' : ''">
-                                                Materia
-                                            </a>
-                                            <a v-if="['jurisprudences-generales', 'jurisprudences-compliance', 'jurisprudences-extincion'].includes(isFilter)"
-                                                class="cursor-pointer" @click="criterioActual = 'jurisdiccion'"
-                                                :class="criterioActual === 'jurisdiccion' ? 'active-tab' : ''">
-                                                Jurisdicción
-                                            </a>
-
-                                            <!-- // parte 2 -->
-                                            <a v-if="['legislaciones-generales'].includes(isFilter)"
-                                                class="cursor-pointer" @click="criterioActual = 'numeracion'"
-                                                :class="criterioActual === 'numeracion' ? 'active-tab' : ''">
-                                                Numeración
-                                            </a>
-                                            <a v-if="['legislaciones-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'tnorma'" class="cursor-pointer"
-                                                :class="criterioActual === 'tnorma' ? 'active-tab' : ''">
-                                                Tipo de Norma
-                                            </a>
-                                            <a v-if="['legislaciones-generales'].includes(isFilter)"
-                                                class="cursor-pointer" @click="criterioActual = 'oemisor'"
-                                                :class="criterioActual === 'oemisor' ? 'active-tab' : ''">
-                                                Órgano Emisor
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <!-- Botón derecha -->
-                                    <button @click="scrollRight"
-                                        style="position: absolute; right: 0; top: 45%; transform: translateY(-50%); z-index: 10; padding: 0.5rem; background-color: white;">
-                                        ▶
-                                    </button>
-                                </div>
                                 <div class="row">
-                                    <div class="px-3"
+                                    <div class="col-12 col-md-6 px-3 mb-3 d-flex gap-2"
                                         :class="['legislaciones-generales', 'jurisprudences-generales', 'jurisprudences-compliance', 'jurisprudences-extincion'].includes(isFilter) && criterioActual === 'year-publication' ? 'col-12 row' : 'd-none'">
-                                        <div class="col-12 col-md-6 mb-3 px-1">
+                                        <div class="col-12">
                                             <label for="FRESOLUTION1" class="form-label">Fecha de Inicio</label>
-                                            <date-picker v-model="filter.FRESOLUTION1" value-type="format" type="year"
+                                            <date-picker v-model="filter.FRESOLUTION1" value-type="format" 
                                                 @change="filter.FRESOLUTION1 = $event" :value="filter.FRESOLUTION1"
                                                 appendTo="self" panelClass="force-open-down">
                                             </date-picker>
                                         </div>
-                                        <div class="col-12 col-md-6 mb-3 px-1">
+                                    </div>
+
+                                    <div class="col-12 col-md-6 px-3 mb-3 d-flex gap-2"
+                                        :class="['legislaciones-generales', 'jurisprudences-generales', 'jurisprudences-compliance', 'jurisprudences-extincion'].includes(isFilter) && criterioActual === 'year-publication' ? 'col-12 row' : 'd-none'">
+                                        <div class="col-12">
                                             <label for="FRESOLUTION2" class="form-label">Fecha de Fin</label>
-                                            <date-picker v-model="filter.FRESOLUTION2" value-type="format" type="year"
+                                            <date-picker v-model="filter.FRESOLUTION2" value-type="format" 
                                                 @change="filter.FRESOLUTION2 = $event" :value="filter.FRESOLUTION2"
                                                 appendTo="self" panelClass="force-open-down">
                                             </date-picker>
                                         </div>
                                     </div>
 
-                                    <div class="px-3"
-                                        :class="['jurisprudences-generales'].includes(isFilter) && criterioActual === 'delito' ? 'col-12' : 'd-none'">
-
-                                        <el-tree-select v-model="filter.DELITO" :data="selects['DELITOS']" multiple
+                                    <div class="px-3 mb-3"
+                                        :class="['jurisprudences-generales'].includes(isFilter) ? 'col-12' : 'd-none'">
+                                        <label for="Delito" class="form-label">Delito</label>
+                                        <el-tree-select :style="{ width: '100%', maxWidth: '100%', overflow: 'hidden' }"
+                                            visible-options="5" v-model="filter.DELITO" :data="selects.DELITOS" multiple
                                             :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
-                                            collapse-tags :max-collapse-tags="1"
-                                            no-data-text="No hay opciones disponibles" popper-append-to-body
-                                            class="custom-tree-select" />
-
+                                            collapse-tags :collapse-tags-tooltip="true" :max-collapse-tags="1"
+                                            @check-change="(node, checked) => {
+                                                filter.DELITO = filter.DELITO || [];
+                                                if (node.children && node.children.length > 0) {
+                                                    node.children.forEach(child => {
+                                                        if (checked) {
+                                                            filter.DELITO.push(child.value);
+                                                        } else {
+                                                            filter.DELITO = filter.DELITO.filter(item => item !== child.value);
+                                                        }
+                                                    });
+                                                }
+                                            }" no-data-text="No hay opciones disponibles" class="custom-tree-select" />
                                     </div>
 
-                                    <div class="px-3"
-                                        :class="['jurisprudences-generales'].includes(isFilter) && criterioActual === 'recurso' ? 'col-12' : 'd-none'">
+                                    <div class="px-3 mb-3"
+                                        :class="['jurisprudences-generales'].includes(isFilter) ? 'col-12' : 'd-none'">
+                                        <label for="Recurso" class="form-label">Recurso</label>
                                         <el-tree-select v-model="filter.RECURSO" :data="selects['TIPO DE RECURSO']"
                                             multiple :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
@@ -222,19 +169,32 @@
                                             class="custom-tree-select" />
                                     </div>
 
-                                    <div class="px-3"
-                                        :class="['jurisprudences-generales'].includes(isFilter) && criterioActual === 'organos' ? 'col-12' : 'd-none'">
+                                    <div class="px-3 mb-3"
+                                        :class="['jurisprudences-generales'].includes(isFilter) ? 'col-12' : 'd-none'">
+                                        <label for="Organos" class="form-label">Órgano Jurisdiccional</label>
                                         <el-tree-select v-model="filter.OJURISDICCIONAL"
                                             :data="selects['ÓRGANO JURISDICCIONAL']" multiple
                                             :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
                                             collapse-tags :max-collapse-tags="1"
                                             no-data-text="No hay opciones disponibles" popper-append-to-body
-                                            class="custom-tree-select" />
+                                            @check-change="(node, checked) => {
+                                                filter.OJURISDICCIONAL = filter.OJURISDICCIONAL || [];
+                                                if (node.children && node.children.length > 0) {
+                                                    node.children.forEach(child => {
+                                                        if (checked) {
+                                                            filter.OJURISDICCIONAL.push(child.value);
+                                                        } else {
+                                                            filter.OJURISDICCIONAL = filter.OJURISDICCIONAL.filter(item => item !== child.value);
+                                                        }
+                                                    });
+                                                }
+                                            }" class="custom-tree-select" />
                                     </div>
 
-                                    <div class="px-3"
-                                        :class="['jurisprudences-generales'].includes(isFilter) && criterioActual === 'magistrados' ? 'col-12' : 'd-none'">
+                                    <div class="px-3 mb-3"
+                                        :class="['jurisprudences-generales'].includes(isFilter) ? 'col-12' : 'd-none'">
+                                        <label for="Magistrados" class="form-label">Magistrado</label>
                                         <el-tree-select v-model="filter.MAGISTRATES" :data="selects['MAGISTRATES']"
                                             multiple :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
@@ -243,20 +203,31 @@
                                             class="custom-tree-select" />
                                     </div>
 
-                                    <div class="px-3"
-                                        :class="['jurisprudences-generales'].includes(isFilter) && criterioActual === 'jvinculante' ? 'col-12' : 'd-none'">
+                                    <div class="px-3 mb-3"
+                                        :class="['jurisprudences-generales'].includes(isFilter) ? 'col-12' : 'd-none'">
+                                        <label for="JVINCULANTE" class="form-label">Jurisprudencia Vinculante</label>
                                         <el-tree-select v-model="filter.JVINCULANTE"
                                             :data="selects['JURISPRUDENCIA VINCULANTE']" multiple
                                             :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
                                             collapse-tags :max-collapse-tags="1"
                                             no-data-text="No hay opciones disponibles" popper-append-to-body
-                                            class="custom-tree-select" />
-
+                                            @check-change="(node, checked) => {
+                                                filter.JVINCULANTE = filter.JVINCULANTE || [];
+                                                if (node.children && node.children.length > 0) {
+                                                    node.children.forEach(child => {
+                                                        if (checked) {
+                                                            filter.JVINCULANTE.push(child.value);
+                                                        } else {
+                                                            filter.JVINCULANTE = filter.JVINCULANTE.filter(item => item !== child.value);
+                                                        }
+                                                    });
+                                                }
+                                            }" class="custom-tree-select" />
                                     </div>
 
-                                    <div class="px-3"
-                                        :class="['jurisprudences-generales'].includes(isFilter) && criterioActual === 'cemblematico' ? 'col-12' : 'd-none'">
+                                    <div class="px-3 mb-3"
+                                        :class="['jurisprudences-generales'].includes(isFilter) ? 'col-12' : 'd-none'">
                                         <div class="switch-container">
                                             <label for="BLOG" class="switch-label">Casos Emblemáticos</label>
                                             <label class="switch">
@@ -272,31 +243,26 @@
                                         </div>
                                     </div>
 
-                                    <div class="px-3"
-                                        :class="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter) && criterioActual === 'keywords' ? 'col-12' : 'd-none'">
+                                    <div class="px-3 mb-3"
+                                        :class="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter) ? 'col-12' : 'd-none'">
+                                        <label for="KEYWORDS" class="form-label">Palabras Clave</label>
                                         <b-form-tags separator="," v-model="filter.KEYWORDS" tag-variant="primary"
                                             tag-pills tag-readonly tag-class="bg-app-secondary-b text-app-primary-b"
                                             tag-size="sm" placeholder="Agregar una palabra clave"
                                             addButtonText="Agregar" removeButtonText="Eliminar" removeOnDeleteKey />
                                     </div>
 
-                                    <!-- <div class="px-3"
-                                        :class="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter) && criterioActual === 'tema' ? 'col-12' : 'd-none'">
-                                        <input type="text" v-model="filter.TEMA" id="TEMA" class="form-control" />
+                                    <div class="px-3 mb-3"
+                                        :class="['legislaciones-generales'].includes(isFilter) ? 'col-12' : 'd-none'">
+                                        <label for="NMRCN" class="form-label">Numeración</label>
+                                        <input type="text" v-model="filter.NMRCN" 
+                                        @keydown.enter="search"
+                                        id="NMRCN" class="form-control" />
                                     </div>
 
-                                    <div class="px-3"
-                                        :class="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter) && criterioActual === 'subtema' ? 'col-12' : 'd-none'">
-                                        <input type="text" v-model="filter.SUBTEMA" id="SUBTEMA" class="form-control" />
-                                    </div> -->
-
-                                    <div class="px-3"
-                                        :class="['legislaciones-generales'].includes(isFilter) && criterioActual === 'numeracion' ? 'col-12' : 'd-none'">
-                                        <input type="text" v-model="filter.NMRCN" id="NMRCN" class="form-control" />
-                                    </div>
-
-                                    <div class="px-3"
-                                        :class="['jurisprudences-compliance'].includes(isFilter) && criterioActual === 'materia' ? 'col-12' : 'd-none'">
+                                    <div class="px-3 mb-3"
+                                        :class="['jurisprudences-compliance'].includes(isFilter) ? 'col-12' : 'd-none'">
+                                        <label for="MATERIA" class="form-label">Materia</label>
                                         <el-tree-select v-model="filter.MATERIA" :data="selects['MATERIA']" multiple
                                             :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
@@ -305,8 +271,9 @@
                                             class="custom-tree-select" />
                                     </div>
 
-                                    <div class="px-3"
-                                        :class="['jurisprudences-generales', 'jurisprudences-compliance', 'jurisprudences-extincion'].includes(isFilter) && criterioActual === 'jurisdiccion' ? 'col-12' : 'd-none'">
+                                    <div class="px-3 mb-3"
+                                        :class="['jurisprudences-generales', 'jurisprudences-compliance', 'jurisprudences-extincion'].includes(isFilter) ? 'col-12' : 'd-none'">
+                                        <label for="JURISDICCION" class="form-label">Jurisdicción</label>
                                         <el-tree-select v-model="filter.JURISDICCION" :data="selects['JURISDICCIÓN']"
                                             multiple :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
@@ -315,8 +282,9 @@
                                             class="custom-tree-select" />
                                     </div>
 
-                                    <div class="px-3"
-                                        :class="['legislaciones-generales'].includes(isFilter) && criterioActual === 'tnorma' ? 'col-12' : 'd-none'">
+                                    <div class="px-3 mb-3"
+                                        :class="['legislaciones-generales'].includes(isFilter) ? 'col-12' : 'd-none'">
+                                        <label for="TITLE" class="form-label">Tipo de Norma</label>
                                         <el-tree-select v-model="filter.TPONRMA" :data="selects['TIPO DE NORMA']"
                                             multiple :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
@@ -325,8 +293,9 @@
                                             class="custom-tree-select" />
                                     </div>
 
-                                    <div class="px-3"
-                                        :class="['legislaciones-generales'].includes(isFilter) && criterioActual === 'oemisor' ? 'col-12' : 'd-none'">
+                                    <div class="px-3 mb-3"
+                                        :class="['legislaciones-generales'].includes(isFilter) ? 'col-12' : 'd-none'">
+                                        <label for="OEMISOR" class="form-label">Órgano Emisor</label>
                                         <el-tree-select v-model="filter.OEMISOR" :data="selects['ÓRGANO EMISOR']"
                                             multiple :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
@@ -342,10 +311,16 @@
                 </div>
             </div>
 
-            <!-- Botón de búsqueda -->
-            <button class="btn-search" type="button" id="filter-btn" @click="search">
-                Realizar búsqueda
-            </button>
+            <div class="search-actions d-flex justify-content-between align-items-center">
+                <!-- Botón de búsqueda -->
+                <button class="btn-search" type="button" id="filter-btn" @click="search">
+                    Buscar
+                </button>
+                <!-- // boton limpiar -->
+                <button class="btn-clear-button" type="button" @click="onClear(1)">
+                    Limpiar
+                </button>
+            </div>
         </div>
 
         <div class="top-search-container">
@@ -354,8 +329,14 @@
                 <Slide class="p-2 mb-5" v-for="(valor, index) in topSearch" :key="valor.DESCP + '-' + index">
 
                     <div class="top-search-chip" @click="filter.GLOBAL = valor.DESCP; search()">
-                        <div class="d-flex align-items-center gap-2">
-                            <span>{{ valor.DESCP }}</span>
+                        <div class="d-flex align-items-center gap-2" v-tooltip.bottom="{
+                            value: valor.DESCP,
+                            style: {
+                                fontSize: '0.35rem',
+                                color: '#4A5568',
+                            },
+                        }">
+                            <span>{{ cortarDescripcion(valor.DESCP) }}</span>
                         </div>
                     </div>
                 </Slide>
@@ -529,12 +510,19 @@ export default {
                     },
                 },
             },
+            opcionesFiltro: [
+                { valor: 1, texto: 'Contenga solamente estas palabras' },
+                { valor: 2, texto: 'Contenga alguna de estas palabras' },
+                { valor: 3, texto: 'Contenga la frase completa' }
+            ],
+            modoBusqueda: 2,
             topSearch: [],
             typeSaarch: "jurisprudences",
             isFilter: "jurisprudences-generales",
             criterioActual: "year-publication",
             isLoading: false,
             isCollapsed: true,
+            isCollapsed2: true,
             showFilters: false,
             resultados: [],
             table: {
@@ -567,17 +555,17 @@ export default {
             filter: {
                 GLOBAL: null,
                 FRESOLUTION1: [],
-                DELITO: null,
-                NMRCN: null,
-                TPONRMA: null,
-                OEMISOR: null,
-                RECURSO: null,
-                OJURISDICCIONAL: null,
-                MAGISTRATES: null,
-                JVINCULANTE: null,
+                DELITO: [],
+                NMRCN: [],
+                TPONRMA: [],
+                OEMISOR: [],
+                RECURSO: [],
+                OJURISDICCIONAL: [],
+                MAGISTRATES: [],
+                JVINCULANTE: [],
                 FRESOLUTION2: [],
-                MATERIA: null,
-                JURISDICCION: null,
+                MATERIA: [],
+                JURISDICCION: [],
                 TITLE: null,
                 TYPE: "jurisprudences",
                 CRITERIO: null,
@@ -741,6 +729,7 @@ export default {
                 TEMA: filtro.TEMA,
                 SUBTEMA: filtro.SUBTEMA,
                 BLOG: filtro.BLOG ? 'emblematic' : null,
+                MODO: this.modoBusqueda
             })
                 .then((response) => {
                     if (!response) {
@@ -801,6 +790,12 @@ export default {
                 this.isLoading = false;
             }
         },
+        cortarDescripcion(texto) {
+            if (texto.length > 30) {
+                return texto.slice(0, 30) + '...';
+            }
+            return texto;
+        },
         magistrados(magistrados) {
             this.selects["MAGISTRATES"] = magistrados
                 .map(item => ({
@@ -839,27 +834,27 @@ export default {
                 description: item.DESCPINF,
             }));
         },
-        onClear() {
+        onClear(indicador = 0) {
             this.filter.GLOBAL = null;
             this.filter.FRESOLUTION1 = null;
-            this.filter.DELITO = null;
+            this.filter.DELITO = [];
             this.filter.NMRCN = null;
-            this.filter.TPONRMA = null;
+            this.filter.TPONRMA = [];
             this.filter.OEMISOR = null;
-            this.filter.RECURSO = null;
-            this.filter.OJURISDICCIONAL = null;
-            this.filter.MAGISTRATES = null;
-            this.filter.JVINCULANTE = null;
+            this.filter.RECURSO = [];
+            this.filter.OJURISDICCIONAL = [];
+            this.filter.MAGISTRATES = [];
+            this.filter.JVINCULANTE = [];
             this.filter.FRESOLUTION2 = null;
-            this.filter.MATERIA = null;
-            this.filter.JURISDICCION = null;
+            this.filter.MATERIA = [];
+            this.filter.JURISDICCION = [];
             this.filter.TITLE = null;
             this.filter.CRITERIO = null;
             this.filter.KEYWORDS = [];
             this.filter.TEMA = null;
             this.filter.BLOG = false;
             this.filter.SUBTEMA = null;
-            this.isFilter = "generales";
+            //this.isFilter = "generales";
 
             this.isCollapsed = true;
             this.showFilters = false;
@@ -869,12 +864,23 @@ export default {
             this.table.perPage = 10;
             this.table.totalRows = 0;
 
+            if(indicador == 1){
+                this.resultados = [];
+                this.table.currentPage = 1;
+                return;
+            }
             this.handleSearch(1);
         }
 
 
     },
     watch: {
+        "role": {
+            immediate: true,
+            handler(val) {
+                console.log("role", val);
+            }
+        },
         "filter.TYPE": {
             handler() {
                 this.filter = {
@@ -884,7 +890,6 @@ export default {
             },
             immediate: true,
         },
-
         "isFilter": {
             handler() {
                 this.filter = {
@@ -1133,13 +1138,36 @@ input:checked+.slider::before {
 }
 
 /* Botón para limpiar */
-.btn-clear {
+.btn-clear-button {
     background: none;
     border: none;
     cursor: pointer;
     padding: 5px;
     margin-left: 8px;
 }
+
+.search-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+@media (max-width: 600px) {
+    .search-actions {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .search-actions .btn-search,
+    .search-actions .btn-clear-button {
+        width: 80%;
+        margin: 6px auto;       
+        padding: 8px 0;       
+        font-size: 14px;      
+    }
+}
+
 
 /* Separador */
 .separator {
@@ -1172,6 +1200,22 @@ input:checked+.slider::before {
 
 .btn-search:hover {
     background-color: #0056b3;
+}
+
+.btn-clear-button {
+    background-color: #f87171 !important;
+    color: white !important;
+    border: none;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    border-radius: 10px;
+}
+
+.btn-clear-button:hover {
+    background-color: #dc2626 !important;
 }
 
 .search-results {
@@ -1277,6 +1321,13 @@ input:checked+.slider::before {
     }
 
     .btn-search {
+        width: 90%;
+        margin: 10px auto;
+        padding: 12px 0;
+        font-size: 16px;
+    }
+
+    .btn-clear-button {
         width: 90%;
         margin: 10px auto;
         padding: 12px 0;
@@ -1891,7 +1942,21 @@ input[type=range]::-webkit-slider-thumb {
     top: 100%;
     z-index: 1050;
     left: 0;
-    width: 100%;
+    right: 10px;
+    margin: 0 auto;
+    width: 90%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+#filterbar-container2 {
+    position: absolute;
+    top: 100%;
+    z-index: 1050;
+    right: 10px;
+    margin: 0 auto;
+    width: 40%;
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
     border: 1px solid #ddd;
@@ -1899,16 +1964,53 @@ input[type=range]::-webkit-slider-thumb {
 
 #filterbar-container .filter {
     display: grid;
-    grid-template-columns: 20% 80%;
+    grid-template-columns: 1fr;
     gap: 10px;
-    height: 400px;
-    margin: 10px 0px;
-    padding: 10px;
+    /* height: 400px; */
+    margin: 0px;
+    padding: 0px;
     border-radius: 10px;
 }
 
+.contenedor-tab-global {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 0px;
+    border-bottom: 1px solid #ddd;
+}
+
+.filter-header .ul-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.filter-header .ul-container a {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
 
 @media (max-width: 700px) {
+
+
+    #filterbar-container {
+        width: 90%;
+        left: 10px;
+        top: 10;
+        border-radius: 0px;
+    }
+
+    #filterbar-container2 {
+        width: 90%;
+    }
+    #filterbar-container2 label {
+        font-size: 13px!important;
+    }
+
     #filterbar-container .filter {
         grid-template-columns: 1fr;
         height: auto;
@@ -1924,26 +2026,20 @@ input[type=range]::-webkit-slider-thumb {
 #filterbar-container .container-nav,
 .contenedor-cabeceras-a a {
     font-family: Lato;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: #11235A;
     cursor: pointer;
 }
 
-#filterbar-container ul li.container-nav {
-    padding: 5px 0px 0px 2.5rem;
-}
-
-
 
 .active-criterio {
-    color: #1864FF !important;
+    background-color: #f9f9fb !important;
 }
 
 .contenedor-filtros {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 4fr;
     gap: 10px;
     margin: 10px 0px;
 }
@@ -1963,16 +2059,6 @@ input[type=range]::-webkit-slider-thumb {
     -webkit-overflow-scrolling: touch;
 
 }
-
-.el-tree-select__popper .el-select-dropdown__item {
-    white-space: normal !important;
-}
-
-.el-select-dropdown__wrap {
-    max-height: 200px;
-    overflow-y: auto;
-}
-
 
 .top-search-container {
     width: 100%;
@@ -2029,5 +2115,18 @@ input[type=range]::-webkit-slider-thumb {
         font-size: 10px;
         padding: 4px 10px;
     }
+}
+
+.el-tree-node__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.el-select-dropdown .el-tree {
+    max-width: 100%;
+    overflow: hidden;
 }
 </style>

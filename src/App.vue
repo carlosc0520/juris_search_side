@@ -2,8 +2,7 @@
   <div id="app">
     <router-view />
     <!-- @click="openWhatsApp" -->
-    <div class="floating-whatsapp" 
-    >
+    <div class="floating-whatsapp">
       <i class="fab fa-whatsapp"></i>
     </div>
   </div>
@@ -28,6 +27,14 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+}
+
+.el-tree-select__popper .el-select-dropdown__item {
+  white-space: normal !important;
+}
+
+.custom-tree-select {
+  max-width: 100% !important;
 }
 
 .floating-whatsapp {

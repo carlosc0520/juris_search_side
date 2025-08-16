@@ -214,7 +214,7 @@ export default {
         CARGO: null,
         DIRECCION: null,
       },
-      // urlApi: 'https://api.jurissearch.com'
+      // urlApi: 'http://localhost:3000'
       urlApi: 'https://api.jurissearch.com'
     };
   },

@@ -60,135 +60,8 @@
                                         Criterios Generales
                                     </a>
                                 </div>
-
-
-                                <!-- <ul>
-                                    <li class="container-nav"
-                                        @click="isFilter = 'jurisprudences-generales'; criterioActual = 'year-publication', typeSaarch = 'jurisprudences'"
-                                        :class="isFilter == 'jurisprudences-generales' ? 'active-criterio' : ''">
-                                        Criterios Generales
-                                    </li>
-                                    <li class="container-nav"
-                                        @click="isFilter = 'jurisprudences-compliance'; criterioActual = 'year-publication', typeSaarch = 'jurisprudences'"
-                                        :class="isFilter == 'jurisprudences-compliance' ? 'active-criterio' : ''">
-                                        Compliance</li>
-                                    <li class="container-nav"
-                                        @click="isFilter = 'jurisprudences-extincion'; criterioActual = 'year-publication', typeSaarch = 'jurisprudences'"
-                                        :class="isFilter == 'jurisprudences-extincion' ? 'active-criterio' : ''">
-                                        Extinción de Dominio
-                                    </li>
-                                </ul>
-                                <div class="mt-2 flex mb-1 gap-1 flex-row contenedor-tab">
-                                    <img class="container-nav" src="@/assets/img/icons/settings.svg" alt="Close" />
-                                    <p class="container-nav"
-                                        @click="typeSaarch = 'legislations'; isFilter = 'legislaciones-generales'; criterioActual = 'year-publication'"
-                                        :class="typeSaarch == 'legislations' ? 'active-criterio' : ''">
-                                        Legislación
-                                    </p>
-                                </div>
-                                <ul>
-                                    <li class="container-nav"
-                                        @click="isFilter = 'legislaciones-generales', criterioActual = 'year-publication', typeSaarch = 'legislations'"
-                                        :class="isFilter == 'legislaciones-generales' ? 'active-criterio' : ''">
-                                        Criterios Generales</li>
-                                </ul> -->
                             </div>
-                            <div class="contenedor-filtros">
-                                <!-- <div class="row-contenedor"
-                                    style="position: relative; overflow-x: auto; white-space: nowrap; padding: 0 1rem;"> -->
-                                <!-- Botón izquierda -->
-                                <!-- <button @click="scrollLeft"
-                                        style="position: absolute; left: 0; top: 45%; transform: translateY(-50%); z-index: 10; padding: 0.5rem; background-color: white;">
-                                        ◀
-                                    </button>
-                                    <div ref="scrollContainer" class="no-scroll"
-                                        style="scroll-behavior: smooth;overflow-x: auto; white-space: nowrap;">
-                                        <div class="contenedor-cabeceras-a flex flex-row contenedor-tab"> -->
-                                <!-- <a class="cursor-pointer"
-                                                v-if="['legislaciones-generales', 'jurisprudences-generales', 'jurisprudences-compliance', 'jurisprudences-extincion'].includes(isFilter)"
-                                                @click="criterioActual = 'year-publication'"
-                                                :class="criterioActual === 'year-publication' ? 'active-tab' : ''">
-                                                Año de Publicación
-                                            </a> -->
-                                <!-- <a v-if="['jurisprudences-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'delito'"
-                                                :class="criterioActual === 'delito' ? 'active-tab' : ''">
-                                                Delito
-                                            </a>
-                                            <a v-if="['jurisprudences-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'recurso'"
-                                                :class="criterioActual === 'recurso' ? 'active-tab' : ''">
-                                                Recurso
-                                            </a>
-                                            <a v-if="['jurisprudences-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'organos'"
-                                                :class="criterioActual === 'organos' ? 'active-tab' : ''">
-                                                Órgano Jurisdiccional
-                                            </a>
-                                            <a v-if="['jurisprudences-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'magistrados'"
-                                                :class="criterioActual === 'magistrados' ? 'active-tab' : ''">
-                                                Magistrado
-                                            </a>
-                                            <a v-if="['jurisprudences-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'jvinculante'"
-                                                :class="criterioActual === 'jvinculante' ? 'active-tab' : ''">
-                                                Jurisprudencia Vinculante
-                                            </a>
-                                            <a v-if="['jurisprudences-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'cemblematico'"
-                                                :class="criterioActual === 'cemblematico' ? 'active-tab' : ''">
-                                                Caso Emblemático
-                                            </a>
-                                            <a v-if="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter)"
-                                                @click="criterioActual = 'keywords'"
-                                                :class="criterioActual === 'keywords' ? 'active-tab' : ''">
-                                                Palabras Clave
-                                            </a> -->
-                                <!-- <a v-if="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter)"
-                                                @click="criterioActual = 'tema'"
-                                                :class="criterioActual === 'tema' ? 'active-tab' : ''">
-                                                Tema
-                                            </a>
-                                            <a v-if="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter)"
-                                                @click="criterioActual = 'subtema'"
-                                                :class="criterioActual === 'subtema' ? 'active-tab' : ''">
-                                                Subtema
-                                            </a> -->
-                                <!-- <a v-if="['jurisprudences-compliance'].includes(isFilter)"
-                                                class="cursor-pointer" @click="criterioActual = 'materia'"
-                                                :class="criterioActual === 'materia' ? 'active-tab' : ''">
-                                                Materia
-                                            </a>
-                                            <a v-if="['jurisprudences-generales', 'jurisprudences-compliance', 'jurisprudences-extincion'].includes(isFilter)"
-                                                class="cursor-pointer" @click="criterioActual = 'jurisdiccion'"
-                                                :class="criterioActual === 'jurisdiccion' ? 'active-tab' : ''">
-                                                Jurisdicción
-                                            </a> -->
-
-                                <!-- // parte 2 -->
-                                <!-- <a v-if="['legislaciones-generales'].includes(isFilter)"
-                                                class="cursor-pointer" @click="criterioActual = 'numeracion'"
-                                                :class="criterioActual === 'numeracion' ? 'active-tab' : ''">
-                                                Numeración
-                                            </a>
-                                            <a v-if="['legislaciones-generales'].includes(isFilter)"
-                                                @click="criterioActual = 'tnorma'" class="cursor-pointer"
-                                                :class="criterioActual === 'tnorma' ? 'active-tab' : ''">
-                                                Tipo de Norma
-                                            </a>
-                                            <a v-if="['legislaciones-generales'].includes(isFilter)"
-                                                class="cursor-pointer" @click="criterioActual = 'oemisor'"
-                                                :class="criterioActual === 'oemisor' ? 'active-tab' : ''">
-                                                Órgano Emisor
-                                            </a> -->
-                                <!-- </div>
-                                    </div>
-                                    <button @click="scrollRight"
-                                        style="position: absolute; right: 0; top: 45%; transform: translateY(-50%); z-index: 10; padding: 0.5rem; background-color: white;">
-                                        ▶
-                                    </button> -->
-                                <!-- </div> -->
+                            <div class="contenedor-filtros">                      
                                 <div class="row">
                                     <div class="px-3 mb-3 d-flex gap-2"
                                         :class="['legislaciones-generales', 'jurisprudences-generales', 'jurisprudences-compliance', 'jurisprudences-extincion'].includes(isFilter) && criterioActual === 'year-publication' ? 'col-12 row' : 'd-none'">
@@ -294,16 +167,6 @@
                                             tag-size="sm" placeholder="Agregar una palabra clave"
                                             addButtonText="Agregar" removeButtonText="Eliminar" removeOnDeleteKey />
                                     </div>
-
-                                    <!-- <div class="px-3"
-                                        :class="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter) && criterioActual === 'tema' ? 'col-12' : 'd-none'">
-                                        <input type="text" v-model="filter.TEMA" id="TEMA" class="form-control" />
-                                    </div>
-
-                                    <div class="px-3"
-                                        :class="['jurisprudences-generales', 'jurisprudences-extincion'].includes(isFilter) && criterioActual === 'subtema' ? 'col-12' : 'd-none'">
-                                        <input type="text" v-model="filter.SUBTEMA" id="SUBTEMA" class="form-control" />
-                                    </div> -->
 
                                     <div class="px-3 mb-3"
                                         :class="['legislaciones-generales'].includes(isFilter) ? 'col-12' : 'd-none'">

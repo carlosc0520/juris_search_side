@@ -116,7 +116,7 @@ export default {
         IND: null,
         BANDERA: false
       },
-      // urlApi: 'https://api.jurissearch.com'
+      // urlApi: 'http://localhost:3000'
       urlApi: 'https://api.jurissearch.com'
     };
   },

@@ -169,8 +169,13 @@ class AdminEntriesProxy {
     return response.data;
   }
 
-  async listTopSearch() {
-    const { data } = await axios.get(`/admin/entries/listTopSearch`);
+  async listTopSearch(TYPE = null) {
+    const { data } = await axios.get(`/admin/entries/listTopSearch?TYPE=${TYPE}`);
+    return data;
+  }
+
+  async clearTopSearch(GLOBAL, TYPE = null) {
+    const { data } = await axios.post(`/admin/entries/clearTopSearch`, { GLOBAL, TYPE });
     return data;
   }
 

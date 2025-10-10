@@ -13,9 +13,7 @@
                 <AutoComplete v-model="filter.GLOBAL" :suggestions="dataComplete" @complete="searchSugges"
                     optionLabel="DESCP" class="search-input"
                     placeholder="Busca por nombre de caso, palabra clave ó selecciona los filtros"
-                    @keydown.enter="search"
-                     @item-select="search"
-                    >
+                    @keydown.enter="search" @item-select="search">
                     <template #option="slotProps">
                         <div class="d-flex align-items-center gap-2">
                             <svg width="16" height="15" viewBox="0 0 16 15" fill="none"
@@ -53,8 +51,13 @@
                             v-for="opcion in opcionesFiltro" :key="opcion.valor">
                             <input class="form-check-input" type="radio" style="cursor: pointer" name="modoBusqueda"
                                 :id="'radio-' + opcion.valor" :value="opcion.valor" v-model="modoBusqueda" />
-                            <label style="font-size:15px" class="form-check-label"
-                                :for="'radio-' + opcion.valor">
+                            <label v-tooltip.bottom="{
+                                value: opcion.resena,
+                                classes: ['tooltip-rojo'],
+                                style: {
+                                    fontSize: '0.25rem',
+                                },
+                            }" style="font-size:15px" class="form-check-label" :for="'radio-' + opcion.valor">
                                 {{ opcion.texto }}
                             </label>
                         </div>
@@ -118,7 +121,7 @@
                                         :class="['legislaciones-generales', 'jurisprudences-generales', 'jurisprudences-compliance', 'jurisprudences-extincion'].includes(isFilter) && criterioActual === 'year-publication' ? 'col-12 row' : 'd-none'">
                                         <div class="col-12">
                                             <label for="FRESOLUTION1" class="form-label">Fecha de Inicio</label>
-                                            <date-picker v-model="filter.FRESOLUTION1" value-type="format" 
+                                            <date-picker v-model="filter.FRESOLUTION1" value-type="format"
                                                 @change="filter.FRESOLUTION1 = $event" :value="filter.FRESOLUTION1"
                                                 appendTo="self" panelClass="force-open-down">
                                             </date-picker>
@@ -129,7 +132,7 @@
                                         :class="['legislaciones-generales', 'jurisprudences-generales', 'jurisprudences-compliance', 'jurisprudences-extincion'].includes(isFilter) && criterioActual === 'year-publication' ? 'col-12 row' : 'd-none'">
                                         <div class="col-12">
                                             <label for="FRESOLUTION2" class="form-label">Fecha de Fin</label>
-                                            <date-picker v-model="filter.FRESOLUTION2" value-type="format" 
+                                            <date-picker v-model="filter.FRESOLUTION2" value-type="format"
                                                 @change="filter.FRESOLUTION2 = $event" :value="filter.FRESOLUTION2"
                                                 appendTo="self" panelClass="force-open-down">
                                             </date-picker>
@@ -255,9 +258,8 @@
                                     <div class="px-3 mb-3"
                                         :class="['legislaciones-generales'].includes(isFilter) ? 'col-12' : 'd-none'">
                                         <label for="NMRCN" class="form-label">Numeración</label>
-                                        <input type="text" v-model="filter.NMRCN" 
-                                        @keydown.enter="search"
-                                        id="NMRCN" class="form-control" />
+                                        <input type="text" v-model="filter.NMRCN" @keydown.enter="search" id="NMRCN"
+                                            class="form-control" />
                                     </div>
 
                                     <div class="px-3 mb-3"
@@ -328,7 +330,12 @@
                 :autoplay="false" :settings="{ navigationEnabled: true }">
                 <Slide class="p-2 mb-5" v-for="(valor, index) in topSearch" :key="valor.DESCP + '-' + index">
 
-                    <div class="top-search-chip" @click="filter.GLOBAL = valor.DESCP; search()">
+                    <div class="top-search-chip d-flex" @click="filter.GLOBAL = valor.DESCP; search()">
+                        <button
+                            @click.stop="clearTopSearch(index, valor.DESCP)"
+                            class="btn-clear-item">
+                           X
+                        </button>
                         <div class="d-flex align-items-center gap-2" v-tooltip.bottom="{
                             value: valor.DESCP,
                             style: {
@@ -511,9 +518,9 @@ export default {
                 },
             },
             opcionesFiltro: [
-                { valor: 1, texto: 'Contenga solamente estas palabras' },
-                { valor: 2, texto: 'Contenga alguna de estas palabras' },
-                { valor: 3, texto: 'Contenga la frase completa' }
+                { valor: 1, texto: 'Contenga solamente estas palabras', resena: 'Busca resoluciones que incluyan exclusivamente las palabras ingresadas.' },
+                { valor: 2, texto: 'Contenga alguna de estas palabras', resena: 'Busca resoluciones que incluyan exactamente la frase ingresada, manteniendo el mismo orden y las mismas palabras.' },
+                { valor: 3, texto: 'Contenga la frase completa', resena: 'Busca resoluciones que incluyan al menos una de las palabras ingresadas.' }
             ],
             modoBusqueda: 2,
             topSearch: [],
@@ -666,9 +673,32 @@ export default {
 
             this.search(filtro);
         },
+        async clearTopSearch(index, descripcion) {
+            let copyDelete = {
+                index,
+                descripcion
+            }
+            // eliminar de top search
+            this.topSearch.splice(copyDelete.index, 1);
+            await AdminEntriesProxy.clearTopSearch(descripcion, this.typeSaarch)
+                .then((res) => {
+                    if(res.STATUS){
+                        toast.success("Búsqueda eliminada de las más frecuentes", { toastId: "success" });
+                        return
+                    }
+
+                    this.topSearch.push({ DESCP: copyDelete.descripcion });
+                })
+                .catch(() => {
+                    this.topSearch.push({ DESCP: copyDelete.descripcion });
+                });
+
+            console.log("Limpiando top search:", descripcion);
+        },
         async listTopSearch() {
-            await AdminEntriesProxy.listTopSearch()
+            await AdminEntriesProxy.listTopSearch(this.typeSaarch)
                 .then((response) => {
+                    console.log("Top search response:", response);
                     this.topSearch = [];
                     if (!response) {
                         return;
@@ -864,7 +894,7 @@ export default {
             this.table.perPage = 10;
             this.table.totalRows = 0;
 
-            if(indicador == 1){
+            if (indicador == 1) {
                 this.resultados = [];
                 this.table.currentPage = 1;
                 return;
@@ -896,6 +926,12 @@ export default {
                     ...this.filter,
                     ...this.default
                 }
+            },
+            immediate: true,
+        },
+        "typeSaarch": {
+            handler() {
+                this.listTopSearch();
             },
             immediate: true,
         },
@@ -1162,9 +1198,9 @@ input:checked+.slider::before {
     .search-actions .btn-search,
     .search-actions .btn-clear-button {
         width: 80%;
-        margin: 6px auto;       
-        padding: 8px 0;       
-        font-size: 14px;      
+        margin: 6px auto;
+        padding: 8px 0;
+        font-size: 14px;
     }
 }
 
@@ -2007,8 +2043,9 @@ input[type=range]::-webkit-slider-thumb {
     #filterbar-container2 {
         width: 90%;
     }
+
     #filterbar-container2 label {
-        font-size: 13px!important;
+        font-size: 13px !important;
     }
 
     #filterbar-container .filter {
@@ -2128,5 +2165,39 @@ input[type=range]::-webkit-slider-thumb {
 .el-select-dropdown .el-tree {
     max-width: 100%;
     overflow: hidden;
+}
+
+.p-tooltip {
+    background: #e53935 !important;
+    /* fondo rojo */
+    color: #fff !important;
+    /* texto blanco */
+    font-size: 0.75rem !important;
+    border-radius: 6px !important;
+    padding: 6px 10px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+    border: none !important;
+}
+
+/* Personaliza la flecha */
+.p-tooltip-arrow {
+    border-top-color: #e53935 !important;
+}
+
+.btn-clear-item{
+    background-color: #fc9b9b !important;
+    color: white !important;
+    border: none;
+    margin-right: 6px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    border-radius: 10px;
+}
+
+.btn-clear-item:hover {
+    background-color: #f87171 !important;
 }
 </style>

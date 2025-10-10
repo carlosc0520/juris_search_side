@@ -97,6 +97,10 @@
           <div v-html="data.value"></div>
         </template>
 
+        <template #cell(BAN)="data">
+          <div v-html="data.value"></div>
+        </template>
+
         <template #cell(DDIRECTORIO)="data">
           <div v-html="data.value"></div>
         </template>

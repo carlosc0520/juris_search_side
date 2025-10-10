@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "cross-env PUBLIC_URL=/ CI=false vue-cli-service build && gulp licenses",
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env PUBLIC_URL=/ CI=false vue-cli-service build && gulp licenses",
     "lint": "vue-cli-service lint",
     "build:tailwind": "tailwind build src/assets/styles/index.css -o src/assets/styles/tailwind.css",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm run build:tailwind && npm run serve"
@@ -36,6 +36,7 @@
     "npm": "^10.9.0",
     "pdfjs-dist": "^4.6.82",
     "pdfmake": "^0.2.13",
+    "primeicons": "^7.0.0",
     "primevue": "^4.1.0",
     "simple-vue-validator": "^0.16.0",
     "vee-validate": "^4.13.2",

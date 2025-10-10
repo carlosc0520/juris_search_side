@@ -1,3 +1,4 @@
+/* global Culqi */
 <template>
     <section class="bg-landing mt-4 pt-5">
         <div class="container-table flex flex-col mt-4 pt-5">
@@ -8,6 +9,9 @@
                 </a>
                 <a class="cursor-pointer disabled" :class="active == 'facturacion' ? 'active-tab' : ''"
                     :disabled="true">
+                    Pago Seguro
+                </a>
+                <a class="cursor-pointer" :class="active == 'pagos' ? 'active-tab' : ''" @click="updateActive('pagos')">
                     Facturación
                 </a>
             </div>
@@ -80,22 +84,6 @@
                                         v-model="planSelected.PRECIO">
                                 </div>
 
-                                <!-- <div class="col-md-6">
-                                    <label for="tipo_documento" class="form-label">Tipo de documento</label>
-                                    <b-form-select id="tipo_documento" v-model="model.TPODCMNTO">
-                                        <option value="DNI">DNI</option>
-                                        <option value="RUC">RUC</option>
-                                        <option value="CE">CE</option>
-                                        <option value="PASAPORTE">PASAPORTE</option>
-                                    </b-form-select>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="numero_documento" class="form-label">Número de documento</label>
-                                    <input type="text" class="form-control" id="numero_documento"
-                                        v-model="model.NRODCMNTO" placeholder="Número de documento">
-                                </div> -->
-
                                 <div class="col-12 row g-3">
                                     <p class="color-blue-oscuro col-md-7 col-12">Añadir tarjeta de crédito o débito</p>
                                     <div class="col-md-5 col-12 d-flex justify-content-end gap-2 align-items-center">
@@ -108,12 +96,23 @@
 
                                 </div>
 
-                                <div class="col-12">
-                                    <label for="titular_tarjeta" class="form-label">Titular de la tarjeta</label>
-                                    <input type="text" class="form-control" id="titular_tarjeta" v-model="model.TITULAR"
-                                        placeholder="Titular de la tarjeta">
-                                    <span class="message" v-if="validation.hasError('model.TITULAR')">
-                                        {{ validation.firstError('model.TITULAR') }}
+                                <p class="color-blue-oscuro">Datos del titular de la tarjeta</p>
+
+                                <div class="col-12 col-md-6">
+                                    <label for="nombres_titular" class="form-label">Nombres</label>
+                                    <input type="text" class="form-control" id="nombres_titular"
+                                        v-model="model.NOMBRES">
+                                    <span class="message" v-if="validation.hasError('model.NOMBRES')">
+                                        {{ validation.firstError('model.NOMBRES') }}
+                                    </span>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <label for="apellidos_titular" class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control" id="apellidos_titular"
+                                        v-model="model.APELLIDOS">
+                                    <span class="message" v-if="validation.hasError('model.APELLIDOS')">
+                                        {{ validation.firstError('model.APELLIDOS') }}
                                     </span>
                                 </div>
 
@@ -126,28 +125,26 @@
                                     </span>
                                 </div>
 
-                                <div class="col-md-12 mb-3">
-                                    <label class="form-label">Número de tarjeta</label>
-                                    <div id="card-number" ref="cardNumberElement" class="stripe-input"></div>
+                                <div class="col-12 col-md-6">
+                                    <label for="correo_electronico" class="form-label">Teléfono</label>
+                                    <input type="text" class="form-control" id="telefono_titular"
+                                        @input="model.TELEFONO = $event.target.value.replace(/[^0-9]/g, '')"
+                                        v-model="model.TELEFONO" placeholder="Número de teléfono">
+                                    <span class="message" v-if="validation.hasError('model.TELEFONO')">
+                                        {{ validation.firstError('model.TELEFONO') }}
+                                    </span>
                                 </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Fecha de vencimiento</label>
-                                    <div id="card-expiry" ref="cardExpiryElement" class="stripe-input"></div>
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Código CVC</label>
-                                    <div id="card-cvc" ref="cardCvcElement" class="stripe-input"></div>
-                                </div>
-
-                                <div class="col-12">
-                                    <span class="text-danger" v-if="errorPayment">{{ errorPayment }}</span>
+                                <div class="col-12 col-md-6">
+                                    <label for="dni_titular" class="form-label">DNI</label>
+                                    <input type="number" class="form-control" id="dni_titular" v-model="model.DNI"
+                                        placeholder="Número de documento">
                                 </div>
 
                                 <div class="col-12 d-flex justify-content-start mt-4">
-                                    <button type="button" class="btn btn-primary" @click="handleSubmit">
-                                        Pagar subscripción
+                                    <button type="button" class="btn btn-primary" @click="handleSubmit"
+                                        :disabled="culqi.loading">
+                                        Generar Orden de Pago
                                     </button>
                                 </div>
                             </form>
@@ -185,38 +182,115 @@
                         </div>
                     </div>
                 </div>
+
+                <div v-if="active == 'pagos'"
+                    class="mb-5 row flex flex-wrap justify-center gap-5 flex-row-reverse pt-4">
+                    <div class="col-12 row">
+                        <div class="col-md-4 col-12 mb-3">
+                            <label for="BLOG3" class="form-label">
+                                Fecha de pago
+                            </label>
+                            <date-picker v-model="facturacion.FCRCN" :value="facturacion.FCRCN" valueType="format"
+                                :disabledDate="time => time.getTime() > Date.now()"
+                                @change="(date) => facturacion.FCRCN = date"></date-picker>
+                        </div>
+
+                        <div class="col-md-12 col-12 mb-3 btn-actions-view">
+                            <button class="bton btn-search" @click="getFacturaciones">
+                                Buscar
+                            </button>
+                        </div>
+
+                        <card-table :active="active" title="Pagos" :search="getFacturaciones"
+                            :fields="facturacion.fields" :items="facturacion.grid.items" :grid="facturacion.grid"
+                            :actions="facturacion.actions" />
+
+                    </div>
+                </div>
             </div>
+            <LoadingOverlay :active="loading" :is-full-page="false" :loader="'bars'" />
         </div>
-        <LoadingOverlay :active="loading" :is-full-page="false" :loader="'bars'" />
     </section>
 </template>
 
 <script>
+/* global Culqi */
 import { toast } from 'vue3-toastify';
-// import { BFormSelect } from 'bootstrap-vue-next';
 import MantenimientoProxy from "@/proxies/MantenimientoProxy.js";
 import { Validator } from 'simple-vue-validator';
 import corona from "@/assets/img/resources/Corona.png";
-import { loadStripe } from '@stripe/stripe-js'
-import UserProxy from '../../proxies/UserProxy';
-import LoginProxy from '../../proxies/LoginProxy';
+import SubscriptionProxy from '@/proxies/SubscriptionProxy.js';
+import CardTable from "@/components/Cards/CardTable.vue";
+import moment from 'moment';
 
 export default {
     name: "planes",
     components: {
-        // BFormSelect,
+        CardTable
     },
     data() {
         return {
+            culqi: {
+                amount: 185,
+                email: 'ccarbajalmt0520@gmail.com',
+                description: 'SUBSCRIPCIÓN JURISSEARCH',
+                loading: false,
+                message: ''
+            },
+            facturacion: {
+                FCRCN: null,
+                actions: {
+                    edit: {
+                        label: "Editar",
+                        icon: "fas fa-edit",
+                        class: "btn-edit",
+                        action: null,
+                    },
+                },
+                fields: [
+                    {
+                        key: "RN",
+                        label: "",
+                    },
+                    {
+                        key: "DPLAN",
+                        label: "Plan",
+                    },
+                    {
+                        key: "TOTAL",
+                        label: "Total",
+                    },
+                    {
+                        key: "RTAFTO",
+                        label: "Medio de Pago",
+                    },
+                    {
+                        key: "FCHA",
+                        label: "Fecha de Pago",
+                    },
+                    {
+                        key: "BAN",
+                        label: "Estado",
+                    }
+                ],
+                grid: {
+                    items: [],
+                    currentPage: 1,
+                    perPage: 10,
+                    totalRows: 120,
+                    isLoading: true,
+                    pageOptions: [5, 10, 15, 50],
+                },
+            },
             active: "planes",
             planes: [],
             errorPayment: null,
             model: {
-                TITULAR: null,
+                NOMBRES: null,
+                APELLIDOS: null,
                 CORREO: null,
-                NTARJETA: null,
-                FVNMNTO: null,
-                CVV: null,
+                TELEFONO: null,
+                DNI: null,
             },
             planSelected: null,
             corona,
@@ -273,90 +347,183 @@ export default {
         };
     },
     validators: {
-        'model.TITULAR': function (value) {
+        'model.NOMBRES': function (value) {
+            return Validator.value(value).required('Campo requerido');
+        },
+        'model.APELLIDOS': function (value) {
             return Validator.value(value).required('Campo requerido');
         },
         'model.CORREO': function (value) {
             return Validator.value(value).required('Campo requerido').email('Correo electrónico inválido');
         },
+        'model.TELEFONO': function (value) {
+            return Validator.value(value).required('Campo requerido').minLength(9, 'Mínimo 9 dígitos').maxLength(15, 'Máximo 15 dígitos');
+        }
     },
     methods: {
         async handleSubmit() {
             const validate = await this.$validate();
             if (!validate) return;
 
-            this.loading = true;
-            this.errorPayment = null;
-            const res = await fetch('http://localhost:3000/payment/create-payment-intent', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
+            const CULQI_PUBLIC_KEY = 'pk_test_xn4SkqpCLsx62ZOL';
+            const amountNumber = Number(this.planSelected?.PRECIO);
+
+            if (isNaN(amountNumber) || amountNumber <= 0) {
+                toast.error('Monto del plan no válido', { toastId: 'error' });
+                return;
+            }
+
+            this.culqi.loading = true;
+            const loadingToast = toast.loading('Generando orden de pago...', {
+                timeout: false,
+                closeOnClick: false,
+            });
+
+            try {
+                // 🧾 Crear orden desde backend
+                const response = await SubscriptionProxy.create({
+                    amount: amountNumber,
+                    description: this.planSelected.DESCRIPCION,
                     email: this.model.CORREO,
-                    amount: this.planSelected.PRECIO * 1,
-                }),
-            });
+                    nombres: this.model.NOMBRES,
+                    apellidos: this.model.APELLIDOS,
+                    telefono: this.model.TELEFONO,
+                    dni: this.model.DNI
+                });
 
-            const { clientSecret } = await res.json();
+                toast.remove(loadingToast);
 
-            const { error, paymentIntent } = await this.stripe.confirmCardPayment(clientSecret, {
-                payment_method: {
-                    card: this.cardNumber,
-                    billing_details: {
-                        name: this.model.TITULAR,
-                        email: this.model.CORREO,
+                if (!response.success) {
+                    toast.error(response?.message || '❌ Error al crear la orden de pago.', { toastId: 'error' });
+                    this.culqi.loading = false;
+                    return;
+                }
+
+                // 💳 Configurar Culqi Checkout
+                Culqi.publicKey = CULQI_PUBLIC_KEY;
+                Culqi.settings({
+                    title: 'JURIS SEARCH',
+                    currency: 'PEN',
+                    description: this.planSelected.DESCRIPCION,
+                    amount: amountNumber * 100, // siempre en céntimos
+                    order: response.data.id,
+                    logo: 'https://jurissearch.com/img/logo-full.e849dab8.png',
+                    paymentMethods: {
+                        tarjeta: true,
+                        yape: true,
+                    },
+                    style: {
+                        maincolor: '#0052cc',
+                        buttontext: '#ffffff',
+                        maintext: '#4A4A4A',
+                        desctext: '#4A4A4A'
+                    },
+                    options: {
+                        // modal: true,
+                        lang: 'es',
+                        paymentMethodsOrder: ['yape', 'tarjeta']
                     }
-                },
-            });
+                });
 
-            if (error) {
-                this.loading = false;
-                this.errorPayment = error.message || 'Ocurrió un error al procesar el pago';
-            } else {
-                if (paymentIntent.status === 'succeeded') {
-                    const loadingToast = toast.loading("Espere un momento...");
-                    await UserProxy.paymentSubscription({
-                        IDPLN: this.planSelected.ID,
-                        DPLAN: this.planSelected.DESCRIPCION,
-                        MESES: this.planSelected.TIEMPO,
-                        TOTAL: this.planSelected.PRECIO,
-                    })
-                        .then(async response => {
-                            const toastMessage = response.STATUS ? "Datos actualizados con éxito" : response.MESSAGE;
-                            if (response.STATUS) {
-                                this.$swal.fire({
-                                    title: 'Pago realizado con éxito',
-                                    html: `<p>Tu plan ha sido actualizado a <strong>${this.planSelected.DESCRIPCION}</strong>, por favor vuelve a iniciar sesión para ver los cambios.</p>`,
-                                    icon: 'success',
-                                    confirmButtonText: 'Aceptar'
-                                }).then(async (result) => {
-                                    if (result.isConfirmed) {
-                                        await LoginProxy.logout();
+                Culqi.open();
+                this.culqi.loading = false; 
 
-                                        localStorage.removeItem("user");
-                                        localStorage.removeItem("accessToken");
-                                        this.$router.push("/auth/login");
-                                    }
-                                });
+                // ⚡ Callback de Culqi
+                window.culqi = async () => {
+                    if (Culqi.token) {
+                        const token = Culqi.token.id;
+
+                        try {
+                            const chargeRes = await SubscriptionProxy.chargeWithToken({
+                                token,
+                                order_id: response.data.id,
+                                email: this.model.CORREO,
+                                amount: amountNumber,
+                                id_plan: this.planSelected.ID,
+                                tipo: token.substring(0, 4)
+                            });
 
 
-                            } else {
-                                toast.error(toastMessage);
+                            Culqi.close(); // cierra siempre el iframe
+
+                            // 🟣 Pago con Yape
+                            if (token.startsWith('ype_')) {
+                                if (chargeRes?.success) {
+                                    this.$swal({
+                                        title: chargeRes?.data?.outcome?.user_message || '✅ Pago con Yape exitoso',
+                                        text: chargeRes?.data?.outcome?.merchant_message || '✅ Tu pago con Yape ha sido procesado exitosamente.',
+                                        icon: 'success',
+                                        confirmButtonText: 'Aceptar'
+                                    }).then(() => {
+                                        this.active = 'planes';
+                                    });
+
+                                } else {
+                                    this.$swal({
+                                        title: 'Error en el pago con Yape',
+                                        text: chargeRes?.message || '❌ Ocurrió un error al procesar el pago con Yape.',
+                                        icon: 'error',
+                                        confirmButtonText: 'Aceptar'
+                                    });
+                                }
                             }
 
-                        })
-                        .catch(err => {
-                            this.loading = false;
-                            toast.error(err?.MESSAGE || "Error al realizar el pago")
-                        })
-                        .finally(() => {
-                            this.loading = false;
-                            toast.remove(loadingToast);
-                        });
+                            // 💳 Pago con tarjeta
+                            else if (token.startsWith('tkn_')) {
+                                if (!chargeRes.success) {
+                                    this.$swal({
+                                        title: chargeRes?.title === 'operacion_denegada'
+                                            ? 'Operación denegada'
+                                            : 'Pago rechazado',
+                                        text: chargeRes?.message || 'El pago fue rechazado. Intenta con otra tarjeta o medio de pago.',
+                                        icon: 'error',
+                                        confirmButtonText: 'Aceptar'
+                                    });
+                                    return;
+                                }
 
-                } else {
-                    this.loading = false;
-                    this.errorPayment = 'El pago no se pudo completar. Por favor, inténtalo de nuevo.';
-                }
+                                this.$swal({
+                                    title: chargeRes?.data?.outcome?.user_message || 'Pago exitoso',
+                                    text: chargeRes?.data?.outcome?.merchant_message || '',
+                                    icon: 'success',
+                                    confirmButtonText: 'Aceptar'
+                                }).then(() => {
+                                    this.active = 'planes';
+                                    console.log('✅ Pago completado:', chargeRes);
+                                });
+                            }
+
+                        } catch (err) {
+                            Culqi.close();
+                            console.error('Error al procesar pago:', err);
+                            this.$swal({
+                                title: 'Error en el pago',
+                                text: `${err.merchant_message || ''} ${err.user_message || ''}`.trim() ||
+                                    'Ocurrió un error al procesar el pago.',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        } finally {
+                            this.culqi.loading = false;
+                        }
+                    } else {
+                        // 🟡 Usuario cerró el iframe sin pagar
+                        Culqi.close();
+                        this.$swal({
+                            title: 'Pago cancelado',
+                            text: 'Has cerrado el formulario sin completar el pago.',
+                            icon: 'info',
+                            confirmButtonText: 'Aceptar'
+                        });
+                        this.culqi.loading = false;
+                    }
+                };
+            } catch (error) {
+                toast.remove(loadingToast);
+                toast.error(error?.message || '⚠️ Ocurrió un error al procesar la suscripción.', {
+                    toastId: 'error',
+                });
+                this.culqi.loading = false;
             }
         },
 
@@ -377,33 +544,64 @@ export default {
                 ROWS: 1000,
                 INIT: 0,
                 DESC: null
-            }
-            ).then((response) => {
-                response = response.map((item) => {
-                    item.PRECIO = item.PRECIO.toFixed(2);
-                    item.TIEMPO = Number((item.TIEMPO / 30).toFixed(0));
-                    item["DETALLE"] = this.planesSuggets?.[item.VALOR] || {
-                        RESTRICIONES: [],
-                        descripcion: ""
-                    };
-                    item["PERIODO"] = item?.TIEMPO + (item?.TIEMPO <= 1 ? ' mes' : ' meses');
-
-                    return item;
-                });
-
-                const principalIndex = response.findIndex(item => item.PRINCIPAL);
-                if (principalIndex !== -1 && principalIndex < response.length - 1) {
-                    const principalItem = response.splice(principalIndex, 1)[0];
-                    response.splice(response.length - 1, 0, principalItem);
-                }
-
-
-
-                this.planes = response;
             })
+                .then((response) => {
+                    response = response.map((item) => {
+                        item.PRECIO = item.PRECIO.toFixed(2);
+                        item.TIEMPO = Number((item.TIEMPO / 30).toFixed(0));
+                        item["DETALLE"] = this.planesSuggets?.[item.VALOR] || {
+                            RESTRICIONES: [],
+                            descripcion: ""
+                        };
+                        item["PERIODO"] = item?.TIEMPO + (item?.TIEMPO <= 1 ? ' mes' : ' meses');
+
+                        return item;
+                    });
+
+                    const principalIndex = response.findIndex(item => item.PRINCIPAL);
+                    if (principalIndex !== -1 && principalIndex < response.length - 1) {
+                        const principalItem = response.splice(principalIndex, 1)[0];
+                        response.splice(response.length - 1, 0, principalItem);
+                    }
+
+                    this.planes = response.filter(item => item.ID > 1);
+                })
                 .catch((error) => {
                     toast.error(error?.message || 'Ocurrió un error al obtener los planes', { toastId: 'error' });
                 })
+        },
+        async getFacturaciones() {
+            const init = (this.facturacion.grid.currentPage - 1) * this.facturacion.grid.perPage;
+            const rows = this.facturacion.grid.perPage;
+
+            this.facturacion.grid.isLoading = true;
+            await SubscriptionProxy.payment_list({
+                ROWS: rows,
+                INIT: init,
+                FCRCN: this.facturacion?.FCRCN || null
+            })
+                .then((response) => {
+                    console.log("response", response);
+                    this.facturacion.grid.items = response.map(item => {
+                        item.TOTAL = 'S/ ' + Number(item.TOTAL).toFixed(2);
+                        item.RTAFTO = item.TIPO === 'YAPE' ? '<i class="pi pi-mobile mr-2" style="font-size:1em;"></i> Yape' :
+                            item.TIPO === 'TARJETA' ? '<i class="pi pi-credit-card mr-2" style="font-size:1em;"></i> Tarjeta' :
+                                item.TIPO === 'PLIN' ? '<i class="pi pi-mobile mr-2" style="font-size:1em;"></i> Plin' :
+                                    item.TIPO === 'TRANSFERENCIA' ? '<i class="pi pi-unlock mr-2" style="font-size:1em;"></i> Transferencia' :
+                                        item.TIPO;
+                        item.FCHA = item.FCRCN ? moment(item.FCRCN).format('DD/MM/YYYY, h:mm a') : '';
+                        item.BAN = '<span class="badge bg-success text-white">Pagado</span>';
+                        return item;
+                    })
+                        || [];
+                    this.facturacion.grid.totalRows = response?.[0]?.TOTALROWS || 0;
+                })
+                .catch((error) => {
+                    this.facturacion.grid.items = [];
+                    this.facturacion.grid.totalRows = 0;
+                    console.error("error", error);
+                })
+                .finally(() => this.facturacion.grid.isLoading = false);
         },
         capitalizeFirst(text) {
             if (!text) return "";
@@ -419,45 +617,38 @@ export default {
 
             if (newValue === 'facturacion') {
                 this.validation.reset();
+                // this.model = {
+                //     NOMBRES: "Carlos Ruben",
+                //     APELLIDOS: "Carbajal Matias",
+                //     CORREO: "ccarbajalmt0520@gmail.com",
+                //     TELEFONO: "950181301",
+                //     DNI: "70812345"
+                // };
                 this.model = {
-                    TITULAR: null,
+                    NOMBRES: null,
+                    APELLIDOS: null,
                     CORREO: null,
-                    NTARJETA: null,
-                    FVNMNTO: null,
-                    CVV: null,
+                    TELEFONO: null,
+                    DNI: null
                 };
                 this.errorPayment = null;
-
-                this.stripe = await loadStripe('pk_test_51RX40d4TnxiUUAq0pBxvzmlVcgTALd3Go41M8rijj8ynroddeKPmz3uE7V7vW9h1Xh7PyxTeeHpw9hrl5kbMk4SK00lJCHtr7n');
-                this.elements = this.stripe.elements();
-
-                if (this.cardNumber) {
-                    this.cardNumber.unmount();
-                    this.cardNumber = null;
-                }
-                if (this.cardExpiry) {
-                    this.cardExpiry.unmount();
-                    this.cardExpiry = null;
-                }
-                if (this.cardCvc) {
-                    this.cardCvc.unmount();
-                    this.cardCvc = null;
-                }
-
-                this.$nextTick(() => {
-                    this.cardNumber = this.elements.create('cardNumber');
-                    this.cardNumber.mount(this.$refs.cardNumberElement);
-
-                    this.cardExpiry = this.elements.create('cardExpiry');
-                    this.cardExpiry.mount(this.$refs.cardExpiryElement);
-
-                    this.cardCvc = this.elements.create('cardCvc');
-                    this.cardCvc.mount(this.$refs.cardCvcElement);
-                });
+                this.culqi.message = '';
+                this.culqi.loading = false;
+                this.loading = false;
             }
-        },
+
+            if (newValue === 'pagos') {
+                this.getFacturaciones(1, this.facturacion.grid.perPage);
+                this.facturacion.grid.currentPage = 1;
+                this.facturacion.grid.perPage = 10;
+                this.facturacion.grid.isLoading = false;
+            }
+        }
     },
     async mounted() {
+        if (typeof window.Culqi === 'undefined') {
+            console.warn('SDK de Culqi no disponible. ¿Agregaste el <script> en index.html?')
+        }
         this.getPlanes();
     },
 }
@@ -512,5 +703,9 @@ export default {
     .form-pago form {
         padding: 0px;
     }
+}
+
+.swal2-container {
+    z-index: 99999 !important;
 }
 </style>

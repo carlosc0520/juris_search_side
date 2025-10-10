@@ -42,9 +42,9 @@ export default {
             menu: [
                 { name: 'Busqueda', route: '/usuario/busqueda', icon: busquedaIcon },
                 { name: 'Perfil', route: '/usuario/settings', icon: perfilIcon },
-                { name: 'Subscripción', route: '/usuario/subscripcion', icon: subscripcionIcon },
                 // { name: 'Publicación', route: '/usuario/dashboard', icon: homeIcon },
                 { name: 'Favoritos', route: '/usuario/favoritos', icon: estrellaIcon },
+                { name: 'Subscripción', route: '/usuario/subscripcion', icon: subscripcionIcon },
                 // { name: "Reportes", route: "/usuario/reportes", icon: reportIcon },
             ],
         };

@@ -15,7 +15,7 @@
             </div>
 
             <div class="row">
-                <div class="col-12 mb-3 input-search" :class="active === 'documentos' ? 'col-md-6' : 'col-md-12'">
+                <div class="col-12 mb-3 input-search" :class="active === 'documentos' || !visibleDirectorios.visible ? 'col-md-6' : 'col-md-12'">
                     <img src="@/assets/img/icons/search.svg" alt="search" class="icon-search" />
 
                     <input type="text" class="form-control" style="height: 50px;"
@@ -23,8 +23,10 @@
                         v-model="filter.SEARCH" id="name" />
                 </div>
 
-                <div class="col-md-3 col-12 mb-3" v-if="active === 'documentos'">
-                    <b-form-select v-model="filter.IDDIRECTORIO" :options="[
+                <div class="col-md-3 col-12 mb-3" v-if="active === 'documentos'|| !visibleDirectorios.visible">
+                    <b-form-select v-model="filter.IDDIRECTORIO" 
+                    :disabled="!visibleDirectorios.visible"
+                    :options="[
                         ...directorios.map((item) => {
                             return {
                                 text: item.DSCRPCN,
@@ -35,7 +37,7 @@
                     </b-form-select>
                 </div>
 
-                <div class="col-md-3 col-12 mb-3" v-if="active === 'documentos'">
+                <div class="col-md-3 col-12 mb-3" v-if="active === 'documentos' || !visibleDirectorios.visible">
                     <b-form-select v-model="filter.SHARED" :options="[
                         { text: 'Todos', value: 'T' },
                         { text: 'Mis Documentos', value: 'M' },
@@ -47,7 +49,7 @@
 
                 <div class="col-md-12 col-12 mb-3 btn-actions-view">
                     <button class="bton btn-search"
-                        @click="active === 'documentos' ? searchDocuments() : searchDirectorios()">
+                        @click="active === 'documentos' || !visibleDirectorios.visible ? searchDocuments() : searchDirectorios()">
                         Buscar
                     </button>
                     <button class="bton btn-create" @click="createDirectory" v-if="active === 'directorios'">
@@ -61,8 +63,8 @@
                 </div>
             </div>
 
-            <div class="row actions-container-tiem" v-if="active === 'directorios'">
-                <div class="col-md-12 col-12 mb-3 class-actions">
+            <div class="row" v-if="active === 'directorios'">
+                <div class="col-md-12 col-12 mb-3 class-actions" v-if="visibleDirectorios.visible">
                     <!-- <button>
                         <img src="@/assets/img/icons/shared.svg" alt="favoritos" class="w-4 h-4">
                         Compartir
@@ -76,40 +78,53 @@
                         Eliminar
                     </button>
                 </div>
-                <div class="row g-0 col-12 class-antions-container">
-                    <div v-for="(item, index) in directoriosUser" :key="index" class="col-md-3 col-12 mb-3">
-                        <div class="card card-directorios">
-                            <div class="card-body">
-                                <div class="d-flex flex-column">
-                                    <div class="contenedor-carpeta">
-                                        <div class="contenedor-title-carpeta">
-                                            <img src="@/assets/img/icons/carpeta.svg" alt="folder"
-                                                class="icon-folder" />
-                                            <h6 class="mb-0">
-                                                {{ item.label }}
-                                            </h6>
+                <div class="row col-12">
+                    <div v-if="visibleDirectorios.visible" class="row">
+                        <div v-for="(item, index) in directoriosUser" :key="index" class="col-md-3 col-12 mb-3">
+                            <div class="card card-directorios" @click="isVisibleTable(item)">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column">
+                                        <div class="contenedor-carpeta">
+                                            <div class="contenedor-title-carpeta">
+                                                <img src="@/assets/img/icons/carpeta.svg" alt="folder"
+                                                    class="icon-folder" />
+                                                <h6 class="mb-0">
+                                                    {{ item.label }}
+                                                </h6>
+                                            </div>
+                                            <input type="checkbox" @click.stop @change="saveSelectedDirectory(item)"
+                                                class="form-check-input" id="exampleCheck1" />
                                         </div>
-                                        <input type="checkbox" @change="saveSelectedDirectory(item)"
-                                            class="form-check-input" id="exampleCheck1" />
-                                    </div>
-                                    <div class="mt-5 contenedor-footer-carpeta">
-                                        <p class="p-c1">
-                                            {{ item.children.length }} {{ item.children.length == 1 ? 'documento' :
-                                                'documentos' }}
-                                        </p>
-                                        <p class="p-c2">
-                                            {{ item.fcrcn }}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p class="p-c3 m-0">
-                                            Creado por: <span class=""> {{ item.ucrcn }} </span>
-                                        </p>
+                                        <div class="mt-5 contenedor-footer-carpeta">
+                                            <p class="p-c1">
+                                                {{ item.children.length }} {{ item.children.length == 1 ? 'documento' :
+                                                    'documentos' }}
+                                            </p>
+                                            <p class="p-c2">
+                                                {{ item.fcrcn }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p class="p-c3 m-0">
+                                                Creado por: <span class=""> {{ item.ucrcn }} </span>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
+    
                             </div>
-
                         </div>
+                    </div>
+                    <div class="w-full mb-12" v-else>
+                        <!-- // boton regresar -->
+                        <button class="bton btn-regresar mb-3 d-flex" @click="visibleDirectorios.visible = true">
+                            <img 
+                            height="16" width="16"
+                            src="@/assets/img/icons/arrow-left.svg" alt="back" class="mr-1">
+                            Regresar
+                        </button>
+                        <card-table v-if="!visibleDirectorios.visible" :search="searchDocuments" :fields="fieldsDocumentos"
+                            :items="dataDocuments" :grid="grid" :actions="actionsDocuments" />
                     </div>
                 </div>
             </div>
@@ -117,7 +132,7 @@
             <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
 
             <ModalMostrarResolucion :openModal="openModal" :toggleModal="() => this.openModal = !this.openModal"
-                :pdfUrl="pdfUrl" :data="rowData" :isFav="false" :role="role" />
+                :pdfUrl="pdfUrl" :data="rowData" :isFav="false" />
 
             <ModalCompartirEntrada :openModal="openModalCompartir"
                 :toggleModal="() => this.openModalCompartir = !this.openModalCompartir" :data="rowDataCompartir" />
@@ -150,6 +165,10 @@ export default {
     },
     data() {
         return {
+            // directorios
+            visibleDirectorios: {
+                visible: true,
+            },
             isLoading: false,
             active: 'documentos',
 
@@ -273,12 +292,6 @@ export default {
                 }
             },
 
-        }
-    },
-    props: {
-        role: {
-            type: Object,
-            default: () => { }
         }
     },
     methods: {
@@ -441,6 +454,7 @@ export default {
                             if (response.STATUS) {
                                 toast.success("Directorio creado con éxito");
                                 this.searchDirectorios();
+                                this.getDirectorios();
                             } else {
                                 toast.error(response.MESSAGE);
                             }
@@ -644,7 +658,13 @@ export default {
                         .finally(() => this.isLoading = false);
                 }
             })
-        }
+        },
+        isVisibleTable(item) {
+            this.filter.IDDIRECTORIO = item.directorio;
+            this.filter.SEARCH = '';
+            this.filter.SHARED = 'T';
+            this.visibleDirectorios.visible = false;
+        },
     },
     // escucha de active
     watch: {
@@ -654,14 +674,17 @@ export default {
             this.filter.SHARED = 'T';
             if (newValue === 'documentos') {
                 this.searchDocuments();
+                this.getDirectorios();
             } else if (newValue === 'directorios') {
+                this.visibleDirectorios.visible = true;
                 this.searchDirectorios();
             }
-        }
+        },
     },
     mounted() {
         this.searchDocuments();
         this.getDirectorios();
+
         this.actionsDocuments = {
             ...this.actionsDocuments,
             view: {
@@ -809,17 +832,7 @@ export default {
     cursor: pointer;
 }
 
-
-@media (min-width: 800px) {
-    .class-antions-container {
-        gap: 2rem !important
-    }
-}
-
-@media (max-width: 759px) {
-    .actions-container-tiem {
-        --bs-gutter-y: 0.2rem;
-        --bs-gutter-x: 0.2rem;
-    }
+.card-directorios:hover {
+    cursor: pointer;
 }
 </style>

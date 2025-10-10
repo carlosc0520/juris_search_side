@@ -77,7 +77,9 @@
             <div class="col-md-3 col-12 mb-3">
               <label class="block text-blueGray-600 text-xs font-bold mb-2">
                 Fecha Nacimiento <span class="text-danger">*</span></label>
-              <date-picker v-model="modelo.FNACIMIENTO" :class="{ error: validation.hasError('modelo.FNACIMIENTO') }"
+              <date-picker
+                placeholder="YYYY-MM-DD"  
+                v-model="modelo.FNACIMIENTO" :class="{ error: validation.hasError('modelo.FNACIMIENTO') }"
                 :value="modelo.FNACIMIENTO" valueType="format" :disabledDate="time => time.getTime() > Date.now()"
                 @change="(date) => modelo.FNACIMIENTO = date"></date-picker>
               <span class="message" v-if="validation.hasError('modelo.FNACIMIENTO')">
@@ -349,6 +351,9 @@ export default {
     UPDATERTAFTO: {
       type: Function, default: () => { },
     },
+    RTAFTO: {
+      type: String, default: null,
+    },
   },
   methods: {
     async save(e) {
@@ -370,7 +375,6 @@ export default {
           const toastMessage = response.STATUS ? "Datos actualizados con éxito" : response.MESSAGE;
           if (response.STATUS) {
             toast.success(toastMessage);
-            this.reset();
             await this.getUser();
           } else {
             toast.error(toastMessage);
@@ -407,6 +411,7 @@ export default {
           let USUARIO = JSON.parse(localStorage.getItem("user")) || {};
           USUARIO.RTAFTO = this.modelo.RTAFTO;
           localStorage.setItem("user", JSON.stringify(USUARIO));
+          this.UPDATERTAFTO();
         })
         .catch((error) => {
           toast.error(error?.MESSAGE || 'Error al cargar los magistrados', { toastId: 'error-magistrados' })
@@ -418,6 +423,7 @@ export default {
     },
     reset() {
       this.modelo = {
+        ...this.modelo,
         APATERNO: null,
         AMATERNO: null,
         NOMBRES: null,

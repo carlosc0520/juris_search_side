@@ -38,6 +38,7 @@ import "vue-datepicker-next/locale/es";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import Tooltip from 'primevue/tooltip';
+import 'primeicons/primeicons.css';
 
 import routes from "./router/RouterIndex";
 

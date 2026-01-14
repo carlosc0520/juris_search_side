@@ -188,3 +188,4 @@ export default {
     padding: 5px!important;
 }
 </style>
+<style scoped src="@/assets/styles/modal-styles.css"></style>

@@ -1,61 +1,116 @@
 <template>
-    <section class="bg-landing mt-4 pt-5">
-        <div class="container-table flex flex-col mt-4 pt-5">
-            <div class="flex mb-3 gap-4 flex-col md:flex-row contenedor-tab">
-                <a class="cursor-pointer" :class="active === 'noticias' ? 'active-tab' : ''"
-                    @click="updateActive('noticias')">
-                    Noticias
-                </a>
-                <a class="cursor-pointer" :class="active === 'autores' ? 'active-tab' : ''"
-                    @click="updateActive('autores')">
-                    Autores
-                </a>
-                <a class="cursor-pointer" :class="active === 'categorias' ? 'active-tab' : ''"
-                    @click="updateActive('categorias')">
-                    Categorías
-                </a>
-                <a class="cursor-pointer" :class="active === 'recursos' ? 'active-tab' : ''"
-                    @click="updateActive('recursos')">
-                    Recursos
-                </a>
+    <section class="noticias-container mt-4 pt-2">
+        <!-- Header con Título -->
+        <div class="noticias-header">
+            <div class="noticias-header-content">
+                <div class="header-title-section">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+                        <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                    </svg>
+                    <div>
+                        <h1 class="noticias-title">Noticias y Contenido</h1>
+                        <p class="noticias-subtitle">Gestión de noticias, autores, categorías y recursos</p>
+                    </div>
+                </div>
             </div>
-            <div class="row">
-                <div class="col-md-9 col-12 mb-3 input-search">
-                    <img :src="searchIcon" alt="search" class="icon-search" />
+        </div>
 
-                    <input type="text" class="form-control"
-                        :placeholder="`Buscar por ${active === 'noticias' ? 'noticia' : active === 'autores' ? 'autor' : active === 'categorias' ? 'categoría' : 'recurso'}`"
-                        v-model="filter.NOMBRES" id="name" />
+        <div class="noticias-content">
+            <!-- Modern Tabs -->
+            <div class="tabs-modern">
+                <button
+                    class="tab-button"
+                    :class="{ 'tab-active': active === 'noticias' }"
+                    @click="updateActive('noticias')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                    </svg>
+                    <span>Noticias</span>
+                </button>
+                <button
+                    class="tab-button"
+                    :class="{ 'tab-active': active === 'autores' }"
+                    @click="updateActive('autores')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    <span>Autores</span>
+                </button>
+                <button
+                    class="tab-button"
+                    :class="{ 'tab-active': active === 'categorias' }"
+                    @click="updateActive('categorias')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                    </svg>
+                    <span>Categorías</span>
+                </button>
+                <button
+                    class="tab-button"
+                    :class="{ 'tab-active': active === 'recursos' }"
+                    @click="updateActive('recursos')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span>Recursos</span>
+                </button>
+            </div>
+            <!-- Filtros Modernos -->
+            <div class="filters-section">
+                <div class="search-input-wrapper">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input
+                        type="text"
+                        class="modern-input"
+                        :placeholder="`Buscar por ${active === 'noticias' ? 'noticia' : active === 'autores' ? 'autor' : active === 'categorias' ? 'categoría' : 'recurso'}...`"
+                        v-model="filter.NOMBRES"
+                        id="name" />
                 </div>
 
-                <div class="col-md-3 col-12 mb-3">
-                    <b-form-select v-model="filter.CDESTDO" :options="[
-                        { text: '-- Seleccione Estado ', value: null },
-                        { text: 'Activo', value: 'A' },
-                        { text: 'Inactivo', value: 'I' }]">
+                <div class="select-wrapper">
+                    <b-form-select
+                        v-model="filter.CDESTDO"
+                        class="modern-select"
+                        :options="[
+                            { text: '-- Seleccione Estado ', value: null },
+                            { text: 'Activo', value: 'A' },
+                            { text: 'Inactivo', value: 'I' }]">
                     </b-form-select>
                 </div>
 
-                <div class="col-md-12 col-12 mb-3 btn-actions-view">
-                    <button class="bton btn-search" @click="() => {
+                <div class="button-group">
+                    <button class="modern-btn btn-search" @click="() => {
                         if (active === 'noticias') searchNoticias(grid.currentPage, grid.perPage);
                         if (active === 'autores') searchAutores(grid.currentPage, grid.perPage);
                         if (active === 'categorias') searchCategorias(grid.currentPage, grid.perPage);
                         if (active === 'recursos') searchRecursos(grid.currentPage, grid.perPage);
-                    }
-                    ">
-                        Buscar
+                    }">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                        <span>Buscar</span>
                     </button>
-                    <button class="bton btn-create" @click="() => {
+                    <button class="modern-btn btn-create" @click="() => {
                         if (active === 'noticias') modalAgregarNoticia.show = true;
                         if (active === 'autores') modalAgregarAutor.show = true;
                         if (active === 'categorias') modalAgregarCategoria.show = true;
                         if (active === 'recursos') modalAgregarRecurso.show = true;
-                    }">Crear</button>
+                    }">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        <span>Crear</span>
+                    </button>
                 </div>
             </div>
 
-            <div class="w-full mb-12">
+            <!-- Tablas -->
+            <div class="table-section">
                 <card-table v-if="active == 'noticias'" :active="active" title="" :search="searchNoticias"
                     :fields="fieldsNoticias" :items="dataNoticia" :grid="grid" :actions="actionsNoticias" />
                 <card-table v-if="active == 'autores'" :active="active" title="" :search="searchAutores"
@@ -660,8 +715,300 @@ export default {
 </script>
 
 <style scoped>
-.container-table {
-    max-width: 90%;
+/* Container Principal */
+.noticias-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+/* Header */
+.noticias-header {
+    background: white;
+    border-bottom: 1px solid #E5E7EB;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.noticias-header-content {
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.header-title-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.header-icon {
+    flex-shrink: 0;
+    color: #185CE6;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.noticias-title {
+    font-family: Lato, sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.noticias-subtitle {
+    font-family: Lato, sans-serif;
+    color: #6B7280;
+    font-size: 0.95rem;
+    margin: 0.25rem 0 0 0;
+}
+
+/* Content */
+.noticias-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem 2rem;
+}
+
+/* Modern Tabs */
+.tabs-modern {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 2rem;
+    background: white;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.tab-button {
+    flex: 1;
+    padding: 14px 24px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.tab-button:hover {
+    background: rgba(139, 92, 246, 0.08);
+    color: #8B5CF6;
+}
+
+.tab-button.tab-active {
+    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.tab-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Filters Section */
+.filters-section {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Search Input */
+.search-input-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.modern-input {
+    width: 100%;
+    padding: 12px 14px 12px 44px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+    color: #1e293b;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #f8fafc;
+}
+
+.modern-input:focus {
+    outline: none;
+    border-color: #8B5CF6;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.modern-input::placeholder {
+    color: #94a3b8;
+}
+
+/* Select Wrapper */
+.select-wrapper {
+    position: relative;
+}
+
+.modern-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+    color: #1e293b;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-select:focus {
+    outline: none;
+    border-color: #8B5CF6;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.modern-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.modern-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.btn-search {
+    background: linear-gradient(135deg, #8B5CF6 0%, #185CE6 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.btn-search:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+}
+
+.btn-create {
+    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(223, 45, 178, 0.3);
+}
+
+.btn-create:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(223, 45, 178, 0.4);
+}
+
+/* Table Section */
+.table-section {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .noticias-header-content {
+        padding: 0 1rem;
+    }
+
+    .header-title-section {
+        gap: 1rem;
+    }
+
+    .header-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .noticias-title {
+        font-size: 1.5rem;
+    }
+
+    .noticias-subtitle {
+        font-size: 0.85rem;
+    }
+
+    .noticias-content {
+        padding: 0 1rem 1rem;
+    }
+
+    .tabs-modern {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .tab-button {
+        width: 100%;
+        padding: 12px 20px;
+    }
+
+    .filters-section {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .button-group {
+        width: 100%;
+    }
+
+    .modern-btn {
+        flex: 1;
+        justify-content: center;
+    }
 }
 </style>

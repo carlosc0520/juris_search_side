@@ -22,6 +22,8 @@ import busquedaIcon from '@/assets/img/icons/busqueda.svg';
 import perfilIcon from '@/assets/img/icons/perfil.svg';
 import estrellaIcon from '@/assets/img/icons/estrella.svg';
 import subscripcionIcon from '@/assets/img/icons/subscripcion.svg';
+// import reportIcon from '@/assets/img/icons/report.svg';
+import noticiasIcon from '@/assets/img/icons/noticias.svg';
 
 export default {
     name: "admin-layout",
@@ -45,6 +47,7 @@ export default {
                 // { name: 'Publicación', route: '/usuario/dashboard', icon: homeIcon },
                 { name: 'Favoritos', route: '/usuario/favoritos', icon: estrellaIcon },
                 { name: 'Subscripción', route: '/usuario/subscripcion', icon: subscripcionIcon },
+                { name: 'Investigación', route: '/usuario/investigacion', icon: noticiasIcon },
                 // { name: "Reportes", route: "/usuario/reportes", icon: reportIcon },
             ],
         };

@@ -49,6 +49,7 @@ export default {
         { name: 'Mantenimiento', route: '/admin/mantenimiento', icon: mantenimientoIcon },
         { name: "Favoritos", route: "/admin/favoritos", icon: estrellaIcon },
         { name: "Noticias", route: "/admin/noticias", icon: noticiasIcon },
+        // { name: "Juris GPT", route: "/admin/jurisgpt", icon: noticiasIcon },
 
         // { name: 'Busqueda', route: '/admin/busqueda', icon: 'fas fa-search' },
         // { name: 'Perfil', route: '/admin/settings', icon: 'fas fa-user' },

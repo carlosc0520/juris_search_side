@@ -1,91 +1,182 @@
 <template>
-    <section class="bg-landing mt-4 pt-5">
-        <div class="container-table flex flex-col mt-4 pt-5">
-            <div class="flex mb-3 gap-4 flex-col md:flex-row contenedor-tab">
-                <a class="cursor-pointer" :class="active == '0' ? 'active-tab' : ''" @click="updateActive('0')">
-                    Magistrados
-                </a>
-                <a class="cursor-pointer" :class="active == '1' ? 'active-tab' : ''" @click="updateActive('1')">
-                    Filtros
-                </a>
-                <a class="disabled cursor-not-allowed" disabled :class="active == '2' ? 'active-tab' : ''">
-                    Nivel 2
-                </a>
-                <a class="disabled cursor-not-allowed" disabled :class="active == '3' ? 'active-tab' : ''">
-                    Nivel 3
-                </a>
-                <a class="disabled cursor-not-allowed" disabled :class="active == '4' ? 'active-tab' : ''">
-                    Nivel 4
-                </a>
-                <a class="disabled cursor-not-allowed" disabled :class="active == '5' ? 'active-tab' : ''">
-                    Nivel 5
-                </a>
-                <a class="disabled cursor-not-allowed" disabled :class="active == '6' ? 'active-tab' : ''">
-                    Nivel 6
-                </a>
+    <section class="filtros-container mt-4 pt-2">
+        <!-- Header con Título -->
+        <div class="filtros-header">
+            <div class="filtros-header-content">
+                <div class="header-title-section">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+                        <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
+                    </svg>
+                    <div>
+                        <h1 class="filtros-title">Filtros y Magistrados</h1>
+                        <p class="filtros-subtitle">Gestión de filtros jerárquicos y magistrados del sistema</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filtros-content">
+            <!-- Modern Tabs con Navegación Multinivel -->
+            <div class="tabs-modern">
+                <button
+                    class="tab-button"
+                    :class="{ 'tab-active': active == '0' }"
+                    @click="updateActive('0')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <span>Magistrados</span>
+                </button>
+                <button
+                    class="tab-button"
+                    :class="{ 'tab-active': active == '1' }"
+                    @click="updateActive('1')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
+                    </svg>
+                    <span>Filtros</span>
+                </button>
+                <button
+                    class="tab-button tab-disabled"
+                    disabled
+                    :class="{ 'tab-active': active == '2' }">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                    <span>Nivel 2</span>
+                </button>
+                <button
+                    class="tab-button tab-disabled"
+                    disabled
+                    :class="{ 'tab-active': active == '3' }">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                    <span>Nivel 3</span>
+                </button>
+                <button
+                    class="tab-button tab-disabled"
+                    disabled
+                    :class="{ 'tab-active': active == '4' }">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                    <span>Nivel 4</span>
+                </button>
+                <button
+                    class="tab-button tab-disabled"
+                    disabled
+                    :class="{ 'tab-active': active == '5' }">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                    <span>Nivel 5</span>
+                </button>
+                <button
+                    class="tab-button tab-disabled"
+                    disabled
+                    :class="{ 'tab-active': active == '6' }">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                    <span>Nivel 6</span>
+                </button>
             </div>
 
-            <div class="row g-0 gutters">
-                <h7 class="mb-2">{{
-                    active == 0 ? '' :
-                        active == 1 ? '' :
-                            active == 2 ? `${this.title.ID2}` :
-                                active == 3 ? `${this.title.ID2} > ${this.title.ID3}` :
-                                    active == 4 ? `${this.title.ID2} > ${this.title.ID3} > ${this.title.ID4}` :
-                                        active == 5 ? `${this.title.ID2} > ${this.title.ID3} > ${this.title.ID4} > ${this.title.ID5}` :
-                                            active == 6 ? `${this.title.ID2} > ${this.title.ID3} > ${this.title.ID4} > ${this.title.ID5} >
-                    ${this.title.ID6}` : ''
-                }}</h7>
-                <div class="row g-0 gutters">
-                    <div class="col-12 mb-3 input-search" :class="active == 0 ? 'col-md-9' : 'col-md-6'">
-                        <img :src="searchIcon" alt="search" class="icon-search" />
+            <!-- Breadcrumb de Navegación -->
+            <div class="breadcrumb-modern" v-if="active > 1">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                </svg>
+                <span class="breadcrumb-text">
+                    {{
+                        active == 2 ? `${this.title.ID2}` :
+                        active == 3 ? `${this.title.ID2} > ${this.title.ID3}` :
+                        active == 4 ? `${this.title.ID2} > ${this.title.ID3} > ${this.title.ID4}` :
+                        active == 5 ? `${this.title.ID2} > ${this.title.ID3} > ${this.title.ID4} > ${this.title.ID5}` :
+                        active == 6 ? `${this.title.ID2} > ${this.title.ID3} > ${this.title.ID4} > ${this.title.ID5} > ${this.title.ID6}` : ''
+                    }}
+                </span>
+            </div>
 
-                        <input type="text" class="form-control"
-                            :placeholder="active == 0 ? 'Buscar por nombres, apellidos' : 'Buscar por descripción'"
-                            v-model="filter.NOMBRES" id="name" />
-                    </div>
+            <!-- Filtros Modernos -->
+            <div class="filters-section">
+                <div class="search-input-wrapper" :class="active == 0 ? 'col-span-2' : ''">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input
+                        type="text"
+                        class="modern-input"
+                        :placeholder="active == 0 ? 'Buscar por nombres, apellidos...' : 'Buscar por descripción...'"
+                        v-model="filter.NOMBRES"
+                        id="name" />
+                </div>
 
-                    <div class="col-md-3 col-12 mb-3" v-if="active != 0">
-                        <b-form-select v-model="filter.OPTION" :options="[
+                <div class="select-wrapper" v-if="active != 0">
+                    <b-form-select
+                        v-model="filter.OPTION"
+                        class="modern-select"
+                        :options="[
                             { text: 'JURISPRUDENCIA', value: '1' },
                             { text: 'LEGISLACIÓN', value: '2' }]">
-                        </b-form-select>
-                    </div>
+                    </b-form-select>
+                </div>
 
-                    <div class="col-md-3 col-12 mb-3">
-                        <b-form-select v-model="filter.CDESTDO" :options="[
+                <div class="select-wrapper">
+                    <b-form-select
+                        v-model="filter.CDESTDO"
+                        class="modern-select"
+                        :options="[
                             { text: '-- Seleccione Estado ', value: null },
                             { text: 'Activo', value: 'A' },
                             { text: 'Inactivo', value: 'I' }]">
-                        </b-form-select>
-                    </div>
+                    </b-form-select>
+                </div>
 
-                    <div class="col-md-12 col-12 mb-3">
-                        <div class="display-buttons">
-                            <button class="bton btn-search" @click="() => {
-                                if (active == 0) searchMagistrados(grid.currentPage, grid.perPage);
-                                else searchFiltros(grid.currentPage, grid.perPage,
-                                    (Number(active) == 1) ? null : this.Niveles[`ID${Number(active) - 1}`]);
-                            }">Buscar</button>
-                            <button class="bton btn-create" @click="() => {
-                                if (active == 0) modalAgregarMagistrados.show = true;
-                                else modalAgregarFiltros.show = true;
-                            }">Crear</button>
-
-                            <button class="bton btn-regresar" v-if="[2, 3, 4, 5, 6].includes(Number(active))" @click="() => {
-                                this.active = String(Number(active) - 1);
-                                this.IDFILTER = (Number(this.active) == 1) ? null : this.Niveles[`ID${Number(this.active) - 1}`];
-                                this.searchFiltros(grid.currentPage, grid.perPage,
-                                    (Number(this.active) == 1) ? null : this.Niveles[`ID${Number(this.active) - 1}`]);
-                            }">Regresar</button>
-
-                        </div>
-                    </div>
-
+                <div class="button-group-extended">
+                    <button class="modern-btn btn-search" @click="() => {
+                        if (active == 0) searchMagistrados(grid.currentPage, grid.perPage);
+                        else searchFiltros(grid.currentPage, grid.perPage,
+                            (Number(active) == 1) ? null : this.Niveles[`ID${Number(active) - 1}`]);
+                    }">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                        <span>Buscar</span>
+                    </button>
+                    <button class="modern-btn btn-create" @click="() => {
+                        if (active == 0) modalAgregarMagistrados.show = true;
+                        else modalAgregarFiltros.show = true;
+                    }">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        <span>Crear</span>
+                    </button>
+                    <button class="modern-btn btn-back" v-if="[2, 3, 4, 5, 6].includes(Number(active))" @click="() => {
+                        this.active = String(Number(active) - 1);
+                        this.IDFILTER = (Number(this.active) == 1) ? null : this.Niveles[`ID${Number(this.active) - 1}`];
+                        this.searchFiltros(grid.currentPage, grid.perPage,
+                            (Number(this.active) == 1) ? null : this.Niveles[`ID${Number(this.active) - 1}`]);
+                    }">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12"/>
+                            <polyline points="12 19 5 12 12 5"/>
+                        </svg>
+                        <span>Regresar</span>
+                    </button>
                 </div>
             </div>
 
-            <div class="w-full mb-12">
+            <!-- Tablas -->
+            <div class="table-section">
                 <card-table v-if="active == 0" :active="active" title="Magistrados" :search="searchMagistrados"
                     :fields="fieldsMagistrados" :items="dataMagistrados" :grid="grid" :actions="actionsMagistrados" />
 
@@ -101,34 +192,32 @@
                     :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
                 <card-table v-if="active == 6" :active="active" title="Filtros" :search="searchFiltros"
                     :fields="fieldsFiltros" :items="dataFiltros" :grid="grid" :actions="actionsFiltros" />
-
             </div>
 
+            <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
+
+            <ModalAgregarFIltro :show="modalAgregarFiltros.show" :close="() => modalAgregarFiltros.show = false"
+                :update="() => searchFiltros(grid.currentPage, grid.perPage, active == 1 ? null : this.Niveles?.[`ID${Number(active) - 1}`])"
+                :active="active" :data="dataFilter" :niveles="Niveles" />
+
+            <ModalEditarFiltro :show="modalEditarFiltros.show" :close="() => modalEditarFiltros.show = false"
+                :update="() => searchFiltros(grid.currentPage, grid.perPage, active == 1 ? null : this.Niveles?.[`ID${Number(active) - 1}`])"
+                :active="active" :data="modalEditarFiltros.data" :niveles="Niveles" />
+
+            <ModalAgregarMagistrado :show="modalAgregarMagistrados.show" :close="() => modalAgregarMagistrados.show = false"
+                :update="() => searchMagistrados(grid.currentPage, grid.perPage)" />
+
+            <ModalEditarMagistrado :show="modalEditarMagistrados.show" :close="() => modalEditarMagistrados.show = false"
+                :update="() => searchMagistrados(grid.currentPage, grid.perPage)" :data="modalEditarMagistrados.data" />
+
+            <ModalEliminar :message="'¿Está seguro de cambiar el estado de este registro?'" :buttonOk="'Si, cambiar'"
+                :action="deleteRowMagistrados" :openDelete="modalEliminarMagistrados.show"
+                :closeHandler="() => modalEliminarMagistrados.show = false" />
+
+            <ModalEliminar :message="'¿Está seguro de cambiar el estado de este registro?'" :buttonOk="'Si, cambiar'"
+                :action="deleteRowFiltros" :openDelete="modalEliminarFiltros.show"
+                :closeHandler="() => modalEliminarFiltros.show = false" />
         </div>
-
-        <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
-
-        <ModalAgregarFIltro :show="modalAgregarFiltros.show" :close="() => modalAgregarFiltros.show = false"
-            :update="() => searchFiltros(grid.currentPage, grid.perPage, active == 1 ? null : this.Niveles?.[`ID${Number(active) - 1}`])"
-            :active="active" :data="dataFilter" :niveles="Niveles" />
-
-        <ModalEditarFiltro :show="modalEditarFiltros.show" :close="() => modalEditarFiltros.show = false"
-            :update="() => searchFiltros(grid.currentPage, grid.perPage, active == 1 ? null : this.Niveles?.[`ID${Number(active) - 1}`])"
-            :active="active" :data="modalEditarFiltros.data" :niveles="Niveles" />
-
-        <ModalAgregarMagistrado :show="modalAgregarMagistrados.show" :close="() => modalAgregarMagistrados.show = false"
-            :update="() => searchMagistrados(grid.currentPage, grid.perPage)" />
-
-        <ModalEditarMagistrado :show="modalEditarMagistrados.show" :close="() => modalEditarMagistrados.show = false"
-            :update="() => searchMagistrados(grid.currentPage, grid.perPage)" :data="modalEditarMagistrados.data" />
-
-        <ModalEliminar :message="'¿Está seguro de cambiar el estado de este registro?'" :buttonOk="'Si, cambiar'"
-            :action="deleteRowMagistrados" :openDelete="modalEliminarMagistrados.show"
-            :closeHandler="() => modalEliminarMagistrados.show = false" />
-
-        <ModalEliminar :message="'¿Está seguro de cambiar el estado de este registro?'" :buttonOk="'Si, cambiar'"
-            :action="deleteRowFiltros" :openDelete="modalEliminarFiltros.show"
-            :closeHandler="() => modalEliminarFiltros.show = false" />
     </section>
 </template>
 
@@ -558,25 +647,348 @@ export default {
 };
 </script>
 
-<style>
-.no-click {
-    pointer-events: none !important;
-    cursor: not-allowed !important;
+<style scoped>
+/* Container Principal */
+.filtros-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
-/* // button itnernos que su arias-controls no sea 0 o 1 aria-controls */
-.tabs-pointer button[aria-controls="2"],
-.tabs-pointer button[aria-controls="3"],
-.tabs-pointer button[aria-controls="4"],
-.tabs-pointer button[aria-controls="5"],
-.tabs-pointer button[aria-controls="6"] {
-    pointer-events: none !important;
-    cursor: no-drop !important;
-    color: #ccc !important;
+/* Header */
+.filtros-header {
+    background: white;
+    border-bottom: 1px solid #E5E7EB;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 2rem 0;
+    margin-bottom: 2rem;
 }
 
-.container-table {
-    max-width: 90%;
+.filtros-header-content {
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.header-title-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.header-icon {
+    flex-shrink: 0;
+    color: #185CE6;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.filtros-title {
+    font-family: Lato, sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.filtros-subtitle {
+    font-family: Lato, sans-serif;
+    color: #6B7280;
+    font-size: 0.95rem;
+    margin: 0.25rem 0 0 0;
+}
+
+/* Content */
+.filtros-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem 2rem;
+}
+
+/* Modern Tabs con muchos niveles */
+.tabs-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    background: white;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.tab-button {
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-family: Lato, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tab-button:not(.tab-disabled):hover {
+    background: rgba(139, 92, 246, 0.08);
+    color: #8B5CF6;
+}
+
+.tab-button.tab-active {
+    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.tab-button.tab-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.tab-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Breadcrumb Moderno */
+.breadcrumb-modern {
+    background: white;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.breadcrumb-modern svg {
+    color: #8B5CF6;
+    flex-shrink: 0;
+}
+
+.breadcrumb-text {
+    font-family: Lato, sans-serif;
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* Filters Section */
+.filters-section {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.filters-section .col-span-2 {
+    grid-column: span 2;
+}
+
+/* Search Input */
+.search-input-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.modern-input {
+    width: 100%;
+    padding: 12px 14px 12px 44px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+    color: #1e293b;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #f8fafc;
+}
+
+.modern-input:focus {
+    outline: none;
+    border-color: #8B5CF6;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.modern-input::placeholder {
+    color: #94a3b8;
+}
+
+/* Select Wrapper */
+.select-wrapper {
+    position: relative;
+}
+
+.modern-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+    color: #1e293b;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-select:focus {
+    outline: none;
+    border-color: #8B5CF6;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Button Group Extended */
+.button-group-extended {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.modern-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    font-family: Lato, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.modern-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.btn-search {
+    background: linear-gradient(135deg, #8B5CF6 0%, #185CE6 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.btn-search:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+}
+
+.btn-create {
+    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(223, 45, 178, 0.3);
+}
+
+.btn-create:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(223, 45, 178, 0.4);
+}
+
+.btn-back {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(100, 116, 139, 0.3);
+}
+
+.btn-back:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(100, 116, 139, 0.4);
+}
+
+/* Table Section */
+.table-section {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .tabs-modern {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .filtros-header-content {
+        padding: 0 1rem;
+    }
+
+    .header-title-section {
+        gap: 1rem;
+    }
+
+    .header-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .filtros-title {
+        font-size: 1.5rem;
+    }
+
+    .filtros-subtitle {
+        font-size: 0.85rem;
+    }
+
+    .filtros-content {
+        padding: 0 1rem 1rem;
+    }
+
+    .tabs-modern {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .filters-section {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .button-group-extended {
+        width: 100%;
+    }
+
+    .modern-btn {
+        flex: 1;
+        justify-content: center;
+        font-size: 13px;
+        padding: 10px 16px;
+    }
 }
 </style>

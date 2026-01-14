@@ -1,127 +1,324 @@
 <template>
   <div>
     <index-navbar />
-    <div class="m-auto container container-text-first z-2 py-40 pb-89 opcion-1">
-      <div class="row">
-        <div class="col">
-          <h1 style="font-size: 2rem;">Optimiza tu estrategia jurídica con <span class="text-duo font-bold">
-              jurisprudencia actual</span>
-            y<span class="text-duo font-bold">
-              seleccionada</span></h1>
-          <span>Consulta jurisprudencia penal en esta herramienta online</span>
-        </div>
-        <div class="col">
+    <section class="hero-section-clean opcion-1" :style="{ backgroundImage: `url(${portada})` }">
+      <div class="hero-overlay"></div>
+      <div class="hero-content-wrapper">
+        <div class="hero-text-content">
+          <div class="hero-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Plataforma especializada en Derecho Penal</span>
+          </div>
+          
+          <h1 class="hero-title-modern">
+            Optimiza tu estrategia jurídica con 
+            <span class="hero-gradient-text">jurisprudencia actual</span>
+            y <span class="hero-gradient-text">seleccionada</span>
+          </h1>
+          
+          <p class="hero-subtitle-modern">
+            Consulta jurisprudencia penal en esta herramienta online especializada
+          </p>
+          
+          <div class="hero-cta-buttons">
+            <a href="#mi-seccion-planes" class="hero-btn-primary">
+              Explorar planes
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="#conoce-proposito" class="hero-btn-secondary">
+              Conocer más
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <div :style="{ backgroundImage: `url(${portada})` }"
       class="relative container-mobile d-flex bg-contain bg-no-repeat lg:bg-cover lg:bg-center">
       <div class="degradado"></div>
-      <div class="m-auto container container-text-first z-2 py-40 pb-89 opcion-2">
-        <div class="row">
-          <div class="col">
-            <h1 style="font-size: 2rem;">Optimiza tu estrategia jurídica con <span class="text-duo font-bold">
-                jurisprudencia actual</span>
-              y<span class="text-duo font-bold">
-                seleccionada</span></h1>
-            <span>Consulta jurisprudencia penal en esta herramienta online</span>
-          </div>
-          <div class="col">
+      <section class="hero-section-clean opcion-2" :style="{ backgroundImage: `url(${portada})` }">
+        <div class="hero-overlay"></div>
+        <div class="hero-content-wrapper">
+          <div class="hero-text-content">
+            <div class="hero-badge">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>Plataforma especializada en Derecho Penal</span>
+            </div>
+            
+            <h1 class="hero-title-modern">
+              Optimiza tu estrategia jurídica con 
+              <span class="hero-gradient-text">jurisprudencia actual</span>
+              y <span class="hero-gradient-text">seleccionada</span>
+            </h1>
+            
+            <p class="hero-subtitle-modern">
+              Consulta jurisprudencia penal en esta herramienta online especializada
+            </p>
+            
+            <div class="hero-cta-buttons">
+              <a href="#mi-seccion-planes" class="hero-btn-primary">
+                Explorar planes
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </a>
+              <a href="#conoce-proposito" class="hero-btn-secondary">
+                Conocer más
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
 
-    <div class="mt-20"></div>
-    <section class="background-custom relative">
-      <div class="container-custom mx-auto px-lg-5">
-        <p class="text-duo text-2xl text-center">
-          Juris Search es una herramienta digital diseñada para simplificar la
-          búsqueda selectiva de jurisprudencia en derecho penal, derecho penal económico y de la
-          empresa
-        </p>
-      </div>
-      <div class="m-auto image-container">
-        <img :src="screen" alt="imagen-1" class="w-full image-outside mx-auto"
-          style="transform: translateY(100px); width: 80%; z-index: 5; border-radius: 20px" />
-      </div>
-    </section>
+    <section class="info-section-modern relative">
+      <div class="info-container">
+        <div class="info-content-wrapper">
+          <!-- Badge decorativo -->
+          <div class="info-badge-wrapper">
+            <div class="info-badge">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              <span>Plataforma especializada</span>
+            </div>
+          </div>
 
+          <!-- Título y descripción mejorados -->
+          <div class="info-text-block">
+            <h2 class="info-title">
+              <span class="info-highlight">Juris Search</span> es una herramienta digital diseñada para simplificar la búsqueda selectiva de jurisprudencia
+            </h2>
+            <p class="info-description">
+              Especializada en derecho penal, derecho penal económico y de la empresa, 
+              nuestra plataforma te permite acceder a información jurídica relevante de manera rápida y eficiente.
+            </p>
+          </div>
 
-    <section class="mt-20 container-mision-v relative" id="conoce-proposito">
-      <div class="mx-auto container pt-5">
-        <h2 class="text-center">Conoce <span class="text-blue-500">nuestro próposito</span></h2>
-      </div>
-      <div class="pt-5 mx-auto container text-center">
-        <button @click="selectedSection = 'quienes-somos'"
-          :class="selectedSection === 'quienes-somos' ? 'button-duo shadow rounded-full px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150' : 'btn'"
-          class="ms-4 font-bold px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150 border-0">
-          <span :class="selectedSection === 'quienes-somos' ? 'text-duo' : ''">¿Quiénes somos?</span>
-        </button>
-        <button @click="selectedSection = 'nuestros-valores'"
-          :class="selectedSection === 'nuestros-valores' ? 'button-duo shadow rounded-full px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150' : 'btn'"
-          class="ms-4 font-bold px-4 py-3 outline-none focus:outline-none ease-linear transition-all duration-150 border-0">
-          <span :class="selectedSection === 'nuestros-valores' ? 'text-duo' : ''">Nuestros valores</span>
-        </button>
-      </div>
-      <div v-if="selectedSection === 'quienes-somos'" class="container mx-auto">
-        <div class="flex flex-wrap items-center">
-          <div class="w-full md:w-12/12 px-4 img-container">
-            <div class="flex flex-wrap">
-              <div class="w-full-container md:w-6/12 px-4">
-                <div class="relative flex flex-col mt-4">
-                  <div class="px-4 py-5 flex-auto container-valor">
-                    <div class="container-imagen flex md:justify-start justify-center">
-                      <div class="mb-3">
-                        <img :src="visionVue" alt="vision" />
-                      </div>
-                    </div>
-                    <h6 class="sm-text-center text-xl mb-2 font-semibold text-blue-500">
-                      Visión
-                    </h6>
-                    <p class="mb-4 font-light">
-                      Brindar a nuestros usuarios una plataforma digital intuitiva, completa y actualizada, que facilite
-                      la consulta y búsqueda de jurisprudencia nacional y extranjera en derecho penal económico y de la
-                      empresa.
-                    </p>
-                  </div>
-                </div>
+          <!-- Características destacadas -->
+          <div class="info-features-grid">
+            <div class="info-feature-item">
+              <div class="feature-icon-wrapper feature-icon-blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                  <line x1="12" y1="22.08" x2="12" y2="12"/>
+                </svg>
               </div>
+              <div class="feature-content">
+                <h4>Base actualizada</h4>
+                <p>Información jurídica constantemente renovada</p>
+              </div>
+            </div>
 
-              <div class="w-full-container md:w-6/12 px-4">
-                <div class="relative flex flex-col min-w-0 mt-4">
-                  <div class="px-4 py-5 flex-auto container-valor">
-                    <div class="container-imagen flex  md:justify-start justify-center">
-                      <div class="mb-3">
-                        <img :src="misionVue" alt="mision" />
-                      </div>
-                    </div>
-                    <h6 class="sm-text-center text-xl mb-1 font-semibold text-blue-500">
-                      Misión
-                    </h6>
-                    <p class="mb-4 font-light">
-                      Ser la herramienta digital líder en consulta y búsqueda de jurisprudencia en derecho penal
-                      económico y de la empresa en Perú.
-                    </p>
-                  </div>
-                </div>
+            <div class="info-feature-item">
+              <div class="feature-icon-wrapper feature-icon-purple">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="M21 21l-4.35-4.35"/>
+                </svg>
+              </div>
+              <div class="feature-content">
+                <h4>Búsqueda inteligente</h4>
+                <p>Encuentra jurisprudencia relevante al instante</p>
+              </div>
+            </div>
+
+            <div class="info-feature-item">
+              <div class="feature-icon-wrapper feature-icon-pink">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                  <path d="M2 17l10 5 10-5"/>
+                  <path d="M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+              <div class="feature-content">
+                <h4>Organización eficiente</h4>
+                <p>Gestiona y categoriza tus consultas fácilmente</p>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div v-if="selectedSection === 'nuestros-valores'" class="container mx-auto">
-        <div class="w-full md:w-12/12 px-4 mt-2">
-          <Carousel :breakpoints="carouselConfig.breakpoints" :wrap-around="carouselConfig.wrapAround" :autoplay="false"
-            :settings="{ navigationEnabled: true }">
-            <Slide class="p-2 mb-5" v-for="valor in valores" :key="valor.id">
-              <div class="card border-0 p-3 mr-2">
-                <img :src="valor?.image" width="30" />
-                <div>
-                  <h4 class="text-sm text-primary">{{ valor?.name }}</h4>
-                  <p class="text-sm">{{ valor?.description }}</p>
+        <!-- Imagen con efecto parallax mejorado -->
+        <div class="info-image-container">
+          <div class="image-decoration-circle circle-1"></div>
+          <div class="image-decoration-circle circle-2"></div>
+          <img :src="screen" alt="Plataforma Juris Search" class="info-screenshot" />
+        </div>
+      </div>
+    </section>
+
+    <section class="proposito-section-modern" id="conoce-proposito">
+      <div class="proposito-container">
+        <!-- Header -->
+        <div class="proposito-header">
+          <h2 class="proposito-title">
+            Conoce <span class="text-gradient">nuestro propósito</span>
+          </h2>
+          <p class="proposito-subtitle">
+            Impulsamos la excelencia jurídica a través de tecnología e innovación
+          </p>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="proposito-tabs-wrapper">
+          <div class="proposito-tabs">
+            <button 
+              @click="selectedSection = 'quienes-somos'"
+              :class="['proposito-tab', { 'proposito-tab-active': selectedSection === 'quienes-somos' }]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+              </svg>
+              <span>¿Quiénes somos?</span>
+            </button>
+            
+            <button 
+              @click="selectedSection = 'nuestros-valores'"
+              :class="['proposito-tab', { 'proposito-tab-active': selectedSection === 'nuestros-valores' }]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              <span>Nuestros valores</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Content: Quiénes somos -->
+        <transition name="fade-slide">
+          <div v-if="selectedSection === 'quienes-somos'" class="proposito-content">
+            <div class="vision-mision-grid">
+              <!-- Visión Card -->
+              <div class="vm-card vm-card-vision">
+                <div class="vm-card-icon-wrapper">
+                  <div class="vm-card-icon vm-icon-vision">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="vm-card-content">
+                  <h3 class="vm-card-title">Visión</h3>
+                  <p class="vm-card-description">
+                    Brindar a nuestros usuarios una plataforma digital intuitiva, completa y actualizada, que facilite
+                    la consulta y búsqueda de jurisprudencia nacional y extranjera en derecho penal económico y de la
+                    empresa.
+                  </p>
+                </div>
+                <div class="vm-card-decoration vm-decoration-vision"></div>
+              </div>
+
+              <!-- Misión Card -->
+              <div class="vm-card vm-card-mision">
+                <div class="vm-card-icon-wrapper">
+                  <div class="vm-card-icon vm-icon-mision">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="vm-card-content">
+                  <h3 class="vm-card-title">Misión</h3>
+                  <p class="vm-card-description">
+                    Ser la herramienta digital líder en consulta y búsqueda de jurisprudencia en derecho penal
+                    económico y de la empresa en Perú.
+                  </p>
+                </div>
+                <div class="vm-card-decoration vm-decoration-mision"></div>
+              </div>
+            </div>
+          </div>
+        </transition>
+
+        <!-- Content: Valores -->
+        <transition name="fade-slide">
+          <div v-if="selectedSection === 'nuestros-valores'" class="proposito-content">
+            <div class="valores-carousel-wrapper">
+              <Carousel 
+                :breakpoints="carouselConfig.breakpoints" 
+                :wrap-around="carouselConfig.wrapAround" 
+                :autoplay="false"
+                :settings="{ navigationEnabled: true }">
+                <Slide v-for="valor in valores" :key="valor.id" class="valores-slide">
+                  <div class="valor-card">
+                    <div class="valor-icon-wrapper">
+                      <img :src="valor?.image" class="valor-icon" alt="" />
+                    </div>
+                    <div class="valor-content">
+                      <h4 class="valor-title">{{ valor?.name }}</h4>
+                      <p class="valor-description">{{ valor?.description }}</p>
+                    </div>
+                  </div>
+                </Slide>
+
+                <template #addons>
+                  <CarouselNavigation>
+                    <template #prev>
+                      <button class="carousel-nav-btn">
+                        <img :src="leftArrow" alt="anterior" />
+                      </button>
+                    </template>
+                    <template #next>
+                      <button class="carousel-nav-btn">
+                        <img :src="rightArrow" alt="siguiente" />
+                      </button>
+                    </template>
+                  </CarouselNavigation>
+                  <Pagination />
+                </template>
+              </Carousel>
+            </div>
+          </div>
+        </transition>
+      </div>
+    </section>
+
+    <section class="ofrecemos-section-modern" id="mi-nosotros">
+      <div class="ofrecemos-container">
+        <!-- Header -->
+        <div class="ofrecemos-header">
+          <h2 class="ofrecemos-title">
+            Lo que te <span class="text-gradient">ofrecemos</span>
+          </h2>
+          <p class="ofrecemos-subtitle">
+            Herramientas y recursos diseñados para potenciar tu práctica jurídica
+          </p>
+        </div>
+
+        <!-- Carousel moderno -->
+        <div class="ofrecemos-carousel-container">
+          <Carousel 
+            :items-to-show="3"
+            :items-to-scroll="1"
+            :breakpoints="carouselConfig.breakpoints" 
+            :wrap-around="true"
+            :autoplay="5000" 
+            snap-align="start">
+            
+            <Slide v-for="slide in slides" :key="slide.id">
+              <div class="ofrecemos-card">
+                <div class="ofrecemos-image-wrapper">
+                  <img :src="slide.image" class="ofrecemos-image" alt="" />
+                  <div class="ofrecemos-overlay"></div>
+                </div>
+                
+                <div class="ofrecemos-content">
+                  <div class="ofrecemos-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </div>
+                  <h3 class="ofrecemos-card-title">{{ slide.text }}</h3>
+                  <p class="ofrecemos-card-description">{{ slide.description }}</p>
                 </div>
               </div>
             </Slide>
@@ -129,13 +326,13 @@
             <template #addons>
               <CarouselNavigation>
                 <template #prev>
-                  <button>
-                    <img :src="leftArrow" alt="left-arrow" />
+                  <button class="ofrecemos-nav-btn ofrecemos-nav-prev">
+                    <img :src="leftArrow" alt="anterior" />
                   </button>
                 </template>
                 <template #next>
-                  <button>
-                    <img :src="rightArrow" alt="left-arrow" />
+                  <button class="ofrecemos-nav-btn ofrecemos-nav-next">
+                    <img :src="rightArrow" alt="siguiente" />
                   </button>
                 </template>
               </CarouselNavigation>
@@ -146,93 +343,59 @@
       </div>
     </section>
 
-    <section class="relative block" id="mi-nosotros">
-      <div class="animation-b-t mt-0 container mx-auto px-4 lg:pt-24">
-        <h2 class="ofrecemos-lo" style="text-align: center!important; margin-bottom: 20px!important;">Lo que te <span
-            class="text-primary">ofrecemos</span></h2>
-        <Carousel :breakpoints="carouselConfig.breakpoints" :wrap-around="carouselConfig.wrapAround"
-          :autoplay="carouselConfig.autoplay" :settings="{ navigationEnabled: true }">
-          <Slide v-for="slide in slides" :key="slide.id">
-            <div class="slide-content">
-              <img :src="slide.image" class="slide-image" />
-              <div class="overlay"></div>
-
-              <div class="text-container">
-                <p class="slide-text">{{ slide.text }}</p>
-                <p class="slide-description">{{ slide.description }}</p>
-
-              </div>
-            </div>
-          </Slide>
-
-
-          <template #addons>
-            <CarouselNavigation>
-              <template #prev>
-                <button>
-                  <img :src="leftArrow" alt="left-arrow" />
-                </button>
-              </template>
-              <template #next>
-                <button>
-                  <img :src="rightArrow" alt="left-arrow" />
-                </button>
-              </template>
-            </CarouselNavigation>
-          </template>
-        </Carousel>
-      </div>
-    </section>
-
-    <section class="py-4 pt-3" id="mi-seccion-planes">
-      <div id="pricing" class="py-6 px-6 mb-0 lg:px-20 my-2 md:my-6">
-        <div class="text-center mb-6">
-          <h2>Nuestros <span class="text-primary">planes</span></h2>
-          <span class="text-muted-color text-md">
+    <section class="planes-section" id="mi-seccion-planes">
+      <div class="planes-container">
+        <div class="planes-header">
+          <h2 class="planes-title">Nuestros <span class="text-gradient">planes</span></h2>
+          <p class="planes-subtitle">
             Elige el plan que mejor se adapte a tus necesidades
-          </span>
+          </p>
         </div>
 
-        <div class="planes-juris row flex flex-wrap mt-5 justify-center gap-4 flex-row-reverse pt-4">
+        <div class="planes-grid">
           <div
-            class="bg-white col-md-3 col-sm-12 p-0 md:p-4 card-price border hover:border-primary rounded-3xl overflow-hidden"
-            :class="{ 'scale-custom ms-3 border-primary': plan?.PRINCIPAL }" style="width: auto;;height: auto;"
+            class="plan-card"
+            :class="{ 'plan-featured': plan?.PRINCIPAL }"
             v-for="plan in planes" :key="plan.id">
-            <div class="text-center p-3 text-primary flex flex-row justify-center items-center gap-2" :class="{
-              'bg-duo text-white': plan?.PRINCIPAL,
-              'bg-duo-gray': !plan?.PRINCIPAL
+            
+            <!-- Header Card -->
+            <div class="plan-header" :class="{
+              'plan-header-featured': plan?.PRINCIPAL,
+              'plan-header-normal': !plan?.PRINCIPAL
             }">
-              <div v-if="plan?.PRINCIPAL">
-                <img :src="corona" />
-              </div>
-              {{ capitalizeFirst(plan?.DESCRIPCION) }}
+              <h3 class="plan-name">
+                <img v-if="plan?.PRINCIPAL" :src="corona" class="corona-icon" />
+                {{ capitalizeFirst(plan?.DESCRIPCION) }}
+              </h3>
             </div>
-            <div
-              class="p-4 flex flex-col border-surface-200 dark:border-surface-600 pricing-card cursor-pointer duration-300 transition-all"
-              style="border-radius: 10px; max-width: 300px;">
-              <div class="mb-8 flex flex-col items-center gap-4">
-                <div class="flex items-center">
-                  <span>S/</span>
-                  <span 
-                  style="font-size: 2rem; font-weight: 700;"
-                  class="font-bold mr-2 mt-3 text-surface-900 dark:text-surface-0">
-                    {{ plan?.PRECIO || "" }} /
-                    <span style="font-size: 1.3rem; font-weight: 400; color: #6c757d;"
-                    >{{ plan.PERIODO || "" }}</span>
-                  </span>
+            
+            <!-- Body Card -->
+            <div class="plan-body">
+              <!-- Precio -->
+              <div class="plan-price-section">
+                <div class="price-wrapper">
+                  <span class="currency">S/</span>
+                  <span class="price-amount">{{ plan?.PRECIO || "" }}</span>
+                  <span class="price-period">/ {{ plan.PERIODO || "" }}</span>
                 </div>
               </div>
-              <button @click="goToPlan(plan)" class="btn btn-outline-primary py-3" style="border-radius: 30px"
-                :class="{ 'shadow-lg pink-button text-white border-0': plan?.PRINCIPAL }">
+
+              <!-- Botón CTA -->
+              <button @click="goToPlan(plan)" class="plan-button"
+                :class="{ 'plan-button-featured': plan?.PRINCIPAL }">
                 {{ plan?.VALOR != "1" ? "Adquirir Plan" : "Probar gratis" }}
+                <svg class="button-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
               </button>
-              <ul
-                class="my-8 mt-3 list-none p-0 flex text-surface-900 dark:text-surface-0 flex-col px-8 ul-list-details">
-                <li class="py-2" v-for="restriccion in plan.DETALLE.RESTRICIONES" :key="restriccion">
-                  <i class="fa fa-check text-primary mr-2"></i>
-                  <span class="leading-normal">
-                    {{ restriccion }}
-                  </span>
+
+              <!-- Lista de características -->
+              <ul class="plan-features">
+                <li class="feature-item" v-for="restriccion in plan.DETALLE.RESTRICIONES" :key="restriccion">
+                  <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="feature-text">{{ restriccion }}</span>
                 </li>
               </ul>
             </div>
@@ -244,24 +407,27 @@
         :update="() => { }" />
     </section>
 
-    <section class="relative block" id="mi-nosotros">
-      <div class="animation-b-t mt-0 container mx-auto px-4 lg:pt-24">
-        <h2>Resolvemos tus <span class="text-primary">preguntas frecuentes</span></h2>
-      </div>
+    <section class="preguntas-section" id="mi-nosotros">
+      <div class="preguntas-container">
+        <div class="animation-b-t preguntas-header">
+          <h2 class="preguntas-title">Resolvemos tus <span class="text-gradient">preguntas frecuentes</span></h2>
+        </div>
 
-      <div class="m-auto container z-2">
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <img :src="preguntasFrecuentes" alt="imagen-1" class="w-full image-outside mx-auto p-4 p-md-0" />
-          </div>
-          <div class="col-12 col-md-6 bg-white py-0 my-0">
-            <Question :resumeSection="true" />
-            <div class="link-questions">
-              <router-link to="/questions"
-                class="mt-3 d-inline-flex border border-primary rounded-full px-4 py-3 ms-3 ms-md-0">
-                Ver más preguntas frecuentes
-                <img :src="nextIcon" alt="next-icon" class="ms-2" />
-              </router-link>
+        <div class="preguntas-content">
+          <div class="preguntas-grid">
+            <div class="preguntas-image-container">
+              <img :src="preguntasFrecuentes" alt="Preguntas frecuentes" class="preguntas-image" />
+            </div>
+            <div class="preguntas-accordion-container">
+              <Question :resumeSection="true" />
+              <div class="preguntas-cta">
+                <router-link to="/questions" class="preguntas-button">
+                  Ver más preguntas frecuentes
+                  <svg class="button-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -310,14 +476,62 @@
       </div>
     </section>
 
-    <section class="bg-dark mt-5">
-      <div class="container-custom mx-auto p-5">
-        <div class="flex flex-column gap-2 p-3">
-          <h2 class="text-center text-white">¿Necesitas ayuda? Contáctanos y con gusto atenderemos tu consulta</h2>
-          <router-link to="/contacto"
-            class="m-auto bg-duo rounded-full text-white text-xs px-4 py-3 outline-none focus:outline-none lg:mr-1 ml-3 ease-linear transition-all duration-150">
-            Contáctanos ahora
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="cta-container">
+        <!-- Decorative Elements -->
+        <div class="cta-decoration cta-decoration-1"></div>
+        <div class="cta-decoration cta-decoration-2"></div>
+        <div class="cta-decoration cta-decoration-3"></div>
+
+        <div class="cta-content">
+          <!-- Badge -->
+          <div class="cta-badge">
+            <svg class="cta-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <span>Soporte 24/7</span>
+          </div>
+
+          <!-- Title -->
+          <h2 class="cta-title">
+            ¿Necesitas ayuda con tu búsqueda jurídica?
+          </h2>
+
+          <!-- Description -->
+          <p class="cta-description">
+            Nuestro equipo de expertos está listo para atenderte. Responderemos todas tus consultas y te guiaremos en el uso de la plataforma.
+          </p>
+
+          <!-- CTA Button -->
+          <router-link to="/contacto" class="cta-button">
+            <span>Contáctanos ahora</span>
+            <svg class="cta-button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
           </router-link>
+
+          <!-- Features -->
+          <div class="cta-features">
+            <div class="cta-feature">
+              <svg class="cta-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span>Respuesta rápida</span>
+            </div>
+            <div class="cta-feature">
+              <svg class="cta-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span>Soporte profesional</span>
+            </div>
+            <div class="cta-feature">
+              <svg class="cta-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span>Guía personalizada</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -857,6 +1071,267 @@ export default {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Planes Section - Nuevo Diseño */
+.planes-section {
+  padding: 4rem 1rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.planes-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.planes-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.planes-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1F2937;
+  margin-bottom: 1rem;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.planes-subtitle {
+  font-size: 1.125rem;
+  color: #6B7280;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.planes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.plan-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.plan-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  border-color: #6ba3ff;
+}
+
+.plan-featured {
+  border: 2px solid #6ba3ff;
+  box-shadow: 0 8px 30px rgba(107, 163, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.plan-featured:hover {
+  transform: scale(1.08) translateY(-8px);
+  box-shadow: 0 15px 50px rgba(107, 163, 255, 0.3);
+}
+
+.plan-header {
+  padding: 2rem 1.5rem 1.5rem;
+  text-align: center;
+}
+
+.plan-header-featured {
+  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+}
+
+.plan-header-normal {
+  background: linear-gradient(135deg, #E5E7EB 0%, #F3F4F6 100%);
+}
+
+.plan-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.corona-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.plan-header-featured .plan-name {
+  color: white;
+}
+
+.plan-header-normal .plan-name {
+  color: #1F2937;
+}
+
+.plan-body {
+  padding: 2rem 1.5rem;
+}
+
+.plan-price-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.price-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.currency {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #6B7280;
+  margin-top: 0.5rem;
+}
+
+.price-amount {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #1F2937;
+  line-height: 1;
+}
+
+.price-period {
+  font-size: 1rem;
+  color: #9CA3AF;
+  align-self: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.plan-button {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: 2px solid #6ba3ff;
+  background: white;
+  color: #6ba3ff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.plan-button:hover {
+  background: #6ba3ff;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(107, 163, 255, 0.3);
+}
+
+.plan-button-featured {
+  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+  color: white;
+  border: none;
+}
+
+.plan-button-featured:hover {
+  background: linear-gradient(135deg, #c528a0 0%, #1450c9 100%);
+  box-shadow: 0 8px 25px rgba(223, 45, 178, 0.4);
+}
+
+.button-arrow {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.plan-button:hover .button-arrow {
+  transform: translateX(4px);
+}
+
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.feature-item:last-child {
+  border-bottom: none;
+}
+
+.feature-icon {
+  width: 20px;
+  height: 20px;
+  color: #6ba3ff;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.feature-text {
+  font-size: 0.95rem;
+  color: #4B5563;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .planes-section {
+    padding: 3rem 0.5rem;
+  }
+
+  .planes-title {
+    font-size: 2rem;
+  }
+
+  .planes-subtitle {
+    font-size: 1rem;
+  }
+
+  .planes-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .plan-featured {
+    transform: scale(1);
+  }
+
+  .plan-featured:hover {
+    transform: translateY(-8px);
+  }
+
+  .price-amount {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  .planes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 
 .imagen-logo-main {
   margin-top: 10rem;
@@ -997,6 +1472,167 @@ export default {
 }
 
 
+/* Hero Section - Modern Design */
+.hero-section-clean {
+  position: relative;
+  padding: 6rem 2rem;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  width: 100%;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(223, 45, 178, 0.5) 0%, rgba(24, 92, 230, 0.5) 100%);
+  z-index: 1;
+}
+
+.hero-content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.hero-text-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #185CE6;
+  margin-bottom: 2rem;
+  animation: fadeInUp 0.6s ease-out;
+  backdrop-filter: blur(10px);
+}
+
+.hero-badge svg {
+  color: #DF2DB2;
+}
+
+.hero-title-modern {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 0.6s ease-out 0.1s backwards;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hero-gradient-text {
+  color: #ffffff;
+  display: inline;
+  font-weight: 900;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.hero-subtitle-modern {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+  animation: fadeInUp 0.6s ease-out 0.2s backwards;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hero-cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.6s ease-out 0.3s backwards;
+}
+
+.hero-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: white;
+  color: #185CE6;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.hero-btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  background: #f8f9fa;
+  color: #185CE6;
+  text-decoration: none;
+}
+
+.hero-btn-primary svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.hero-btn-primary:hover svg {
+  transform: translateX(4px);
+}
+
+.hero-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-btn-secondary:hover {
+  background: white;
+  color: #185CE6;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  text-decoration: none;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .opcion-1 {
   display: none;
 }
@@ -1005,7 +1641,40 @@ export default {
   display: block;
 }
 
+.container-mobile {
+  display: block;
+}
+
 @media (max-width: 768px) {
+  .hero-section-clean {
+    padding: 4rem 1.5rem;
+    min-height: 60vh;
+  }
+
+  .hero-title-modern {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle-modern {
+    font-size: 1rem;
+  }
+
+  .hero-cta-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .hero-badge {
+    font-size: 0.85rem;
+    padding: 0.6rem 1.2rem;
+  }
+
   .opcion-1 {
     display: block;
   }
@@ -1014,16 +1683,16 @@ export default {
     display: none;
   }
 
+  .container-mobile {
+    display: none!important;
+  }
+
   .container-mobile .degradado {
     display: none;
   }
 
   .container-text-first {
     position: absolute;
-  }
-
-  .container-mobile {
-    filter: opacity(0.3);
   }
 
   .card-price {
@@ -1044,6 +1713,1300 @@ export default {
     margin-right: 0 !important;
     margin-left: 0 !important;
     margin-top: 20px !important;
+  }
+}
+
+/* Sección de Preguntas Frecuentes */
+.preguntas-section {
+  padding: 4rem 1rem;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.preguntas-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.preguntas-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.preguntas-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1F2937;
+  margin: 0;
+}
+
+.preguntas-content {
+  padding: 0 1rem;
+}
+
+.preguntas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+  align-items: center;
+}
+
+.preguntas-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preguntas-image {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.preguntas-image:hover {
+  transform: scale(1.02);
+}
+
+.preguntas-accordion-container {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.preguntas-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.preguntas-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(223, 45, 178, 0.3);
+}
+
+.preguntas-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(223, 45, 178, 0.4);
+  color: white;
+  text-decoration: none;
+}
+
+.preguntas-button .button-arrow {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.preguntas-button:hover .button-arrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .preguntas-section {
+    padding: 3rem 0.5rem;
+  }
+
+  .preguntas-title {
+    font-size: 2rem;
+  }
+
+  .preguntas-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .preguntas-accordion-container {
+    padding: 1.5rem;
+  }
+
+  .preguntas-image {
+    max-width: 100%;
+  }
+
+  .preguntas-button {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .preguntas-grid {
+    gap: 2rem;
+  }
+}
+
+/* Info Section - Nueva sección moderna */
+.info-section-modern {
+  padding: 6rem 2rem 5rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.info-section-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background: radial-gradient(circle at 30% 50%, rgba(223, 45, 178, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 70% 50%, rgba(24, 92, 230, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.info-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.info-content-wrapper {
+  max-width: 1000px;
+  margin: 0 auto 4rem;
+  text-align: center;
+}
+
+.info-badge-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.info-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(24, 92, 230, 0.1) 100%);
+  border: 2px solid rgba(24, 92, 230, 0.2);
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #185CE6;
+  backdrop-filter: blur(10px);
+}
+
+.info-badge svg {
+  color: #DF2DB2;
+}
+
+.info-text-block {
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.6s ease-out 0.1s backwards;
+}
+
+.info-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.4;
+  color: #1F2937;
+  margin-bottom: 1.5rem;
+}
+
+.info-highlight {
+  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+}
+
+.info-description {
+  font-size: 1.15rem;
+  color: #6B7280;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.info-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+  animation: fadeInUp 0.6s ease-out 0.2s backwards;
+}
+
+.info-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.info-feature-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon-wrapper {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.info-feature-item:hover .feature-icon-wrapper {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.feature-icon-blue {
+  background: linear-gradient(135deg, rgba(24, 92, 230, 0.1) 0%, rgba(24, 92, 230, 0.2) 100%);
+  color: #185CE6;
+}
+
+.feature-icon-purple {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(139, 92, 246, 0.2) 100%);
+  color: #8b5cf6;
+}
+
+.feature-icon-pink {
+  background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(223, 45, 178, 0.2) 100%);
+  color: #DF2DB2;
+}
+
+.feature-content h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1F2937;
+  margin-bottom: 0.5rem;
+}
+
+.feature-content p {
+  font-size: 0.95rem;
+  color: #6B7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.info-image-container {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  animation: fadeInUp 0.8s ease-out 0.3s backwards;
+}
+
+.info-screenshot {
+  width: 100%;
+  height: auto;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
+              0 0 0 1px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 2;
+  transition: transform 0.5s ease;
+}
+
+.info-screenshot:hover {
+  transform: translateY(-10px);
+}
+
+.image-decoration-circle {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+  opacity: 0.6;
+  animation: float 6s ease-in-out infinite;
+}
+
+.circle-1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(223, 45, 178, 0.2) 0%, transparent 70%);
+  top: -50px;
+  left: -100px;
+}
+
+.circle-2 {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(24, 92, 230, 0.2) 0%, transparent 70%);
+  bottom: -50px;
+  right: -80px;
+  animation-delay: 3s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+}
+
+@media (max-width: 768px) {
+  .info-section-modern {
+    padding: 4rem 1rem 6rem;
+  }
+
+  .info-title {
+    font-size: 1.75rem;
+  }
+
+  .info-description {
+    font-size: 1rem;
+  }
+
+  .info-features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .info-feature-item {
+    padding: 1.25rem;
+  }
+
+  .info-image-container {
+    padding: 0 1rem;
+  }
+
+  .circle-1,
+  .circle-2 {
+    display: none;
+  }
+
+  .info-badge {
+    font-size: 0.85rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .info-title {
+    font-size: 2rem;
+  }
+
+  .info-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Propósito Section - Modernizada */
+.proposito-section-modern {
+  padding: 1rem 2rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.proposito-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.proposito-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.proposito-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1F2937;
+  margin-bottom: 1rem;
+}
+
+.proposito-subtitle {
+  font-size: 1.125rem;
+  color: #6B7280;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.proposito-tabs-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.proposito-tabs {
+  display: inline-flex;
+  background: white;
+  border-radius: 60px;
+  padding: 0.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  gap: 0.5rem;
+}
+
+.proposito-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: transparent;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.proposito-tab svg {
+  transition: transform 0.3s ease;
+}
+
+.proposito-tab:hover {
+  color: #185CE6;
+  background: rgba(24, 92, 230, 0.05);
+}
+
+.proposito-tab-active {
+  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(223, 45, 178, 0.3);
+}
+
+.proposito-tab-active:hover {
+  background: linear-gradient(135deg, #c528a0 0%, #1450c9 100%);
+  color: white;
+}
+
+.proposito-tab-active svg {
+  transform: scale(1.1);
+}
+
+.proposito-content {
+  padding: 0 1rem;
+}
+
+/* Vision y Misión Cards */
+.vision-mision-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.vm-card {
+  background: white;
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+}
+
+.vm-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.vm-card-vision:hover {
+  border-color: #185CE6;
+}
+
+.vm-card-mision:hover {
+  border-color: #DF2DB2;
+}
+
+.vm-card-icon-wrapper {
+  margin-bottom: 2rem;
+}
+
+.vm-card-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.vm-icon-vision {
+  background: linear-gradient(135deg, rgba(24, 92, 230, 0.1) 0%, rgba(24, 92, 230, 0.2) 100%);
+  color: #185CE6;
+}
+
+.vm-icon-mision {
+  background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(223, 45, 178, 0.2) 100%);
+  color: #DF2DB2;
+}
+
+.vm-card:hover .vm-card-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.vm-card-content {
+  position: relative;
+  z-index: 2;
+}
+
+.vm-card-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1F2937;
+  margin-bottom: 1.25rem;
+}
+
+.vm-card-vision .vm-card-title {
+  color: #185CE6;
+}
+
+.vm-card-mision .vm-card-title {
+  color: #DF2DB2;
+}
+
+.vm-card-description {
+  font-size: 1.05rem;
+  color: #4B5563;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.vm-card-decoration {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  opacity: 0.08;
+  z-index: 1;
+  transition: all 0.5s ease;
+}
+
+.vm-decoration-vision {
+  background: radial-gradient(circle, #185CE6 0%, transparent 70%);
+  bottom: -50px;
+  right: -50px;
+}
+
+.vm-decoration-mision {
+  background: radial-gradient(circle, #DF2DB2 0%, transparent 70%);
+  bottom: -50px;
+  right: -50px;
+}
+
+.vm-card:hover .vm-card-decoration {
+  transform: scale(1.3);
+  opacity: 0.12;
+}
+
+/* Valores Carousel */
+.valores-carousel-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.valores-slide {
+  padding: 1rem;
+}
+
+.valor-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 2px solid transparent;
+}
+
+.valor-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+  border-color: rgba(24, 92, 230, 0.3);
+}
+
+.valor-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(24, 92, 230, 0.1) 100%);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.valor-card:hover .valor-icon-wrapper {
+  transform: scale(1.1) rotate(-5deg);
+  background: linear-gradient(135deg, rgba(223, 45, 178, 0.15) 0%, rgba(24, 92, 230, 0.15) 100%);
+}
+
+.valor-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.valor-content {
+  flex: 1;
+}
+
+.valor-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1F2937;
+  margin-bottom: 1rem;
+}
+
+.valor-description {
+  font-size: 1rem;
+  color: #6B7280;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.carousel-nav-btn {
+  background: white;
+  border: 2px solid #E5E7EB;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-nav-btn:hover {
+  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+  border-color: transparent;
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(223, 45, 178, 0.3);
+}
+
+.carousel-nav-btn img {
+  width: 20px;
+  height: 20px;
+  transition: filter 0.3s ease;
+}
+
+.carousel-nav-btn:hover img {
+  filter: brightness(0) invert(1);
+}
+
+/* Transiciones */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .proposito-section-modern {
+    padding: 4rem 1rem;
+  }
+
+  .proposito-title {
+    font-size: 2rem;
+  }
+
+  .proposito-subtitle {
+    font-size: 1rem;
+  }
+
+  .proposito-tabs {
+    flex-direction: column;
+    width: 100%;
+    max-width: 350px;
+    padding: 0.75rem;
+  }
+
+  .proposito-tab {
+    width: 100%;
+    justify-content: center;
+    padding: 0.875rem 1.5rem;
+  }
+
+  .vision-mision-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .vm-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .vm-card-title {
+    font-size: 1.5rem;
+  }
+
+  .vm-card-description {
+    font-size: 1rem;
+  }
+
+  .valor-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .valor-title {
+    font-size: 1.2rem;
+  }
+
+  .carousel-nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .proposito-title {
+    font-size: 2.25rem;
+  }
+
+  .vision-mision-grid {
+    gap: 2rem;
+  }
+}
+
+/* Ofrecemos Section - Modernizada */
+.ofrecemos-section-modern {
+  padding: 6rem 0;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.ofrecemos-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.ofrecemos-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.ofrecemos-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1F2937;
+  margin-bottom: 1rem;
+}
+
+.ofrecemos-subtitle {
+  font-size: 1.125rem;
+  color: #6B7280;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.ofrecemos-carousel-container {
+  position: relative;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+.ofrecemos-slide {
+  padding: 0 1rem;
+  height: auto;
+}
+
+.ofrecemos-card {
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid transparent;
+  margin: 0 0.75rem;
+}
+
+.ofrecemos-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  border-color: rgba(24, 92, 230, 0.3);
+}
+
+.ofrecemos-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+}
+
+.ofrecemos-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.ofrecemos-card:hover .ofrecemos-image {
+  transform: scale(1.1);
+}
+
+.ofrecemos-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+  transition: opacity 0.3s ease;
+}
+
+.ofrecemos-card:hover .ofrecemos-overlay {
+  opacity: 0.8;
+}
+
+.ofrecemos-content {
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.ofrecemos-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(24, 92, 230, 0.1) 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #185CE6;
+  transition: all 0.3s ease;
+}
+
+.ofrecemos-card:hover .ofrecemos-icon {
+  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+  color: white;
+  transform: scale(1.1) rotate(-5deg);
+}
+
+.ofrecemos-card-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1F2937;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.ofrecemos-card-description {
+  font-size: 1rem;
+  color: #6B7280;
+  line-height: 1.7;
+  margin: 0;
+  flex: 1;
+}
+
+.ofrecemos-nav-btn {
+  background: white;
+  border: 2px solid #E5E7EB;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.ofrecemos-nav-btn:hover {
+  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+  border-color: transparent;
+  transform: scale(1.15);
+  box-shadow: 0 8px 25px rgba(223, 45, 178, 0.4);
+}
+
+.ofrecemos-nav-btn img {
+  width: 20px;
+  height: 20px;
+  transition: all 0.3s ease;
+}
+
+.ofrecemos-nav-btn:hover img {
+  filter: brightness(0) invert(1);
+  transform: scale(1.1);
+}
+
+/* Estilos del carousel */
+:deep(.ofrecemos-carousel-container .carousel) {
+  position: relative;
+}
+
+:deep(.ofrecemos-carousel-container .carousel__viewport) {
+  overflow: hidden;
+  padding: 1.5rem 0;
+}
+
+:deep(.ofrecemos-carousel-container .carousel__track) {
+  display: flex;
+  align-items: stretch;
+}
+
+:deep(.ofrecemos-carousel-container .carousel__slide) {
+  flex: 0 0 auto;
+  width: calc(33.333% - 1.5rem);
+  margin: 0;
+  padding: 0;
+}
+
+/* Pagination dots */
+:deep(.ofrecemos-carousel-container .carousel__pagination) {
+  margin-top: 2.5rem;
+  gap: 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+:deep(.ofrecemos-carousel-container .carousel__pagination-button) {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #E5E7EB;
+  transition: all 0.3s ease;
+  padding: 0;
+  border: none;
+  margin: 0 0.25rem;
+}
+
+:deep(.ofrecemos-carousel-container .carousel__pagination-button:hover) {
+  background: #9CA3AF;
+  transform: scale(1.2);
+}
+
+:deep(.ofrecemos-carousel-container .carousel__pagination-button--active) {
+  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+  width: 32px;
+  border-radius: 6px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ofrecemos-section-modern {
+    padding: 4rem 0;
+  }
+
+  .ofrecemos-container {
+    padding: 0 1rem;
+  }
+
+  .ofrecemos-title {
+    font-size: 2rem;
+  }
+
+  .ofrecemos-subtitle {
+    font-size: 1rem;
+  }
+
+  :deep(.ofrecemos-carousel-container .carousel__slide) {
+    width: 100%;
+  }
+
+  .ofrecemos-card {
+    margin: 0 0.5rem;
+    min-height: 450px;
+  }
+
+  .ofrecemos-image-wrapper {
+    height: 220px;
+  }
+
+  .ofrecemos-content {
+    padding: 2rem 1.5rem;
+  }
+
+  .ofrecemos-card-title {
+    font-size: 1.25rem;
+  }
+
+  .ofrecemos-card-description {
+    font-size: 0.95rem;
+  }
+
+  .ofrecemos-nav-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .ofrecemos-nav-btn img {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .ofrecemos-container {
+    padding: 0 1.5rem;
+  }
+
+  .ofrecemos-title {
+    font-size: 2.25rem;
+  }
+
+  .ofrecemos-image-wrapper {
+    height: 240px;
+  }
+
+  :deep(.ofrecemos-carousel-container .carousel__slide) {
+    width: calc(50% - 1rem);
+  }
+
+  .ofrecemos-card {
+    margin: 0 0.5rem;
+  }
+}
+
+/* CTA Section */
+.cta-section {
+  margin: 6rem 0;
+  padding: 0 1rem;
+}
+
+.cta-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 32px;
+  padding: 5rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-decoration {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+  background: white;
+}
+
+.cta-decoration-1 {
+  width: 400px;
+  height: 400px;
+  top: -200px;
+  right: -100px;
+  animation: float 20s ease-in-out infinite;
+}
+
+.cta-decoration-2 {
+  width: 300px;
+  height: 300px;
+  bottom: -150px;
+  left: -80px;
+  animation: float 15s ease-in-out infinite reverse;
+}
+
+.cta-decoration-3 {
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 10%;
+  animation: float 18s ease-in-out infinite;
+  opacity: 0.05;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+}
+
+/* CTA Badge */
+.cta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.cta-badge-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* CTA Title */
+.cta-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: white;
+  margin: 0;
+  line-height: 1.2;
+  max-width: 800px;
+  animation: fadeInUp 0.8s ease-out 0.1s backwards;
+}
+
+/* CTA Description */
+.cta-description {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  line-height: 1.7;
+  max-width: 700px;
+  animation: fadeInUp 0.8s ease-out 0.2s backwards;
+}
+
+/* CTA Button */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.125rem 2.5rem;
+  background: white;
+  color: #667eea;
+  font-size: 1.125rem;
+  font-weight: 700;
+  border-radius: 16px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: fadeInUp 0.8s ease-out 0.3s backwards;
+}
+
+.cta-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  background: #f8f9fa;
+}
+
+.cta-button-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.cta-button:hover .cta-button-icon {
+  transform: translateX(5px);
+}
+
+/* CTA Features */
+.cta-features {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeInUp 0.8s ease-out 0.4s backwards;
+}
+
+.cta-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.cta-feature-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* CTA Responsive */
+@media (max-width: 768px) {
+  .cta-section {
+    margin: 4rem 0;
+  }
+
+  .cta-container {
+    padding: 3rem 2rem;
+    border-radius: 24px;
+  }
+
+  .cta-title {
+    font-size: 2rem;
+  }
+
+  .cta-description {
+    font-size: 1rem;
+  }
+
+  .cta-button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+
+  .cta-features {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .cta-decoration-1,
+  .cta-decoration-2,
+  .cta-decoration-3 {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .cta-container {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .cta-title {
+    font-size: 1.75rem;
+  }
+
+  .cta-description {
+    font-size: 0.9375rem;
   }
 }
 </style>

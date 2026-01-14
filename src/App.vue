@@ -1,21 +1,37 @@
 <template>
   <div id="app">
     <router-view />
-    <!-- @click="openWhatsApp" -->
-    <div class="floating-whatsapp">
-      <i class="fab fa-whatsapp"></i>
+    <div class="floating-whatsapp" v-if="!urlBusqueda">
+      <div class="whatsapp-icon-wrapper">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-pulse"></span>
+      </div>
+      <div class="whatsapp-tooltip">
+        <span class="tooltip-text">¿Necesitas ayuda?</span>
+        <span class="tooltip-subtext">Chatea con nosotros</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      urlBusqueda: this.$route.path.includes('busqueda')
+    }
+  },
   methods: {
     openWhatsApp() {
       const phoneNumber = '902430068';
       const message = 'Hola, tengo una consulta.';
       const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
       window.open(url, '_blank');
+    },
+  },
+  watch: {
+    $route(to) {
+      this.urlBusqueda = to.path.includes('busqueda');
     }
   }
 }
@@ -39,24 +55,152 @@ export default {
 
 .floating-whatsapp {
   position: fixed;
+  bottom: 30px;
+  right: 10px;
+  z-index: 1000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floating-whatsapp:hover {
+  right: 30px;
+}
+
+.whatsapp-icon-wrapper {
+  position: relative;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: whatsapp-bounce 2s ease-in-out infinite;
+}
+
+.floating-whatsapp:hover .whatsapp-icon-wrapper {
+  transform: scale(1.1) translateY(-4px);
+  box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
+}
+
+.whatsapp-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(37, 211, 102, 0.6);
+  animation: whatsapp-pulse 2s ease-out infinite;
+  z-index: -1;
+}
+
+.whatsapp-tooltip {
+  background: white;
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  order: -1;
+}
+
+.floating-whatsapp:hover .whatsapp-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.tooltip-text {
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #2d3748;
+  line-height: 1.2;
+}
+
+.tooltip-subtext {
+  font-family: Lato, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #718096;
+  line-height: 1.2;
+}
+
+@keyframes whatsapp-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes whatsapp-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .floating-whatsapp {
+    bottom: 20px;
+    right: 0px;
+  }
+  
+  .floating-whatsapp:hover {
+    right: 20px;
+  }
+  
+  .whatsapp-icon-wrapper {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .whatsapp-tooltip {
+    display: none;
+  }
+}
+
+.floating-arriba {
+  position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #25D366;
+  background-color: #E71FB3;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
+  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   cursor: pointer;
-  z-index: 1000;
+  z-index: 1;
   transition: background-color 0.3s;
 }
 
-.floating-whatsapp:hover {
-  background-color: #52c4b6;
+.floating-arriba:hover {
+  background-color: rgb(229, 122, 233);
 }
+
 
 .floating-delitos {
   position: fixed;
@@ -73,7 +217,12 @@ export default {
 
 .fab {
   color: white;
-  font-size: 28px;
+  font-size: 32px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floating-whatsapp:hover .fab {
+  transform: scale(1.1) rotate(5deg);
 }
 
 :root {
@@ -645,7 +794,7 @@ form {
 }
 
 .table thead {
-  background-color: var(--azul-primary) !important;
+  background: rgba(139, 92, 246, 0.04) !important;
   color: white !important;
   font-weight: 600 !important;
 }

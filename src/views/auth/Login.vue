@@ -5,12 +5,12 @@
       <div class="text-sm">
         <span class="text-gray-600 no-tener-cuenta">¿No tienes una cuenta?</span>
         <button @click.prevent="$router.push('/auth/register')"
-          class="btn-registrate ml-2 text-blue-500 hover:underline">Regístrate</button>
+          class="btn-registrate ml-2">Regístrate</button>
       </div>
     </div>
 
-    <div class="bg-white p-8 rounded-xl shadow-lg w-5/6 form-login-with">
-      <h3 class="text-lato-700 text-center">Ingresa a tu cuenta</h3>
+    <div class="bg-white p-8 rounded-xl shadow-modern w-5/6 form-login-with">
+      <h3 class="text-lato-700 text-center login-title">Ingresa a tu cuenta</h3>
       <div class="social-buttons mt-4">
         <button class="social-btn" @click="loginWithGoogle">
           <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" class="icon">
@@ -53,7 +53,9 @@
           </button>
         </div>
 
-        <button type="button" @click.prevent="signIn" class="submit-btn mt-3 text-lato">Iniciar sesión</button>
+        <button type="button" @click.prevent="signIn" class="submit-btn mt-3 text-lato">
+          Iniciar sesión
+        </button>
       </form>
 
       <ModalRecuperarContrasena :show="modalRecuperarContrasena.show"
@@ -286,21 +288,29 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
-  padding: 10px;
-  border: 1px solid #d1d5db;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
   border-radius: 9999px;
-  /* Equivalente a rounded-full */
   font-size: 14px;
-  font-weight: 500;
-  color: #374151;
+  font-weight: 600;
+  color: #4a5568;
   background-color: white;
-  transition: background 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  font-family: Lato, sans-serif;
 }
 
 .social-btn:hover {
-  background-color: #f3f4f6;
+  background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(139, 92, 246, 0.05) 50%, rgba(24, 92, 230, 0.05) 100%);
+  border-color: #c4b5fd;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+}
+
+.social-btn:active {
+  transform: translateY(0);
 }
 
 .icon {
@@ -318,6 +328,22 @@ form {
 
 .form-login-with {
   width: 500px;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.98) !important;
+}
+
+.shadow-modern {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.login-title {
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
 }
 
 @media (max-width: 768px) {
@@ -325,15 +351,21 @@ form {
     width: 90%;
     padding: 20px;
   }
+  
+  .login-title {
+    font-size: 24px;
+  }
 }
 
 .separator {
   display: flex;
   align-items: center;
   text-align: center;
-  margin: 16px 0;
-  font-size: 14px;
-  color: #6b7280;
+  margin: 20px 0;
+  font-size: 13px;
+  color: #718096;
+  font-weight: 500;
+  font-family: Lato, sans-serif;
 }
 
 .separator::before,
@@ -341,18 +373,30 @@ form {
   content: "";
   flex: 1;
   height: 1px;
-  background-color: #d1d5db;
-  margin: 0 10px;
+  background: linear-gradient(90deg, transparent, #cbd5e0, transparent);
+  margin: 0 12px;
 }
 
 .input-group {
   display: flex;
   align-items: center;
-  /* background: #f3f4f6; */
-  border: 1px solid #d1d5db;
-  border-radius: 9999px;
-  padding: 10px;
+  border: 2px solid #e2e8f0;
+  border-radius: 50px;
+  padding: 12px 18px;
   margin-bottom: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+}
+
+.input-group:focus-within {
+  border-color: #8B5CF6;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+  transform: translateY(-1px);
+}
+
+.input-group.error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
 }
 
 .input-icon {
@@ -366,7 +410,15 @@ form {
   border: none;
   outline: none;
   background: transparent;
-  font-size: 14px;
+  font-size: 15px;
+  color: #2d3748;
+  font-family: Lato, sans-serif;
+  font-weight: 500;
+}
+
+.input-field::placeholder {
+  color: #a0aec0;
+  font-weight: 400;
 }
 
 /* Estilo del botón de ojo */
@@ -391,19 +443,28 @@ form {
 /* Botón de enviar */
 .submit-btn {
   width: 100%;
-  background: #2563eb;
+  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
   color: white;
-  font-size: 14px;
-  font-weight: 600;
-  padding: 10px;
-  border-radius: 9999px;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px;
+  border-radius: 50px;
   border: none;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  font-family: Lato, sans-serif;
+  letter-spacing: 0.3px;
 }
 
 .submit-btn:hover {
-  background: #1e40af;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
 }
 
 .options {
@@ -427,24 +488,44 @@ form {
 }
 
 .forgot-password {
-  font-size: 12px;
-  color: #2563eb;
+  font-size: 13px;
+  color: #8B5CF6;
   text-decoration: none;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: Lato, sans-serif;
 }
 
 .forgot-password:hover {
+  color: #DF2DB2;
   text-decoration: underline;
 }
 
 
 .btn-registrate {
-  background: #E71FB3;
+  background: linear-gradient(135deg, #DF2DB2 0%, #E71FB3 100%);
   color: white;
-  padding: 8px 16px;
-  border-radius: 9999px;
+  padding: 10px 20px;
+  border-radius: 50px;
   border: none;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(231, 31, 179, 0.25);
+  font-family: Lato, sans-serif;
+}
+
+.btn-registrate:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(231, 31, 179, 0.35);
+}
+
+.btn-registrate:active {
+  transform: translateY(0);
 }
 
 @media (max-width: 768px) {

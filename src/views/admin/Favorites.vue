@@ -1,138 +1,268 @@
 <template>
-    <section class="bg-landing mt-4 pt-5">
-        <div class="container-table flex flex-col mt-4 pt-5">
-            <div class="flex mb-3 gap-4 flex-col md:flex-row contenedor-tab">
-                <a class="cursor-pointer tab-pointer" :class="active === 'documentos' ? 'active-tab' : ''"
+    <section class="favorites-container mt-4 pt-2">
+        <div class="favorites-header">
+            <div class="favorites-header-content">
+                <div class="header-title-section">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <div>
+                        <h1 class="favorites-title">Mis Favoritos</h1>
+                        <p class="favorites-subtitle">Gestiona tus documentos y directorios favoritos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="favorites-content">
+            <div class="tabs-modern">
+                <button 
+                    class="tab-button" 
+                    :class="{ 'tab-active': active === 'documentos' }"
                     @click="updateActive('documentos')">
-                    <img src="@/assets/img/icons/documentos.svg" alt="favoritos" class="w-4 h-4 mr-2">
-                    Documentos
-                </a>
-                <a class="cursor-pointer tab-pointer" :class="active === 'directorios' ? 'active-tab' : ''"
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    <span>Documentos</span>
+                </button>
+                <button 
+                    class="tab-button" 
+                    :class="{ 'tab-active': active === 'directorios' }"
                     @click="updateActive('directorios')">
-                    <img src="@/assets/img/icons/directorios.svg" alt="favoritos" class="w-4 h-4 mr-2">
-                    Directorios
-                </a>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+                    </svg>
+                    <span>Directorios</span>
+                </button>
             </div>
 
-            <div class="row">
-                <div class="col-12 mb-3 input-search" :class="active === 'documentos' || !visibleDirectorios.visible ? 'col-md-6' : 'col-md-12'">
-                    <img src="@/assets/img/icons/search.svg" alt="search" class="icon-search" />
-
-                    <input type="text" class="form-control" style="height: 50px;"
-                        :placeholder="active === 'documentos' ? 'Buscar por nombre documentos, título alternativo.' : 'Buscar por nombre de directorios'"
-                        v-model="filter.SEARCH" id="name" />
-                </div>
-
-                <div class="col-md-3 col-12 mb-3" v-if="active === 'documentos'|| !visibleDirectorios.visible">
-                    <b-form-select v-model="filter.IDDIRECTORIO" 
-                    :disabled="!visibleDirectorios.visible"
-                    :options="[
-                        ...directorios.map((item) => {
-                            return {
-                                text: item.DSCRPCN,
-                                value: item.ID
-                            }
-                        })
-                    ]">
-                    </b-form-select>
-                </div>
-
-                <div class="col-md-3 col-12 mb-3" v-if="active === 'documentos' || !visibleDirectorios.visible">
-                    <b-form-select v-model="filter.SHARED" :options="[
-                        { text: 'Todos', value: 'T' },
-                        { text: 'Mis Documentos', value: 'M' },
-                        { text: 'Documentos Compartidos', value: 'C' }
-                    ]">
-                    </b-form-select>
-                </div>
-
-
-                <div class="col-md-12 col-12 mb-3 btn-actions-view">
-                    <button class="bton btn-search"
-                        @click="active === 'documentos' || !visibleDirectorios.visible ? searchDocuments() : searchDirectorios()">
-                        Buscar
-                    </button>
-                    <button class="bton btn-create" @click="createDirectory" v-if="active === 'directorios'">
-                        Nuevo
-                    </button>
-                </div>
-
-                <div class="w-full mb-12">
-                    <card-table v-if="active == 'documentos'" :search="searchDocuments" :fields="fieldsDocumentos"
-                        :items="dataDocuments" :grid="grid" :actions="actionsDocuments" />
-                </div>
-            </div>
-
-            <div class="row" v-if="active === 'directorios'">
-                <div class="col-md-12 col-12 mb-3 class-actions" v-if="visibleDirectorios.visible">
-                    <!-- <button>
-                        <img src="@/assets/img/icons/shared.svg" alt="favoritos" class="w-4 h-4">
-                        Compartir
-                    </button> -->
-                    <button @click="saveNameDirectory">
-                        <img src="@/assets/img/icons/edit.svg" alt="favoritos" class="w-4 h-4">
-                        Cambiar nombre
-                    </button>
-                    <button @click="deleteDirectorys">
-                        <img src="@/assets/img/icons/delete.svg" alt="favoritos" class="w-4 h-4">
-                        Eliminar
-                    </button>
-                </div>
-                <div class="row col-12">
-                    <div v-if="visibleDirectorios.visible" class="row">
-                        <div v-for="(item, index) in directoriosUser" :key="index" class="col-md-3 col-12 mb-3">
-                            <div class="card card-directorios" @click="isVisibleTable(item)">
-                                <div class="card-body">
-                                    <div class="d-flex flex-column">
-                                        <div class="contenedor-carpeta">
-                                            <div class="contenedor-title-carpeta">
-                                                <img src="@/assets/img/icons/carpeta.svg" alt="folder"
-                                                    class="icon-folder" />
-                                                <h6 class="mb-0">
-                                                    {{ item.label }}
-                                                </h6>
-                                            </div>
-                                            <input type="checkbox" @click.stop @change="saveSelectedDirectory(item)"
-                                                class="form-check-input" id="exampleCheck1" />
-                                        </div>
-                                        <div class="mt-5 contenedor-footer-carpeta">
-                                            <p class="p-c1">
-                                                {{ item.children.length }} {{ item.children.length == 1 ? 'documento' :
-                                                    'documentos' }}
-                                            </p>
-                                            <p class="p-c2">
-                                                {{ item.fcrcn }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p class="p-c3 m-0">
-                                                Creado por: <span class=""> {{ item.ucrcn }} </span>
-                                            </p>
-                                        </div>
-                                    </div>
+            <div class="tab-content">
+                <!-- DOCUMENTOS SECTION -->
+                <div v-if="active === 'documentos'" class="fade-in">
+                    <div class="filters-card">
+                        <div class="filters-header">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="M21 21l-4.35-4.35"/>
+                            </svg>
+                            <h3>Filtros de Búsqueda</h3>
+                        </div>
+                        
+                        <div class="filters-grid">
+                            <div class="form-group form-group-full">
+                                <label class="form-label">Buscar documentos</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"/>
+                                        <path d="M21 21l-4.35-4.35"/>
+                                    </svg>
+                                    <input 
+                                        v-model="filter.SEARCH" 
+                                        class="form-input" 
+                                        type="text"
+                                        placeholder="Buscar por nombre, título alternativo..." />
                                 </div>
-    
+                            </div>
+
+                            <div class="form-group" v-if="active === 'documentos' || !visibleDirectorios.visible">
+                                <label class="form-label">Directorio</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+                                    </svg>
+                                    <select 
+                                        v-model="filter.IDDIRECTORIO" 
+                                        :disabled="!visibleDirectorios.visible"
+                                        class="form-input form-select">
+                                        <option 
+                                            v-for="item in directorios" 
+                                            :key="item.ID" 
+                                            :value="item.ID">
+                                            {{ item.DSCRPCN }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group" v-if="active === 'documentos' || !visibleDirectorios.visible">
+                                <label class="form-label">Tipo</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                                        <polyline points="9 22 9 12 15 12 15 22"/>
+                                    </svg>
+                                    <select v-model="filter.SHARED" class="form-input form-select">
+                                        <option value="T">Todos</option>
+                                        <option value="M">Mis Documentos</option>
+                                        <option value="C">Documentos Compartidos</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="filters-actions">
+                                <button class="btn-search" @click="active === 'documentos' || !visibleDirectorios.visible ? searchDocuments() : searchDirectorios()">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"/>
+                                        <path d="M21 21l-4.35-4.35"/>
+                                    </svg>
+                                    Buscar
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <div class="w-full mb-12" v-else>
-                        <!-- // boton regresar -->
-                        <button class="bton btn-regresar mb-3 d-flex" @click="visibleDirectorios.visible = true">
-                            <img 
-                            height="16" width="16"
-                            src="@/assets/img/icons/arrow-left.svg" alt="back" class="mr-1">
+
+                    <div class="documents-table-card">
+                        <card-table 
+                            :search="searchDocuments" 
+                            :fields="fieldsDocumentos"
+                            :items="dataDocuments" 
+                            :grid="grid" 
+                            :actions="actionsDocuments" />
+                    </div>
+                </div>
+
+                <!-- DIRECTORIOS SECTION -->
+                <div v-if="active === 'directorios'" class="fade-in">
+                    <!-- Filters for directorios search -->
+                    <div class="filters-card">
+                        <div class="filters-header">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="M21 21l-4.35-4.35"/>
+                            </svg>
+                            <h3>Filtros de Búsqueda</h3>
+                        </div>
+                        
+                        <div class="filters-grid">
+                            <div class="form-group form-group-full">
+                                <label class="form-label">Buscar directorios</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"/>
+                                        <path d="M21 21l-4.35-4.35"/>
+                                    </svg>
+                                    <input 
+                                        v-model="filter.SEARCH" 
+                                        class="form-input" 
+                                        type="text"
+                                        placeholder="Buscar por nombre de directorios..." />
+                                </div>
+                            </div>
+
+                            <div class="filters-actions">
+                                <button class="btn-search" @click="searchDirectorios()">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"/>
+                                        <path d="M21 21l-4.35-4.35"/>
+                                    </svg>
+                                    Buscar
+                                </button>
+                                <button class="btn-create" @click="createDirectory">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 5v14M5 12h14"/>
+                                    </svg>
+                                    Nuevo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Directory actions when directory is visible -->
+                    <div class="directory-actions-bar" v-if="visibleDirectorios.visible">
+                        <button class="action-bar-btn" @click="saveNameDirectory">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                            Cambiar nombre
+                        </button>
+                        <button class="action-bar-btn action-bar-btn-delete" @click="deleteDirectorys">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                            </svg>
+                            Eliminar
+                        </button>
+                    </div>
+
+                    <!-- Directories Grid -->
+                    <div v-if="visibleDirectorios.visible" class="directories-grid">
+                        <div 
+                            v-for="(item, index) in directoriosUser" 
+                            :key="index" 
+                            class="directory-card"
+                            @click="isVisibleTable(item)">
+                            <div class="directory-card-header">
+                                <div class="directory-icon-lg">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+                                    </svg>
+                                </div>
+                                <div class="directory-checkbox">
+                                    <input 
+                                        type="checkbox" 
+                                        @click.stop 
+                                        @change="saveSelectedDirectory(item)"
+                                        class="checkbox-input" />
+                                </div>
+                            </div>
+                            <div class="directory-card-body">
+                                <h4 class="directory-name">{{ item.label }}</h4>
+                                <div class="directory-stats">
+                                    <div class="stat-item">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                            <polyline points="14 2 14 8 20 8"/>
+                                        </svg>
+                                        <span>{{ item.children.length }} {{ item.children.length == 1 ? 'documento' : 'documentos' }}</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                            <line x1="16" y1="2" x2="16" y2="6"/>
+                                            <line x1="8" y1="2" x2="8" y2="6"/>
+                                            <line x1="3" y1="10" x2="21" y2="10"/>
+                                        </svg>
+                                        <span>{{ item.fcrcn }}</span>
+                                    </div>
+                                </div>
+                                <div class="directory-creator">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                    <span>{{ item.ucrcn }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Back button and table view for selected directory -->
+                    <div v-else class="directory-detail-view">
+                        <button class="btn-back" @click="visibleDirectorios.visible = true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15 18 9 12 15 6"/>
+                            </svg>
                             Regresar
                         </button>
-                        <card-table v-if="!visibleDirectorios.visible" :search="searchDocuments" :fields="fieldsDocumentos"
-                            :items="dataDocuments" :grid="grid" :actions="actionsDocuments" />
+                        <div class="documents-table-card">
+                            <card-table 
+                                :search="searchDocuments" 
+                                :fields="fieldsDocumentos"
+                                :items="dataDocuments" 
+                                :grid="grid" 
+                                :actions="actionsDocuments" />
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
             <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
 
             <ModalMostrarResolucion :openModal="openModal" :toggleModal="() => this.openModal = !this.openModal"
-                :pdfUrl="pdfUrl" :data="rowData" :isFav="false" />
+                :pdfUrl="pdfUrl" :data="rowData" :isFav="false" :role="role" />
 
             <ModalCompartirEntrada :openModal="openModalCompartir"
                 :toggleModal="() => this.openModalCompartir = !this.openModalCompartir" :data="rowDataCompartir" />
@@ -140,13 +270,11 @@
             <ModalUsuariosCompartidos :openModal="openModalUsuariosCompartidos"
                 :toggleModal="() => this.openModalUsuariosCompartidos = !this.openModalUsuariosCompartidos"
                 :data="rowDataUsuariosCompartidos" />
-        </div>
     </section>
 
 </template>
 
 <script>
-import { BFormSelect } from 'bootstrap-vue-next';
 import { toast } from 'vue3-toastify';
 import UserProxy from '../../proxies/UserProxy';
 import AdminEntriesProxy from '../../proxies/AdminEntriesProxy';
@@ -157,11 +285,16 @@ import ModalUsuariosCompartidos from './Modales/ModalUsuariosCompartidos.vue';
 
 export default {
     components: {
-        BFormSelect,
         CardTable,
         ModalMostrarResolucion,
         ModalCompartirEntrada,
         ModalUsuariosCompartidos
+    },
+    props: {
+        role: {
+            type: Array,
+            default: () => [],
+        },
     },
     data() {
         return {
@@ -687,6 +820,11 @@ export default {
 
         this.actionsDocuments = {
             ...this.actionsDocuments,
+            execute: {
+                action: (item) => {
+                    this.openModalWithData(item);
+                }
+            },
             view: {
                 ...this.actionsDocuments.view,
                 action: (item) => {
@@ -778,61 +916,409 @@ export default {
 </script>
 
 <style scoped>
-.tab-pointer {
+/* ===== FAVORITES MODERN UI ===== */
+.favorites-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+    padding-bottom: 4rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.favorites-header {
+    background: white;
+    border-bottom: 1px solid #E5E7EB;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.favorites-header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.header-title-section {
     display: flex;
     align-items: center;
-    padding: 0.5rem 1rem;
+    gap: 1.5rem;
 }
 
-.contenedor-carpeta {
+.header-icon,
+.favorites-icon {
+    flex-shrink: 0;
+    color: #185CE6;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.favorites-title {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.favorites-subtitle {
+    color: #6B7280;
+    font-size: 0.95rem;
+    margin: 0.25rem 0 0 0;
+}
+
+.favorites-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.tabs-modern {
     display: flex;
-    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 0.5rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.tab-button {
+    flex: 1;
+    display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #6B7280;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.contenedor-title-carpeta {
+.tab-button svg {
+    transition: transform 0.3s ease;
+}
+
+.tab-button:hover {
+    background: rgba(24, 92, 230, 0.05);
+    color: #185CE6;
+}
+
+.tab-button:hover svg {
+    transform: translateY(-2px);
+}
+
+.tab-button.active,
+.tab-button.tab-active {
+    background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(223, 45, 178, 0.3);
+}
+
+.tab-button.active:hover,
+.tab-button.tab-active:hover {
+    background: linear-gradient(135deg, #c528a0 0%, #1450c9 100%);
+}
+
+.tab-content {
+    min-height: 400px;
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease-in;
+}
+
+.filters-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.filters-header {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f7fafc;
 }
 
-.contenedor-footer-carpeta {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-}
-
-.contenedor-footer-carpeta .p-c1 {
-    font-size: 14px;
+.filters-header svg {
     color: #E71FB3;
 }
 
-.contenedor-footer-carpeta .p-c2 {
-    font-size: 12px;
-    color: #898987;
+.filters-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0;
 }
 
-.p-c3 {
-    font-size: 12px;
-    color: #898987;
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    align-items: end;
 }
 
-.class-actions {
+.form-group {
     display: flex;
-    justify-content: start;
-    align-items: center;
-    margin-bottom: 20px;
-    gap: 20px;
+    flex-direction: column;
 }
 
-.class-actions button {
+.form-group-full {
+    grid-column: 1 / -1;
+}
+
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+.input-wrapper {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 10px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    color: #a0aec0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 3.25rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: #2d3748;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #E71FB3;
+    box-shadow: 0 0 0 3px rgba(231, 31, 179, 0.1);
+}
+
+.form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a0aec0' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 3rem;
     cursor: pointer;
 }
 
-.card-directorios:hover {
+.filters-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-search, .btn-create {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-search {
+    background: linear-gradient(135deg, #E71FB3 0%, #FF6B9D 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(231, 31, 179, 0.3);
+}
+
+.btn-search:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231, 31, 179, 0.4);
+}
+
+.btn-create {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+}
+
+.btn-create:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+.documents-table-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.directory-actions-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.action-bar-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #f7fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #2d3748;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-bar-btn:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+}
+
+.action-bar-btn-delete {
+    color: #e53e3e;
+}
+
+.directories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.directory-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.directory-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: #E71FB3;
+}
+
+.directory-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.directory-icon-lg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #E71FB3 0%, #FF6B9D 100%);
+    border-radius: 12px;
+}
+
+.directory-icon-lg svg {
+    color: white;
+}
+
+.checkbox-input {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #E71FB3;
+}
+
+.directory-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 1rem;
+}
+
+.directory-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #718096;
+}
+
+.directory-creator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #718096;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 1.5rem;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #2d3748;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+    background: #f7fafc;
+    transform: translateX(-4px);
+}
+
+@media (max-width: 768px) {
+    .favorites-container { padding: 1rem; }
+    .filters-grid { grid-template-columns: 1fr; }
+    .directories-grid { grid-template-columns: 1fr; }
 }
 </style>

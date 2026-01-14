@@ -6,15 +6,14 @@ axios.defaults.headers.common.Accept = "application/json";
 
 axios.interceptors.request.use(
   (request) => {
-    console.log("request", request.url);
     // si url contiene https://unrevealed-thoughtful-georgiana.ngrok-free.dev
     // if (request.url && !request.url.includes("https")) {
-    //    request.url = "https://api.jurissearch.com" + request.url;
-    //   // request.url = "http://localhost:3000" + request.url;
+    //   //  request.url = "https://api.jurissearch.com" + request.url;
+    //   request.url = "http://localhost:3000" + request.url;
     // }
     if (request.url){
-       request.url = "https://api.jurissearch.com" + request.url;
-      // request.url = "http://localhost:3000" + request.url;
+      //  request.url = "https://api.jurissearch.com" + request.url;
+      request.url = "http://localhost:3000" + request.url;
     }
     // const token = app.$store.state.auth.token;
     const token = localStorage.getItem('accessToken');
@@ -25,7 +24,6 @@ axios.interceptors.request.use(
     }
 
     if (token && token !== "" && !isTokenAdd) {
-      console.log("token", token);
       request.headers.Authorization = `Bearer ${token}`;
     }
 

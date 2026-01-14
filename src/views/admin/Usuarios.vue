@@ -1,68 +1,121 @@
 <template>
-    <section class="bg-landing mt-4 pt-5">
-        <div class="container-table flex flex-col mt-4 pt-5">
-            <div class="flex mb-3 gap-4 flex-col md:flex-row contenedor-tab">
-                <a class="cursor-pointer" :class="active === 'Subscriptores' ? 'active-tab' : ''"
-                    @click="updateActive('Subscriptores')">
-                    Subscriptores
-                </a>
-                <a class="cursor-pointer" :class="active === 'Digitadores' ? 'active-tab' : ''"
-                    @click="updateActive('Digitadores')">
-                    Digitadores
-                </a>
-                <a class="cursor-pointer" :class="active === 'Administradores' ? 'active-tab' : ''"
-                    @click="updateActive('Administradores')">
-                    Administradores
-                </a>
-            </div>
-
-            <div class="row">
-                <div class="col-md-9 col-12 mb-3 input-search">
-                    <img :src="searchIcon" alt="search" class="icon-search" />
-
-                    <input type="text" class="form-control"
-                        :placeholder="`Buscar por nombres, apellidos o correo electrónico`" v-model="filter.NOMBRES"
-                        id="name" />
+    <section class="usuarios-container mt-4 pt-2">
+        <!-- Header con Título -->
+        <div class="usuarios-header">
+            <div class="usuarios-header-content">
+                <div class="header-title-section">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <div>
+                        <h1 class="usuarios-title">Usuarios</h1>
+                        <p class="usuarios-subtitle">Gestión de subscriptores, digitadores y administradores</p>
+                    </div>
                 </div>
-
-                <div class="col-md-3 col-12 mb-3">
-                    <b-form-select v-model="filter.CDESTDO" :options="[
-                        { text: '-- Seleccione Estado ', value: null },
-                        { text: 'Activo', value: 'A' },
-                        { text: 'Inactivo', value: 'I' }]">
-                    </b-form-select>
-                </div>
-
-
-                <div class="col-md-12 col-12 mb-3 btn-actions-view">
-                    <button class="bton btn-search" @click="search(grid.currentPage, grid.perPage)">
-                        Buscar
-                    </button>
-                    <button class="bton btn-create" @click="modalAgregarUsuario.show = true">Crear</button>
-                </div>
-            </div>
-
-            <div class="w-full mb-12">
-                <card-table :active="active" title="Usuarios" :search="search" :fields="fields" :items="data"
-                    :grid="grid" :actions="actions" />
             </div>
         </div>
 
-        <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
+        <div class="usuarios-content">
+            <!-- Modern Tabs -->
+            <div class="tabs-modern">
+                <button
+                    class="tab-button"
+                    :class="{ 'tab-active': active === 'Subscriptores' }"
+                    @click="updateActive('Subscriptores')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                    </svg>
+                    <span>Subscriptores</span>
+                </button>
+                <button
+                    class="tab-button"
+                    :class="{ 'tab-active': active === 'Digitadores' }"
+                    @click="updateActive('Digitadores')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Digitadores</span>
+                </button>
+                <button
+                    class="tab-button"
+                    :class="{ 'tab-active': active === 'Administradores' }"
+                    @click="updateActive('Administradores')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <span>Administradores</span>
+                </button>
+            </div>
 
-        <ModalUsuarioInsertar :role="role" :show="modalAgregarUsuario.show"
-            :close="() => modalAgregarUsuario.show = false" :update="() => search(grid.currentPage, grid.perPage)"
-            :selects="selects" :userType="Number(active == 'Administradores' ? 0 : active === 'Digitadores' ? 1 : 2)" />
+            <!-- Filtros Modernos -->
+            <div class="filters-section">
+                <div class="search-input-wrapper">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input
+                        type="text"
+                        class="modern-input"
+                        :placeholder="`Buscar por nombres, apellidos o correo electrónico...`"
+                        v-model="filter.NOMBRES"
+                        id="name" />
+                </div>
 
-        <ModalUsuarioEditar :role="role" :show="modalEditarUsuario.show" :close="() => modalEditarUsuario.show = false"
-            :update="() => search(grid.currentPage, grid.perPage)" :selects="selects" :data="modalEditarUsuario.data"
-            :userType="Number(active == 'Administradores' ? 0 : active === 'Digitadores' ? 1 : 2)" />
+                <div class="select-wrapper">
+                    <b-form-select
+                        v-model="filter.CDESTDO"
+                        class="modern-select"
+                        :options="[
+                            { text: '-- Seleccione Estado ', value: null },
+                            { text: 'Activo', value: 'A' },
+                            { text: 'Inactivo', value: 'I' }]">
+                    </b-form-select>
+                </div>
 
-        <ModalEliminar :message="'¿Está seguro de cambiar el estado de este registro?, el usuario perdera su acceso.'"
-            :buttonOk="'Si, cambiar'" :action="deleteRow" :openDelete="modalEliminar.show"
-            :closeHandler="() => modalEliminar.show = false" />
+                <div class="button-group">
+                    <button class="modern-btn btn-search" @click="search(grid.currentPage, grid.perPage)">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                        <span>Buscar</span>
+                    </button>
+                    <button class="modern-btn btn-create" @click="modalAgregarUsuario.show = true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        <span>Crear</span>
+                    </button>
+                </div>
+            </div>
 
+            <!-- Tabla -->
+            <div class="table-section">
+                <card-table :active="active" title="Usuarios" :search="search" :fields="fields" :items="data"
+                    :grid="grid" :actions="actions" />
+            </div>
 
+            <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
+
+            <ModalUsuarioInsertar :role="role" :show="modalAgregarUsuario.show"
+                :close="() => modalAgregarUsuario.show = false" :update="() => search(grid.currentPage, grid.perPage)"
+                :selects="selects" :userType="Number(active == 'Administradores' ? 0 : active === 'Digitadores' ? 1 : 2)" />
+
+            <ModalUsuarioEditar :role="role" :show="modalEditarUsuario.show" :close="() => modalEditarUsuario.show = false"
+                :update="() => search(grid.currentPage, grid.perPage)" :selects="selects" :data="modalEditarUsuario.data"
+                :userType="Number(active == 'Administradores' ? 0 : active === 'Digitadores' ? 1 : 2)" />
+
+            <ModalEliminar :message="'¿Está seguro de cambiar el estado de este registro?, el usuario perdera su acceso.'"
+                :buttonOk="'Si, cambiar'" :action="deleteRow" :openDelete="modalEliminar.show"
+                :closeHandler="() => modalEliminar.show = false" />
+        </div>
     </section>
 </template>
 
@@ -300,8 +353,299 @@ export default {
 </script>
 
 <style scoped>
-.container-table {
-    max-width: 90%;
+/* Container Principal */
+.usuarios-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+/* Header */
+.usuarios-header {
+    background: white;
+    border-bottom: 1px solid #E5E7EB;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.usuarios-header-content {
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.header-title-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.header-icon {
+    flex-shrink: 0;
+    color: #185CE6;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.usuarios-title {
+    font-family: Lato, sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.usuarios-subtitle {
+    font-family: Lato, sans-serif;
+    color: #6B7280;
+    font-size: 0.95rem;
+    margin: 0.25rem 0 0 0;
+}
+
+/* Content */
+.usuarios-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem 2rem;
+}
+
+/* Modern Tabs */
+.tabs-modern {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 2rem;
+    background: white;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.tab-button {
+    flex: 1;
+    padding: 14px 24px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.tab-button:hover {
+    background: rgba(139, 92, 246, 0.08);
+    color: #8B5CF6;
+}
+
+.tab-button.tab-active {
+    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.tab-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Filters Section */
+.filters-section {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Search Input */
+.search-input-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.modern-input {
+    width: 100%;
+    padding: 12px 14px 12px 44px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+    color: #1e293b;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #f8fafc;
+}
+
+.modern-input:focus {
+    outline: none;
+    border-color: #8B5CF6;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.modern-input::placeholder {
+    color: #94a3b8;
+}
+
+/* Select Wrapper */
+.select-wrapper {
+    position: relative;
+}
+
+.modern-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+    color: #1e293b;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-select:focus {
+    outline: none;
+    border-color: #8B5CF6;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.modern-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.modern-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.btn-search {
+    background: linear-gradient(135deg, #8B5CF6 0%, #185CE6 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.btn-search:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+}
+
+.btn-create {
+    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(223, 45, 178, 0.3);
+}
+
+.btn-create:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(223, 45, 178, 0.4);
+}
+
+/* Table Section */
+.table-section {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .usuarios-header-content {
+        padding: 0 1rem;
+    }
+
+    .header-title-section {
+        gap: 1rem;
+    }
+
+    .header-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .usuarios-title {
+        font-size: 1.5rem;
+    }
+
+    .usuarios-subtitle {
+        font-size: 0.85rem;
+    }
+
+    .usuarios-content {
+        padding: 0 1rem 1rem;
+    }
+
+    .tabs-modern {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .tab-button {
+        width: 100%;
+        padding: 12px 20px;
+    }
+
+    .filters-section {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .button-group {
+        width: 100%;
+    }
+
+    .modern-btn {
+        flex: 1;
+        justify-content: center;
+    }
 }
 </style>

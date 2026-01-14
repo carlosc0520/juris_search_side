@@ -1,83 +1,123 @@
 <template>
   <div class="user-menu">
-    <a href="javascript:void(0);" class="icons-notificaciones icon-btn" @click="toggleSidebarNotificaciones">
-      <img src="@/assets/img/icons/campany.svg" alt="Notificaciones" />
-      <p
-      v-if="totalNotificaciones > 0"
-      >
-        {{ totalNotificaciones }}
-    </p>
-    </a>
+    <button class="notification-btn" @click="toggleSidebarNotificaciones">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/>
+      </svg>
+      <span v-if="totalNotificaciones > 0" class="notification-badge">
+        {{ totalNotificaciones > 99 ? '99+' : totalNotificaciones }}
+      </span>
+    </button>
 
-    <div class="overlay-degrad" v-if="sidebarNotificacionesShow" @click="closeSidebarNotificaciones">
-    </div>
+    <div class="overlay-backdrop" v-if="sidebarNotificacionesShow" @click="closeSidebarNotificaciones"></div>
 
-    <!-- Sidebar (off-canvas) -->
-    <div
-      class="fixed top-0 right-0 h-full bg-white shadow-lg z-50 transform transition-transform duration-300 w-sidebar"
-      v-if="sidebarNotificacionesShow"
-      :class="{ 'translate-x-0': sidebarNotificacionesShow, 'translate-x-full': !sidebarNotificacionesShow }">
+    <!-- Notifications Sidebar -->
+    <transition name="slide-fade">
+      <div v-if="sidebarNotificacionesShow" class="notifications-sidebar">
+        <div class="sidebar-header">
+          <div class="header-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/>
+            </svg>
+            <h3>Notificaciones</h3>
+          </div>
+          <button class="close-btn" @click="closeSidebarNotificaciones">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
 
-      <div class="flex justify-between items-center p-4 border-b">
-        <span class="font-bold">Notificaciones</span>
-        <button class="float-right text-gray-500" @click="closeSidebarNotificaciones">
-          <img src="@/assets/img/icons/close.svg" alt="Cerrar" class="w-4 h-4" />
-        </button>
-      </div>
-
-      <!-- Iterar notificaciones -->
-      <div class="p-4">
-        <div v-for="(notificacion, index) in notificaciones" :key="index" class="flex items-center mb-4 border-b pb-2">
-          <div style="width: fit-content" v-if="notificacion.TIPO == 1"
-            class="flex-shrink-0 mr-3 w-10 bg-blue-100 rounded-full flex flex-col">
-            <p class="text-sm font-semibold text-gray-700 notificacion-text">{{ notificacion.DESCP }}</p>
-            <div class="flex justify-between items-end mt-2">
-              <p class="m-0 flex align-items-end text-xs text-gray-500 notificacion-text">{{ notificacion.FECHA }}</p>
-              <div class="flex items-center gap-2" v-if="notificacion.ESTADO == 0">
-                <img src="@/assets/img/icons/check.svg" alt="check" class="cursor-pointer w-4 h-4"
-                  @click="updateContacto(notificacion)" />
-                <img src="@/assets/img/icons/delete.svg" alt="delete" class="cursor-pointer w-4 h-4"
-                  @click="deleteContacto(notificacion)" />
+        <div class="notifications-content">
+          <div v-for="(notificacion, index) in notificaciones" :key="index" class="notification-card">
+            <div class="notification-icon" :class="notificacion.TIPO == 1 ? 'type-request' : 'type-info'">
+              <svg v-if="notificacion.TIPO == 1" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                <circle cx="8.5" cy="7" r="4"/>
+                <line x1="20" y1="8" x2="20" y2="14"/>
+                <line x1="23" y1="11" x2="17" y2="11"/>
+              </svg>
+              <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+            </div>
+            
+            <div class="notification-body">
+              <p class="notification-message">{{ notificacion.DESCP }}</p>
+              <div class="notification-footer">
+                <span class="notification-time">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  {{ notificacion.FECHA }}
+                </span>
+                <div v-if="notificacion.ESTADO == 0" class="notification-actions">
+                  <button class="action-btn accept-btn" @click="updateContacto(notificacion)" title="Aceptar">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </button>
+                  <button class="action-btn decline-btn" @click="deleteContacto(notificacion)" title="Eliminar">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18"/>
+                      <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-          <div style="width: fit-content" v-if="notificacion.TIPO == 2"
-            class="flex-shrink-0 mr-3 w-10 bg-blue-100 rounded-full flex flex-col">
-            <p class="text-sm font-semibold text-gray-700 notificacion-text">{{ notificacion.DESCP }}</p>
-            <div class="flex justify-between items-end mt-2">
-              <p class="m-0 flex align-items-end text-xs text-gray-500 notificacion-text">{{ notificacion.FECHA }}</p>
-            </div>
+
+          <div v-if="notificaciones.length === 0" class="empty-state">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/>
+            </svg>
+            <p>No hay notificaciones</p>
+            <span>Estás al día</span>
           </div>
         </div>
-        <div v-if="notificaciones.length === 0" class="text-center text-gray-500">
-          No hay notificaciones disponibles.
+      </div>
+    </transition>
+
+    <div class="divider"></div>
+
+    <div class="user-avatar">
+      <img :src="RTAFTO || team2" @error="$event.target.src = team2" alt="Avatar" />
+    </div>
+
+    <button ref="btnDropdownRef" class="dropdown-toggle" @click="toggleDropdown">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+           :class="{ 'rotate-180': dropdownPopoverShow }">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </button>
+
+    <transition name="dropdown-fade">
+      <div v-if="dropdownPopoverShow" ref="popoverDropdownRef" class="user-dropdown">
+        <div class="dropdown-user-info">
+          <div class="user-avatar-large">
+            <img :src="RTAFTO || team2" @error="$event.target.src = team2" alt="Avatar" />
+          </div>
+          <div class="user-details">
+            <span class="user-name">{{ USUARIO.NOMBRES }}</span>
+            <span class="user-email">{{ USUARIO.EMAIL?.toLowerCase() }}</span>
+          </div>
         </div>
+        
+        <div class="dropdown-divider"></div>
+        
+        <button class="logout-btn" @click="signOut">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+          </svg>
+          Cerrar Sesión
+        </button>
       </div>
-    </div>
-
-
-    <div class="linea-separadora"></div>
-
-    <a class="avatar-wrapper" href="javascript:void(0);">
-      <span class="avatar">
-        <img id="IMAGEN_AVATAR_LOGIN" alt="Avatar" class="avatar-img" :src="RTAFTO || team2" v-on:error="team2" />
-      </span>
-    </a>
-
-    <a href="javascript:void(0);" ref="btnDropdownRef" class="dropdown-btn" v-on:click="toggleDropdown">
-      <img src="@/assets/img/icons/flecha-bottom.svg" alt="Abrir menú" />
-    </a>
-
-    <div ref="popoverDropdownRef" class="dropdown-menu mt-4" v-bind:class="{ show: dropdownPopoverShow }">
-      <div class="dropdown-header">
-        <span>Bienvenido, {{ USUARIO.NOMBRES }}</span>
-        <span>{{ USUARIO.EMAIL?.toLowerCase() }}</span>
-      </div>
-      <div class="dropdown-divider"></div>
-      <a href="javascript:void(0);" class="dropdown-item" :onclick="signOut">
-        Cerrar Sesión
-      </a>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -220,158 +260,495 @@ export default {
 };
 </script>
 
-
 <style scoped>
+/* ===== USER MENU MODERN ===== */
 .user-menu {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 1rem;
   position: relative;
 }
 
-/* 🔔 Icono de campana */
-.icon-btn img {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.2s ease-in-out;
+/* Notification Button */
+.notification-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.icon-btn:hover img {
+.notification-btn svg {
+  color: #4a5568;
+  transition: all 0.3s ease;
+}
+
+.notification-btn:hover {
+  background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(24, 92, 230, 0.05) 100%);
+  border-color: #DF2DB2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(223, 45, 178, 0.15);
+}
+
+.notification-btn:hover svg {
+  color: #DF2DB2;
   transform: scale(1.1);
 }
 
-.linea-separadora {
-  width: 1px;
-  height: 24px;
-  background-color: #ddd;
-  margin: 0 12px;
-}
-
-/* 👤 Avatar */
-.avatar-wrapper {
+.notification-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: linear-gradient(135deg, #DF2DB2 0%, #E71FB3 100%);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 10px;
   display: flex;
   align-items: center;
-}
-
-.avatar {
-  width: 40px;
-  height: 40px;
-  background-color: #ddd;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
   justify-content: center;
-  align-items: center;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(223, 45, 178, 0.4);
+  animation: pulse-badge 2s ease-in-out infinite;
 }
 
-.avatar-img {
+@keyframes pulse-badge {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Overlay */
+.overlay-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 998;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Notifications Sidebar */
+.notifications-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 420px;
+  height: 100vh;
+  background: white;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+  color: white;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-title h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: rotate(90deg);
+}
+
+.close-btn svg {
+  color: white;
+}
+
+/* Notifications Content */
+.notifications-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.notification-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.notification-card:hover {
+  border-color: #DF2DB2;
+  box-shadow: 0 4px 12px rgba(223, 45, 178, 0.1);
+  transform: translateX(-4px);
+}
+
+.notification-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+.notification-icon.type-request {
+  background: linear-gradient(135deg, rgba(72, 187, 120, 0.1) 0%, rgba(56, 161, 105, 0.1) 100%);
+  color: #48bb78;
+}
+
+.notification-icon.type-info {
+  background: linear-gradient(135deg, rgba(24, 92, 230, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+  color: #185CE6;
+}
+
+.notification-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-message {
+  font-size: 0.875rem;
+  color: #2d3748;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.notification-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.notification-time {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  color: #718096;
+}
+
+.notification-time svg {
+  flex-shrink: 0;
+}
+
+.notification-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.accept-btn {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  color: white;
+}
+
+.accept-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+}
+
+.decline-btn {
+  background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+  color: white;
+}
+
+.decline-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(245, 101, 101, 0.3);
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.empty-state svg {
+  color: #cbd5e0;
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin: 0 0 0.5rem 0;
+}
+
+.empty-state span {
+  font-size: 0.875rem;
+  color: #a0aec0;
+}
+
+/* Divider */
+.divider {
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(to bottom, transparent, #e2e8f0, transparent);
+}
+
+/* User Avatar */
+.user-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+  border-color: #DF2DB2;
+  box-shadow: 0 4px 12px rgba(223, 45, 178, 0.2);
+  transform: scale(1.05);
+}
+
+.user-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* 🔽 Botón de menú */
-.dropdown-btn img {
-  width: 20px;
-  height: 20px;
-  transition: transform 0.2s ease-in-out;
+/* Dropdown Toggle */
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.dropdown-btn:hover img {
+.dropdown-toggle svg {
+  color: #4a5568;
+  transition: all 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+  background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(24, 92, 230, 0.05) 100%);
+  border-color: #DF2DB2;
+}
+
+.dropdown-toggle:hover svg {
+  color: #DF2DB2;
+}
+
+.dropdown-toggle svg.rotate-180 {
   transform: rotate(180deg);
 }
 
-/* 📌 Dropdown */
-.dropdown-menu {
+/* User Dropdown */
+.user-dropdown {
   position: absolute;
-  top: 50px;
+  top: calc(100% + 0.75rem);
   right: 0;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-  min-width: 180px;
-  padding: 10px;
-  display: none;
-  flex-direction: column;
+  min-width: 280px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  padding: 1.5rem;
   z-index: 1000;
+  border: 2px solid #e2e8f0;
 }
 
-.dropdown-menu.show {
+.dropdown-user-info {
   display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-/* Encabezado del dropdown */
-.dropdown-header {
-  font-size: 14px;
-  color: #444;
-  padding-bottom: 6px;
+.user-avatar-large {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #e2e8f0;
+  flex-shrink: 0;
 }
 
-.dropdown-header span {
-  display: block;
-  margin-bottom: 4px;
-}
-
-/* Separador */
-.dropdown-divider {
-  height: 1px;
-  background: #ddd;
-  margin: 8px 0;
-}
-
-.dropdown-item {
-  background: #E71FB3;
-  color: white !important;
-  padding: 8px 16px;
-  border-radius: 9999px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s;
-  text-align: center;
-}
-
-.w-sidebar {
-  width: 300px;
-  height: 100%;
-  background-color: #fff;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-}
-
-.notificacion-text {
-  word-break: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
-}
-
-.overlay-degrad {
-  position: fixed;
-  top: 0;
-  left: 0;
+.user-avatar-large img {
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  object-fit: cover;
 }
 
-@media (max-width: 768px) {
-  .w-sidebar {
-    width: 100%;
+.user-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.user-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 0.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-email {
+  font-size: 0.875rem;
+  color: #718096;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 1rem 0;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.875rem;
+  background: linear-gradient(135deg, #DF2DB2 0%, #E71FB3 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(223, 45, 178, 0.3);
+  background: linear-gradient(135deg, #c528a0 0%, #d01aa4 100%);
+}
+
+.logout-btn:active {
+  transform: translateY(0);
+}
+
+/* Animations */
+.slide-fade-enter-active {
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-fade-leave-active {
+  animation: slideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
 }
 
-.icons-notificaciones{
-  display: flex;
-  align-items: center;
-  gap: 4px;
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 }
 
-.icons-notificaciones p {
-  background-color: #ff6060;
-  color: white !important;
-  padding: 2px 6px;
-  border-radius: 9999px;
-  font-size: 12px;
-  margin: 0;
+.dropdown-fade-enter-active,
+.dropdown-fade-leave-active {
+  transition: all 0.2s ease;
+}
+
+.dropdown-fade-enter-from {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.dropdown-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .notifications-sidebar {
+    width: 100%;
+  }
+  
+  .user-dropdown {
+    right: -1rem;
+  }
 }
 </style>

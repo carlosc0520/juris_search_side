@@ -346,7 +346,7 @@ export default {
                 this.datos = this.data
             }
         },
-    },
+    }
 }
 </script>
 

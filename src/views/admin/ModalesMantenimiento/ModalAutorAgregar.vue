@@ -164,3 +164,5 @@ export default {
     }
 }
 </script>
+
+<style scoped src="@/assets/styles/modal-styles.css"></style>

@@ -34,6 +34,7 @@ import Filtros from "@/views/admin/Filtros.vue";
 import Busqueda from "@/views/admin/Busqueda.vue";
 import Favorites from "../views/admin/Favorites.vue";
 import Boletines from "../views/admin/Boletines.vue";
+import Investigacion from "../views/admin/Investigacion.vue";
 
 import UserProxy from "../proxies/UserProxy";
 import BusquedaUser from "../views/admin/BusquedaUser.vue";
@@ -44,6 +45,7 @@ import Recovery from "../views/auth/Recovery.vue";
 import Noticias from "../views/admin/Noticias.vue";
 import Register from "../views/auth/Register.vue";
 import Subscripcion from "../views/admin/Subscripcion.vue";
+import JurisGPT from "../views/admin/JurisGPT.vue";
 
 const ifAuthenticatedAuth = async (to, from, next) => {
   await UserProxy.validate()
@@ -211,6 +213,7 @@ const routes = [
         beforeEnter: ifAuthenticatedAdmin,
         component: Favorites,
         props: (route) => {
+          console.log(route.params);
           return {
             role: route?.params?.role || [],
           };
@@ -240,6 +243,16 @@ const routes = [
         path: "/admin/noticias",
         beforeEnter: ifAuthenticatedAdmin,
         component: Noticias,
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
+      },
+      {
+        path: "/admin/jurisgpt",
+        beforeEnter: ifAuthenticatedAdmin,
+        component: JurisGPT,
         props: (route) => {
           return {
             role: route?.params?.role || [],
@@ -301,6 +314,16 @@ const routes = [
         props: (route) => {
           return {
             isUser: true,
+            role: route?.params?.role || [],
+          };
+        }
+      },
+      {
+        path: "/usuario/investigacion",
+        beforeEnter: ifAuthenticatedAuth,
+        component: Investigacion,
+        props: (route) => {
+          return {
             role: route?.params?.role || [],
           };
         }

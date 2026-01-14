@@ -63,6 +63,16 @@ export default {
 <style scoped>
 .pdf-container {
     position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-container iframe {
+    border: none !important;
+    width: 100%;
+    height: calc(100vh - 140px);
+    border-radius: 12px;
 }
 
 .overlay {
@@ -72,8 +82,16 @@ export default {
     width: 98%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.0);
-    /* Color semi-transparente */
     pointer-events: auto;
-    /* Habilitar eventos de ratón en la capa */
+}
+
+/* Header styling */
+:deep(.modal-header) {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+}
+
+:deep(.modal-body) {
+    padding: 1rem;
+    background: #f8fafc;
 }
 </style>

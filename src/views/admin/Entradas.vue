@@ -1,119 +1,185 @@
 <template>
-  <section class="bg-landing mt-4 pt-5">
-    <div class="container-table flex flex-col mt-4 pt-5">
-      <div class="flex mb-3 gap-4 flex-col md:flex-row contenedor-tab">
-        <a class="cursor-pointer" :class="active === 'jurisprudences' ? 'active-tab' : ''"
+  <section class="entradas-container mt-4 pt-2">
+    <!-- Header con Título -->
+    <div class="entradas-header">
+      <div class="entradas-header-content">
+        <div class="header-title-section">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+          <div>
+            <h1 class="entradas-title">Entradas</h1>
+            <p class="entradas-subtitle">Gestión de jurisprudencia y legislación</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="entradas-content">
+      <!-- Modern Tabs -->
+      <div class="tabs-modern">
+        <button
+          class="tab-button"
+          :class="{ 'tab-active': active === 'jurisprudences' }"
           @click="updateActive('jurisprudences')">
-          Jurisprudencia
-        </a>
-        <a class="cursor-pointer" :class="active === 'legislations' ? 'active-tab' : ''"
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+          <span>Jurisprudencia</span>
+        </button>
+        <button
+          class="tab-button"
+          :class="{ 'tab-active': active === 'legislations' }"
           @click="updateActive('legislations')">
-          Legislación
-        </a>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>Legislación</span>
+        </button>
       </div>
 
-      <div class="row">
-        <div class="col-md-4 col-12 mb-3">
-          <label for="name" class="form-label">Título</label>
-          <input type="text" v-model="selectedFilter.name" id="name" class="form-control" />
-        </div>
+      <!-- Filtros Avanzados -->
+      <div class="filters-advanced">
+        <div class="filters-grid">
+          <div class="filter-item">
+            <label for="name" class="filter-label">Título</label>
+            <input type="text" v-model="selectedFilter.name" id="name" class="modern-input" />
+          </div>
 
-        <div class="col-md-4 col-12 mb-3">
-          <label for="RTITLE" class="form-label">
-            {{ active === 'jurisprudences' ? 'Título alternativo' : 'Denominación oficial' }}
-          </label>
-          <input type="text" v-model="selectedFilter.RTITLE" id="RTITLE: " class="form-control" />
-        </div>
+          <div class="filter-item">
+            <label for="RTITLE" class="filter-label">
+              {{ active === 'jurisprudences' ? 'Título alternativo' : 'Denominación oficial' }}
+            </label>
+            <input type="text" v-model="selectedFilter.RTITLE" id="RTITLE" class="modern-input" />
+          </div>
 
-        <div class="col-md-4 col-12 mb-3">
-          <label for="BLOG3" class="form-label">
-            {{ active === 'jurisprudences' ? 'Fecha de resolución' : 'Fecha de publicación' }}
-          </label>
-          <date-picker v-model="selectedFilter.FRESOLUTION" :value="selectedFilter.FRESOLUTION" valueType="format"
-            :disabledDate="time => time.getTime() > Date.now()"
-            @change="(date) => selectedFilter.FRESOLUTION = date"></date-picker>
-        </div>
+          <div class="filter-item">
+            <label for="BLOG3" class="filter-label">
+              {{ active === 'jurisprudences' ? 'Fecha de resolución' : 'Fecha de publicación' }}
+            </label>
+            <date-picker v-model="selectedFilter.FRESOLUTION" :value="selectedFilter.FRESOLUTION" valueType="format"
+              :disabledDate="time => time.getTime() > Date.now()"
+              @change="(date) => selectedFilter.FRESOLUTION = date" class="modern-datepicker"></date-picker>
+          </div>
 
-        <div class="col-md-3 col-12 mb-3">
-          <label for="FCRCN" class="form-label">Fecha de Ingreso </label>
-          <date-picker v-model="selectedFilter.FCRCN" :value="selectedFilter.FCRCN" valueType="format"
-            :disabledDate="time => time.getTime() > Date.now()"
-            @change="(date) => selectedFilter.FCRCN = date"></date-picker>
-        </div>
+          <div class="filter-item">
+            <label for="FCRCN" class="filter-label">Fecha de Ingreso</label>
+            <date-picker v-model="selectedFilter.FCRCN" :value="selectedFilter.FCRCN" valueType="format"
+              :disabledDate="time => time.getTime() > Date.now()"
+              @change="(date) => selectedFilter.FCRCN = date" class="modern-datepicker"></date-picker>
+          </div>
 
-        <div class="col-md-3 col-12 mb-3">
-          <label for="TEMA" class="form-label">Tema</label>
-          <input type="text" v-model="selectedFilter.TEMA" id="TEMA" class="form-control" />
-        </div>
+          <div class="filter-item">
+            <label for="TEMA" class="filter-label">Tema</label>
+            <input type="text" v-model="selectedFilter.TEMA" id="TEMA" class="modern-input" />
+          </div>
 
-        <div class="col-md-3 col-12 mb-3">
-          <label for="BLOG2" class="form-label">Tipo de entrada</label>
-          <b-form-select v-model="selectedFilter.BLOG" :options="[
-            { text: '-- Seleccione ', value: null },
-            { text: 'Común', value: 'common' },
-            { text: 'Emblemático', value: 'emblematic' },
-            { text: 'Ejecutivo', value: 'executive' }]">
-          </b-form-select>
-        </div>
+          <div class="filter-item">
+            <label for="BLOG2" class="filter-label">Tipo de entrada</label>
+            <b-form-select v-model="selectedFilter.BLOG" class="modern-select" :options="[
+              { text: '-- Seleccione ', value: null },
+              { text: 'Común', value: 'common' },
+              { text: 'Emblemático', value: 'emblematic' },
+              { text: 'Ejecutivo', value: 'executive' }]">
+            </b-form-select>
+          </div>
 
-
-        <div class="col-md-3 col-12 mb-3">
-          <label for="CDESTDO" class="form-label">Estado</label>
-          <b-form-select v-model="selectedFilter.CDESTDO" :options="[
-            { text: '-- Seleccione ', value: null },
-            { text: 'Activo', value: 'A' },
-            { text: 'Inactivo', value: 'I' }]">
-          </b-form-select>
-        </div>
-
-
-        <div class="col-md-12 col-12 mb-3">
-          <div class="display-buttons">
-            <button class="bton btn-search" @click="getEntries(grid.currentPage, grid.perPage)">Buscar</button>
-            <div v-if="active == 'jurisprudences'" class="dropdown bton btn-create">
-              <button class="text-white dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Ingresar
-              </button>
-              <ul class="dropdown-menu mt-2 p-0" aria-labelledby="dropdownMenuButton">
-                <li @click="modalEntradaComun.show = true">
-                  <i class="fas fa-plus"></i>
-                  Jurisprudencia Común
-                </li>
-                <li @click="modalAgregarEntradaEmble.show = true">
-                  <i class="fas fa-plus"></i>
-                  Jurisprudencia Emblemático
-                </li>
-              </ul>
-            </div>
-            <button v-else class="bton btn-create" @click="modalAgregarEntradalegislacion.show = true">Ingresar</button>
-
-            <div class="dropdown bton btn-export">
-              <button class="text-white dropdown-toggle" type="button" id="dropdownMenuButtonExportar"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                Exportar
-              </button>
-              <ul class="dropdown-menu mt-2 p-0" aria-labelledby="dropdownMenuButtonExportar">
-                <li @click="onClickExportar(1)">
-                  <i class="fas fa-file-pdf"></i>
-                  Resumen Ejecutivo
-                </li>
-                <li @click="onClickExportar(2)">
-                  <i class="fas fa-book"></i>
-                  Resoluciones
-                </li>
-                <li @click="onClickExportar(3)">
-                  <i class="fas fa-book"></i>
-                  Exportar Pág.
-                </li>
-              </ul>
-            </div>
+          <div class="filter-item">
+            <label for="CDESTDO" class="filter-label">Estado</label>
+            <b-form-select v-model="selectedFilter.CDESTDO" class="modern-select" :options="[
+              { text: '-- Seleccione ', value: null },
+              { text: 'Activo', value: 'A' },
+              { text: 'Inactivo', value: 'I' }]">
+            </b-form-select>
           </div>
         </div>
 
+        <!-- Botones de Acción -->
+        <div class="actions-row">
+          <button class="modern-btn btn-search" @click="getEntries(grid.currentPage, grid.perPage)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+            <span>Buscar</span>
+          </button>
+
+          <div v-if="active == 'jurisprudences'" class="dropdown-modern">
+            <button class="modern-btn btn-create dropdown-toggle" type="button" id="dropdownCreate" data-bs-toggle="dropdown" aria-expanded="false">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              <span>Ingresar</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-modern" aria-labelledby="dropdownCreate">
+              <li @click="loadFiltersIfNeeded().then(() => modalEntradaComun.show = true)" class="dropdown-item-modern">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+                <span>Jurisprudencia Común</span>
+              </li>
+              <li @click="loadFiltersIfNeeded().then(() => modalAgregarEntradaEmble.show = true)" class="dropdown-item-modern">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <span>Jurisprudencia Emblemático</span>
+              </li>
+            </ul>
+          </div>
+          <button v-else class="modern-btn btn-create" @click="loadFiltersIfNeeded().then(() => modalAgregarEntradalegislacion.show = true)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            <span>Ingresar</span>
+          </button>
+
+          <div class="dropdown-modern">
+            <button class="modern-btn btn-export dropdown-toggle" type="button" id="dropdownExport" data-bs-toggle="dropdown" aria-expanded="false">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              <span>Exportar</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-modern" aria-labelledby="dropdownExport">
+              <li @click="onClickExportar(1)" class="dropdown-item-modern">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+                <span>Resumen Ejecutivo</span>
+              </li>
+              <li @click="onClickExportar(2)" class="dropdown-item-modern">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+                <span>Resoluciones</span>
+              </li>
+              <li @click="onClickExportar(3)" class="dropdown-item-modern">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+                <span>Exportar Pág.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
-      <div class="w-full mb-12">
+      <!-- Tablas -->
+      <div class="table-section">
         <card-table v-if="active === 'jurisprudences'" :active="active" title="Entradas de Jurisprudencias"
           :search="getEntries" :fields="fields" :items="data" :grid="grid" :actions="actions"
           :deleteRole="role.IDR == 0" />
@@ -122,38 +188,46 @@
           :search="getEntries" :fields="fields.filter((field) => field.key !== 'TEMA')" :items="data" :grid="grid"
           :actions="actions" :deleteRole="role.IDR == 0" />
       </div>
+
+      <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
+
+      <!-- Loading Overlay para filtros -->
+      <div v-if="isLoadingFilters" class="filters-loading-overlay">
+        <div class="filters-loading-content">
+          <div class="loading-spinner"></div>
+          <p class="loading-text">Cargando filtros...</p>
+          <p class="loading-subtext">Preparando formulario</p>
+        </div>
+      </div>
+
+      <ModalAgregarEntradaComun :role="role" :show="modalEntradaComun.show" :close="() => modalEntradaComun.show = false"
+        :update="() => getEntries(grid.currentPage, grid.perPage)" :selects="selects" />
+
+      <ModalEditarEntradaComun :role="role" :show="modalEditarEntradaComun.show"
+        :close="() => modalEditarEntradaComun.show = false" :update="() => getEntries(grid.currentPage, grid.perPage)"
+        :selects="selects" :data="modalEditarEntradaComun.data" />
+
+      <ModalAgregarEntradaEmble :role="role" :show="modalAgregarEntradaEmble.show"
+        :close="() => modalAgregarEntradaEmble.show = false" :update="() => getEntries(grid.currentPage, grid.perPage)"
+        :selects="selects" />
+
+      <ModalEditarEntradaEmble :role="role" :show="modalEditarEntradaEmble.show"
+        :close="() => modalEditarEntradaEmble.show = false" :update="() => getEntries(grid.currentPage, grid.perPage)"
+        :selects="selects" :data="modalEditarEntradaEmble.data" />
+
+      <ModalAgregarEntradalegislacion :role="role" :show="modalAgregarEntradalegislacion.show"
+        :close="() => modalAgregarEntradalegislacion.show = false"
+        :update="() => getEntries(grid.currentPage, grid.perPage)" :selects="selects" />
+
+      <ModalEditarEntradaLegislacion :role="role" :show="modalEditarEntradalegislacion.show"
+        :close="() => modalEditarEntradalegislacion.show = false"
+        :update="() => getEntries(grid.currentPage, grid.perPage)" :selects="selects"
+        :data="modalEditarEntradalegislacion.data" />
+
+      <ModalEliminar :role="role" :message="'¿Está seguro de cambiar el estado de este registro?'"
+        :buttonOk="'Si, cambiar'" :action="deleteRow" :openDelete="modalEliminar.show"
+        :closeHandler="() => modalEliminar.show = false" />
     </div>
-
-    <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
-
-    <ModalAgregarEntradaComun :role="role" :show="modalEntradaComun.show" :close="() => modalEntradaComun.show = false"
-      :update="() => getEntries(grid.currentPage, grid.perPage)" :selects="selects" />
-
-    <ModalEditarEntradaComun :role="role" :show="modalEditarEntradaComun.show"
-      :close="() => modalEditarEntradaComun.show = false" :update="() => getEntries(grid.currentPage, grid.perPage)"
-      :selects="selects" :data="modalEditarEntradaComun.data" />
-
-    <ModalAgregarEntradaEmble :role="role" :show="modalAgregarEntradaEmble.show"
-      :close="() => modalAgregarEntradaEmble.show = false" :update="() => getEntries(grid.currentPage, grid.perPage)"
-      :selects="selects" />
-
-    <ModalEditarEntradaEmble :role="role" :show="modalEditarEntradaEmble.show"
-      :close="() => modalEditarEntradaEmble.show = false" :update="() => getEntries(grid.currentPage, grid.perPage)"
-      :selects="selects" :data="modalEditarEntradaEmble.data" />
-
-    <ModalAgregarEntradalegislacion :role="role" :show="modalAgregarEntradalegislacion.show"
-      :close="() => modalAgregarEntradalegislacion.show = false"
-      :update="() => getEntries(grid.currentPage, grid.perPage)" :selects="selects" />
-
-    <ModalEditarEntradaLegislacion :role="role" :show="modalEditarEntradalegislacion.show"
-      :close="() => modalEditarEntradalegislacion.show = false"
-      :update="() => getEntries(grid.currentPage, grid.perPage)" :selects="selects"
-      :data="modalEditarEntradalegislacion.data" />
-
-    <ModalEliminar :role="role" :message="'¿Está seguro de cambiar el estado de este registro?'"
-      :buttonOk="'Si, cambiar'" :action="deleteRow" :openDelete="modalEliminar.show"
-      :closeHandler="() => modalEliminar.show = false" />
-
   </section>
 </template>
 
@@ -377,6 +451,9 @@ export default {
         jurisdicion: [],
         jurisdicionV: [],
       },
+      // Control de carga de filtros
+      filtersLoaded: false,
+      isLoadingFilters: false,
     };
   },
   props: {
@@ -729,10 +806,17 @@ export default {
       html = html.replace(/>\s+</g, "><");
       return html;
     },
+    // Lazy loading de filtros - solo cargar cuando sea necesario
+    async loadFiltersIfNeeded() {
+      if (this.filtersLoaded || this.isLoadingFilters) {
+        return; // Ya están cargados o en proceso de carga
+      }
+      await this.getAllFilters();
+    },
     // COMUN
     async getAllFilters() {
       try {
-        this.isLoading = true;
+        this.isLoadingFilters = true;
         const [magistradosResponse, filtersResponse, filtersResponse2] = await Promise.all([
           MagistradoProxy.list({ ROWS: 1000, INIT: 0, DESC: null, CESTDO: null }, 2),
           filterProxy.list({ NIVEL: 5, CESTDO: "" }, "1", 2),
@@ -778,7 +862,8 @@ export default {
         this.selects.magistrados = [];
       }
       finally {
-        this.isLoading = false;
+        this.isLoadingFilters = false;
+        this.filtersLoaded = true; // Marcar como cargados
       }
     },
     mapNivel(nivel) {
@@ -829,7 +914,12 @@ export default {
     }
   },
   mounted() {
-    this.getAllFilters();
+    // Cargar entradas inmediatamente para mostrar datos rápido
+    this.getEntries(this.grid.currentPage, this.grid.perPage);
+    
+    // Los filtros se cargarán cuando se necesiten (al abrir modales)
+    // this.getAllFilters(); - Comentado para lazy loading
+    
     // agregar a la lista de acciones
     this.actions = {
       ...this.actions,
@@ -873,8 +963,451 @@ export default {
 </script>
 
 <style scoped>
-.container-table {
-  max-width: 90%;
+/* Container Principal */
+.entradas-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+/* Header */
+.entradas-header {
+  background: white;
+  border-bottom: 1px solid #E5E7EB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+}
+
+.entradas-header-content {
+  max-width: 1400px;
   margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.header-title-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.header-icon {
+  flex-shrink: 0;
+  color: #185CE6;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.entradas-title {
+  font-family: Lato, sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.entradas-subtitle {
+  font-family: Lato, sans-serif;
+  color: #6B7280;
+  font-size: 0.95rem;
+  margin: 0.25rem 0 0 0;
+}
+
+/* Content */
+.entradas-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+}
+
+/* Modern Tabs */
+.tabs-modern {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.tab-button {
+  flex: 1;
+  padding: 14px 24px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tab-button:hover {
+  background: rgba(139, 92, 246, 0.08);
+  color: #8B5CF6;
+}
+
+.tab-button.tab-active {
+  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.tab-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Filters Advanced */
+.filters-advanced {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  margin: 0;
+}
+
+.modern-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  color: #1e293b;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #f8fafc;
+}
+
+.modern-input:focus {
+  outline: none;
+  border-color: #8B5CF6;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.modern-select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  color: #1e293b;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-select:focus {
+  outline: none;
+  border-color: #8B5CF6;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* DatePicker Styling */
+.modern-datepicker :deep(.mx-input) {
+  padding: 12px 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  color: #1e293b;
+  background: #f8fafc;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-datepicker :deep(.mx-input:focus) {
+  border-color: #8B5CF6;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Actions Row */
+.actions-row {
+  display: flex;
+  gap: 12px;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+.modern-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.modern-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-search {
+  background: linear-gradient(135deg, #8B5CF6 0%, #185CE6 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.btn-search:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+}
+
+.btn-create {
+  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(223, 45, 178, 0.3);
+}
+
+.btn-create:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(223, 45, 178, 0.4);
+}
+
+.btn-export {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-export:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+/* Dropdown Modern */
+.dropdown-modern {
+  position: relative;
+}
+
+.dropdown-menu-modern {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e2e8f0;
+  padding: 8px;
+  margin-top: 8px;
+  min-width: 220px;
+}
+
+.dropdown-item-modern {
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.dropdown-item-modern:hover {
+  background: rgba(139, 92, 246, 0.08);
+  color: #8B5CF6;
+}
+
+.dropdown-item-modern svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Table Section */
+.table-section {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Filters Loading Overlay */
+.filters-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.filters-loading-content {
+  background: white;
+  border-radius: 20px;
+  padding: 3rem 4rem;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1.5rem;
+  border: 4px solid #e2e8f0;
+  border-top: 4px solid #8B5CF6;
+  border-right: 4px solid #DF2DB2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-family: Lato, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem 0;
+}
+
+.loading-subtext {
+  font-family: Lato, sans-serif;
+  font-size: 0.95rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .entradas-header-content {
+    padding: 0 1rem;
+  }
+
+  .header-title-section {
+    gap: 1rem;
+  }
+
+  .header-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .entradas-title {
+    font-size: 1.5rem;
+  }
+
+  .entradas-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .entradas-content {
+    padding: 0 1rem 1rem;
+  }
+
+  .tabs-modern {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tab-button {
+    width: 100%;
+    padding: 12px 20px;
+  }
+
+  .filters-advanced {
+    padding: 1rem;
+  }
+
+  .filters-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .actions-row {
+    flex-direction: column;
+  }
+
+  .modern-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 </style>

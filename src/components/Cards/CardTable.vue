@@ -34,7 +34,7 @@
         </p>
       </div>
 
-      <b-table :items="items" :fields="fields" :busy="grid.isLoading" busyLoadingText="Cargando..." no-local-sorting
+      <b-table :items="items" :fields="computedFields" :busy="grid.isLoading" busyLoadingText="Cargando..." no-local-sorting
         responsive="sm" :noProviderSorting="false" :noProviderFiltering="false" :noSortableIcon="true" class="mb-4">
         <template #emptyText>
           <div class="text-center my-3">
@@ -65,22 +65,20 @@
         </template>
 
         <template #cell(CDESTDO)="data">
-          <b-badge :style="{
-            border: data.value === 'A' ? '1px solid #27AE60!important' : '1px solid #FF4D4D!important',
-            backgroundColor: data.value === 'A' ? '#C7FFDE!important' : '#FFB2B2!important',
-            color: '#727370 !important',
-          }" :title="data.value === 'A' ? 'Activo' : 'Inactivo'" class="cursor-pointer">
+          <b-badge 
+            :class="data.value === 'A' ? 'status-badge status-badge-active' : 'status-badge status-badge-inactive'" 
+            :title="data.value === 'A' ? 'Activo' : 'Inactivo'" 
+            class="cursor-pointer">
             {{ data.value === 'A' ? 'Activo' : 'Inactivo' }}
           </b-badge>
         </template>
 
 
         <template #cell(ESTADO)="data">
-          <b-badge :style="{
-            border: data.value ? '1px solid #27AE60!important' : '1px solid #FF4D4D!important',
-            backgroundColor: data.value ? '#C7FFDE!important' : '#FFB2B2!important',
-            color: data.value ? '#727370 !important' : '#727370 !important',
-          }" :title="data.value ? 'Aceptado' : 'Pendiente'" class="cursor-pointer">
+          <b-badge 
+            :class="data.value ? 'status-badge status-badge-active' : 'status-badge status-badge-inactive'"
+            :title="data.value ? 'Aceptado' : 'Pendiente'" 
+            class="cursor-pointer">
             {{ data.value ? 'Aceptado' : 'Pendiente' }}
           </b-badge>
         </template>
@@ -94,7 +92,11 @@
         </template>
 
         <template #cell(TITLEALT)="data">
-          <div v-html="data.value"></div>
+          <div v-html="data.value"
+            @click="actions.execute.action(data.item)" style="cursor: pointer;"
+          >
+
+          </div>
         </template>
 
         <template #cell(BAN)="data">
@@ -135,37 +137,81 @@
           <span v-html="data.value"></span>
         </template>
 
+        <!-- COLUMNA EXPANDIR -->
+        <template #cell(EXPANDIR)="data">
+          <button 
+            @click="data.toggleDetails" 
+            class="expand-btn"
+            :class="{ 'expanded': data.detailsShowing }"
+            :title="data.detailsShowing ? 'Ocultar auditoría' : 'Ver auditoría'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </template>
+
+        <!-- DETALLES DE AUDITORÍA -->
+        <template #row-details="data">
+          <div class="audit-details">
+            <div class="audit-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <h4>Información de Auditoría</h4>
+            </div>
+            <div class="audit-grid">
+              <div v-if="data.item.FCRCN" class="audit-item">
+                <label>Fecha de Creación:</label>
+                <span>{{ formatoFecha(data.item.FCRCN) }}</span>
+              </div>
+              <div v-if="data.item.UCRCN" class="audit-item">
+                <label>Usuario Creación:</label>
+                <span>{{ data.item.UCRCN }}</span>
+              </div>
+              <div v-if="data.item.FEDCN" class="audit-item">
+                <label>Fecha de Edición:</label>
+                <span>{{ formatoFecha(data.item.FEDCN) }}</span>
+              </div>
+              <div v-if="data.item.UEDCN" class="audit-item">
+                <label>Usuario Edición:</label>
+                <span>{{ data.item.UEDCN }}</span>
+              </div>
+            </div>
+          </div>
+        </template>
+
         <!-- ACCIONES -->
         <template #cell(ACCIONES)="data">
           <div class="flex items-center justify-center gap-0">
             <b-button v-if="actions.edit" :title="actions.edit.label" @click="actions.edit.action(data.item)"
-              style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
-              <img src="@/assets/img/icons/edit.svg" alt="edit" width="40" height="40" />
+              class="action-btn action-btn-edit">
+              <img src="@/assets/img/icons/edit.svg" alt="edit" width="24" height="24" />
             </b-button>
             <b-button v-if="actions.delete && deleteRole && (data.item?.PROP === undefined || data.item.PROP === 1)"
               :title="actions.delete.label" @click="actions.delete.action(data.item)"
-              style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
-              <img src="@/assets/img/icons/delete.svg" alt="delete" width="40" height="40" />
+              class="action-btn action-btn-delete">
+              <img src="@/assets/img/icons/delete.svg" alt="delete" width="24" height="24" />
             </b-button>
             
             <b-button v-if="actions.shared && (data.item?.PROP === undefined || data.item.PROP === 1)" :title="actions.shared.label" @click="actions.shared.action(data.item)"
-              style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
-              <img src="@/assets/img/icons/shared.svg" alt="share" width="40" height="40" />
+              class="action-btn action-btn-shared">
+              <img src="@/assets/img/icons/shared.svg" alt="share" width="24" height="24" />
             </b-button>
 
             <b-button v-if="actions.users" :title="actions.users.label" @click="actions.users.action(data.item)"
-              style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
-              <img src="@/assets/img/icons/usersshared.svg" alt="users" width="40" height="40" />
+              class="action-btn action-btn-users">
+              <img src="@/assets/img/icons/usersshared.svg" alt="users" width="24" height="24" />
             </b-button>
   
             <b-button v-if="actions.updateShared && (data.item?.PROP === undefined || data.item.PROP === 1)" :title="actions.updateShared.label" @click="actions.updateShared.action(data.item)"
-              style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
-              <img src="@/assets/img/icons/settings.svg" alt="users" width="40" height="40" />
+              class="action-btn action-btn-settings">
+              <img src="@/assets/img/icons/settings.svg" alt="users" width="24" height="24" />
             </b-button>
 
             <b-button v-if="actions.view" :title="actions.view.label" @click="actions.view.action(data.item)"
-              style="width: 45px!important; height: 45px!important; background-color: transparent; border: none!important">
-              <img src="@/assets/img/icons/eyeView.svg" alt="visualizar" width="40" height="40" />
+              class="action-btn action-btn-view">
+              <img src="@/assets/img/icons/eyeView.svg" alt="visualizar" width="24" height="24" />
             </b-button>
 
             <div v-if="actions.download">
@@ -266,6 +312,48 @@ export default {
       default: true,
     },
   },
+  computed: {
+    computedFields() {
+      // Verificar si hay datos de auditoría en los items
+      const hasAuditData = this.items.some(item => 
+        item.FCRCN || item.UCRCN || item.FEDCN || item.UEDCN
+      );
+      
+      if (!hasAuditData) {
+        return this.fields; // No hay datos de auditoría, retornar campos originales
+      }
+      
+      // Verificar si ya existe la columna EXPANDIR
+      const hasExpandirColumn = this.fields.some(field => field.key === 'EXPANDIR');
+      if (hasExpandirColumn) {
+        return this.fields; // Ya existe, retornar campos originales
+      }
+      
+      // Buscar el índice de ACCIONES para insertar EXPANDIR antes
+      const accionesIndex = this.fields.findIndex(field => field.key === 'ACCIONES');
+      
+      if (accionesIndex === -1) {
+        // No hay columna ACCIONES, agregar al final
+        return [...this.fields, {
+          key: 'EXPANDIR',
+          label: 'Auditoría',
+          class: 'text-center',
+          sortable: false
+        }];
+      }
+      
+      // Insertar EXPANDIR antes de ACCIONES
+      const newFields = [...this.fields];
+      newFields.splice(accionesIndex, 0, {
+        key: 'EXPANDIR',
+        label: 'Auditoría',
+        class: 'text-center',
+        sortable: false
+      });
+      
+      return newFields;
+    }
+  },
   methods: {
     async myCallback(page) {
       await this.search(page, this.perPage)
@@ -276,6 +364,9 @@ export default {
       } catch (error) {
         return "";
       }
+    },
+    toggleDetails(item) {
+      this.$set(item, '_showDetails', !item._showDetails);
     }
   },
   mounted() {
@@ -289,39 +380,343 @@ export default {
 /* "items-center w-full bg-transparent border-collapse */
 table {
   width: 100% !important;
-  font-family: Lato;
-  font-size: 16px !important;
+  font-family: Lato, sans-serif;
+  font-size: 15px !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
 }
 
 table th,
 table td {
-  padding: .7rem 1.5rem !important;
+  padding: .9rem 1.5rem !important;
 }
 
 table tbody tr td {
-  padding: 15px;
-  color: #727370 !important;
+  padding: 16px;
+  color: #4a5568 !important;
   background-color: #ffffff !important;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+table tbody tr:hover td {
+  background-color: #f8fafc !important;
 }
 
 table thead tr th {
-  padding: 5px;
-  background-color: #EDF6FF !important;
-  color: #11235A !important;
+  padding: 14px 20px;
+  background: rgba(139, 92, 246, 0.04) !important;
+  color: #4a5568 !important;
   vertical-align: middle !important;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  border: none !important;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.12) !important;
+}
+
+table thead tr th:first-child {
+  border-top-left-radius: 12px;
+}
+
+table thead tr th:last-child {
+  border-top-right-radius: 12px;
 }
 
 table tbody tr {
   border-bottom: 1px solid #e2e8f0 !important;
 }
 
+table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
 .table-perOptions {
   display: flex;
   justify-content: start;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   gap: 1rem;
   flex-direction: row;
   align-items: center;
+}
+
+.table-perOptions select {
+  padding: 8px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  color: #4a5568;
+  background-color: white;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.table-perOptions select:focus {
+  outline: none;
+  border-color: #8B5CF6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.table-perOptions select:hover {
+  border-color: #c4b5fd;
+}
+
+/* Expand Button */
+.expand-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expand-btn svg {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #8B5CF6;
+}
+
+.expand-btn:hover {
+  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.expand-btn:hover svg {
+  color: white;
+}
+
+.expand-btn.expanded svg {
+  transform: rotate(180deg);
+}
+
+.expand-btn.expanded {
+  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
+  border-color: transparent;
+}
+
+.expand-btn.expanded svg {
+  color: white;
+}
+
+/* Audit Details */
+.audit-details {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border: 2px solid #e2e8f0;
+  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.audit-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.audit-header svg {
+  color: #8B5CF6;
+  flex-shrink: 0;
+}
+
+.audit-header h4 {
+  font-family: Lato, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.audit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.audit-item {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.audit-item:hover {
+  border-color: #8B5CF6;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.15);
+  transform: translateY(-2px);
+}
+
+.audit-item label {
+  display: block;
+  font-family: Lato, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.audit-item span {
+  display: block;
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* Action Buttons */
+.action-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0 3px;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.action-btn-edit:hover {
+  background: linear-gradient(135deg, #8B5CF6 0%, #185CE6 100%);
+  border-color: transparent;
+}
+
+.action-btn-edit:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.action-btn-delete:hover {
+  background: linear-gradient(135deg, #FF4D4D 0%, #FF1744 100%);
+  border-color: transparent;
+}
+
+.action-btn-delete:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.action-btn-shared:hover,
+.action-btn-users:hover,
+.action-btn-settings:hover {
+  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 100%);
+  border-color: transparent;
+}
+
+.action-btn-shared:hover img,
+.action-btn-users:hover img,
+.action-btn-settings:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.action-btn-view:hover {
+  background: linear-gradient(135deg, #27AE60 0%, #00C853 100%);
+  border-color: transparent;
+}
+
+.action-btn-view:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.action-btn:active {
+  transform: translateY(0);
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: Lato, sans-serif;
+  letter-spacing: 0.3px;
+  border: none !important;
+  transition: all 0.2s ease;
+}
+
+.status-badge-active {
+  background: linear-gradient(135deg, #C7FFDE 0%, #A7F3D0 100%);
+  color: #047857 !important;
+  box-shadow: 0 2px 8px rgba(39, 174, 96, 0.15);
+}
+
+.status-badge-inactive {
+  background: linear-gradient(135deg, #FFB2B2 0%, #FCA5A5 100%);
+  color: #DC2626 !important;
+  box-shadow: 0 2px 8px rgba(255, 77, 77, 0.15);
+}
+
+/* Pagination Styling */
+.pagination {
+  gap: 6px;
+}
+
+.page-item .page-link {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  color: #4a5568;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 2px;
+  transition: all 0.2s ease;
+}
+
+.page-item .page-link:hover {
+  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
+  color: white;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.page-item.active .page-link {
+  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.page-item.disabled .page-link {
+  background-color: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #cbd5e1;
 }
 
 /* // en celular */
@@ -329,6 +724,26 @@ table tbody tr {
   .table-perOptions {
     flex-direction: column;
     align-items: start;
+  }
+
+  table {
+    font-size: 14px !important;
+  }
+
+  table th,
+  table td {
+    padding: .6rem 1rem !important;
+  }
+
+  .action-btn {
+    width: 36px;
+    height: 36px;
+    margin: 0 2px;
+  }
+
+  .action-btn img {
+    width: 1.1rem !important;
+    height: 1.1rem !important;
   }
 }
 </style>

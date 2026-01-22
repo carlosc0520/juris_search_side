@@ -1,6 +1,6 @@
 /* global Culqi */
 <template>
-    <section class="subscription-container mt-4 pt-2">
+    <section class="subscription-container">
         <div class="subscription-header">
             <div class="subscription-header-content">
                 <div class="header-title-section">
@@ -856,6 +856,13 @@ export default {
     display: flex;
     align-items: center;
     gap: 1.5rem;
+    width: 100%;
+}
+
+.header-title-section > div {
+    flex: 1;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .header-icon {
@@ -881,12 +888,21 @@ export default {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    width: 100%;
 }
 
 .subscription-subtitle {
     color: #6B7280;
     font-size: 0.95rem;
     margin: 0.25rem 0 0 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    max-width: 100%;
+    width: 100%;
 }
 
 /* Content */
@@ -944,14 +960,14 @@ export default {
 
 .tab-button.active,
 .tab-button.tab-active {
-    background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-    color: white !important;
-    box-shadow: 0 4px 15px rgba(223, 45, 178, 0.3);
+    background: rgba(24, 92, 230, 0.05);
+    color: #185CE6 !important;
 }
 
 .tab-button.active:hover,
 .tab-button.tab-active:hover {
-    background: linear-gradient(135deg, #c528a0 0%, #1450c9 100%);
+    background: rgba(24, 92, 230, 0.08);
+    color: #185CE6;
 }
 
 /* Tab Content */
@@ -1596,16 +1612,21 @@ export default {
 
 @media (max-width: 768px) {
     .subscription-header {
-        padding: 1.5rem 0;
+        padding: 1.25rem 0;
+    }
+
+    .subscription-header-content {
+        padding: 0 1rem;
     }
 
     .header-title-section {
-        gap: 1rem;
+        gap: 0.875rem;
+        flex-wrap: wrap;
     }
 
     .header-icon {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
     }
 
     .subscription-title {
@@ -1613,7 +1634,7 @@ export default {
     }
 
     .subscription-subtitle {
-        font-size: 0.85rem;
+        font-size: 0.875rem;
     }
 
     .subscription-content {
@@ -1621,76 +1642,179 @@ export default {
     }
 
     .tabs-modern {
-        flex-direction: column;
         gap: 0.5rem;
+        padding: 0.375rem;
     }
 
     .tab-button {
-        padding: 0.875rem 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .tab-button svg {
+        width: 18px;
+        height: 18px;
     }
 
     .plans-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
     .plan-card {
-        max-width: 500px;
-        margin: 0 auto;
+        max-width: 100%;
+    }
+
+    .plan-body {
+        padding: 1.5rem;
+    }
+
+    .amount {
+        font-size: 3rem;
+    }
+
+    .plan-btn {
+        padding: 0.875rem;
+        font-size: 0.95rem;
     }
 
     .payment-form-card,
     .sidebar-card,
     .billing-filters-card,
     .billing-table-card {
-        padding: 1.5rem;
+        padding: 1.5rem 1.25rem;
         border-radius: 16px;
     }
 
     .form-grid {
         grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .form-input {
+        padding: 0.875rem 1rem 0.875rem 2.75rem;
+        font-size: 0.9rem;
+    }
+
+    .input-icon {
+        left: 0.875rem;
+        width: 16px;
+        height: 16px;
+    }
+
+    .form-label {
+        font-size: 0.85rem;
     }
 
     .form-actions {
-        justify-content: stretch;
+        flex-direction: column;
+        gap: 0.75rem;
     }
 
-    .btn-pay {
+    .btn-pay,
+    .btn-cancel {
         width: 100%;
+        padding: 0.875rem 1.5rem;
+        font-size: 0.95rem;
     }
 
     .filters-content {
         flex-direction: column;
         align-items: stretch;
+        gap: 1rem;
     }
 
     .btn-search {
         width: 100%;
+        padding: 0.875rem 1.5rem;
+        font-size: 0.95rem;
     }
 
     .alternative-payments {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .payment-option {
+        padding: 1rem;
     }
 }
 
 @media (max-width: 480px) {
-    .subscription-header-content {
-        padding: 0 1rem;
-    }
-
     .subscription-title {
         font-size: 1.25rem;
     }
 
+    .subscription-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .header-title-section {
+        gap: 0.75rem;
+    }
+
+    .header-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .tab-button {
+        padding: 0.625rem 0.375rem;
+        font-size: 0.8rem;
+    }
+
     .tab-button span {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
+    }
+
+    .plan-body {
+        padding: 1.25rem;
     }
 
     .amount {
         font-size: 2.5rem;
     }
 
+    .currency {
+        font-size: 1.25rem;
+    }
+
     .period {
         font-size: 0.95rem;
+    }
+
+    .plan-btn {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    .feature-item {
+        font-size: 0.85rem;
+    }
+
+    .payment-form-card,
+    .sidebar-card,
+    .billing-filters-card,
+    .billing-table-card {
+        padding: 1.25rem 1rem;
+    }
+
+    .form-input {
+        padding: 0.75rem 0.875rem 0.75rem 2.5rem;
+        font-size: 0.875rem;
+    }
+
+    .btn-pay,
+    .btn-cancel,
+    .btn-search {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.875rem;
+    }
+
+    .payment-option {
+        padding: 0.875rem;
     }
 }
 

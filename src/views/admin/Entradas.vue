@@ -1,5 +1,5 @@
 <template>
-  <section class="entradas-container mt-4 pt-2">
+  <section class="entradas-container">
     <!-- Header con Título -->
     <div class="entradas-header">
       <div class="entradas-header-content">
@@ -974,14 +974,14 @@ export default {
   background: white;
   border-bottom: 1px solid #E5E7EB;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  padding: 2rem 0;
-  margin-bottom: 2rem;
+  padding: 0 0 1.5rem 0;
+  margin: 0 -2rem 2rem -2rem;
 }
 
 .entradas-header-content {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 1.5rem 2rem 0 2rem;
 }
 
 .header-title-section {
@@ -1023,65 +1023,79 @@ export default {
   margin: 0.25rem 0 0 0;
 }
 
+/* Content Wrapper */
+.entradas-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: 0 2rem;
+}
+
 /* Content */
 .entradas-content {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem 2rem;
+  padding: 0 0 2rem 0;
 }
 
 /* Modern Tabs */
 .tabs-modern {
   display: flex;
-  gap: 12px;
+  gap: 1rem;
   margin-bottom: 2rem;
   background: white;
-  padding: 8px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 0.5rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .tab-button {
   flex: 1;
-  padding: 14px 24px;
-  border: none;
+  padding: 1rem 1.5rem;
+  border: 2px solid transparent;
   background: transparent;
-  border-radius: 8px;
+  border-radius: 12px;
   font-family: Lato, sans-serif;
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 600;
-  color: #64748b;
+  color: #6B7280;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 0.75rem;
 }
 
 .tab-button:hover {
-  background: rgba(139, 92, 246, 0.08);
-  color: #8B5CF6;
+  background: rgba(24, 92, 230, 0.05);
+  color: #185CE6;
+  border-color: #60A5FA;
 }
 
 .tab-button.tab-active {
-  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-  color: white;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  background: rgba(24, 92, 230, 0.08);
+  color: #185CE6 !important;
+  border-color: #185CE6;
 }
 
 .tab-button svg {
   width: 20px;
   height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.tab-button:hover svg {
+  transform: translateY(-2px);
 }
 
 /* Filters Advanced */
 .filters-advanced {
   background: white;
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 2rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #F3F4F6;
 }
 
 .filters-grid {
@@ -1107,59 +1121,63 @@ export default {
 
 .modern-input {
   width: 100%;
-  padding: 12px 14px;
-  border: 2px solid #e2e8f0;
+  padding: 0.875rem 1rem;
+  border: 2px solid #E5E7EB;
   border-radius: 12px;
   font-family: Lato, sans-serif;
-  font-size: 15px;
-  color: #1e293b;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: #f8fafc;
+  font-size: 0.95rem;
+  color: #1F2937;
+  transition: all 0.3s ease;
+  background: white;
 }
 
 .modern-input:focus {
   outline: none;
-  border-color: #8B5CF6;
+  border-color: #185CE6;
   background: white;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
+}
+
+.modern-input::placeholder {
+  color: #9CA3AF;
 }
 
 .modern-select {
   width: 100%;
-  padding: 12px 14px;
-  border: 2px solid #e2e8f0;
+  padding: 0.875rem 1rem;
+  border: 2px solid #E5E7EB;
   border-radius: 12px;
   font-family: Lato, sans-serif;
-  font-size: 15px;
-  color: #1e293b;
-  background: #f8fafc;
+  font-size: 0.95rem;
+  color: #1F2937;
+  background: white;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
 }
 
 .modern-select:focus {
   outline: none;
-  border-color: #8B5CF6;
+  border-color: #185CE6;
   background: white;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
 }
 
 /* DatePicker Styling */
 .modern-datepicker :deep(.mx-input) {
-  padding: 12px 14px;
-  border: 2px solid #e2e8f0;
+  padding: 0.875rem 1rem;
+  border: 2px solid #E5E7EB;
   border-radius: 12px;
   font-family: Lato, sans-serif;
-  font-size: 15px;
-  color: #1e293b;
-  background: #f8fafc;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.95rem;
+  color: #1F2937;
+  background: white;
+  transition: all 0.3s ease;
 }
 
 .modern-datepicker :deep(.mx-input:focus) {
-  border-color: #8B5CF6;
+  border-color: #185CE6;
   background: white;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
 }
 
 /* Actions Row */
@@ -1267,9 +1285,10 @@ export default {
 /* Table Section */
 .table-section {
   background: white;
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #F3F4F6;
 }
 
 /* Filters Loading Overlay */
@@ -1356,44 +1375,76 @@ export default {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .entradas-container {
+    padding: 0 1.5rem;
+  }
+
+  .entradas-header {
+    margin: 0 -1.5rem 2rem -1.5rem;
+  }
+
   .entradas-header-content {
+    padding: 1.5rem 1.5rem 0 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .entradas-container {
     padding: 0 1rem;
   }
 
+  .entradas-header {
+    padding: 0 0 1.25rem 0;
+    margin: 0 -1rem 1.5rem -1rem;
+  }
+
+  .entradas-header-content {
+    padding: 1.25rem 1rem 0 1rem;
+  }
+
   .header-title-section {
-    gap: 1rem;
+    gap: 0.875rem;
   }
 
   .header-icon {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
   }
 
   .entradas-title {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
+    line-height: 1.3;
   }
 
   .entradas-subtitle {
-    font-size: 0.85rem;
-  }
-
-  .entradas-content {
-    padding: 0 1rem 1rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
   }
 
   .tabs-modern {
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0.375rem;
+    border-radius: 14px;
   }
 
   .tab-button {
-    width: 100%;
-    padding: 12px 20px;
+    padding: 0.75rem 0.625rem;
+    font-size: 0.85rem;
+    flex-direction: column;
+    gap: 0.375rem;
+    border-radius: 10px;
+  }
+
+  .tab-button svg {
+    width: 18px;
+    height: 18px;
   }
 
   .filters-advanced {
-    padding: 1rem;
+    padding: 1.25rem;
+    border-radius: 16px;
   }
 
   .filters-grid {
@@ -1408,6 +1459,92 @@ export default {
   .modern-btn {
     width: 100%;
     justify-content: center;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .table-section {
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .entradas-container {
+    padding: 0 0.875rem;
+  }
+
+  .entradas-header {
+    padding: 0 0 1rem 0;
+    margin: 0 -0.875rem 1.25rem -0.875rem;
+  }
+
+  .entradas-header-content {
+    padding: 1rem 0.875rem 0 0.875rem;
+  }
+
+  .header-title-section {
+    gap: 0.625rem;
+    align-items: flex-start;
+  }
+
+  .header-icon {
+    width: 22px;
+    height: 22px;
+    margin-top: 0.125rem;
+  }
+
+  .entradas-title {
+    font-size: 1.05rem;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+  }
+
+  .entradas-subtitle {
+    font-size: 0.72rem;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+  }
+
+  .tabs-modern {
+    padding: 0.25rem;
+    gap: 0.375rem;
+    border-radius: 12px;
+  }
+
+  .tab-button {
+    padding: 0.625rem 0.5rem;
+    gap: 0.25rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+  }
+
+  .tab-button svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .filters-advanced {
+    padding: 1rem;
+    border-radius: 14px;
+  }
+
+  .filter-label {
+    font-size: 13px;
+  }
+
+  .modern-input,
+  .modern-select {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.875rem;
+  }
+
+  .modern-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .table-section {
+    border-radius: 14px;
   }
 }
 </style>

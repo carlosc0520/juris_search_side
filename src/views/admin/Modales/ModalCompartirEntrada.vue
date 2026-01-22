@@ -1,67 +1,62 @@
 <template>
-    <b-modal id="modal-resolucion-compartir" v-model="show" 
-     ok-title="Guardar" cancel-title="Cancelar"
-     @ok="submit" @cancel="show = false"
-    title="" centered size="xl">
 
-        <p class="text-left">
-            <span style="color: #1864FF">Comparte documentos con tus contactos</span>
-            <br>
-            <span style="color: #727370">Selecciona los contactos con los que deseas compartir tus documentos.</span>
-        </p>
-
-        <!-- // input de busqueda -->
-        <div class="row">
-            <div class="col-12 col-md-9">
-                <div class="input-group mb-3" style="height: 50px;">
-                    <input type="text" 
-                    v-model="SEARCH"
-                    class="form-control" placeholder="Buscar por nombre o email" aria-label="Buscar por nombre o email" aria-describedby="button-addon2">
-                    <button
-                    @click="getContactos()"
-                    class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+    <b-modal id="modal-resolucion-compartir" hide-footer="true" v-model="show" centered size="xl" title="" dialog-class="modern-modal"
+        body-class="modern-modal-body">
+        <div class="modal-header-custom">
+            <div class="modal-header-icon">
+                <i class="fas fa-share-alt"></i>
+            </div>
+            <div>
+                <h5 class="modal-title-custom">Comparte documentos con tus contactos</h5>
+                <p class="modal-subtitle">Selecciona los contactos con los que deseas compartir tus documentos.</p>
+            </div>
+        </div>
+        <div class="modal-body-custom">
+            <div class="row search-bar gx-2 align-items-center mb-4">
+                <div class="col-12 col-md-6 mb-2 mb-md-0">
+                    <input type="text" v-model="SEARCH" class="form-control search-input h-100"
+                        placeholder="Buscar por nombre o email" aria-label="Buscar por nombre o email"
+                        @keyup.enter="getContactos()" style="min-height:48px;">
+                </div>
+                <div class="col-12 col-md-3 mb-2 mb-md-0">
+                    <select class="form-select user-select w-100 h-100" v-model="ISPERM"
+                        aria-label="Permiso de compartición" style="min-height:48px;">
+                        <option value="1">Lector</option>
+                        <option value="2">Editor</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-3 d-flex justify-content-md-end mt-2 mt-md-0">
+                    <button @click="getContactos()" class="btn btn-search-modal w-100 w-md-auto" type="button"
+                        id="button-addon2" style="min-height:48px;">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
                 </div>
             </div>
-
-            <div class="col-12 col-md-3 mb-3">
-                <!-- // select de Lector y Editor valor 1 y 2 -->
-                <select class="form-select" v-model="ISPERM" aria-label="Default select example">
-                    <option selected value="1">Lector</option>
-                    <option value="2">Editor</option>
-                </select>
+            <div class="selected-count">
+                <span class="selected-number">{{ contactosSelected.length }}</span> contactos seleccionados
             </div>
-
-            <!-- // ha seleccionado n contactos -->
-             <div class="col-12 col-md-12">
-                <p class="text-left" style="color: #727370; font-size: 14px;">
-                    <span style="color: #1864FF">{{ contactosSelected.length }}</span> contactos seleccionados
-                </p>
-            </div>
-
-            <!-- // foto - RTAFTO, nombres - NOMBRES +  APELLIDOS y check para seleccionar -->
-            <div class="col-12 col-md-12">
-                <div class="row">
-                    <div class="col-12 mb-3" v-for="(contacto, index) in contactos" :key="index">
-                        <div class="row">
-                            <div class="col-10 d-flex align-items-center gap-3">
-                                <img :src="contacto.RTAFTO || 'https://placehold.co/50x50'" 
-                                class="rounded-circle"
-                                alt="" width="50px" height="50px">
-                                <div>
-                                    <p style="color: #262626; font-style: bold;" class="m-0">{{ contacto.NOMBRES + " " + contacto.APELLIDOS }}</p>
-                                    <p class="m-0" style="font-size: 12px; color: #727370;">{{ contacto.EMAIL }}</p>
-                                </div>
-                            </div>
-                            <div class="col-2 d-flex align-items-center">
-                                <input type="checkbox" class="check-head form-check-input"
-                                    :id="'check' + index"
-                                    :checked="contacto.CHECKED"
-                                    @change="onSelectedContactos(contacto, $event.target.checked)"
-                                />
-                            </div>
+            <div class="user-list">
+                <div v-if="contactos.length === 0" class="no-users">
+                    <i class="fas fa-user-slash"></i> No hay contactos disponibles.
+                </div>
+                <div v-for="(contacto, index) in contactos" :key="index" class="user-row">
+                    <div class="user-info">
+                        <img :src="contacto.RTAFTO || 'https://placehold.co/50x50'" class="user-avatar" alt="avatar">
+                        <div class="user-details">
+                            <span class="user-name">{{ contacto.NOMBRES + ' ' + contacto.APELLIDOS }}</span>
+                            <span class="user-email">{{ contacto.EMAIL }}</span>
                         </div>
                     </div>
+                    <div class="user-permission">
+                        <input type="checkbox" class="check-head form-check-input" :id="'check' + index"
+                            :checked="contacto.CHECKED"
+                            @change="onSelectedContactos(contacto, $event.target.checked)" />
+                    </div>
                 </div>
+            </div>
+            <div class="modal-footer-custom">
+                <button class="btn btn-cancel-modal" @click="show = false">Cancelar</button>
+                <button class="btn btn-save-modal" @click="submit($event)">Guardar</button>
             </div>
         </div>
     </b-modal>
@@ -87,7 +82,7 @@ export default {
             contactos: [],
             contactosSelected: [],
         }
-    }, 
+    },
     props: {
         openModal: {
             type: Boolean,
@@ -103,9 +98,9 @@ export default {
         }
     },
     methods: {
-         // * CONTACTOS
+        // * CONTACTOS
         async getContactos() {
-            await UserProxy.getContactos({ESTADO: true, INIT: 0, ROWS: 10, DESC: this.SEARCH, IDFAV: this.data.ID})
+            await UserProxy.getContactos({ ESTADO: true, INIT: 0, ROWS: 10, DESC: this.SEARCH, IDFAV: this.data.ID })
                 .then((response) => {
                     this.contactos = response.map(contacto => {
                         return {
@@ -120,8 +115,8 @@ export default {
                 })
         },
         onSelectedContactos(item, checked) {
-            if(checked) {
-                if(!this.contactosSelected.some(contacto => contacto.ID === item.ID)) {
+            if (checked) {
+                if (!this.contactosSelected.some(contacto => contacto.ID === item.ID)) {
                     this.contactosSelected.push(item);
                 }
             } else {
@@ -131,7 +126,7 @@ export default {
         async submit(e) {
             e.preventDefault();
 
-            if(this.contactosSelected.length === 0) {
+            if (this.contactosSelected.length === 0) {
                 toast.error("Selecciona al menos un contacto");
                 return;
             }
@@ -182,10 +177,250 @@ export default {
 
 
 <style scoped>
-.input-group input{
-    border-radius: 0.5rem;
-    border: 1px solid #ced4da!important;
-    padding: 5px!important;
+/* Modern modal custom styles reutilizados */
+.modal-header-custom {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%);
+    padding: 1.5rem 2rem 1rem 2rem;
+    border-radius: 20px 20px 0 0;
+    margin-bottom: 0;
+}
+
+.modal-header-icon {
+    background: #fff;
+    color: #6366f1;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7rem;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.12);
+}
+
+.modal-title-custom {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.modal-subtitle {
+    color: #e0e7ff;
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+.modal-body-custom {
+    background: #f8fafc;
+    padding: 2rem 2rem 1.5rem 2rem;
+    border-radius: 0 0 20px 20px;
+}
+
+.search-bar {
+    margin-bottom: 2rem;
+}
+
+.search-bar>.col-12 {
+    margin-bottom: 0.5rem;
+}
+
+.btn-search-modal {
+    width: 100%;
+    margin-top: 0.5rem;
+    min-width: unset;
+    height: 44px;
+}
+
+.btn-search-modal {
+    background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+    transition: background 0.2s;
+    flex-shrink: 0;
+    min-width: 130px;
+}
+
+.btn-search-modal:hover {
+    background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%);
+}
+
+.user-select {
+    border-radius: 8px;
+    border: 1.5px solid #c7d2fe;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background: #f1f5f9;
+    color: #374151;
+    transition: border 0.2s;
+}
+
+.user-select:focus {
+    border-color: #6366f1;
+    outline: none;
+}
+
+.selected-count {
+    color: #727370;
+    font-size: 14px;
+    margin-bottom: 1rem;
+}
+
+.selected-number {
+    color: #1864FF;
+    font-weight: 700;
+}
+
+.user-list {
+    margin-bottom: 2rem;
+}
+
+.user-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.06);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: none;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.user-name {
+    font-weight: 700;
+    color: #262626;
+    font-size: 1.05rem;
+}
+
+.user-email {
+    color: #262626;
+    font-size: 0.95rem;
+}
+
+.user-permission {
+    min-width: 110px;
+    max-width: 150px;
+    flex: 0 0 auto;
+    justify-content: center;
+}
+
+.no-users {
+    text-align: center;
+    color: #a0aec0;
+    font-size: 1.1rem;
+    margin: 2rem 0;
+}
+
+.no-users i {
+    margin-right: 0.5rem;
+}
+
+.modal-footer-custom {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-cancel-modal {
+    background: #e5e7eb;
+    color: #374151;
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+.btn-cancel-modal:hover {
+    background: #cbd5e1;
+}
+
+.btn-save-modal {
+    background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+    transition: background 0.2s;
+}
+
+.btn-save-modal:hover {
+    background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%);
+}
+
+@media (max-width: 768px) {
+
+    .modal-header-custom,
+    .modal-body-custom {
+        padding: 1rem !important;
+    }
+
+    .search-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-search-modal {
+        width: 100%;
+        margin-top: 0.5rem;
+        min-width: unset;
+    }
+
+    .user-row {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+    }
+
+    .user-permission {
+        width: 100%;
+        min-width: unset;
+        margin-top: 0.5rem;
+        justify-content: flex-start;
+    }
+
+    .modal-footer-custom {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+    }
 }
 </style>
 <style scoped src="@/assets/styles/modal-styles.css"></style>

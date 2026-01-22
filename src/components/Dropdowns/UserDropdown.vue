@@ -28,48 +28,171 @@
             </svg>
           </button>
         </div>
+        
+        <div v-if="notificaciones.length > 0" class="selection-toolbar">
+          <label class="select-all-checkbox">
+            <input 
+              type="checkbox" 
+              :checked="isAllSelected"
+              @change="toggleSelectAll"
+            />
+            <span>Seleccionar todas ({{ selectedNotifications.length }})</span>
+          </label>
+          
+          <button 
+            v-if="selectedNotifications.length > 0" 
+            class="delete-selected-btn"
+            @click="deleteSelectedNotifications"
+            :title="`Eliminar ${selectedNotifications.length} notificación(es)`"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+              <line x1="10" y1="11" x2="10" y2="17"/>
+              <line x1="14" y1="11" x2="14" y2="17"/>
+            </svg>
+            Eliminar ({{ selectedNotifications.length }})
+          </button>
+        </div>
 
         <div class="notifications-content">
-          <div v-for="(notificacion, index) in notificaciones" :key="index" class="notification-card">
-            <div class="notification-icon" :class="notificacion.TIPO == 1 ? 'type-request' : 'type-info'">
-              <svg v-if="notificacion.TIPO == 1" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-                <circle cx="8.5" cy="7" r="4"/>
-                <line x1="20" y1="8" x2="20" y2="14"/>
-                <line x1="23" y1="11" x2="17" y2="11"/>
-              </svg>
-              <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="12" y1="16" x2="12" y2="12"/>
-                <line x1="12" y1="8" x2="12.01" y2="8"/>
-              </svg>
-            </div>
-            
-            <div class="notification-body">
-              <p class="notification-message">{{ notificacion.DESCP }}</p>
-              <div class="notification-footer">
-                <span class="notification-time">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-                  </svg>
-                  {{ notificacion.FECHA }}
-                </span>
-                <div v-if="notificacion.ESTADO == 0" class="notification-actions">
-                  <button class="action-btn accept-btn" @click="updateContacto(notificacion)" title="Aceptar">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="20 6 9 17 4 12"/>
+          <div v-for="(notificacion, index) in notificaciones" :key="index" class="notification-card" :class="{ 'selected': isNotificationSelected(notificacion.IDNT) }">
+            <template v-if="notificacion.TIPO == 1">
+              <label class="notification-checkbox">
+                <input 
+                  type="checkbox" 
+                  :checked="isNotificationSelected(notificacion.IDNT)"
+                  @change="toggleSelectNotification(notificacion.IDNT)"
+                />
+              </label>
+              <div class="notification-icon type-info">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                  <circle cx="8.5" cy="7" r="4"/>
+                  <line x1="20" y1="8" x2="20" y2="14"/>
+                  <line x1="23" y1="11" x2="17" y2="11"/>
+                </svg>
+              </div>
+              <div class="notification-body">
+                <p class="notification-message">{{ notificacion.DESCP }}</p>
+                <div class="notification-footer">
+                  <span class="notification-time">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
                     </svg>
-                  </button>
-                  <button class="action-btn decline-btn" @click="deleteContacto(notificacion)" title="Eliminar">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <line x1="18" y1="6" x2="6" y2="18"/>
-                      <line x1="6" y1="6" x2="18" y2="18"/>
-                    </svg>
-                  </button>
+                    {{ notificacion.FECHA }}
+                  </span>
+                  <div v-if="notificacion.ESTADO == 0" class="notification-actions">
+                    <button class="action-btn accept-btn" @click="updateContacto(notificacion)" title="Aceptar">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </button>
+                    <button class="action-btn decline-btn" @click="deleteContacto(notificacion)" title="Eliminar">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+              <button class="delete-notification-btn" @click="deleteNotificacion(notificacion.IDNT)"
+              title="Eliminar notificación">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                  <line x1="10" y1="11" x2="10" y2="17"/>
+                  <line x1="14" y1="11" x2="14" y2="17"/>
+                </svg>
+              </button>
+            </template>
+
+            <template v-else-if="notificacion.TIPO == 2">
+              <!-- Notificación tipo 2: checbox, ir a (flecha) y eliminar individual -->
+              <label class="notification-checkbox">
+                <input 
+                  type="checkbox" 
+                  :checked="isNotificationSelected(notificacion.IDNT)"
+                  @change="toggleSelectNotification(notificacion.IDNT)"
+                />
+              </label>
+              <div class="notification-icon type-info">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="9 12 13 16 13 8"/>
+                </svg>
+              </div>
+              <div class="notification-body">
+                <p class="notification-message">{{ notificacion.DESCP }}</p>
+                <div class="notification-footer">
+                  <span class="notification-time">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    {{ notificacion.FECHA }}
+                  </span>
+                  <div class="notification-actions">
+                    <button class="action-btn accept-btn" @click="goToNotification(notificacion)" title="Ir a detalle">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="7 17 17 7" />
+                        <polyline points="7 7 17 7 17 17" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <button class="delete-notification-btn" @click="deleteNotificacion(notificacion.IDNT)"
+              title="Eliminar notificación">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                  <line x1="10" y1="11" x2="10" y2="17"/>
+                  <line x1="14" y1="11" x2="14" y2="17"/>
+                </svg>
+              </button>
+            </template>
+
+            <template v-else>
+              <!-- Aquí puedes agregar contenido para otros tipos futuros -->
+              <label class="notification-checkbox">
+                <input 
+                  type="checkbox" 
+                  :checked="isNotificationSelected(notificacion.IDNT)"
+                  @change="toggleSelectNotification(notificacion.IDNT)"
+                />
+              </label>
+              <div class="notification-icon type-info">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="16" x2="12" y2="12"/>
+                  <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+              </div>
+              <div class="notification-body">
+                <p class="notification-message">{{ notificacion.DESCP }}</p>
+                <div class="notification-footer">
+                  <span class="notification-time">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    {{ notificacion.FECHA }}
+                  </span>
+                </div>
+              </div>
+              <button class="delete-notification-btn" @click="deleteNotificacion(notificacion.IDNT)"
+              title="Eliminar notificación">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                  <line x1="10" y1="11" x2="10" y2="17"/>
+                  <line x1="14" y1="11" x2="14" y2="17"/>
+                </svg>
+              </button>
+            </template>
           </div>
 
           <div v-if="notificaciones.length === 0" class="empty-state">
@@ -128,6 +251,7 @@ import team2 from "@/assets/img/resources/perfil.png";
 import LoginProxy from "../../proxies/LoginProxy";
 import UserProxy from "../../proxies/UserProxy";
 import { toast } from 'vue3-toastify';
+import Swal from 'sweetalert2';
 
 export default {
   data() {
@@ -138,11 +262,13 @@ export default {
       team2,
       totalNotificaciones: 0,
       notificaciones: [],
+      selectedNotifications: [],
       USUARIO: {
         NOMBRES: "",
         EMAIL: "",
         RTAFTO: "",
-      }
+      },
+      domain: "http://localhost:8080" + "/usuario/investigacion?search=",
     };
   },
   props: {
@@ -152,6 +278,15 @@ export default {
     },
   },
   methods: {
+    goToNotification(notificacion) {
+      console.log('Navegando a notificación:', notificacion);
+
+      // ir a this.domain + notificacion.DESCP
+      // a notificacion.DESCP quitale Se agregó la noticia titulo noticia eeeee, quedando todo menpos Se agregó la noticia
+      const noticiaTitle = notificacion.DESCP.replace('Se agregó la noticia', '').trim();
+      const url = this.domain + encodeURIComponent(noticiaTitle);
+      window.open(url, '_blank');
+    },
     toggleDropdown: function (event) {
       event.preventDefault();
       if (this.dropdownPopoverShow) {
@@ -178,6 +313,7 @@ export default {
     },
     closeSidebarNotificaciones() {
       this.sidebarNotificacionesShow = false;
+      this.selectedNotifications = [];
     },
     async signOut() {
       await LoginProxy.logout();
@@ -251,6 +387,84 @@ export default {
           console.error("Error al actualizar la notificación:", error);
           toast.error("Error al actualizar la notificación.");
         });
+    },
+    async deleteNotificacion(ids) {
+      const idsArray = Array.isArray(ids) ? ids : [ids];
+      console.log('IDs a eliminar:', idsArray);
+      // Confirmación antes de eliminar
+      const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        html: idsArray.length === 1 
+          ? 'Se eliminará esta notificación permanentemente.'
+          : `Se eliminarán <strong>${idsArray.length}</strong> notificaciones permanentemente.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true
+      });
+
+      if (!result.isConfirmed) {
+        return;
+      }
+
+      try {
+        const idsString = idsArray.join(', ');
+        const response = await UserProxy.deleteNotificaciones(idsString);
+        
+        if (response.STATUS) {
+          // Mensaje de éxito
+          const message = idsArray.length === 1 
+            ? 'Notificación eliminada correctamente' 
+            : `${idsArray.length} notificaciones eliminadas correctamente`;
+          toast.success(message);
+          
+          // Limpiar selección
+          this.selectedNotifications = [];
+          
+          // Recargar notificaciones
+          await this.getNotifications();
+        } else {
+          toast.error(response.MESSAGE || 'Error al eliminar las notificaciones');
+        }
+      } catch (error) {
+        console.error('Error al eliminar las notificaciones:', error);
+        toast.error('Error al eliminar las notificaciones');
+      }
+    },
+    toggleSelectNotification(notificationId) {
+      const index = this.selectedNotifications.indexOf(notificationId);
+      if (index > -1) {
+        this.selectedNotifications.splice(index, 1);
+      } else {
+        this.selectedNotifications.push(notificationId);
+      }
+    },
+    isNotificationSelected(notificationId) {
+      return this.selectedNotifications.includes(notificationId);
+    },
+    toggleSelectAll() {
+      if (this.isAllSelected) {
+        this.selectedNotifications = [];
+      } else {
+        this.selectedNotifications = this.notificaciones.map(n => n.IDNT);
+      }
+    },
+    deleteSelectedNotifications() {
+      if (this.selectedNotifications.length === 0) {
+        toast.warning('No hay notificaciones seleccionadas');
+        return;
+      }
+
+      this.deleteNotificacion(this.selectedNotifications.filter(id => id !== null));
+    }
+  },
+  computed: {
+    isAllSelected() {
+      return this.notificaciones.length > 0 && 
+             this.selectedNotifications.length === this.notificaciones.length;
     }
   },
   mounted() {
@@ -286,19 +500,16 @@ export default {
 
 .notification-btn svg {
   color: #4a5568;
-  transition: all 0.3s ease;
 }
 
 .notification-btn:hover {
   background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(24, 92, 230, 0.05) 100%);
-  border-color: #DF2DB2;
-  transform: translateY(-2px);
+  border-color: #60A5FA;
   box-shadow: 0 4px 12px rgba(223, 45, 178, 0.15);
 }
 
 .notification-btn:hover svg {
-  color: #DF2DB2;
-  transform: scale(1.1);
+  color: #60A5FA;
 }
 
 .notification-badge {
@@ -396,6 +607,66 @@ export default {
   color: white;
 }
 
+/* Selection Toolbar */
+.selection-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(24, 92, 230, 0.05) 100%);
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.select-all-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.select-all-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #60a5fa;
+}
+
+.select-all-checkbox span {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.delete-selected-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.delete-selected-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+.delete-selected-btn:active {
+  transform: translateY(0);
+}
+
+.delete-selected-btn svg {
+  flex-shrink: 0;
+}
+
 /* Notifications Content */
 .notifications-content {
   flex: 1;
@@ -412,12 +683,22 @@ export default {
   border-radius: 12px;
   margin-bottom: 1rem;
   transition: all 0.3s ease;
+  position: relative;
 }
 
-.notification-card:hover {
-  border-color: #DF2DB2;
-  box-shadow: 0 4px 12px rgba(223, 45, 178, 0.1);
-  transform: translateX(-4px);
+.notification-checkbox {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 0.25rem;
+  cursor: pointer;
+}
+
+.notification-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #60a5fa;
+  margin: 0;
 }
 
 .notification-icon {
@@ -494,11 +775,6 @@ export default {
   color: white;
 }
 
-.accept-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
-}
-
 .decline-btn {
   background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
   color: white;
@@ -507,6 +783,48 @@ export default {
 .decline-btn:hover {
   transform: scale(1.1);
   box-shadow: 0 4px 12px rgba(245, 101, 101, 0.3);
+}
+
+/* Delete Notification Button */
+.delete-notification-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.notification-card:hover .delete-notification-btn {
+  opacity: 1;
+}
+
+.delete-notification-btn svg {
+  color: #718096;
+  transition: color 0.3s ease;
+}
+
+.delete-notification-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  transform: scale(1.1);
+}
+
+.delete-notification-btn:hover svg {
+  color: #ef4444;
+}
+
+.delete-notification-btn:active {
+  transform: scale(0.95);
 }
 
 /* Empty State */
@@ -554,7 +872,7 @@ export default {
 }
 
 .user-avatar:hover {
-  border-color: #DF2DB2;
+  border-color: #60A5FA;
   box-shadow: 0 4px 12px rgba(223, 45, 178, 0.2);
   transform: scale(1.05);
 }
@@ -586,11 +904,11 @@ export default {
 
 .dropdown-toggle:hover {
   background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(24, 92, 230, 0.05) 100%);
-  border-color: #DF2DB2;
+  border-color: #60A5FA;
 }
 
 .dropdown-toggle:hover svg {
-  color: #DF2DB2;
+  color: #60A5FA;
 }
 
 .dropdown-toggle svg.rotate-180 {

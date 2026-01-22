@@ -158,6 +158,11 @@ class UserProxy {
         const { data } = await axios.post('/admin/user/delete-contact', { ID });
         return data;
     }
+   
+    async deleteNotificaciones(IDS) {
+        const { data } = await axios.post('/admin/user/delete-notificaciones', { IDS });
+        return data;
+    }
 
     // NOTIFICACIONES
     async getNotificaciones(params) {

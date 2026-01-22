@@ -1,5 +1,5 @@
 <template>
-    <section class="noticias-container mt-4 pt-2">
+    <section class="noticias-container">
         <!-- Header con Título -->
         <div class="noticias-header">
             <div class="noticias-header-content">
@@ -812,14 +812,13 @@ export default {
 }
 
 .tab-button:hover {
-    background: rgba(139, 92, 246, 0.08);
-    color: #8B5CF6;
+    background: rgba(24, 92, 230, 0.05);
+    color: #185CE6;
 }
 
 .tab-button.tab-active {
-    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-    color: white;
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    background: rgba(24, 92, 230, 0.05);
+    color: #185CE6 !important;
 }
 
 .tab-button svg {
@@ -855,27 +854,26 @@ export default {
     pointer-events: none;
 }
 
+/* Modern Input (Settings.vue style) */
 .modern-input {
     width: 100%;
-    padding: 12px 14px 12px 44px;
-    border: 2px solid #e2e8f0;
+    padding: 0.875rem 1rem 0.875rem 2.5rem;
+    border: 2px solid #E5E7EB;
     border-radius: 12px;
-    font-family: Lato, sans-serif;
-    font-size: 15px;
-    color: #1e293b;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: #f8fafc;
+    font-size: 0.95rem;
+    color: #1F2937;
+    background: white;
+    transition: all 0.3s ease;
 }
 
 .modern-input:focus {
     outline: none;
-    border-color: #8B5CF6;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    border-color: #185CE6;
+    box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
 }
 
 .modern-input::placeholder {
-    color: #94a3b8;
+    color: #9CA3AF;
 }
 
 /* Select Wrapper */
@@ -883,24 +881,23 @@ export default {
     position: relative;
 }
 
+/* Modern Select (Settings.vue style) */
 .modern-select {
     width: 100%;
-    padding: 12px 14px;
-    border: 2px solid #e2e8f0;
+    padding: 0.875rem 1rem;
+    border: 2px solid #E5E7EB;
     border-radius: 12px;
-    font-family: Lato, sans-serif;
-    font-size: 15px;
-    color: #1e293b;
-    background: #f8fafc;
+    font-size: 0.95rem;
+    color: #1F2937;
+    background: white;
+    transition: all 0.3s ease;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modern-select:focus {
     outline: none;
-    border-color: #8B5CF6;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    border-color: #185CE6;
+    box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
 }
 
 /* Button Group */
@@ -952,60 +949,138 @@ export default {
 }
 
 /* Table Section */
+/* Table Section (Settings.vue style) */
 .table-section {
     background: white;
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #F3F4F6;
 }
 
-/* Responsive */
+/* Responsive (Settings.vue style) */
+@media (max-width: 1024px) {
+    .noticias-header-content {
+        padding: 0 1.5rem;
+    }
+}
+
 @media (max-width: 768px) {
     .noticias-header-content {
         padding: 0 1rem;
     }
-
     .header-title-section {
         gap: 1rem;
     }
-
     .header-icon {
         width: 24px;
         height: 24px;
     }
-
     .noticias-title {
         font-size: 1.5rem;
     }
-
     .noticias-subtitle {
         font-size: 0.85rem;
     }
-
     .noticias-content {
         padding: 0 1rem 1rem;
     }
-
     .tabs-modern {
+        padding: 0.25rem;
+        gap: 0.375rem;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 8px;
     }
-
     .tab-button {
         width: 100%;
-        padding: 12px 20px;
+        padding: 0.625rem 0.5rem;
+        gap: 0.25rem;
     }
-
+    .tab-button svg {
+        width: 16px;
+        height: 16px;
+    }
+    .tab-button span {
+        font-size: 0.75rem;
+    }
     .filters-section {
         grid-template-columns: 1fr;
         padding: 1rem;
     }
-
     .button-group {
         width: 100%;
     }
+    .modern-btn {
+        flex: 1;
+        justify-content: center;
+    }
+}
 
+@media (max-width: 480px) {
+    .noticias-container {
+        padding-bottom: 2rem;
+    }
+    .noticias-header {
+        padding: 1rem 0;
+    }
+    .noticias-header-content {
+        padding: 0 0.875rem;
+    }
+    .header-title-section {
+        gap: 0.625rem;
+        align-items: flex-start;
+        width: 100%;
+    }
+    .header-title-section > div {
+        flex: 1;
+        min-width: 0;
+        max-width: calc(100% - 30px);
+    }
+    .header-icon {
+        width: 22px;
+        height: 22px;
+        margin-top: 0.125rem;
+    }
+    .noticias-title {
+        font-size: 1.05rem;
+        line-height: 1.3;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        max-width: 100%;
+        width: 100%;
+    }
+    .noticias-subtitle {
+        font-size: 0.72rem;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        max-width: 100%;
+        width: 100%;
+        line-height: 1.3;
+    }
+    .noticias-content {
+        padding: 0 0.875rem;
+    }
+    .tabs-modern {
+        padding: 0.25rem;
+        gap: 0.375rem;
+    }
+    .tab-button {
+        padding: 0.625rem 0.5rem;
+        gap: 0.25rem;
+    }
+    .tab-button svg {
+        width: 16px;
+        height: 16px;
+    }
+    .tab-button span {
+        font-size: 0.75rem;
+    }
+    .table-section,
+    .filters-section,
+    .button-group {
+        padding: 1rem;
+        border-radius: 14px;
+    }
     .modern-btn {
         flex: 1;
         justify-content: center;

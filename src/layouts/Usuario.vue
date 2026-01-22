@@ -59,12 +59,24 @@ export default {
         UPDATERTAFTO() {
             this.RTAFTO = JSON.parse(localStorage.getItem("user"))?.RTAFTO;
         },
+        checkScreenSize() {
+            this.isCollapsed = window.innerWidth < 768;
+        },
     },
     mounted() {
         let user = JSON.parse(localStorage.getItem("user"));
         let RTAFTO = user?.RTAFTO;
         if (RTAFTO?.includes("comnull")) RTAFTO = null;
         this.RTAFTO = RTAFTO;
+        
+        // Establecer estado inicial del sidebar según tamaño de pantalla
+        this.checkScreenSize();
+        
+        // Escuchar cambios de tamaño de ventana
+        window.addEventListener('resize', this.checkScreenSize);
+    },
+    beforeUnmount() {
+        window.removeEventListener('resize', this.checkScreenSize);
     },
 };
 </script>
@@ -78,6 +90,13 @@ html {
 body {
     margin: 0;
     background-color: #f9fafb !important;
+}
+
+.content-wrapper {
+    padding-top: 60px;
+    min-height: calc(100vh - 60px);
+    width: 100%;
+    overflow-x: hidden;
 }
 
 hr {
@@ -119,6 +138,11 @@ hr {
 }
 
 @media (max-width: 767px) {
+    .content-wrapper {
+        padding-top: 50px;
+        min-height: calc(100vh - 50px);
+    }
+
     .calculator {
         margin: 0 !important;
     }

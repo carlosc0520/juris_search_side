@@ -68,7 +68,14 @@
   background: white;
   gap: 12px;
   display: flex;
-  justify-content: flex-end;
+  flex-wrap: wrap;
+  justify-content: flex-end !important;
+}
+
+@media (max-width: 576px) {
+  :deep(.modal-dialog) :deep(.modal-footer) {
+    justify-content: center !important;
+  }
 }
 
 /* Form Elements */
@@ -321,7 +328,7 @@ select option {
 
 /* Date Picker */
 :deep(.mx-input) {
-  padding: 11px 16px !important;
+  padding: 23px 16px !important;
   border: 1.5px solid #cbd5e1 !important;
   border-radius: 10px !important;
   font-family: Lato, sans-serif !important;
@@ -560,6 +567,7 @@ button.btn-primary {
   align-items: center !important;
   justify-content: center !important;
   gap: 8px !important;
+  outline: none !important;
 }
 
 :deep(.btn-primary:hover),
@@ -607,6 +615,7 @@ button.btn-secondary {
   align-items: center !important;
   justify-content: center !important;
   gap: 8px !important;
+  outline: none !important;
 }
 
 :deep(.btn-secondary:hover),
@@ -646,6 +655,7 @@ button.btn-danger {
   align-items: center !important;
   justify-content: center !important;
   gap: 8px !important;
+  outline: none !important;
 }
 
 :deep(.btn-danger:hover),
@@ -676,6 +686,7 @@ button.btn-success {
   align-items: center !important;
   justify-content: center !important;
   gap: 8px !important;
+  outline: none !important;
 }
 
 :deep(.btn-success:hover),
@@ -735,6 +746,7 @@ button.btn-success:hover {
   :deep(.modal-footer) {
     padding: 1rem 1.5rem;
     flex-direction: column;
+    justify-content: center!important;
   }
 
   :deep(.btn-primary),

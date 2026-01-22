@@ -1,11 +1,12 @@
 <template>
-    <div>
+    <div class="politicas-bg">
+      
         <navbar />
         <main>
-            <section class="politicas-hero">
-                <div class="hero-container">
-                    <div class="hero-content-center">
-                        <h1 class="hero-title">Políticas de <span class="text-gradient">Privacidad</span></h1>
+            <section class="politicas-hero-updated">
+                <div class="hero-header">
+                    <div class="hero-content">
+                        <h1 class="hero-title">🔒 Políticas de <span class="text-gradient">Privacidad</span></h1>
                         <p class="hero-subtitle">
                             Conoce cómo protegemos tus datos y garantizamos tu privacidad
                         </p>
@@ -359,75 +360,66 @@ export default {
 </script>
 
 <style scoped>
-/* Hero Section */
-.politicas-hero {
-    background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-    padding: 5rem 2rem 4rem;
+
+/* Hero Section - Modernizado */
+.politicas-hero-updated {
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%)!important;
+    display: flex;
+    flex-direction: column;
     position: relative;
-    overflow: hidden;
+    padding-bottom: 0;
 }
 
-.politicas-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="white" opacity="0.03"/></svg>');
-    background-size: 100px 100px;
-}
 
-.hero-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-}
-
-.hero-content-center {
+.hero-header {
+    padding: 4rem 2rem 0;
     text-align: center;
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
 }
 
-.hero-icon {
-    display: inline-flex;
-    width: 80px;
-    height: 80px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-    backdrop-filter: blur(10px);
-}
-
-.hero-icon svg {
-    width: 40px;
-    height: 40px;
-    color: white;
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .hero-title {
     font-size: 3rem;
     font-weight: 800;
-    color: white;
+    color: #1F2937;
     margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
     line-height: 1.2;
 }
 
 .text-gradient {
-    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #1F2937;
     background-clip: text;
 }
 
 .hero-subtitle {
-    font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.95);
-    max-width: 700px;
-    margin: 0 auto;
+    font-size: 1.125rem;
+    color: #374151;
     line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.25rem;
+    }
+    .hero-header {
+        padding: 2.5rem 1rem 2rem;
+    }
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.75rem;
+    }
 }
 
 /* Content Section */

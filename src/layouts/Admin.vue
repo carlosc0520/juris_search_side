@@ -74,6 +74,9 @@ export default {
     UPDATERTAFTO() {
       this.RTAFTO = JSON.parse(localStorage.getItem("user"))?.RTAFTO;
     },
+    checkScreenSize() {
+      this.isCollapsed = window.innerWidth < 768;
+    },
   },
   // wathc al router
   watch: {
@@ -87,54 +90,83 @@ export default {
     if (RTAFTO?.includes("comnull")) RTAFTO = null;
     this.RTAFTO = RTAFTO;
     this.isVisible = !['/admin/busqueda', '/admin/reportes'].includes(this.$route.path);
+    
+    // Establecer estado inicial del sidebar según tamaño de pantalla
+    this.checkScreenSize();
+    
+    // Escuchar cambios de tamaño de ventana
+    window.addEventListener('resize', this.checkScreenSize);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.checkScreenSize);
   },
 };
 </script>
 
 <style>
 html {
-  min-height: 100%;
-  position: relative;
+    min-height: 100%;
+    position: relative;
 }
 
 body {
-  margin: 0;
-  background-color: #f2f6f9 !important
+    margin: 0;
+    background-color: #f9fafb !important;
+}
+
+.content-wrapper {
+    padding-top: 60px;
+    min-height: calc(100vh - 60px);
+    width: 100%;
+    overflow-x: hidden;
 }
 
 hr {
-  margin-top: 0;
-  margin-bottom: 0;
-  border: 0;
-  border-top: 1.5px solid rgba(0, 0, 0, 0.1);
-  width: 90%;
-  margin: 0 auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    border: 0;
+    border-top: 1.5px solid rgba(0, 0, 0, 0.1);
+    width: 90%;
+    margin: 0 auto;
 }
 
 
 @media (min-width: 768px) {
-  .ml-24 {
-    margin-left: 6rem;
-  }
+    .ml-24 {
+        margin-left: 6rem;
+    }
 
-  .ml-64 {
-    margin-left: 16rem;
-  }
+    .ml-64 {
+        margin-left: 16rem;
+    }
 
-  .w-calc100-6rem {
-    width: calc(100% - 6rem) !important;
-  }
+    .w-calc100-6rem {
+        width: calc(100% - 6rem);
+    }
 
-  .w-calc100-16rem {
-    width: calc(100% - 16rem) !important;
-  }
+    .w-calc100-16rem {
+        width: calc(100% - 16rem);
+    }
 }
 
+.padding-view-usuario {
+    padding-top: 6rem;
+}
 
-/* // celular */
+@media (max-width: 768px) {
+    .padding-view-usuario {
+        padding-top: 1rem;
+    }
+}
+
 @media (max-width: 767px) {
-  .calculator {
-    margin: 0 !important;
-  }
+    .content-wrapper {
+        padding-top: 50px;
+        min-height: calc(100vh - 50px);
+    }
+
+    .calculator {
+        margin: 0 !important;
+    }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <section class="dashboard-container mt-4 py-4">
+  <section class="dashboard-container">
     <div class="dashboard-wrapper">
       <!-- Header con Título -->
       <div class="dashboard-header">
@@ -152,6 +152,7 @@ export default {
               ENTRADAS: JSON.parse(response?.[0]?.ENTRADAS) || [],
               PALABRAS: JSON.parse(response?.[0]?.PALABRAS) || []
             }
+            console.log(this.head );
           }
         })
         .catch((error) => toast.error(error, { toastId: 'error-head' }));
@@ -167,28 +168,26 @@ export default {
 .dashboard-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  padding: 2rem 1rem;
 }
 
 .dashboard-wrapper {
   max-width: 1400px;
   margin: 0 auto;
+  padding: 0 2rem;
 }
 
 .dashboard-header {
   background: white;
   border-bottom: 1px solid #E5E7EB;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  padding: 2rem 0;
-  margin-bottom: 2rem;
-  margin-left: -1rem;
-  margin-right: -1rem;
+  padding: 0 0 1.5rem 0;
+  margin: 0 -2rem 2rem -2rem;
 }
 
 .dashboard-header-content {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 1.5rem 2rem 0 2rem;
 }
 
 .header-title-section {
@@ -247,14 +246,15 @@ export default {
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid #F3F4F6;
 }
 
 .stat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  border-color: #60A5FA;
 }
 
 .stat-icon {
@@ -309,30 +309,30 @@ export default {
 /* Chart Tabs */
 .chart-tabs {
   display: flex;
-  gap: 12px;
+  gap: 1rem;
   margin-bottom: 1.5rem;
   background: white;
-  padding: 8px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 0.5rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .tab-button {
   flex: 1;
-  padding: 12px 20px;
+  padding: 1rem 1.5rem;
   border: none;
   background: transparent;
-  border-radius: 8px;
+  border-radius: 12px;
   font-family: Lato, sans-serif;
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 600;
-  color: #64748b;
+  color: #6B7280;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0.75rem;
 }
 
 .tab-icon {
@@ -341,14 +341,19 @@ export default {
 }
 
 .tab-button:hover {
-  background: rgba(139, 92, 246, 0.08);
-  color: #8B5CF6;
+  background: rgba(24, 92, 230, 0.05);
+  color: #185CE6;
+  border: 2px solid #60A5FA;
 }
 
 .tab-button.active {
-  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-  color: white;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  background: rgba(24, 92, 230, 0.08);
+  color: #185CE6 !important;
+  border: 2px solid #185CE6;
+}
+
+.tab-button {
+  border: 2px solid transparent;
 }
 
 /* Charts Grid */
@@ -363,33 +368,60 @@ export default {
   background: white;
   border-radius: 16px;
   overflow: hidden;
+  padding: 1.5rem;
+  border: 1px solid #F3F4F6;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .dashboard-container {
-    padding: 1rem 0.5rem;
+@media (max-width: 1024px) {
+  .dashboard-wrapper {
+    padding: 0 1.5rem;
+  }
+
+  .dashboard-header {
+    margin: 0 -1.5rem 2rem -1.5rem;
   }
 
   .dashboard-header-content {
+    padding: 1.5rem 1.5rem 0 1.5rem;
+  }
+
+  .charts-grid {
+    gap: 1.25rem;
+  }
+}
+@media (max-width: 768px) {
+  .dashboard-wrapper {
     padding: 0 1rem;
   }
 
+  .dashboard-header {
+    padding: 0 0 1.25rem 0;
+    margin: 0 -1rem 1.5rem -1rem;
+  }
+
+  .dashboard-header-content {
+    padding: 1.25rem 1rem 0 1rem;
+  }
+
   .header-title-section {
-    gap: 1rem;
+    gap: 0.875rem;
   }
 
   .header-icon {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
   }
 
   .dashboard-title {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
+    line-height: 1.3;
   }
 
   .dashboard-subtitle {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
   }
 
   .stats-grid {
@@ -399,11 +431,13 @@ export default {
 
   .stat-card {
     padding: 1.25rem;
+    border-radius: 14px;
   }
 
   .stat-icon {
     width: 48px;
     height: 48px;
+    border-radius: 10px;
   }
 
   .stat-icon svg {
@@ -411,18 +445,136 @@ export default {
     height: 24px;
   }
 
+  .stat-label {
+    font-size: 13px;
+  }
+
   .stat-value {
-    font-size: 28px;
+    font-size: 26px;
   }
 
   .chart-tabs {
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0.375rem;
+    border-radius: 14px;
   }
 
   .tab-button {
-    padding: 10px 16px;
-    font-size: 14px;
+    padding: 0.75rem 0.625rem;
+    font-size: 0.85rem;
+    flex-direction: column;
+    gap: 0.375rem;
+    border-radius: 10px;
+  }
+
+  .tab-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .chart-container,
+  .table-container {
+    padding: 1.25rem;
+    border-radius: 14px;
+  }
+
+  .charts-grid {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-wrapper {
+    padding: 0 0.875rem;
+  }
+
+  .dashboard-header {
+    padding: 0 0 1rem 0;
+    margin: 0 -0.875rem 1.25rem -0.875rem;
+  }
+
+  .dashboard-header-content {
+    padding: 1rem 0.875rem 0 0.875rem;
+  }
+
+  .header-title-section {
+    gap: 0.625rem;
+    align-items: flex-start;
+  }
+
+  .header-icon {
+    width: 22px;
+    height: 22px;
+    margin-top: 0.125rem;
+  }
+
+  .dashboard-title {
+    font-size: 1.05rem;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+  }
+
+  .dashboard-subtitle {
+    font-size: 0.72rem;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+  }
+
+  .stats-grid {
+    gap: 0.875rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 9px;
+  }
+
+  .stat-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+  }
+
+  .stat-value {
+    font-size: 24px;
+  }
+
+  .chart-tabs {
+    padding: 0.25rem;
+    gap: 0.375rem;
+    border-radius: 12px;
+  }
+
+  .tab-button {
+    padding: 0.625rem 0.5rem;
+    gap: 0.25rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+  }
+
+  .tab-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .chart-container,
+  .table-container {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .charts-grid {
+    gap: 0.875rem;
   }
 }
 </style>

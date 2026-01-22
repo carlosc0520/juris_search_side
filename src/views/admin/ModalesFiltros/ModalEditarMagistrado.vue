@@ -19,6 +19,16 @@
                 </div>
             </div>
         </form>
+        <template #footer v-if="!loadingSubmit">
+            <div class="modal-footer modal-footer-responsive d-flex flex-wrap gap-3">
+                <button type="button" class="btn btn-primary" @click="submit">
+                    Guardar
+                </button>
+                <button type="button" class="btn btn-secondary" @click="close">
+                    Cancelar
+                </button>
+            </div>
+        </template>
     </b-modal>
 </template>
 

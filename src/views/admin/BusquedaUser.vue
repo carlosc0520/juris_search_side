@@ -1,12 +1,12 @@
 <template>
-    <div class="landing-busqueda pt-5">
+    <div class="landing-busqueda mt-3 pt-5">
 
-        <div class="img-landing-busqueda pt-5">
+        <div class="img-landing-busqueda  pb-4 pt-2">
             <img @click="onClear()" src="@/assets/img/logos/logo-full.png" alt="Logo"
                 class="cursor-pointer logo-busqueda" />
         </div>
 
-        <div class="search-container mt-3">
+        <div class="search-container mt-2">
             <div class="search-box">
                 <AutoComplete v-model="filter.GLOBAL" :suggestions="dataComplete" @complete="searchSugges"
                     optionLabel="DESCP" class="search-input"
@@ -140,23 +140,15 @@
                                     <div class="px-3 mb-3"
                                         :class="['jurisprudences-generales'].includes(isFilter) ? 'col-12' : 'd-none'">
                                         <label for="Delito" class="form-label">Delito</label>
-                                        <el-tree-select :style="{ width: '100%', maxWidth: '100%', overflow: 'hidden' }"
+                                        <el-tree-select ref="delitoTreeSelect"
+                                            :style="{ width: '100%', maxWidth: '100%', overflow: 'hidden' }"
                                             visible-options="5" v-model="filter.DELITO" :data="selects.DELITOS" multiple
                                             :render-after-expand="false" placeholder="Seleccione una opción"
-                                            show-checkbox check-strictly check-on-click-node filterable clearable
+                                            show-checkbox check-strictly filterable clearable
                                             collapse-tags :collapse-tags-tooltip="true" :max-collapse-tags="1"
-                                            @check-change="(node, checked) => {
-                                                filter.DELITO = filter.DELITO || [];
-                                                if (node.children && node.children.length > 0) {
-                                                    node.children.forEach(child => {
-                                                        if (checked) {
-                                                            filter.DELITO.push(child.value);
-                                                        } else {
-                                                            filter.DELITO = filter.DELITO.filter(item => item !== child.value);
-                                                        }
-                                                    });
-                                                }
-                                            }" no-data-text="No hay opciones disponibles" class="custom-tree-select" />
+                                            :filter-node-method="filterTreeNode"
+                                            @check-change="(data, checked) => handleCheckChange(data, checked, 'DELITO', 'delitoTreeSelect')"
+                                            no-data-text="No hay opciones disponibles" class="custom-tree-select" />
                                     </div>
 
                                     <div class="px-3 mb-3"
@@ -165,7 +157,7 @@
                                         <el-tree-select v-model="filter.RECURSO" :data="selects['TIPO DE RECURSO']"
                                             multiple :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
-                                            collapse-tags :max-collapse-tags="1"
+                                            collapse-tags :max-collapse-tags="1" :filter-node-method="filterTreeNode"
                                             no-data-text="No hay opciones disponibles" popper-append-to-body
                                             class="custom-tree-select" />
                                     </div>
@@ -173,24 +165,14 @@
                                     <div class="px-3 mb-3"
                                         :class="['jurisprudences-generales'].includes(isFilter) ? 'col-12' : 'd-none'">
                                         <label for="Organos" class="form-label">Órgano Jurisdiccional</label>
-                                        <el-tree-select v-model="filter.OJURISDICCIONAL"
+                                        <el-tree-select ref="organoTreeSelect" v-model="filter.OJURISDICCIONAL"
                                             :data="selects['ÓRGANO JURISDICCIONAL']" multiple
                                             :render-after-expand="false" placeholder="Seleccione una opción"
-                                            show-checkbox check-strictly check-on-click-node filterable clearable
-                                            collapse-tags :max-collapse-tags="1"
+                                            show-checkbox check-strictly filterable clearable
+                                            collapse-tags :max-collapse-tags="1" :filter-node-method="filterTreeNode"
+                                            @check-change="(data, checked) => handleCheckChange(data, checked, 'OJURISDICCIONAL', 'organoTreeSelect')"
                                             no-data-text="No hay opciones disponibles" popper-append-to-body
-                                            @check-change="(node, checked) => {
-                                                filter.OJURISDICCIONAL = filter.OJURISDICCIONAL || [];
-                                                if (node.children && node.children.length > 0) {
-                                                    node.children.forEach(child => {
-                                                        if (checked) {
-                                                            filter.OJURISDICCIONAL.push(child.value);
-                                                        } else {
-                                                            filter.OJURISDICCIONAL = filter.OJURISDICCIONAL.filter(item => item !== child.value);
-                                                        }
-                                                    });
-                                                }
-                                            }" class="custom-tree-select" />
+                                            class="custom-tree-select" />
                                     </div>
 
                                     <div class="px-3 mb-3"
@@ -199,7 +181,7 @@
                                         <el-tree-select v-model="filter.MAGISTRATES" :data="selects['MAGISTRATES']"
                                             multiple :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
-                                            collapse-tags :max-collapse-tags="1"
+                                            collapse-tags :max-collapse-tags="1" :filter-node-method="filterTreeNode"
                                             no-data-text="No hay opciones disponibles" popper-append-to-body
                                             class="custom-tree-select" />
                                     </div>
@@ -207,24 +189,14 @@
                                     <div class="px-3 mb-3"
                                         :class="['jurisprudences-generales'].includes(isFilter) ? 'col-12' : 'd-none'">
                                         <label for="JVINCULANTE" class="form-label">Jurisprudencia Vinculante</label>
-                                        <el-tree-select v-model="filter.JVINCULANTE"
+                                        <el-tree-select ref="jvinculanteTreeSelect" v-model="filter.JVINCULANTE"
                                             :data="selects['JURISPRUDENCIA VINCULANTE']" multiple
                                             :render-after-expand="false" placeholder="Seleccione una opción"
-                                            show-checkbox check-strictly check-on-click-node filterable clearable
-                                            collapse-tags :max-collapse-tags="1"
+                                            show-checkbox check-strictly filterable clearable
+                                            collapse-tags :max-collapse-tags="1" :filter-node-method="filterTreeNode"
+                                            @check-change="(data, checked) => handleCheckChange(data, checked, 'JVINCULANTE', 'jvinculanteTreeSelect')"
                                             no-data-text="No hay opciones disponibles" popper-append-to-body
-                                            @check-change="(node, checked) => {
-                                                filter.JVINCULANTE = filter.JVINCULANTE || [];
-                                                if (node.children && node.children.length > 0) {
-                                                    node.children.forEach(child => {
-                                                        if (checked) {
-                                                            filter.JVINCULANTE.push(child.value);
-                                                        } else {
-                                                            filter.JVINCULANTE = filter.JVINCULANTE.filter(item => item !== child.value);
-                                                        }
-                                                    });
-                                                }
-                                            }" class="custom-tree-select" />
+                                            class="custom-tree-select" />
                                     </div>
 
                                     <div class="px-3 mb-3"
@@ -239,7 +211,7 @@
                                             <div class="d-inline-block position-relative">
                                                 <img src="@/assets/img/icons/interrogation.svg" alt="Switch"
                                                     class="cursor-pointer info-icon" v-b-tooltip.hover
-                                                    title="Genera alarma social por su alta significancia criminal." />
+                                                    title="Casos que generan alarma social por su alta significancia criminal." />
                                             </div>
                                         </div>
                                     </div>
@@ -266,7 +238,7 @@
                                         <el-tree-select v-model="filter.MATERIA" :data="selects['MATERIA']" multiple
                                             :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
-                                            collapse-tags :max-collapse-tags="1"
+                                            collapse-tags :max-collapse-tags="1" :filter-node-method="filterTreeNode"
                                             no-data-text="No hay opciones disponibles" popper-append-to-body
                                             class="custom-tree-select" />
                                     </div>
@@ -277,7 +249,7 @@
                                         <el-tree-select v-model="filter.JURISDICCION" :data="selects['JURISDICCIÓN']"
                                             multiple :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
-                                            collapse-tags :max-collapse-tags="1"
+                                            collapse-tags :max-collapse-tags="1" :filter-node-method="filterTreeNode"
                                             no-data-text="No hay opciones disponibles" popper-append-to-body
                                             class="custom-tree-select" />
                                     </div>
@@ -288,7 +260,7 @@
                                         <el-tree-select v-model="filter.TPONRMA" :data="selects['TIPO DE NORMA']"
                                             multiple :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
-                                            collapse-tags :max-collapse-tags="1"
+                                            collapse-tags :max-collapse-tags="1" :filter-node-method="filterTreeNode"
                                             no-data-text="No hay opciones disponibles" popper-append-to-body
                                             class="custom-tree-select" />
                                     </div>
@@ -299,7 +271,7 @@
                                         <el-tree-select v-model="filter.OEMISOR" :data="selects['ÓRGANO EMISOR']"
                                             multiple :render-after-expand="false" placeholder="Seleccione una opción"
                                             show-checkbox check-strictly check-on-click-node filterable clearable
-                                            collapse-tags :max-collapse-tags="1"
+                                            collapse-tags :max-collapse-tags="1" :filter-node-method="filterTreeNode"
                                             no-data-text="No hay opciones disponibles" popper-append-to-body
                                             class="custom-tree-select" />
                                     </div>
@@ -328,11 +300,9 @@
                 :autoplay="false" :settings="{ navigationEnabled: true }">
                 <Slide class="p-2 mb-5" v-for="(valor, index) in topSearch" :key="valor.DESCP + '-' + index">
 
-                    <div class="top-search-chip d-flex" @click="filter.GLOBAL = valor.DESCP; search()">
-                        <button
-                            @click.stop="clearTopSearch(index, valor.DESCP)"
-                            class="btn-clear-item">
-                           X
+                    <div class="top-search-chip d-flex" @click="executionsSearch(valor)">
+                        <button @click.stop="clearTopSearch(index, valor.DESCP)" class="btn-clear-item">
+                            X
                         </button>
                         <div class="d-flex align-items-center gap-2" v-tooltip.bottom="{
                             value: valor.DESCP,
@@ -367,13 +337,24 @@
             </div>
             <div v-for="(item, index) in resultados" :key="index" class="result-item">
                 <!-- Título con flecha -->
-                <div class="result-title" @click="openModalWithData(item)">
-                    <span>{{ item.TITULO }}</span>
+                <div class="result-title" @click="openModalWithData(item, index)">
+                    <span v-html="highlightText(item.TITULO)"></span>
+                    <div class="copy-btn-container">
+                        <button @click.stop="copyToClipboard(item.TITULO, index)" class="copy-btn" title="Copiar título">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                        <transition name="fade-scale">
+                            <span v-if="showCopyMessage === index" class="copy-message">Texto copiado</span>
+                        </transition>
+                    </div>
                 </div>
 
                 <div v-if="item.TYPE == 'jurisprudences'" class="row">
                     <!-- Pretensión / Delito -->
-                    <p class="result-info px-2 py-1 px-2 py-1 col-12 col-md-4">
+                    <p class="result-info px-2 py-1 col-12 col-md-4">
                         <strong>Pretensión / Delito:</strong><br>{{item.DELITO?.length > 0 ? item.DELITO?.map(o =>
                             o.DESCP).join(', ') : '-'}}
                     </p>
@@ -399,14 +380,14 @@
                         <strong>Palabras Clave:</strong> <br>{{item.KEYWORDS?.split(',').map(p => p.trim()).join(', ')}}
                     </p>
                     <p class="result-info px-2 py-1 col-12 col-md-12">
-                        <strong>Síntesis:</strong> <br>{{ item.SHORTSUMMARY3 }}
+                        <strong>Síntesis:</strong> <br><span v-html="highlightText(item.SHORTSUMMARY3)"></span>
                     </p>
 
                 </div>
 
                 <div v-if="item.TYPE == 'legislations'" class="row">
                     <!-- Pretensión / Delito -->
-                    <p class="result-info px-2 py-1 px-2 py-1 col-12 col-md-3">
+                    <p class="result-info px-2 py-1 col-12 col-md-3">
                         <strong>Numeración:</strong><br>{{ item.NMRCN }}
                     </p>
                     <p class="result-info px-2 py-1 col-12 col-md-3">
@@ -441,13 +422,15 @@
             </p>
         </div>
 
-        <div v-if="resultados.length === 0 && !isLoading" class="no-results">
+        <div v-if="resultados.length === 0 && !isLoading && !hasSearched" class="no-results">
             <div class="no-results-icon">
                 <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="60" cy="60" r="58" stroke="url(#gradient1)" stroke-width="3" fill="none" opacity="0.2"/>
-                    <path d="M50 45C50 39.4772 54.4772 35 60 35C65.5228 35 70 39.4772 70 45" stroke="url(#gradient1)" stroke-width="3" stroke-linecap="round"/>
-                    <circle cx="60" cy="60" r="20" stroke="url(#gradient1)" stroke-width="3" fill="none"/>
-                    <path d="M75 75L85 85" stroke="url(#gradient1)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="60" cy="60" r="58" stroke="url(#gradient1)" stroke-width="3" fill="none"
+                        opacity="0.2" />
+                    <path d="M50 45C50 39.4772 54.4772 35 60 35C65.5228 35 70 39.4772 70 45" stroke="url(#gradient1)"
+                        stroke-width="3" stroke-linecap="round" />
+                    <circle cx="60" cy="60" r="20" stroke="url(#gradient1)" stroke-width="3" fill="none" />
+                    <path d="M75 75L85 85" stroke="url(#gradient1)" stroke-width="3" stroke-linecap="round" />
                     <defs>
                         <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" style="stop-color:#DF2DB2;stop-opacity:1" />
@@ -462,40 +445,50 @@
                 Utiliza el buscador y los filtros para encontrar<br>
                 jurisprudencias y legislaciones de tu interés
             </p>
-            <div class="no-results-tips">
-                <div class="tip-item">
-                    <span class="tip-icon">🔍</span>
-                    <span class="tip-text">Escribe palabras clave</span>
-                </div>
-                <div class="tip-item">
-                    <span class="tip-icon">⚙️</span>
-                    <span class="tip-text">Aplica filtros específicos</span>
-                </div>
-                <div class="tip-item">
-                    <span class="tip-icon">📅</span>
-                    <span class="tip-text">Filtra por fechas</span>
-                </div>
-            </div>
         </div>
 
-        <div class="floating-delitos">
-            <div class="fixed bottom-0 start-50 translate-middle-x z-1050 mb-3 text-center"
-                :class="{ 'card-visible': showCard }">
-                <button class="py-2 px-3 btn dropdown-toggle dropdown-button" type="button" @click="toggleCard">
-                    Sobre los filtros
-                </button>
-                <transition name="fade-slide">
-                    <div v-if="showCard" class="card-items">
-                        <div class="p-2 card-body" v-for="(item, index) in items" :key="index">
-                            <div class="card-title">
-                                <img src="@/assets/img/icons/questions.svg" alt="Info" class="info-icon" />
-                                <h5>{{ item.title }}</h5>
-                            </div>
-                            <p class="card-text">{{ item.description }}</p>
-                        </div>
-                    </div>
-                </transition>
+        <div v-if="resultados.length === 0 && !isLoading && hasSearched" class="no-results">
+            <div class="no-results-icon">
+                <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="40" cy="40" r="38" stroke="url(#gradient2)" stroke-width="2.5" fill="none" opacity="0.3" />
+                    <circle cx="40" cy="35" r="15" stroke="url(#gradient2)" stroke-width="2.5" fill="none" />
+                    <path d="M51 46L60 55" stroke="url(#gradient2)" stroke-width="2.5" stroke-linecap="round" />
+                    <line x1="34" y1="35" x2="46" y2="35" stroke="url(#gradient2)" stroke-width="2.5" stroke-linecap="round" />
+                    <defs>
+                        <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#EF4444;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#F59E0B;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#EAB308;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                </svg>
             </div>
+            <h3 class="no-results-title">No se encontraron resultados</h3>
+            <p class="no-results-description">
+                Intenta ajustar los filtros o buscar con otros términos
+            </p>
+        </div>
+
+        <div class="help-info-container" v-show="showHelpButton">
+            <button class="help-icon-btn" type="button" @click="toggleCard" :title="showCard ? 'Cerrar ayuda' : 'Ver ayuda'">
+                <svg v-if="!showCard" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+            <transition name="fade-slide-down">
+                <div v-if="showCard" class="help-info-card">
+                    <div class="p-2 card-body" v-for="(item, index) in items" :key="index">
+                        <div class="card-title">
+                            <img src="@/assets/img/icons/questions.svg" alt="Info" class="info-icon" />
+                            <h5>{{ item.title }}</h5>
+                        </div>
+                        <p class="card-text">{{ item.description }}</p>
+                    </div>
+                </div>
+            </transition>
         </div>
 
         <transition name="fade">
@@ -511,18 +504,23 @@
             </div>
         </transition>
 
-        <ModalMostrarResolucion :openModal="openModal" :toggleModal="() => this.openModal = !this.openModal"
-            :pdfUrl="pdfUrl" :data="rowData" :role="role" />
+        <ModalMostrarResolucion 
+            :openModal="openModal" 
+            :toggleModal="() => this.openModal = !this.openModal"
+            :pdfUrl="pdfUrl" 
+            :data="rowData" 
+            :role="role"
+            :currentIndex="currentResultIndex"
+            :totalResults="resultados.length"
+            :showNavigation="true"
+            @navigate="navigateResults" />
 
         <!-- Botón scroll to top -->
         <transition name="fade-scale">
-            <button 
-                v-if="showScrollTop" 
-                @click="scrollToTop" 
-                class="scroll-to-top-btn"
-                aria-label="Ir arriba">
+            <button v-if="showScrollTop" @click="scrollToTop" class="scroll-to-top-btn" aria-label="Ir arriba">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </button>
         </transition>
@@ -575,8 +573,8 @@ export default {
             },
             opcionesFiltro: [
                 { valor: 1, texto: 'Contenga solamente estas palabras', resena: 'Busca resoluciones que incluyan exclusivamente las palabras ingresadas.' },
-                { valor: 2, texto: 'Contenga alguna de estas palabras', resena: 'Busca resoluciones que incluyan exactamente la frase ingresada, manteniendo el mismo orden y las mismas palabras.' },
-                { valor: 3, texto: 'Contenga la frase completa', resena: 'Busca resoluciones que incluyan al menos una de las palabras ingresadas.' }
+                { valor: 2, texto: 'Contenga alguna de estas palabras', resena: 'Busca resoluciones que incluyan al menos una de las palabras ingresadas.' },
+                { valor: 3, texto: 'Contenga la frase completa', resena: 'Busca resoluciones que incluyan exactamente la frase ingresada, manteniendo el mismo orden y las mismas palabras.' }
             ],
             modoBusqueda: 3,
             topSearch: [],
@@ -587,6 +585,7 @@ export default {
             isCollapsed: true,
             isCollapsed2: true,
             showFilters: false,
+            hasSearched: false,
             resultados: [],
             table: {
                 currentPage: 1,
@@ -654,13 +653,16 @@ export default {
                 "ÓRGANO EMISOR": [],
             },
             showCard: false,
+            showHelpButton: true,
             items: [],
             Search,
             pdfUrl: '',
             openModal: false,
             dataComplete: [],
             rowData: {},
-            showScrollTop: false
+            showScrollTop: false,
+            showCopyMessage: null,
+            currentResultIndex: 0
         };
     },
     components: {
@@ -692,10 +694,141 @@ export default {
             });
         },
         handleScroll() {
-            this.showScrollTop = window.scrollY > 300;
+            const scrollPosition = window.scrollY;
+            this.showScrollTop = scrollPosition > 300;
+            // Ocultar botón de ayuda cuando el usuario baja más de 200px
+            this.showHelpButton = scrollPosition < 200;
+            // Cerrar la tarjeta si está abierta y se hace scroll
+            if (scrollPosition > 200 && this.showCard) {
+                this.showCard = false;
+            }
         },
         toggleCard() {
             this.showCard = !this.showCard;
+        },
+        handleCheckChange(data, checked, filterKey, refName) {
+            this.$nextTick(() => {
+                // Obtener los datos fuente según el filterKey
+                let sourceData;
+                if (filterKey === 'DELITO') {
+                    sourceData = this.selects.DELITOS;
+                } else if (filterKey === 'OJURISDICCIONAL') {
+                    sourceData = this.selects['ÓRGANO JURISDICCIONAL'];
+                } else if (filterKey === 'JVINCULANTE') {
+                    sourceData = this.selects['JURISPRUDENCIA VINCULANTE'];
+                }
+                
+                if (!sourceData) return;
+                
+                // Obtener el texto del filtro actual
+                const treeSelectRef = this.$refs[refName];
+                const filterText = treeSelectRef?.filterText || '';
+                
+                // Buscar el nodo en los datos
+                const findNode = (nodes, value) => {
+                    for (let node of nodes) {
+                        if (node.value === value) return node;
+                        if (node.children && node.children.length > 0) {
+                            const found = findNode(node.children, value);
+                            if (found) return found;
+                        }
+                    }
+                    return null;
+                };
+                
+                const parentNode = findNode(sourceData, data.value);
+                if (!parentNode || !parentNode.children || parentNode.children.length === 0) return;
+                
+                // Recopilar todos los hijos que pasan el filtro
+                const collectFilteredChildren = (node, parentNodeObj = null) => {
+                    const values = [];
+                    if (node.children && node.children.length > 0) {
+                        node.children.forEach(child => {
+                            // Crear un objeto node simulado para filterTreeNode
+                            const fakeNode = {
+                                data: child,
+                                parent: parentNodeObj
+                            };
+                            
+                            // Verificar si el hijo pasa el filtro
+                            const passesFilter = this.filterTreeNode(filterText, child, fakeNode);
+                            
+                            if (passesFilter) {
+                                values.push(child.value);
+                                // Recursivamente agregar descendientes que pasen el filtro
+                                values.push(...collectFilteredChildren(child, fakeNode));
+                            }
+                        });
+                    }
+                    return values;
+                };
+                
+                const childrenValues = collectFilteredChildren(parentNode);
+                
+                if (childrenValues.length > 0) {
+                    const currentValues = [...this.filter[filterKey]];
+                    
+                    if (checked) {
+                        // Agregar hijos filtrados cuando se selecciona el padre
+                        this.filter[filterKey] = [...new Set([...currentValues, ...childrenValues])];
+                    } else {
+                        // Remover todos los descendientes cuando se deselecciona el padre
+                        const allDescendants = [];
+                        const getAllDescendants = (node) => {
+                            if (node.children && node.children.length > 0) {
+                                node.children.forEach(child => {
+                                    allDescendants.push(child.value);
+                                    getAllDescendants(child);
+                                });
+                            }
+                        };
+                        getAllDescendants(parentNode);
+                        this.filter[filterKey] = currentValues.filter(v => !allDescendants.includes(v));
+                    }
+                }
+            });
+        },
+        filterTreeNode(value, data, node) {
+            if (!value) return true;
+
+            // Función recursiva para verificar si algún ancestro coincide
+            const hasMatchingAncestor = (currentNode) => {
+                if (!currentNode || !currentNode.parent) return false;
+                const parentData = currentNode.parent.data;
+                if (parentData && parentData.label && parentData.label.toLowerCase().includes(value.toLowerCase())) {
+                    return true;
+                }
+                return hasMatchingAncestor(currentNode.parent);
+            };
+
+            // Función recursiva para verificar si algún descendiente coincide
+            const hasMatchingDescendant = (nodeData) => {
+                if (!nodeData) return false;
+                if (nodeData.label && nodeData.label.toLowerCase().includes(value.toLowerCase())) {
+                    return true;
+                }
+                if (nodeData.children && nodeData.children.length > 0) {
+                    return nodeData.children.some(child => hasMatchingDescendant(child));
+                }
+                return false;
+            };
+
+            // Si el nodo actual coincide, mostrar
+            if (data.label && data.label.toLowerCase().includes(value.toLowerCase())) {
+                return true;
+            }
+
+            // Si algún ancestro coincide, mostrar este nodo (es hijo de un nodo encontrado)
+            if (hasMatchingAncestor(node)) {
+                return true;
+            }
+
+            // Si algún descendiente coincide, mostrar este nodo (es padre de un nodo encontrado)
+            if (hasMatchingDescendant(data)) {
+                return true;
+            }
+
+            return false;
         },
         formateReverse(date) {
             try {
@@ -707,9 +840,18 @@ export default {
                 return null;
             }
         },
-        openModalWithData(item) {
+        openModalWithData(item, index) {
             this.rowData = item;
+            this.currentResultIndex = index;
             this.openModal = true;
+        },
+        navigateResults(direction) {
+            if (direction === 'next' && this.currentResultIndex < this.resultados.length - 1) {
+                this.currentResultIndex++;
+            } else if (direction === 'prev' && this.currentResultIndex > 0) {
+                this.currentResultIndex--;
+            }
+            this.rowData = this.resultados[this.currentResultIndex];
         },
         searchSugges() {
             if (this.filter.GLOBAL?.length < 5) return;
@@ -748,7 +890,7 @@ export default {
             this.topSearch.splice(copyDelete.index, 1);
             await AdminEntriesProxy.clearTopSearch(descripcion, this.typeSaarch)
                 .then((res) => {
-                    if(res.STATUS){
+                    if (res.STATUS) {
                         toast.success("Búsqueda eliminada de las más frecuentes", { toastId: "success" });
                         return
                     }
@@ -764,20 +906,19 @@ export default {
         async listTopSearch() {
             await AdminEntriesProxy.listTopSearch(this.typeSaarch)
                 .then((response) => {
-                    console.log("Top search response:", response);
                     this.topSearch = [];
                     if (!response) {
                         return;
                     }
 
                     this.topSearch = response?.map((item) => {
-                        return { DESCP: item?.DESCP.trim() }
+                        return { DESCP: item?.DESCP.trim(), MODO: item?.MODO }
                     });
 
                     // campos unicos 
                     this.topSearch = this.topSearch.filter((item, index, self) =>
                         index === self.findIndex((t) => (
-                            t.DESCP === item.DESCP
+                            t.DESCP === item.DESCP && t.MODO === item.MODO
                         ))
                     );
                 })
@@ -786,7 +927,9 @@ export default {
                 });
         },
         async search(ffff = {}) {
+            this.hasSearched = true;
             this.isCollapsed = true;
+            this.isCollapsed2 = true;
             this.showFilters = true;
             let filtro = { ...this.filter, ...ffff };
 
@@ -930,6 +1073,52 @@ export default {
                 description: item.DESCPINF,
             }));
         },
+        highlightText(text) {
+            if (!text || !this.filter.GLOBAL) return text;
+            
+            // Obtener el texto de búsqueda
+            const searchText = typeof this.filter.GLOBAL === 'object' ? this.filter.GLOBAL.DESCP : this.filter.GLOBAL;
+            if (!searchText || searchText.trim() === '') return text;
+            
+            // Limpiar el texto de búsqueda y dividirlo en palabras
+            const searchWords = searchText.trim().split(/\s+/);
+            
+            // Crear una expresión regular que busque cualquiera de las palabras
+            // Escape caracteres especiales de regex
+            const escapedWords = searchWords.map(word => 
+                word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+            );
+            
+            // Dependiendo del modo de búsqueda
+            let regex;
+            if (this.modoBusqueda === 1) {
+                // Modo 1: Contenga solamente estas palabras (todas las palabras)
+                // Resaltar cada palabra individualmente
+                regex = new RegExp(`(${escapedWords.join('|')})`, 'gi');
+            } else if (this.modoBusqueda === 2) {
+                // Modo 2: Contenga alguna de estas palabras
+                regex = new RegExp(`(${escapedWords.join('|')})`, 'gi');
+            } else if (this.modoBusqueda === 3) {
+                // Modo 3: Contenga la frase completa
+                const escapedPhrase = searchText.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                regex = new RegExp(`(${escapedPhrase})`, 'gi');
+            }
+            
+            // Reemplazar las coincidencias con el texto resaltado
+            return text.replace(regex, '<mark class="highlight-text">$1</mark>');
+        },
+        copyToClipboard(text, index) {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    this.showCopyMessage = index;
+                    setTimeout(() => {
+                        this.showCopyMessage = null;
+                    }, 1500);
+                })
+                .catch(() => {
+                    // Silencioso en caso de error
+                });
+        },
         onClear(indicador = 0) {
             this.filter.GLOBAL = null;
             this.filter.FRESOLUTION1 = null;
@@ -966,16 +1155,19 @@ export default {
                 return;
             }
             this.handleSearch(1);
-        }
+        },
+        executionsSearch (searchQuestions) {
+            this.modoBusqueda = (searchQuestions.MODO && !isNaN(parseInt(searchQuestions.MODO))) ? 
+            parseInt(searchQuestions.MODO) : this.modoBusqueda; 
+            this.filter.GLOBAL = searchQuestions.DESCP; 
+            this.search()  
+        },
 
 
     },
     watch: {
         "role": {
-            immediate: true,
-            handler(val) {
-                console.log("role", val);
-            }
+            immediate: true
         },
         "filter.TYPE": {
             handler() {
@@ -1007,6 +1199,7 @@ export default {
         this.listTopSearch();
         this.filtersAll();
         window.addEventListener('scroll', this.handleScroll);
+        this.handleScroll(); // Check initial position
     },
     beforeUnmount() {
         window.removeEventListener('scroll', this.handleScroll);
@@ -1014,19 +1207,159 @@ export default {
 };
 </script>
 
+<!-- Estilos globales NO SCOPED para el dropdown -->
+<style>
+/* Estilos modernos para tooltips - GLOBAL */
+.p-tooltip {
+    background: linear-gradient(135deg, #4A5568 0%, #2D3748 100%) !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    font-family: 'Lato', sans-serif !important;
+    font-weight: 500 !important;
+    max-width: 300px !important;
+    word-wrap: break-word !important;
+    z-index: 10000 !important;
+}
+
+.p-tooltip .p-tooltip-text {
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+.p-tooltip .p-tooltip-arrow {
+    border-top-color: #4A5568 !important;
+}
+
+.p-tooltip.p-tooltip-bottom .p-tooltip-arrow {
+    border-bottom-color: #4A5568 !important;
+    border-top-color: transparent !important;
+}
+
+.p-tooltip.p-tooltip-left .p-tooltip-arrow {
+    border-left-color: #4A5568 !important;
+    border-top-color: transparent !important;
+}
+
+.p-tooltip.p-tooltip-right .p-tooltip-arrow {
+    border-right-color: #4A5568 !important;
+    border-top-color: transparent !important;
+}
+
+/* Tooltip personalizado con clase tooltip-rojo */
+.p-tooltip.tooltip-rojo {
+    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 100%) !important;
+    box-shadow: 0 8px 24px rgba(223, 45, 178, 0.35), 0 2px 8px rgba(139, 92, 246, 0.25) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.p-tooltip.tooltip-rojo .p-tooltip-arrow {
+    border-top-color: #DF2DB2 !important;
+}
+
+.p-tooltip.tooltip-rojo.p-tooltip-bottom .p-tooltip-arrow {
+    border-bottom-color: #DF2DB2 !important;
+    border-top-color: transparent !important;
+}
+
+.p-tooltip.tooltip-rojo.p-tooltip-left .p-tooltip-arrow {
+    border-left-color: #DF2DB2 !important;
+    border-top-color: transparent !important;
+}
+
+.p-tooltip.tooltip-rojo.p-tooltip-right .p-tooltip-arrow {
+    border-right-color: #DF2DB2 !important;
+    border-top-color: transparent !important;
+}
+
+/* Estilos globales para dropdowns de Element Plus en móvil (NO SCOPED) */
+@media (max-width: 768px) {
+    .el-select-dropdown.el-popper {
+        max-width: 90vw !important;
+        width: 90vw !important;
+        left: 5vw !important;
+        right: 5vw !important;
+        box-sizing: border-box !important;
+    }
+
+    .el-select-dropdown__wrap {
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    .el-tree {
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    .el-tree-node {
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    .el-tree-node__content {
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        padding: 8px 6px !important;
+        display: flex !important;
+        align-items: center !important;
+        box-sizing: border-box !important;
+    }
+
+    .el-tree-node__label {
+        max-width: calc(90vw - 80px) !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        font-size: 13px !important;
+    }
+
+    .el-checkbox__label {
+        max-width: calc(90vw - 80px) !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        font-size: 13px !important;
+    }
+
+    .el-tree-node__expand-icon {
+        flex-shrink: 0 !important;
+        width: 18px !important;
+        margin-right: 4px !important;
+    }
+
+    .el-checkbox {
+        flex-shrink: 0 !important;
+        margin-right: 6px !important;
+    }
+
+    .el-tree-node__children .el-tree-node__content {
+        padding-left: 20px !important;
+    }
+}
+</style>
 
 <style scoped>
+@media (max-width: 768px) {
+    body, html {
+        overflow-x: hidden !important;
+        max-width: 100vw !important;
+    }
+}
+
 .z-1050 {
     z-index: 1050;
-}
-
-.floating-delitos {
-    position: relative;
-    z-index: 1050;
-}
-
-.floating-delitos .fixed {
-    backdrop-filter: blur(8px);
 }
 
 /* CSS global o en <style scoped> */
@@ -1041,102 +1374,173 @@ export default {
     top: 100% !important;
 }
 
+/* Help Icon Container */
+.help-info-container {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 1050;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
 
-.dropdown-button {
-    font-family: 'Lato', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    background: white;
-    color: #DF2DB2;
-    border-radius: 16px 16px 0px 0px;
-    border: 2px solid #DF2DB2;
-    border-bottom: none;
-    padding: 12px 24px;
+.help-info-container[style*="display: none"] {
+    opacity: 0;
+    transform: translateY(-50%) translateX(20px);
+}
+
+.help-icon-btn {
+    width: 28px;
+    height: 50px;
+    border-radius: 6px 0 0 6px;
+    background: #F3F4F6;
+    border: 1px solid #D1D5DB;
+    border-right: none;
+    color: #6B7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 -4px 12px rgba(223, 45, 178, 0.15);
-    backdrop-filter: blur(10px);
+    box-shadow: -2px 0 6px rgba(0, 0, 0, 0.08);
+    padding: 4px;
 }
 
-.dropdown-button:hover {
-    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 100%);
-    color: white;
-    box-shadow: 0 -6px 16px rgba(223, 45, 178, 0.25);
+.help-icon-btn:hover {
+    background: #E5E7EB;
+    color: #4B5563;
+    box-shadow: -3px 0 8px rgba(0, 0, 0, 0.12);
 }
 
-.card-items {
+.help-icon-btn:active {
+    transform: scale(0.95);
+}
+
+.help-icon-btn svg {
+    transition: all 0.3s ease;
+    width: 16px;
+    height: 16px;
+}
+
+@media (max-width: 768px) {
+    .help-info-container {
+        top: 50%;
+        right: 0;
+    }
+
+    .help-icon-btn {
+        width: 24px;
+        height: 40px;
+    }
+    
+    .help-icon-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+.help-info-card {
     font-family: 'Lato', sans-serif;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-radius: 16px;
-    padding: 20px;
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: 12px 0 0 12px;
+    padding: 14px;
+    gap: 10px;
     background: rgba(255, 255, 255, 0.98);
-    border: 2px solid #DF2DB2;
-    border-top: none;
-    box-shadow: 0 8px 32px rgba(223, 45, 178, 0.2);
+    border: 1px solid #D1D5DB;
+    border-right: none;
+    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.08);
     backdrop-filter: blur(12px);
-    position: relative;
+    min-width: 480px;
+    max-width: 580px;
 }
 
-.card-items::before {
+.help-info-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(223, 45, 178, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%);
-    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(243, 244, 246, 0.3) 0%, rgba(249, 250, 251, 0.3) 100%);
+    border-radius: 12px 0 0 12px;
     pointer-events: none;
 }
 
 @media (max-width: 768px) {
-    .card-items {
-        grid-template-columns: repeat(2, 1fr);
-        width: max-content;
-        margin: 0px 10px;
+    .help-info-card {
+        grid-template-columns: 1fr;
+        min-width: 240px;
+        max-width: calc(100vw - 50px);
+        padding: 10px;
+        gap: 8px;
+    }
+    
+    .help-info-card .card-body {
+        padding: 10px;
+    }
+    
+    .help-info-card .card-body h5 {
+        font-size: 11px !important;
+    }
+    
+    .help-info-card .card-body p {
+        font-size: 10px !important;
     }
 }
 
-.card-items .card-body {
-    padding: 16px;
+.help-info-card .card-body {
+    padding: 12px;
     margin: 0px;
-    border-radius: 16px;
+    border-radius: 10px;
     background: white !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     transition: all 0.3s ease;
-    border: 2px solid transparent;
+    border: 1px solid #E5E7EB;
     position: relative;
     z-index: 1;
 }
 
-.card-items .card-body:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(223, 45, 178, 0.15);
-    border-color: #DF2DB2;
+.help-info-card .card-body:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: #D1D5DB;
 }
 
-.card-items .card-body .card-title {
+.help-info-card .card-body .card-title {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 14px !important;
-    font-weight: 700;
-    color: #DF2DB2;
-}
-
-.card-items .card-body h5 {
-    color: #2D3748;
-    text-align: left;
-    font-size: 13px !important;
-    font-weight: 600;
-}
-
-.card-items .card-body p {
-    color: #4A5568;
+    gap: 6px;
     font-size: 12px !important;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 4px;
+}
+
+.help-info-card .card-body .info-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.help-info-card .card-body h5 {
+    color: #374151;
+    text-align: left;
+    font-size: 12px !important;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.help-info-card .card-body p {
+    color: #6B7280;
+    font-size: 11px !important;
     text-align: justify;
-    line-height: 1.6;
+    line-height: 1.5;
+    margin: 0;
 }
 
 /* Transición suave del card */
@@ -1161,6 +1565,91 @@ export default {
     margin-left: 0rem !important;
 }
 
+/* Eliminar outline de focus en inputs, selects y date pickers */
+input,
+input:focus,
+input:hover,
+input:active,
+textarea,
+textarea:focus,
+textarea:hover,
+textarea:active,
+select,
+select:focus,
+select:hover,
+select:active,
+.form-control,
+.form-control:focus,
+.form-control:hover,
+.form-control:active,
+.el-input__inner,
+.el-input__inner:focus,
+.el-input__inner:hover,
+.el-input__inner:active,
+.el-select,
+.el-select:focus,
+.el-select:hover,
+.el-select:active,
+.el-tree-select,
+.el-tree-select:focus,
+.el-tree-select:hover,
+.el-tree-select:active,
+::v-deep(.el-input__inner),
+::v-deep(.el-input__inner:focus),
+::v-deep(.el-input__inner:hover),
+::v-deep(.el-input__inner:active),
+::v-deep(.el-select__wrapper),
+::v-deep(.el-select__wrapper:focus),
+::v-deep(.el-select__wrapper:hover),
+::v-deep(.el-select__wrapper:active),
+::v-deep(.mx-input),
+::v-deep(.mx-input:focus),
+::v-deep(.mx-input:hover),
+::v-deep(.mx-input:active),
+::v-deep(.p-autocomplete-input),
+::v-deep(.p-autocomplete-input:focus),
+::v-deep(.p-autocomplete-input:hover),
+::v-deep(.p-autocomplete-input:active) {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: #E2E8F0 !important;
+}
+
+/* Eliminar outline de Element Plus tree-select en todos los estados */
+::v-deep(.el-select__wrapper),
+::v-deep(.el-select__wrapper.is-focused),
+::v-deep(.el-select__wrapper:hover),
+::v-deep(.el-select__wrapper:active),
+::v-deep(.el-input.is-focus .el-input__wrapper),
+::v-deep(.el-input.is-hovering .el-input__wrapper),
+::v-deep(.el-input__wrapper),
+::v-deep(.el-input__wrapper:focus),
+::v-deep(.el-input__wrapper:hover),
+::v-deep(.el-input__wrapper:active),
+::v-deep(.el-input__wrapper.is-focus),
+::v-deep(.el-input__wrapper.is-hovering) {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: #E2E8F0 !important;
+}
+
+/* Eliminar outline de b-form-tags (palabras clave) */
+::v-deep(.b-form-tags),
+::v-deep(.b-form-tags:focus),
+::v-deep(.b-form-tags:hover),
+::v-deep(.b-form-tags:active),
+::v-deep(.b-form-tags.focus),
+::v-deep(.b-form-tags .form-control),
+::v-deep(.b-form-tags .form-control:focus),
+::v-deep(.b-form-tags .form-control:hover),
+::v-deep(.b-form-tags input),
+::v-deep(.b-form-tags input:focus),
+::v-deep(.b-form-tags input:hover) {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: #E2E8F0 !important;
+}
+
 .landing-busqueda {
     background-image: url("../../assets/img/backgrounds/bg-busqueda.png");
     background-size: cover;
@@ -1182,8 +1671,8 @@ export default {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 80px;
-    margin-top: 20px;
+    height: 60px;
+    margin-top: 10px;
     z-index: 1;
     transition: transform 0.3s ease;
 }
@@ -1210,13 +1699,21 @@ export default {
 /* Contenedor principal */
 .search-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    gap: 12px;
     width: 90%;
-    max-width: 1000px;
+    max-width: 1200px;
     position: relative;
     overflow: visible !important;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 991px) {
+    .search-container {
+        flex-direction: column;
+        gap: 16px;
+    }
 }
 
 /* Contenedor del input */
@@ -1232,10 +1729,7 @@ export default {
     border: 2px solid transparent;
 }
 
-.search-box:focus-within {
-    box-shadow: 0 12px 40px rgba(223, 45, 178, 0.25);
-    border-color: #DF2DB2;
-}
+
 
 /* Estilos del input */
 .search-input {
@@ -1278,9 +1772,15 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    width: 100%;
-    margin-top: 16px;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 991px) {
+    .search-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
 }
 
 @media (max-width: 600px) {
@@ -1321,14 +1821,9 @@ export default {
 }
 
 .btn-filter:hover {
-    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-    border-color: transparent;
     transform: scale(1.1);
 }
 
-.btn-filter:hover img {
-    filter: brightness(0) invert(1);
-}
 
 .btn-filter img {
     width: 20px;
@@ -1341,15 +1836,17 @@ export default {
     background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
     color: white;
     border: none;
-    padding: 14px 40px;
+    padding: 12px 32px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 600;
     transition: all 0.3s ease;
     border-radius: 50px;
     box-shadow: 0 4px 20px rgba(223, 45, 178, 0.3);
     font-family: 'Lato', sans-serif;
     letter-spacing: 0.5px;
+    white-space: nowrap;
+    height: 48px;
 }
 
 .btn-search:hover {
@@ -1365,14 +1862,16 @@ export default {
     background: white !important;
     color: #EF4444 !important;
     border: 2px solid #EF4444 !important;
-    padding: 14px 40px;
+    padding: 12px 32px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 600;
     transition: all 0.3s ease;
     border-radius: 50px;
     font-family: 'Lato', sans-serif;
     letter-spacing: 0.5px;
+    white-space: nowrap;
+    height: 48px;
 }
 
 .btn-clear-button:hover {
@@ -1385,47 +1884,103 @@ export default {
 .search-results {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     width: 90%;
     max-width: 1200px;
-    margin: 1rem auto;
+    margin: 0.5rem auto;
 }
 
 .result-item {
     background: white;
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    padding: 16px 20px;
+    padding: 12px 16px;
     transition: all 0.3s ease;
     border: 2px solid transparent;
-}
-
-.result-item:hover {
-    box-shadow: 0 8px 30px rgba(223, 45, 178, 0.15);
-    transform: translateY(-4px);
-    border-color: #DF2DB2;
 }
 
 /* Título */
 .result-title {
     display: flex;
     font-family: 'Lato', sans-serif;
-    justify-content: start;
+    justify-content: space-between;
     gap: 8px;
     align-items: center;
     font-size: 15px;
     font-weight: 700;
-    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #3B82F6;
     cursor: pointer;
     margin-bottom: 10px;
     transition: all 0.3s ease;
 }
 
 .result-title:hover {
-    transform: translateX(4px);
+    color: #2563EB;
+}
+
+.copy-btn-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.copy-btn {
+    background: #9CA3AF;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 1;
+}
+
+.copy-btn:hover {
+    background: #6B7280;
+    transform: scale(1.1) !important;
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+.copy-btn:active {
+    transform: scale(0.95) !important;
+}
+
+.copy-btn svg {
+    color: white;
+    display: block;
+}
+
+.copy-message {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    padding: 4px 8px;
+    background: #c7cdda;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 6px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3);
+    z-index: 10;
+}
+
+.fade-scale-enter-active,
+.fade-scale-leave-active {
+    transition: all 0.2s ease;
+}
+
+.fade-scale-enter-from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.9);
+}
+
+.fade-scale-leave-to {
+    opacity: 0;
+    transform: translateY(4px) scale(0.9);
 }
 
 /* Icono de flecha */
@@ -1439,17 +1994,13 @@ export default {
     font-size: 13px;
     font-family: 'Lato', sans-serif;
     margin: 8px 0;
-    color: #4A5568;
+    color: #6B7280;
     line-height: 1.5;
 }
 
 .result-info strong {
-    color: #2D3748;
+    color: #4A5568;
     font-weight: 700;
-    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
 /* Síntesis */
@@ -1500,9 +2051,7 @@ export default {
     max-width: 600px;
     margin: 1.5rem auto;
     padding: 60px 40px;
-    background: white;
     border-radius: 24px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     animation: fadeInUp 0.6s ease;
 }
 
@@ -1511,6 +2060,7 @@ export default {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1523,17 +2073,20 @@ export default {
 }
 
 @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0px);
     }
+
     50% {
         transform: translateY(-10px);
     }
 }
 
 .no-results-title {
-    font-size: 24px;
-    font-weight: 800;
+    font-size: 18px;
+    font-weight: 600;
     margin-bottom: 12px;
     background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
     -webkit-background-clip: text;
@@ -1675,6 +2228,7 @@ export default {
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }
@@ -1692,19 +2246,24 @@ export default {
 }
 
 @keyframes pulse {
-    0%, 100% {
+
+    0%,
+    100% {
         opacity: 1;
     }
+
     50% {
         opacity: 0.6;
     }
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
     transition: opacity 0.3s ease;
 }
 
-.fade-enter-from, .fade-leave-to {
+.fade-enter-from,
+.fade-leave-to {
     opacity: 0;
 }
 
@@ -1718,13 +2277,8 @@ export default {
         /* // pocisionarlo al inicio */
         max-width: 350px;
         margin-left: -330px !important;
-
     }
-
 }
-
-
-
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
@@ -1882,14 +2436,8 @@ select {
     cursor: pointer;
 }
 
-#filterbar-container2 .form-check:hover {
-    border-color: #DF2DB2;
-    background: linear-gradient(135deg, rgba(223, 45, 178, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%);
-    transform: translateX(4px);
-}
 
-#filterbar-container2 .form-check-input:checked ~ .form-check-label {
-    color: #DF2DB2;
+#filterbar-container2 .form-check-input:checked~.form-check-label {
     font-weight: 700;
 }
 
@@ -2119,7 +2667,7 @@ label {
 .slider {
     position: relative;
     z-index: 1;
-    height: 5px;
+    height: 30px;
     margin: 0px;
 }
 
@@ -2190,6 +2738,7 @@ input[type=range] {
     position: absolute;
     pointer-events: none;
     -webkit-appearance: none;
+    appearance: none;
     z-index: 2;
     height: 10px;
     width: 100%;
@@ -2341,6 +2890,7 @@ input[type=range]::-webkit-slider-thumb {
         opacity: 0;
         transform: translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -2402,7 +2952,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .contenedor-tab:hover {
-    background: rgba(223, 45, 178, 0.05);
+    background: rgba(24, 92, 230, 0.05);
 }
 
 @media (max-width: 700px) {
@@ -2413,6 +2963,7 @@ input[type=range]::-webkit-slider-thumb {
         left: 10px;
         top: 10;
         border-radius: 0px;
+        padding: 16px 12px !important;
     }
 
     #filterbar-container2 {
@@ -2433,6 +2984,31 @@ input[type=range]::-webkit-slider-thumb {
         width: 20px;
         height: 20px;
     }
+
+    /* Fix para el-select wrapper en móvil */
+    ::v-deep .el-select__wrapper {
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    ::v-deep .el-select__input {
+        max-width: 100% !important;
+    }
+
+    ::v-deep .el-select__tags {
+        max-width: calc(100% - 30px) !important;
+        overflow: hidden !important;
+    }
+
+    /* DatePicker también */
+    ::v-deep .mx-datepicker {
+        width: 100% !important;
+    }
+
+    ::v-deep .mx-input-wrapper {
+        width: 100% !important;
+    }
 }
 
 #filterbar-container .container-nav,
@@ -2447,14 +3023,14 @@ input[type=range]::-webkit-slider-thumb {
 
 #filterbar-container .container-nav:hover,
 .contenedor-cabeceras-a a:hover {
-    color: #DF2DB2;
+    color: #185CE6;
 }
 
 .active-criterio {
-    background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(24, 92, 230, 0.1) 100%) !important;
-    color: #DF2DB2 !important;
+    background: rgba(24, 92, 230, 0.05) !important;
+    color: #185CE6 !important;
     font-weight: 700 !important;
-    border-left: 4px solid #DF2DB2;
+    border-left: 4px solid #185CE6;
 }
 
 .contenedor-filtros {
@@ -2484,12 +3060,33 @@ input[type=range]::-webkit-slider-thumb {
     font-family: 'Lato', sans-serif;
     font-size: 14px;
     font-weight: 700;
-    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #4A5568;
     margin-bottom: 10px;
     display: block;
+}
+
+@media (max-width: 768px) {
+    .contenedor-filtros {
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+        padding: 16px 8px !important;
+    }
+
+    .contenedor-filtros .px-3 {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+
+    .contenedor-filtros .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .contenedor-filtros .col-12,
+    .contenedor-filtros .col-md-6 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
 }
 
 /* Estilos para el-tree-select */
@@ -2505,6 +3102,7 @@ input[type=range]::-webkit-slider-thumb {
     max-width: calc(100% - 30px);
     overflow: hidden;
     flex-wrap: wrap;
+    word-break: break-word;
 }
 
 ::v-deep(.el-select__wrapper) {
@@ -2517,6 +3115,8 @@ input[type=range]::-webkit-slider-thumb {
     min-height: 42px;
     max-width: 100%;
     overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 ::v-deep(.el-select__wrapper:hover) {
@@ -2535,8 +3135,8 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 ::v-deep(.el-select__tags-text) {
-    background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-    color: #DF2DB2;
+    /* background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); */
+    color: #3B82F6;
     border-radius: 12px;
     padding: 4px 10px;
     font-weight: 600;
@@ -2549,9 +3149,8 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 ::v-deep(.el-tag) {
-    background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%) !important;
-    border: 1px solid #DF2DB2 !important;
-    color: #DF2DB2 !important;
+    border: 1px solid #3B82F6 !important;
+    color: #3B82F6 !important;
     border-radius: 12px !important;
     padding: 4px 12px !important;
     font-weight: 600 !important;
@@ -2579,13 +3178,69 @@ input[type=range]::-webkit-slider-thumb {
     white-space: nowrap;
 }
 
+/* Control de desbordamiento en pantallas pequeñas */
+@media (max-width: 768px) {
+    ::v-deep(.el-select__tags) {
+        max-width: calc(100% - 50px) !important;
+        flex-wrap: wrap !important;
+    }
+
+    ::v-deep(.el-select__tags-text) {
+        max-width: 70px !important;
+        font-size: 11px !important;
+    }
+
+    ::v-deep(.el-tag) {
+        max-width: 90px !important;
+        font-size: 10px !important;
+        padding: 3px 8px !important;
+    }
+
+    ::v-deep(.el-tag .el-select__tags-text) {
+        max-width: 60px !important;
+        font-size: 10px !important;
+    }
+
+    ::v-deep(.el-select__wrapper) {
+        padding: 6px 10px !important;
+        width: min(320px, 90vw) !important;
+        max-width: 90vw !important;
+        box-sizing: border-box !important;
+    }
+
+    ::v-deep(.el-select__selection) {
+        max-width: calc(100% - 35px) !important;
+        overflow: hidden !important;
+        word-break: break-all !important;
+    }
+
+    ::v-deep(.el-select__selected-item) {
+        max-width: 100% !important;
+        font-size: 11px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        word-break: break-all !important;
+    }
+
+    .custom-tree-select {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+    }
+
+    ::v-deep(.el-select) {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
 ::v-deep(.el-tag__close) {
-    color: #DF2DB2 !important;
+    color: #3B82F6 !important;
     transition: all 0.3s ease;
 }
 
 ::v-deep(.el-tag__close:hover) {
-    background: #DF2DB2 !important;
+    background: #EF4444 !important;
     color: white !important;
 }
 
@@ -2607,16 +3262,6 @@ input[type=range]::-webkit-slider-thumb {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-::v-deep(.mx-input:hover) {
-    border-color: #DF2DB2 !important;
-    box-shadow: 0 4px 12px rgba(223, 45, 178, 0.1);
-}
-
-::v-deep(.mx-input:focus) {
-    border-color: #DF2DB2 !important;
-    box-shadow: 0 0 0 3px rgba(223, 45, 178, 0.1);
-    outline: none;
-}
 
 ::v-deep(.mx-input::placeholder) {
     color: #A0AEC0;
@@ -2643,9 +3288,9 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 ::v-deep(.b-form-tag) {
-    background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%) !important;
-    border: 1px solid #DF2DB2 !important;
-    color: #DF2DB2 !important;
+    background: transparent !important;
+    border: 1px solid #3B82F6 !important;
+    color: #3B82F6 !important;
     border-radius: 12px !important;
     padding: 6px 12px !important;
     font-weight: 600 !important;
@@ -2734,11 +3379,11 @@ input[type=range]::-webkit-slider-thumb {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-input:checked + .slider {
+input:checked+.slider {
     background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
 }
 
-input:checked + .slider::before {
+input:checked+.slider::before {
     transform: translateX(26px);
     box-shadow: 0 2px 10px rgba(223, 45, 178, 0.5);
 }
@@ -2761,7 +3406,7 @@ input:checked + .slider::before {
     overflow-x: hidden;
     padding: 0 10px;
     box-sizing: border-box;
-    margin: 0.5rem 0 1rem 0;
+    margin: 0.5rem 0 0.5rem 0;
 }
 
 .top-search-carousel {
@@ -2800,15 +3445,8 @@ input:checked + .slider::before {
     max-width: 280px;
 }
 
-.top-search-chip:hover {
-    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(223, 45, 178, 0.3);
-}
 
 .top-search-chip:hover .btn-clear-item {
-    background-color: rgba(255, 255, 255, 0.3) !important;
     border-color: white;
 }
 
@@ -2832,6 +3470,7 @@ input:checked + .slider::before {
     white-space: nowrap;
     display: inline-block;
     max-width: 100%;
+    word-break: break-word;
 }
 
 .el-select-dropdown .el-tree {
@@ -2839,19 +3478,101 @@ input:checked + .slider::before {
     overflow: hidden;
 }
 
-.p-tooltip {
-    background: #e53935 !important;
-    color: #fff !important;
-    font-size: 0.75rem !important;
-    border-radius: 8px !important;
-    padding: 8px 12px !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
-    border: none !important;
-    font-family: 'Lato', sans-serif !important;
-}
+/* Control del dropdown en móvil - CRÍTICO */
+@media (max-width: 768px) {
+    ::v-deep(.el-popper) {
+        max-width: 90vw !important;
+        width: 90vw !important;
+        left: 5vw !important;
+        right: 5vw !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
 
-.p-tooltip-arrow {
-    border-top-color: #e53935 !important;
+    ::v-deep(.el-select-dropdown) {
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+
+    ::v-deep(.el-select-dropdown__wrap) {
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    ::v-deep(.el-tree-node__label) {
+        max-width: calc(90vw - 100px) !important;
+        width: auto !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        word-break: break-all !important;
+        display: inline-block !important;
+        vertical-align: middle !important;
+    }
+
+    ::v-deep(.el-tree-node__content) {
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        padding-right: 5px !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    ::v-deep(.el-select-dropdown .el-tree) {
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    ::v-deep(.el-tree-node) {
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    ::v-deep(.el-checkbox__label) {
+        max-width: calc(90vw - 110px) !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        display: inline-block !important;
+        vertical-align: middle !important;
+    }
+
+    ::v-deep(.el-tree .el-tree-node__children) {
+        overflow: hidden !important;
+        max-width: 100% !important;
+    }
+
+    ::v-deep(.el-tree-node__expand-icon) {
+        flex-shrink: 0 !important;
+        width: 20px !important;
+        margin-right: 5px !important;
+    }
+
+    ::v-deep(.el-checkbox) {
+        flex-shrink: 0 !important;
+        margin-right: 5px !important;
+    }
+
+    ::v-deep(.el-tree-node__children .el-tree-node__content) {
+        padding-left: 25px !important;
+    }
+
+    /* Forzar todo el contenido a mantenerse dentro */
+    * {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
 }
 
 /* Estilos modernos para paginación */
@@ -2889,10 +3610,7 @@ input:checked + .slider::before {
 }
 
 .color-blue {
-    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #3B82F6;
     font-weight: 700;
     font-family: 'Lato', sans-serif;
 }
@@ -2917,8 +3635,8 @@ input:checked + .slider::before {
 
 .btn-clear-item:hover {
     background: #EF4444 !important;
-    color: white !important;
     transform: scale(1.15);
+    color: white !important;
     box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4);
 }
 
@@ -2950,6 +3668,20 @@ input:checked + .slider::before {
 
 .scroll-to-top-btn:active {
     transform: translateY(-2px) scale(1.02);
+}
+
+.scroll-to-top-btn svg {
+    width: 24px;
+}
+
+/* Estilos para resaltado de texto en búsquedas */
+.highlight-text {
+    background-color: #fef3c7;
+    color: #92400e;
+    font-weight: 600;
+    padding: 2px 4px;
+    border-radius: 3px;
+    box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.2);
 }
 
 .scroll-to-top-btn svg {

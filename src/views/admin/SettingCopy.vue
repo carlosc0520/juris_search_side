@@ -3,11 +3,9 @@
     <div class="settings-header">
       <div class="settings-header-content">
         <div class="header-title-section">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            class="header-icon">
-            <circle cx="12" cy="12" r="3" />
-            <path
-              d="M12 1v6m0 6v6m8.66-15.66l-4.24 4.24m-4.24 4.24l-4.24 4.24M23 12h-6m-6 0H1m15.66 8.66l-4.24-4.24m-4.24-4.24l-4.24-4.24" />
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v6m0 6v6m8.66-15.66l-4.24 4.24m-4.24 4.24l-4.24 4.24M23 12h-6m-6 0H1m15.66 8.66l-4.24-4.24m-4.24-4.24l-4.24-4.24"/>
           </svg>
           <div>
             <h1 class="settings-title">Configuración de Cuenta</h1>
@@ -19,19 +17,24 @@
 
     <div class="settings-content">
       <div class="tabs-modern">
-        <button class="tab-button" :class="{ 'tab-active': active === 'informacionPersonal' }"
+        <button 
+          class="tab-button" 
+          :class="{ 'tab-active': active === 'informacionPersonal' }"
           @click="updateActive('informacionPersonal')">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
           </svg>
           <span>Información Personal</span>
         </button>
-        <button class="tab-button" :class="{ 'tab-active': active === 'contactos' }" @click="updateActive('contactos')">
+        <button 
+          class="tab-button" 
+          :class="{ 'tab-active': active === 'contactos' }"
+          @click="updateActive('contactos')">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
           </svg>
           <span>Contactos</span>
         </button>
@@ -43,26 +46,38 @@
           <div class="profile-card">
             <div class="profile-card-header">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <polyline points="21 15 16 10 5 21" />
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
               </svg>
               <h2>Foto de Perfil</h2>
             </div>
             <div class="profile-card-content">
               <div class="avatar-section">
                 <div class="avatar-wrapper" @click="openFileInput">
-                  <img :src="this.modelo.RTAFTO || team2" alt="imagen_usuario" class="avatar-image"
-                    @error="e => e.target.src = team2" />
-                  <div class="avatar-overlay">
+                  <img v-if="!showCropper" :src="this.modelo.RTAFTO || team2" alt="imagen_usuario" class="avatar-image" @error="e => e.target.src = team2" />
+                  <div class="avatar-overlay" v-if="!showCropper">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" />
-                      <circle cx="12" cy="13" r="4" />
+                      <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+                      <circle cx="12" cy="13" r="4"/>
                     </svg>
                   </div>
+                  <div v-if="showCropper" class="cropper-modal">
+                    <advanced-cropper
+                      :src="cropperImage"
+                      :stencil-props="{ aspectRatio: 1, handlers: false, movable: true, scalable: true, lines: false, shape: 'circle' }"
+                      :stencil-component="CircleStencil"
+                      :autoZoom="true"
+                      class="cropper-area"
+                      ref="cropperRef"
+                    />
+                    <div class="cropper-actions">
+                      <button class="btn-upload" @click.stop="applyCrop">Recortar y guardar</button>
+                      <button class="btn-remove" @click.stop="cancelCrop">Cancelar</button>
+                    </div>
+                  </div>
                 </div>
-                <input type="file" id="avatar-input" @change="onSelectImage" ref="avatarInput" class="avatar-input"
-                  accept="image/*" style="display:none;" />
+                <input type="file" id="avatar-input" @change="onSelectImage" ref="avatarInput" class="avatar-input" accept="image/*" style="display:none;" />
               </div>
               <div class="avatar-info">
                 <h3>Actualiza tu foto de perfil</h3>
@@ -70,14 +85,14 @@
                 <div class="avatar-actions">
                   <button class="btn-upload" @click="openFileInput">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
                     </svg>
                     Cambiar foto
                   </button>
-                  <button class="btn-remove" @click="removeAvatar" v-if="modelo.RTAFTO">
+                  <button class="btn-remove" @click="() => { modelo.RTAFTO = null }" v-if="modelo.RTAFTO">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="3 6 5 6 21 6" />
-                      <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+                      <polyline points="3 6 5 6 21 6"/>
+                      <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
                     </svg>
                     Eliminar
                   </button>
@@ -91,26 +106,28 @@
             <div class="form-section">
               <div class="form-section-header">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
+                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
                 </svg>
                 <h3>Datos Personales</h3>
               </div>
-
+              
               <div class="form-grid">
                 <div class="form-group">
                   <label class="form-label">
                     Nombres completos <span class="required">*</span>
                   </label>
                   <div class="input-wrapper">
-                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2">
-                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
                     </svg>
-                    <input v-model="modelo.NOMBRES"
-                      :class="['form-input', { 'input-error': validation.hasError('modelo.NOMBRES') }]" type="text"
-                      placeholder="Ingresa tus nombres" maxlength="100" />
+                    <input 
+                      v-model="modelo.NOMBRES" 
+                      :class="['form-input', { 'input-error': validation.hasError('modelo.NOMBRES') }]" 
+                      type="text"
+                      placeholder="Ingresa tus nombres"
+                      maxlength="100" />
                   </div>
                   <span class="error-message" v-if="validation.hasError('modelo.NOMBRES')">
                     {{ validation.firstError('modelo.NOMBRES') }}
@@ -122,14 +139,16 @@
                     Apellido paterno <span class="required">*</span>
                   </label>
                   <div class="input-wrapper">
-                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2">
-                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
                     </svg>
-                    <input v-model="modelo.APATERNO"
-                      :class="['form-input', { 'input-error': validation.hasError('modelo.APATERNO') }]" type="text"
-                      placeholder="Ingresa tu apellido paterno" maxlength="50" />
+                    <input 
+                      v-model="modelo.APATERNO" 
+                      :class="['form-input', { 'input-error': validation.hasError('modelo.APATERNO') }]" 
+                      type="text"
+                      placeholder="Ingresa tu apellido paterno"
+                      maxlength="50" />
                   </div>
                   <span class="error-message" v-if="validation.hasError('modelo.APATERNO')">
                     {{ validation.firstError('modelo.APATERNO') }}
@@ -141,14 +160,16 @@
                     Apellido materno <span class="required">*</span>
                   </label>
                   <div class="input-wrapper">
-                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2">
-                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
                     </svg>
-                    <input v-model="modelo.AMATERNO"
-                      :class="['form-input', { 'input-error': validation.hasError('modelo.AMATERNO') }]" type="text"
-                      placeholder="Ingresa tu apellido materno" maxlength="50" />
+                    <input 
+                      v-model="modelo.AMATERNO" 
+                      :class="['form-input', { 'input-error': validation.hasError('modelo.AMATERNO') }]" 
+                      type="text"
+                      placeholder="Ingresa tu apellido materno"
+                      maxlength="50" />
                   </div>
                   <span class="error-message" v-if="validation.hasError('modelo.AMATERNO')">
                     {{ validation.firstError('modelo.AMATERNO') }}
@@ -160,16 +181,19 @@
                     Fecha de Nacimiento <span class="required">*</span>
                   </label>
                   <div class="input-wrapper">
-                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2">
-                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                      <line x1="16" y1="2" x2="16" y2="6" />
-                      <line x1="8" y1="2" x2="8" y2="6" />
-                      <line x1="3" y1="10" x2="21" y2="10" />
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                      <line x1="16" y1="2" x2="16" y2="6"/>
+                      <line x1="8" y1="2" x2="8" y2="6"/>
+                      <line x1="3" y1="10" x2="21" y2="10"/>
                     </svg>
-                    <date-picker placeholder="YYYY-MM-DD" v-model="modelo.FNACIMIENTO"
-                      :class="['form-input date-picker-custom', { 'input-error': validation.hasError('modelo.FNACIMIENTO') }]"
-                      :value="modelo.FNACIMIENTO" valueType="format" :disabledDate="time => time.getTime() > Date.now()"
+                    <date-picker 
+                      placeholder="YYYY-MM-DD" 
+                      v-model="modelo.FNACIMIENTO"
+                      :class="['form-input date-picker-custom', { 'input-error': validation.hasError('modelo.FNACIMIENTO') }]" 
+                      :value="modelo.FNACIMIENTO"
+                      valueType="format" 
+                      :disabledDate="time => time.getTime() > Date.now()"
                       @change="(date) => modelo.FNACIMIENTO = date" />
                   </div>
                   <span class="error-message" v-if="validation.hasError('modelo.FNACIMIENTO')">
@@ -180,27 +204,33 @@
                 <div class="form-group">
                   <label class="form-label">Profesión</label>
                   <div class="input-wrapper">
-                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2">
-                      <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-                      <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                      <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
                     </svg>
-                    <input v-model="modelo.PROFESION" class="form-input" type="text"
-                      placeholder="Ej: Abogado, Contador, etc." maxlength="100" />
+                    <input 
+                      v-model="modelo.PROFESION" 
+                      class="form-input" 
+                      type="text"
+                      placeholder="Ej: Abogado, Contador, etc."
+                      maxlength="100" />
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="form-label">Cargo</label>
                   <div class="input-wrapper">
-                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2">
-                      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                      <circle cx="9" cy="7" r="4" />
-                      <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
                     </svg>
-                    <input v-model="modelo.CARGO" class="form-input" type="text"
-                      placeholder="Ej: Gerente, Director, etc." maxlength="100" />
+                    <input 
+                      v-model="modelo.CARGO" 
+                      class="form-input" 
+                      type="text"
+                      placeholder="Ej: Gerente, Director, etc."
+                      maxlength="100" />
                   </div>
                 </div>
               </div>
@@ -209,25 +239,27 @@
             <div class="form-section">
               <div class="form-section-header">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
                 </svg>
                 <h3>Datos de Contacto</h3>
               </div>
-
+              
               <div class="form-grid">
                 <div class="form-group form-group-full">
                   <label class="form-label">
                     Correo electrónico <span class="required">*</span>
                   </label>
                   <div class="input-wrapper">
-                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2">
-                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                      <polyline points="22,6 12,13 2,6" />
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                      <polyline points="22,6 12,13 2,6"/>
                     </svg>
-                    <input v-model="modelo.EMAIL"
-                      :class="['form-input', { 'input-error': validation.hasError('modelo.EMAIL') }]" type="email"
-                      placeholder="correo@ejemplo.com" maxlength="100" />
+                    <input 
+                      v-model="modelo.EMAIL" 
+                      :class="['form-input', { 'input-error': validation.hasError('modelo.EMAIL') }]" 
+                      type="email"
+                      placeholder="correo@ejemplo.com"
+                      maxlength="100" />
                   </div>
                   <span class="error-message" v-if="validation.hasError('modelo.EMAIL')">
                     {{ validation.firstError('modelo.EMAIL') }}
@@ -239,14 +271,15 @@
                     Teléfono <span class="required">*</span>
                   </label>
                   <div class="input-wrapper">
-                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2">
-                      <path
-                        d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
                     </svg>
-                    <input v-model="modelo.TELEFONO"
-                      :class="['form-input', { 'input-error': validation.hasError('modelo.TELEFONO') }]" type="tel"
-                      placeholder="987654321" maxlength="15"
+                    <input 
+                      v-model="modelo.TELEFONO" 
+                      :class="['form-input', { 'input-error': validation.hasError('modelo.TELEFONO') }]" 
+                      type="tel"
+                      placeholder="987654321"
+                      maxlength="15"
                       @input="modelo.TELEFONO = modelo.TELEFONO.replace(/[^0-9]/g, '')" />
                   </div>
                   <span class="error-message" v-if="validation.hasError('modelo.TELEFONO')">
@@ -257,13 +290,16 @@
                 <div class="form-group form-group-full">
                   <label class="form-label">Dirección</label>
                   <div class="input-wrapper">
-                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                      <circle cx="12" cy="10" r="3" />
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                      <circle cx="12" cy="10" r="3"/>
                     </svg>
-                    <input v-model="modelo.DIRECCION" class="form-input" type="text"
-                      placeholder="Ej: Av. Principal 123, Lima" maxlength="200" />
+                    <input 
+                      v-model="modelo.DIRECCION" 
+                      class="form-input" 
+                      type="text"
+                      placeholder="Ej: Av. Principal 123, Lima"
+                      maxlength="200" />
                   </div>
                 </div>
               </div>
@@ -272,22 +308,25 @@
             <div class="form-section">
               <div class="form-section-header">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                  <path d="M7 11V7a5 5 0 0110 0v4" />
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0110 0v4"/>
                 </svg>
                 <h3>Seguridad</h3>
               </div>
-
+              
               <div class="form-grid">
                 <div class="form-group">
                   <label class="form-label">Usuario</label>
                   <div class="input-wrapper input-disabled">
-                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2">
-                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
                     </svg>
-                    <input v-model="modelo.EMAIL" class="form-input" type="text" disabled />
+                    <input 
+                      v-model="modelo.EMAIL" 
+                      class="form-input" 
+                      type="text"
+                      disabled />
                   </div>
                 </div>
 
@@ -296,14 +335,16 @@
                     Contraseña <span class="required">*</span>
                   </label>
                   <div class="input-wrapper">
-                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2">
-                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                      <path d="M7 11V7a5 5 0 0110 0v4" />
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                      <path d="M7 11V7a5 5 0 0110 0v4"/>
                     </svg>
-                    <input :type="visualizar ? 'text' : 'password'" v-model="modelo.PASSWORD"
+                    <input 
+                      :type="visualizar ? 'text' : 'password'"
+                      v-model="modelo.PASSWORD" 
                       :class="['form-input', { 'input-error': validation.hasError('modelo.PASSWORD') }]"
-                      placeholder="••••••••" maxlength="50" />
+                      placeholder="••••••••"
+                      maxlength="50" />
                     <button type="button" class="input-toggle" @click="visualizar = !visualizar">
                       <i :class="visualizar ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
                     </button>
@@ -313,9 +354,9 @@
                   </span>
                   <div class="password-hint" v-if="!validation.hasError('modelo.PASSWORD')">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="12" y1="16" x2="12" y2="12" />
-                      <line x1="12" y1="8" x2="12.01" y2="8" />
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="12" y1="16" x2="12" y2="12"/>
+                      <line x1="12" y1="8" x2="12.01" y2="8"/>
                     </svg>
                     Mínimo 8 caracteres, incluye letra, número y caracter especial
                   </div>
@@ -326,26 +367,30 @@
             <div class="form-section">
               <div class="form-section-header">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                  <path d="M13.73 21a2 2 0 01-3.46 0" />
+                  <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                  <path d="M13.73 21a2 2 0 01-3.46 0"/>
                 </svg>
                 <h3>Preferencias de Notificaciones</h3>
               </div>
-
+              
               <div class="notifications-grid">
                 <p class="notifications-description">
                   Selecciona cómo deseas recibir notificaciones sobre actualizaciones y novedades de la plataforma.
                 </p>
-
+                
                 <div class="radio-group">
                   <label class="radio-option">
-                    <input type="radio" name="notificaciones" value="1" v-model="modelo.NOTIFI" class="radio-input" />
+                    <input 
+                      type="radio" 
+                      name="notificaciones" 
+                      value="1" 
+                      v-model="modelo.NOTIFI"
+                      class="radio-input" />
                     <div class="radio-content">
                       <div class="radio-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                          <polyline points="22,6 12,13 2,6" />
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                          <polyline points="22,6 12,13 2,6"/>
                         </svg>
                       </div>
                       <div class="radio-text">
@@ -356,14 +401,18 @@
                   </label>
 
                   <label class="radio-option">
-                    <input type="radio" name="notificaciones" value="2" v-model="modelo.NOTIFI" class="radio-input" />
+                    <input 
+                      type="radio" 
+                      name="notificaciones" 
+                      value="2" 
+                      v-model="modelo.NOTIFI"
+                      class="radio-input" />
                     <div class="radio-content">
                       <div class="radio-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                          <line x1="8" y1="21" x2="16" y2="21" />
-                          <line x1="12" y1="17" x2="12" y2="21" />
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                          <line x1="8" y1="21" x2="16" y2="21"/>
+                          <line x1="12" y1="17" x2="12" y2="21"/>
                         </svg>
                       </div>
                       <div class="radio-text">
@@ -374,14 +423,18 @@
                   </label>
 
                   <label class="radio-option">
-                    <input type="radio" name="notificaciones" value="3" v-model="modelo.NOTIFI" class="radio-input" />
+                    <input 
+                      type="radio" 
+                      name="notificaciones" 
+                      value="3" 
+                      v-model="modelo.NOTIFI"
+                      class="radio-input" />
                     <div class="radio-content">
                       <div class="radio-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                          <path d="M13.73 21a2 2 0 01-3.46 0" />
-                          <circle cx="18" cy="8" r="3" />
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                          <path d="M13.73 21a2 2 0 01-3.46 0"/>
+                          <circle cx="18" cy="8" r="3"/>
                         </svg>
                       </div>
                       <div class="radio-text">
@@ -392,14 +445,18 @@
                   </label>
 
                   <label class="radio-option">
-                    <input type="radio" name="notificaciones" value="4" v-model="modelo.NOTIFI" class="radio-input" />
+                    <input 
+                      type="radio" 
+                      name="notificaciones" 
+                      value="4" 
+                      v-model="modelo.NOTIFI"
+                      class="radio-input" />
                     <div class="radio-content">
                       <div class="radio-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                          <path d="M13.73 21a2 2 0 01-3.46 0" />
-                          <line x1="21" y1="3" x2="3" y2="21" />
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                          <path d="M13.73 21a2 2 0 01-3.46 0"/>
+                          <line x1="21" y1="3" x2="3" y2="21"/>
                         </svg>
                       </div>
                       <div class="radio-text">
@@ -414,11 +471,10 @@
 
             <div class="form-actions">
               <button class="btn-save" type="submit" :disabled="isLoading">
-                <svg v-if="!isLoading" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2">
-                  <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
-                  <polyline points="17 21 17 13 7 13 7 21" />
-                  <polyline points="7 3 7 8 15 8" />
+                <svg v-if="!isLoading" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+                  <polyline points="17 21 17 13 7 13 7 21"/>
+                  <polyline points="7 3 7 8 15 8"/>
                 </svg>
                 <span v-if="isLoading" class="spinner"></span>
                 {{ isLoading ? 'Guardando...' : 'Guardar Cambios' }}
@@ -432,31 +488,33 @@
             <div class="search-card">
               <div class="search-card-header">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="11" cy="11" r="8" />
-                  <path d="M21 21l-4.35-4.35" />
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="M21 21l-4.35-4.35"/>
                 </svg>
                 <h3>Buscar Contactos</h3>
               </div>
-              <AutoComplete v-model="contacto.search" :suggestions="contacto.data" @complete="searchSugges"
-                optionLabel="DESCP" class="autocomplete-modern"
+              <AutoComplete 
+                v-model="contacto.search" 
+                :suggestions="contacto.data" 
+                @complete="searchSugges"
+                optionLabel="DESCP" 
+                class="autocomplete-modern"
                 placeholder="Busca amigos por nombre o correo electrónico">
                 <template #option="slotProps">
                   <div class="contact-suggestion">
                     <div class="contact-suggestion-info">
-                      <img :src="slotProps.option.RTAFTO || team2" alt="imagen_usuario" class="contact-avatar"
-                        @error="e => e.target.src = team2" />
+                      <img :src="slotProps.option.RTAFTO || team2" alt="imagen_usuario" class="contact-avatar" @error="e => e.target.src = team2" />
                       <div class="contact-details">
                         <p class="contact-name">{{ slotProps.option.DESCP }}</p>
                         <span class="contact-email">{{ slotProps.option.EMAIL.toLowerCase() }}</span>
                       </div>
                     </div>
                     <button class="btn-add-contact" type="button" @click.stop="createContact(slotProps.option)">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                        <circle cx="8.5" cy="7" r="4" />
-                        <line x1="20" y1="8" x2="20" y2="14" />
-                        <line x1="23" y1="11" x2="17" y2="11" />
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                        <circle cx="8.5" cy="7" r="4"/>
+                        <line x1="20" y1="8" x2="20" y2="14"/>
+                        <line x1="23" y1="11" x2="17" y2="11"/>
                       </svg>
                       Agregar
                     </button>
@@ -466,32 +524,19 @@
             </div>
 
             <div class="contacts-table-wrapper">
-              <card-table title="Mis Contactos" :search="searchContacto" :fields="contacto.fields"
-                :items="contacto.datos" :grid="contacto.grid" :actions="contacto.actions" />
+              <card-table 
+                title="Mis Contactos" 
+                :search="searchContacto" 
+                :fields="contacto.fields" 
+                :items="contacto.datos"
+                :grid="contacto.grid" 
+                :actions="contacto.actions" />
             </div>
           </div>
         </div>
 
       </div>
     </div>
-    
-    <!-- Cropper Modal (fuera del contenedor principal) -->
-    <div v-if="showCropper" class="cropper-modal">
-      <div class="cropper-container">
-        <advanced-cropper 
-          :src="cropperImage"
-          :stencil-props="{ aspectRatio: 1, movable: true, resizable: true }"
-          :stencil-component="CircleStencil" 
-          class="cropper-area" 
-          ref="cropperRef" 
-        />
-      </div>
-      <div class="cropper-actions">
-        <button class="btn-upload" @click.stop="applyCrop">Recortar y guardar</button>
-        <button class="btn-remove" @click.stop="cancelCrop">Cancelar</button>
-      </div>
-    </div>
-    
     <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
   </section>
 </template>
@@ -506,23 +551,53 @@ import moment from 'moment';
 import team2 from "@/assets/img/resources/perfil.png";
 import AutoComplete from 'primevue/autocomplete';
 import { Cropper, CircleStencil } from 'vue-advanced-cropper';
-import 'vue-advanced-cropper/dist/style.css';
 
 export default {
   components: {
     AutoComplete,
     CardTable,
     AdvancedCropper: Cropper,
+    CircleStencil,
   },
   data() {
     return {
       team2,
-      CircleStencil,
       showCropper: false,
       cropperImage: null,
-      cropperResult: null,
-      cropperRef: null,
-      croppedFile: null,
+        cropperResult: null,
+        cropperRef: null,
+          onSelectImage(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+              this.cropperImage = ev.target.result;
+              this.showCropper = true;
+            };
+            reader.readAsDataURL(file);
+          },
+          openFileInput() {
+            this.$refs.avatarInput.click();
+          },
+          cancelCrop() {
+            this.showCropper = false;
+            this.cropperImage = null;
+            if (this.$refs.avatarInput) this.$refs.avatarInput.value = null;
+          },
+          applyCrop() {
+            const cropper = this.$refs.cropperRef;
+            if (!cropper) return;
+            const canvas = cropper.getResult().canvas;
+            if (canvas) {
+              const croppedDataUrl = canvas.toDataURL('image/png');
+              this.modelo.RTAFTO = croppedDataUrl;
+              this.showCropper = false;
+              this.cropperImage = null;
+              if (this.$refs.avatarInput) this.$refs.avatarInput.value = null;
+            } else {
+              toast.error('No se pudo recortar la imagen.');
+            }
+          },
       isLoading: true,
       visualizar: false,
       active: "informacionPersonal",
@@ -630,47 +705,6 @@ export default {
     },
   },
   methods: {
-    openFileInput() {
-      if (this.$refs && this.$refs.avatarInput) {
-        this.$refs.avatarInput.click();
-      }
-    },
-    onSelectImage(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        this.cropperImage = ev.target.result;
-        this.showCropper = true;
-        this.croppedFile = null;
-      };
-      reader.readAsDataURL(file);
-    },
-    cancelCrop() {
-      this.showCropper = false;
-      this.cropperImage = null;
-      if (this.$refs.avatarInput) this.$refs.avatarInput.value = null;
-    },
-    applyCrop() {
-      const cropper = this.$refs.cropperRef;
-      if (!cropper) return;
-      const canvas = cropper.getResult().canvas;
-      if (canvas) {
-        canvas.toBlob((blob) => {
-          if (blob) {
-            this.croppedFile = new File([blob], 'avatar.png', { type: blob.type });
-            this.modelo.RTAFTO = URL.createObjectURL(blob);
-            this.showCropper = false;
-            this.cropperImage = null;
-            if (this.$refs.avatarInput) this.$refs.avatarInput.value = null;
-          } else {
-            toast.error('No se pudo recortar la imagen.');
-          }
-        }, 'image/png');
-      } else {
-        toast.error('No se pudo recortar la imagen.');
-      }
-    },
     async save(e) {
       e.preventDefault();
       let validate = await this.$validate();
@@ -681,25 +715,23 @@ export default {
         if (key !== 'RTAFTO') formData.append(key, this.modelo[key]);
       });
 
-      // Lógica para manejar la foto
-      if (!this.modelo.RTAFTO || this.modelo.RTAFTO === null) {
-        // Si RTAFTO es null o vacío, el usuario eliminó la foto
-        formData.append('files', "");
-      } else if (this.croppedFile) {
-        // Si hay una imagen recortada, subirla como File
-        formData.append('files', this.croppedFile);
-      } else if (this.$refs.avatarInput && this.$refs.avatarInput.files[0]) {
-        // Si hay un archivo seleccionado sin recortar
+      // Si hay una imagen recortada (base64), conviértela a archivo y súbela
+      if (this.modelo.RTAFTO && this.modelo.RTAFTO.startsWith('data:image')) {
+        // Convertir base64 a archivo
+        const arr = this.modelo.RTAFTO.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        for (let i = 0; i < n; i++) u8arr[i] = bstr.charCodeAt(i);
+        const file = new File([u8arr], 'avatar.png', { type: mime });
+        formData.append('files', file);
+      } else if (this.$refs.avatarInput.files[0]) {
         formData.append('files', this.$refs.avatarInput.files[0]);
       } else {
-        // No hay cambios en la foto, enviar vacío
         formData.append('files', "");
       }
 
 
       // imprimir formdata
       for (let pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
+        console.log(pair[0]+ ', ' + pair[1]); 
       }
 
       this.isLoading = true;
@@ -780,6 +812,9 @@ export default {
     formatDate(fecha, formato) {
       return moment(fecha).format(formato);
     },
+    openFileInput() {
+      this.$refs.avatarInput.click();
+    },
     changeAvatar(event) {
       const file = event.target.files[0];
       if (file && file.type.startsWith("image/")) {
@@ -790,13 +825,6 @@ export default {
         reader.readAsDataURL(file);
       } else if (file) {
         toast.warning("El archivo seleccionado no es una imagen", { toastId: 'error-avatar' });
-      }
-    },
-    removeAvatar() {
-      this.modelo.RTAFTO = null;
-      this.croppedFile = null;
-      if (this.$refs.avatarInput) {
-        this.$refs.avatarInput.value = null;
       }
     },
     // CONTACTO
@@ -986,7 +1014,7 @@ export default {
   width: 100%;
 }
 
-.header-title-section>div {
+.header-title-section > div {
   flex: 1;
   min-width: 0;
   max-width: 100%;
@@ -999,13 +1027,8 @@ export default {
 }
 
 @keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .settings-title {
@@ -1101,7 +1124,6 @@ export default {
     opacity: 0;
     transform: translateY(10px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1224,8 +1246,7 @@ export default {
   flex-wrap: wrap;
 }
 
-.btn-upload,
-.btn-remove {
+.btn-upload, .btn-remove {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -1473,9 +1494,7 @@ export default {
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 /* Contacts Section */
@@ -1678,7 +1697,7 @@ export default {
     width: 100%;
   }
 
-  .header-title-section>div {
+  .header-title-section > div {
     flex: 1;
     min-width: 0;
     max-width: 100%;
@@ -1934,7 +1953,7 @@ export default {
   box-shadow: 0 4px 12px rgba(24, 92, 230, 0.1);
 }
 
-.radio-input:checked+.radio-content {
+.radio-input:checked + .radio-content {
   border-color: #185CE6;
   background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(24, 92, 230, 0.05) 100%);
   box-shadow: 0 4px 20px rgba(24, 92, 230, 0.15);
@@ -1957,11 +1976,11 @@ export default {
   transition: color 0.3s ease;
 }
 
-.radio-input:checked+.radio-content .radio-icon {
+.radio-input:checked + .radio-content .radio-icon {
   background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
 }
 
-.radio-input:checked+.radio-content .radio-icon svg {
+.radio-input:checked + .radio-content .radio-icon svg {
   color: white;
 }
 
@@ -1979,7 +1998,7 @@ export default {
   transition: color 0.3s ease;
 }
 
-.radio-input:checked+.radio-content .radio-title {
+.radio-input:checked + .radio-content .radio-title {
   color: #185CE6;
 }
 
@@ -2008,7 +2027,7 @@ export default {
     width: 100%;
   }
 
-  .header-title-section>div {
+  .header-title-section > div {
     flex: 1;
     min-width: 0;
     max-width: calc(100% - 30px);
@@ -2106,115 +2125,6 @@ export default {
   .btn-save {
     padding: 0.8rem 1.25rem;
     font-size: 0.9rem;
-  }
-}
-
-/* Cropper Modal */
-.cropper-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.95);
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  gap: 2rem;
-}
-
-.cropper-container {
-  width: 100%;
-  max-width: 600px;
-  height: 500px;
-  position: relative;
-}
-
-.cropper-area {
-  width: 100%;
-  height: 100%;
-  background: #000;
-}
-
-/* Asegurar que el contenido del cropper sea visible */
-.cropper-area :deep(.vue-advanced-cropper) {
-  background: #000;
-}
-
-.cropper-area :deep(.vue-advanced-cropper__background),
-.cropper-area :deep(.vue-advanced-cropper__foreground) {
-  background: #000;
-}
-
-.cropper-area :deep(.vue-advanced-cropper__image) {
-  opacity: 1 !important;
-}
-
-.cropper-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  z-index: 10000;
-}
-
-.cropper-actions .btn-upload,
-.cropper-actions .btn-remove {
-  padding: 0.875rem 2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.cropper-actions .btn-upload {
-  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-  color: white;
-  box-shadow: 0 4px 15px rgba(223, 45, 178, 0.3);
-}
-
-.cropper-actions .btn-upload:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(223, 45, 178, 0.4);
-}
-
-.cropper-actions .btn-remove {
-  background: #6B7280;
-  color: white;
-}
-
-.cropper-actions .btn-remove:hover {
-  background: #4B5563;
-  transform: translateY(-2px);
-}
-
-@media (max-width: 768px) {
-  .cropper-container {
-    height: 400px;
-    max-width: 100%;
-  }
-  
-  .cropper-modal {
-    padding: 1rem;
-  }
-  
-  .cropper-actions {
-    flex-direction: column;
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .cropper-actions .btn-upload,
-  .cropper-actions .btn-remove {
-    width: 100%;
-    justify-content: center;
   }
 }
 </style>

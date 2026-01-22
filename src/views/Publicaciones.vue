@@ -79,11 +79,11 @@
                         <div class="card-image-container">
                             <img :src="noticia.IMAGEN ? `${dominio}${noticia.IMAGEN}` : 'https://via.placeholder.com/400x250/6ba3ff/FFFFFF?text=JurisSearch'"
                                 :alt="noticia.TITULO" class="card-image" />
-                            <div class="card-overlay">
+                            <!-- <div class="card-overlay">
                                 <span class="card-date-badge">
                                     {{ formatDate(noticia.FCRCN) }}
                                 </span>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="card-content">
                             <h3 class="card-title">{{ noticia.TITULO }}</h3>
@@ -248,7 +248,7 @@ export default {
             await LoginProxy.list({
                 ROWS: 1000,
                 INIT: 0,
-                DESC: this.filter?.NOMBRES || null,
+                DESC: this.filter?.NOMBRES?.trim() || null,
                 CESTDO: 'A',
                 ORDER: this.sortOrder === 'desc' ? 0 : 1,
             })
@@ -310,6 +310,12 @@ export default {
         }
     },
     mounted() {
+        // Check for 'search' parameter in URL and set it to the search box if present
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchParam = urlParams.get('search');
+        if (searchParam) {
+            this.filter.NOMBRES = searchParam;
+        }
         this.listNoticias();
     },
 };
@@ -402,8 +408,8 @@ export default {
 }
 
 .search-input:focus {
-    border-color: #6ba3ff;
-    box-shadow: 0 0 0 3px rgba(107, 163, 255, 0.1);
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
 }
 
 .clear-button {
@@ -447,8 +453,8 @@ export default {
 }
 
 .sort-select:focus {
-    border-color: #6ba3ff;
-    box-shadow: 0 0 0 3px rgba(107, 163, 255, 0.1);
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
 }
 
 /* Stats Bar */
@@ -472,14 +478,14 @@ export default {
 
 .stat-item:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.10);
 }
 
 .stat-number {
     display: block;
     font-size: 2rem;
     font-weight: 800;
-    color: #6ba3ff;
+    color: #1F2937;
     margin-bottom: 0.25rem;
 }
 
@@ -494,16 +500,25 @@ export default {
 .loading-container {
     text-align: center;
     padding: 4rem 2rem;
+    color: #1F2937;
+    max-width: 480px;
+    margin: 3rem auto;
 }
 
 .loading-spinner {
-    width: 60px;
-    height: 60px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-top-color: white;
+    width: 70px;
+    height: 70px;
+    border: 6px solid #e5e7eb;
+    border-top: 6px solid #3B82F6;
+    border-right: 6px solid #DF2DB2;
+    border-bottom: 6px solid #e5e7eb;
+    border-left: 6px solid #DF2DB2;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 1rem;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto 1.5rem;
+    background: none;
+    box-shadow: 0 2px 12px rgba(59,130,246,0.10);
+    display: block;
 }
 
 @keyframes spin {
@@ -513,16 +528,24 @@ export default {
 }
 
 .loading-text {
-    color: white;
+    color: #3B82F6;
     font-size: 1.125rem;
-    font-weight: 500;
+    font-weight: 700;
+    margin-top: 1.5rem;
 }
 
 /* Empty State */
 .empty-state {
     text-align: center;
     padding: 4rem 2rem;
-    color: white;
+    background: rgba(255,255,255,0.85);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(59,130,246,0.10), 0 1.5px 8px rgba(223,45,178,0.07);
+    color: #1F2937;
+    max-width: 480px;
+    margin: 3rem auto;
+    border: 2px solid #e5e7eb;
+    transition: box-shadow 0.3s;
 }
 
 .empty-icon {
@@ -534,13 +557,18 @@ export default {
 
 .empty-title {
     font-size: 1.75rem;
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 0.5rem;
+    color: #3B82F6;
+    letter-spacing: -1px;
+    text-shadow: 0 2px 8px rgba(59,130,246,0.08);
 }
 
 .empty-text {
     font-size: 1.125rem;
-    opacity: 0.9;
+    color: #4B5563;
+    opacity: 1;
+    margin-bottom: 0;
 }
 
 /* News Grid */
@@ -573,7 +601,7 @@ export default {
     position: relative;
     overflow: hidden;
     height: 220px;
-    background: linear-gradient(135deg, #f084d4 0%, #6ba3ff 100%);
+    background: linear-gradient(135deg, #f084d4 0%, #3B82F6 100%);
 }
 
 .card-image {
@@ -601,7 +629,7 @@ export default {
 }
 
 .card-date-badge {
-    background: rgba(107, 163, 255, 0.95);
+    background: rgba(59, 130, 246, 0.95);
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 20px;
@@ -672,7 +700,7 @@ export default {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: linear-gradient(135deg, #f084d4 0%, #6ba3ff 100%);
+    background: linear-gradient(135deg, #f084d4 0%, #3B82F6 100%);
     color: white;
     padding: 0.625rem 1.25rem;
     border-radius: 8px;
@@ -743,14 +771,14 @@ export default {
 
 .pagination-button:hover:not(.disabled),
 .pagination-number:hover {
-    background: #6ba3ff;
+    background: #3B82F6;
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(107, 163, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
 }
 
 .pagination-number.active {
-    background: linear-gradient(135deg, #f084d4 0%, #6ba3ff 100%);
+    background: linear-gradient(135deg, #f084d4 0%, #3B82F6 100%);
     color: white;
     box-shadow: 0 4px 12px rgba(240, 132, 212, 0.4);
 }
@@ -785,7 +813,22 @@ export default {
 
     .stats-bar {
         padding: 0 1rem;
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+    }
+
+    .stat-item {
+        padding: 1rem 0.5rem;
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+        line-height: 1.2;
     }
 
     .pagination-container {

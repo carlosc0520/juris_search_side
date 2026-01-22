@@ -25,7 +25,7 @@
     </div> -->
 
     <div class="overflow-x-auto">
-      <div class="table-perOptions">
+      <div class="table-perOptions" style="margin-left: 1.5rem;">
         <b-form-select v-model="perPage" :options="grid.pageOptions" style="width: 70px;"
           @change="() => myCallback(currentPage, perPage)" />
         <p style="font-size: 14px; color: #727370 !important; margin: 0; padding: 0; font-family: Lato;">
@@ -34,8 +34,9 @@
         </p>
       </div>
 
-      <b-table :items="items" :fields="computedFields" :busy="grid.isLoading" busyLoadingText="Cargando..." no-local-sorting
-        responsive="sm" :noProviderSorting="false" :noProviderFiltering="false" :noSortableIcon="true" class="mb-4">
+      <b-table :items="items" :fields="computedFields" :busy="grid.isLoading" busyLoadingText="Cargando..."
+        no-local-sorting responsive="sm" :noProviderSorting="false" :noProviderFiltering="false" :noSortableIcon="true"
+        class="mb-4">
         <template #emptyText>
           <div class="text-center my-3">
             <b-icon icon="exclamation-circle-fill"></b-icon>
@@ -65,22 +66,21 @@
         </template>
 
         <template #cell(CDESTDO)="data">
-          <b-badge 
-            :class="data.value === 'A' ? 'status-badge status-badge-active' : 'status-badge status-badge-inactive'" 
-            :title="data.value === 'A' ? 'Activo' : 'Inactivo'" 
-            class="cursor-pointer">
-            {{ data.value === 'A' ? 'Activo' : 'Inactivo' }}
-          </b-badge>
+          <span :style="{
+            display: 'inline-block',
+            width: '16px',
+            height: '16px',
+            borderRadius: '50%',
+            background: data.value === 'A' ? '#22c55e' : '#ef4444',
+            cursor: 'pointer'
+          }" :title="data.value === 'A' ? 'Activo' : 'Inactivo'"></span>
         </template>
 
 
         <template #cell(ESTADO)="data">
-          <b-badge 
-            :class="data.value ? 'status-badge status-badge-active' : 'status-badge status-badge-inactive'"
-            :title="data.value ? 'Aceptado' : 'Pendiente'" 
-            class="cursor-pointer">
-            {{ data.value ? 'Aceptado' : 'Pendiente' }}
-          </b-badge>
+          <span :class="data.value ? 'estado-circle estado-active' : 'estado-circle estado-inactive'"
+            :title="data.value ? 'Activo' : 'Inactivo'"
+            style="display: inline-block; width: 16px; height: 16px; border-radius: 50%; cursor: pointer;"></span>
         </template>
 
         <template #cell(IMAGEN)="data">
@@ -92,9 +92,7 @@
         </template>
 
         <template #cell(TITLEALT)="data">
-          <div v-html="data.value"
-            @click="actions.execute.action(data.item)" style="cursor: pointer;"
-          >
+          <div v-html="data.value" @click="actions.execute.action(data.item)" style="cursor: pointer;">
 
           </div>
         </template>
@@ -139,10 +137,7 @@
 
         <!-- COLUMNA EXPANDIR -->
         <template #cell(EXPANDIR)="data">
-          <button 
-            @click="data.toggleDetails" 
-            class="expand-btn"
-            :class="{ 'expanded': data.detailsShowing }"
+          <button @click="data.toggleDetails" class="expand-btn" :class="{ 'expanded': data.detailsShowing }"
             :title="data.detailsShowing ? 'Ocultar auditoría' : 'Ver auditoría'">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"></polyline>
@@ -193,8 +188,9 @@
               class="action-btn action-btn-delete">
               <img src="@/assets/img/icons/delete.svg" alt="delete" width="24" height="24" />
             </b-button>
-            
-            <b-button v-if="actions.shared && (data.item?.PROP === undefined || data.item.PROP === 1)" :title="actions.shared.label" @click="actions.shared.action(data.item)"
+
+            <b-button v-if="actions.shared && (data.item?.PROP === undefined || data.item.PROP === 1)"
+              :title="actions.shared.label" @click="actions.shared.action(data.item)"
               class="action-btn action-btn-shared">
               <img src="@/assets/img/icons/shared.svg" alt="share" width="24" height="24" />
             </b-button>
@@ -203,8 +199,9 @@
               class="action-btn action-btn-users">
               <img src="@/assets/img/icons/usersshared.svg" alt="users" width="24" height="24" />
             </b-button>
-  
-            <b-button v-if="actions.updateShared && (data.item?.PROP === undefined || data.item.PROP === 1)" :title="actions.updateShared.label" @click="actions.updateShared.action(data.item)"
+
+            <b-button v-if="actions.updateShared && (data.item?.PROP === undefined || data.item.PROP === 1)"
+              :title="actions.updateShared.label" @click="actions.updateShared.action(data.item)"
               class="action-btn action-btn-settings">
               <img src="@/assets/img/icons/settings.svg" alt="users" width="24" height="24" />
             </b-button>
@@ -238,7 +235,7 @@
 
     </div>
 
-    <div class="flex justify-start mb-3 gap-2 flex-col md:flex-row">
+    <div class="flex justify-start mb-3 gap-2 flex-col md:flex-row" style="margin-left: 1.5rem;">
       <b-pagination v-model="currentPage" :total-rows="grid.totalRows" @update:model-value="myCallback"
         :per-page="grid.perPage" aria-controls="my-table" class="my-0" />
       <!-- <b-input type="number" v-model="currentPage" @input="currentPage" placeholder="Buscar..." class="ml-2"
@@ -248,7 +245,7 @@
 </template>
 <script>
 
-import { BPagination, BTable, BBadge, BButton, BDropdown, BDropdownItem, BFormSelect } from 'bootstrap-vue-next';
+import { BPagination, BTable, BButton, BDropdown, BDropdownItem, BFormSelect } from 'bootstrap-vue-next';
 import moment from 'moment';
 
 export default {
@@ -261,23 +258,12 @@ export default {
   components: {
     BPagination,
     BTable,
-    BBadge,
     BButton,
     BDropdown,
     BDropdownItem,
     BFormSelect
   },
   props: {
-    color: {
-      default: "light",
-      validator: function (value) {
-        return ["light", "dark"].indexOf(value) !== -1;
-      },
-    },
-    title: {
-      type: String,
-      default: "Tabla"
-    },
     search: {
       type: Function,
       default: () => { },
@@ -315,43 +301,41 @@ export default {
   computed: {
     computedFields() {
       // Verificar si hay datos de auditoría en los items
-      const hasAuditData = this.items.some(item => 
+      const hasAuditData = this.items.some(item =>
         item.FCRCN || item.UCRCN || item.FEDCN || item.UEDCN
       );
-      
-      if (!hasAuditData) {
-        return this.fields; // No hay datos de auditoría, retornar campos originales
-      }
-      
+
       // Verificar si ya existe la columna EXPANDIR
       const hasExpandirColumn = this.fields.some(field => field.key === 'EXPANDIR');
-      if (hasExpandirColumn) {
-        return this.fields; // Ya existe, retornar campos originales
-      }
-      
-      // Buscar el índice de ACCIONES para insertar EXPANDIR antes
-      const accionesIndex = this.fields.findIndex(field => field.key === 'ACCIONES');
-      
-      if (accionesIndex === -1) {
-        // No hay columna ACCIONES, agregar al final
-        return [...this.fields, {
+
+      // Si hay auditoría y no existe EXPANDIR, agregarla y quitar columnas de auditoría
+      if (hasAuditData && !hasExpandirColumn) {
+        // Buscar el índice de ACCIONES para insertar EXPANDIR antes
+        const accionesIndex = this.fields.findIndex(field => field.key === 'ACCIONES');
+        // Filtrar las columnas de auditoría
+        const auditKeys = ['FCRCN', 'UCRCN', 'FEDCN', 'UEDCN'];
+        let filteredFields = this.fields.filter(field => !auditKeys.includes(field.key));
+        if (accionesIndex === -1) {
+          // No hay columna ACCIONES, agregar EXPANDIR al final
+          return [...filteredFields, {
+            key: 'EXPANDIR',
+            label: 'Auditoría',
+            class: 'text-center',
+            sortable: false
+          }];
+        }
+        // Insertar EXPANDIR antes de ACCIONES
+        const newFields = [...filteredFields];
+        const idx = newFields.findIndex(field => field.key === 'ACCIONES');
+        newFields.splice(idx, 0, {
           key: 'EXPANDIR',
           label: 'Auditoría',
           class: 'text-center',
           sortable: false
-        }];
+        });
+        return newFields;
       }
-      
-      // Insertar EXPANDIR antes de ACCIONES
-      const newFields = [...this.fields];
-      newFields.splice(accionesIndex, 0, {
-        key: 'EXPANDIR',
-        label: 'Auditoría',
-        class: 'text-center',
-        sortable: false
-      });
-      
-      return newFields;
+      return this.fields;
     }
   },
   methods: {
@@ -377,6 +361,87 @@ export default {
 
 
 <style>
+/* Responsive Table Improvements */
+.overflow-x-auto {
+  width: 100%;
+  overflow-x: auto;
+}
+
+
+/* Auditoría: fila en desktop, columna en móvil */
+.audit-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .audit-grid {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  table th,
+  table td {
+    padding: 0.7rem 0.7rem !important;
+    font-size: 13px !important;
+  }
+
+  .table-perOptions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .overflow-x-auto {
+    padding-bottom: 1rem;
+  }
+
+  table {
+    font-size: 12px !important;
+    min-width: 600px;
+  }
+
+  table th,
+  table td {
+    padding: 0.5rem 0.5rem !important;
+  }
+
+  .action-btn {
+    width: 32px;
+    height: 32px;
+    margin: 0 1px;
+  }
+
+  .audit-details {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .overflow-x-auto {
+    padding-bottom: 1.5rem;
+  }
+
+  table {
+    font-size: 11px !important;
+    min-width: 480px;
+  }
+
+  .table-perOptions {
+    gap: 0.25rem;
+  }
+
+  .audit-details {
+    padding: 0.5rem;
+  }
+}
+
 /* "items-center w-full bg-transparent border-collapse */
 table {
   width: 100% !important;
@@ -413,14 +478,6 @@ table thead tr th {
   text-transform: uppercase;
   border: none !important;
   border-bottom: 1px solid rgba(139, 92, 246, 0.12) !important;
-}
-
-table thead tr th:first-child {
-  border-top-left-radius: 12px;
-}
-
-table thead tr th:last-child {
-  border-top-right-radius: 12px;
 }
 
 table tbody tr {
@@ -524,6 +581,7 @@ table tbody tr:last-child td:last-child {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -555,8 +613,9 @@ table tbody tr:last-child td:last-child {
   margin: 0;
 }
 
+/* border-top-left-radius: 12px; */
+/* border-top-right-radius: 12px; */
 .audit-grid {
-  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
 }
@@ -567,12 +626,8 @@ table tbody tr:last-child td:last-child {
   border-radius: 10px;
   border: 1px solid #e2e8f0;
   transition: all 0.2s ease;
-}
-
-.audit-item:hover {
-  border-color: #8B5CF6;
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.15);
-  transform: translateY(-2px);
+  /* border-bottom-left-radius: 12px; */
+  /* border-bottom-right-radius: 12px; */
 }
 
 .audit-item label {
@@ -658,27 +713,22 @@ table tbody tr:last-child td:last-child {
   transform: translateY(0);
 }
 
-/* Status Badges */
-.status-badge {
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-  font-family: Lato, sans-serif;
-  letter-spacing: 0.3px;
-  border: none !important;
-  transition: all 0.2s ease;
+/* Estado Circle */
+.estado-circle {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  transition: box-shadow 0.2s;
 }
 
-.status-badge-active {
-  background: linear-gradient(135deg, #C7FFDE 0%, #A7F3D0 100%);
-  color: #047857 !important;
+.estado-active {
+  background: linear-gradient(135deg, #C7FFDE 0%, #047857 100%);
   box-shadow: 0 2px 8px rgba(39, 174, 96, 0.15);
 }
 
-.status-badge-inactive {
-  background: linear-gradient(135deg, #FFB2B2 0%, #FCA5A5 100%);
-  color: #DC2626 !important;
+.estado-inactive {
+  background: linear-gradient(135deg, #FFB2B2 0%, #DC2626 100%);
   box-shadow: 0 2px 8px rgba(255, 77, 77, 0.15);
 }
 
@@ -744,6 +794,15 @@ table tbody tr:last-child td:last-child {
   .action-btn img {
     width: 1.1rem !important;
     height: 1.1rem !important;
+  }
+
+
+  table thead tr th:first-child {
+    border-top-left-radius: 12px;
+  }
+
+  table thead tr th:last-child {
+    border-top-right-radius: 12px;
   }
 }
 </style>

@@ -78,6 +78,14 @@ export default {
       this.collapseShow = !this.collapseShow;
     },
   },
+  watch: {
+    $route() {
+      // Cerrar sidebar en móvil cuando cambia la ruta
+      if (window.innerWidth < 768 && !this.isCollapsed) {
+        this.toggleSidebar();
+      }
+    },
+  },
   mounted() {
     if (this.menu && this.menu.length > 0) {
       this.menuItems = this.menu;

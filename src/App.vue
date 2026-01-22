@@ -162,7 +162,7 @@ export default {
 @media (max-width: 768px) {
   .floating-whatsapp {
     bottom: 20px;
-    right: 0px;
+    right: 15px;
   }
   
   .floating-whatsapp:hover {

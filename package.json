@@ -41,6 +41,7 @@
     "simple-vue-validator": "^0.16.0",
     "vee-validate": "^4.13.2",
     "vue": "^3.5.10",
+    "vue-advanced-cropper": "^2.8.9",
     "vue-awesome-paginate": "^1.1.46",
     "vue-datepicker-next": "^1.0.3",
     "vue-loading-overlay": "^4.0.4",
@@ -64,7 +65,8 @@
     "eslint-plugin-vue": "7.7.0",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.13",
-    "vue-template-compiler": "2.6.12"
+    "vue-template-compiler": "2.6.12",
+    "webpack": "^5.104.1"
   },
   "eslintConfig": {
     "root": true,

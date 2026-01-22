@@ -47,6 +47,16 @@
                 </div>
             </div>
         </form>
+        <template #footer>
+            <div class="modal-footer d-flex flex-wrap justify-content-center gap-3">
+                <button type="button" class="btn btn-primary" @click="submit">
+                    Guardar
+                </button>
+                <button type="button" class="btn btn-secondary" @click="close">
+                    Cancelar
+                </button>
+            </div>
+        </template>
     </b-modal>
 </template>
 

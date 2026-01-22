@@ -264,16 +264,19 @@
                   <CarouselNavigation>
                     <template #prev>
                       <button class="carousel-nav-btn">
-                        <img :src="leftArrow" alt="anterior" />
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                          <polyline points="15 18 9 12 15 6"/>
+                        </svg>
                       </button>
                     </template>
                     <template #next>
                       <button class="carousel-nav-btn">
-                        <img :src="rightArrow" alt="siguiente" />
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                          <polyline points="9 18 15 12 9 6"/>
+                        </svg>
                       </button>
                     </template>
                   </CarouselNavigation>
-                  <Pagination />
                 </template>
               </Carousel>
             </div>
@@ -327,16 +330,19 @@
               <CarouselNavigation>
                 <template #prev>
                   <button class="ofrecemos-nav-btn ofrecemos-nav-prev">
-                    <img :src="leftArrow" alt="anterior" />
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="15 18 9 12 15 6"/>
+                    </svg>
                   </button>
                 </template>
                 <template #next>
                   <button class="ofrecemos-nav-btn ofrecemos-nav-next">
-                    <img :src="rightArrow" alt="siguiente" />
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="9 18 15 12 9 6"/>
+                    </svg>
                   </button>
                 </template>
               </CarouselNavigation>
-              <Pagination />
             </template>
           </Carousel>
         </div>
@@ -563,7 +569,7 @@ import userExample from "@/assets/img/resources/user-example.png";
 import bgComments from "@/assets/img/resources/bg-comments.png";
 import { Validator } from 'simple-vue-validator';
 import { toast } from 'vue3-toastify';
-import { Carousel, Slide, Navigation as CarouselNavigation, Pagination } from 'vue3-carousel';
+import { Carousel, Slide, Navigation as CarouselNavigation } from 'vue3-carousel';
 import 'vue3-carousel/dist/carousel.css';
 
 // * USADOS
@@ -774,7 +780,6 @@ export default {
     ModalCrearUsuario,
     Carousel,
     CarouselNavigation,
-    Pagination,
     Slide,
     Question
   },
@@ -848,7 +853,8 @@ export default {
         })
     },
     goToPlan() {
-      this.modalCrearUsuario.show = true;
+      return 1
+      // this.modalCrearUsuario.show = true;
     },
     startRotation() {
       setInterval(() => {
@@ -1296,7 +1302,7 @@ export default {
 /* Responsive */
 @media (max-width: 768px) {
   .planes-section {
-    padding: 3rem 0.5rem;
+    padding: 3.5rem 0.5rem;
   }
 
   .planes-title {
@@ -1818,20 +1824,29 @@ export default {
 
 @media (max-width: 768px) {
   .preguntas-section {
-    padding: 3rem 0.5rem;
+    padding: 3rem 1rem;
+  }
+
+  .preguntas-header {
+    margin-bottom: 2rem;
   }
 
   .preguntas-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .preguntas-content {
+    padding: 0;
   }
 
   .preguntas-grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 2.5rem;
   }
 
   .preguntas-accordion-container {
-    padding: 1.5rem;
+    padding: 1.75rem 1.25rem;
   }
 
   .preguntas-image {
@@ -1839,8 +1854,8 @@ export default {
   }
 
   .preguntas-button {
-    padding: 0.875rem 1.5rem;
-    font-size: 0.95rem;
+    padding: 1rem 1.75rem;
+    font-size: 1rem;
   }
 }
 
@@ -1852,7 +1867,7 @@ export default {
 
 /* Info Section - Nueva sección moderna */
 .info-section-modern {
-  padding: 6rem 2rem 5rem;
+  padding: 4rem 2rem;
   background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
   position: relative;
   overflow: hidden;
@@ -2065,7 +2080,7 @@ export default {
 
 @media (max-width: 768px) {
   .info-section-modern {
-    padding: 4rem 1rem 6rem;
+    padding: 3rem 1rem;
   }
 
   .info-title {
@@ -2112,7 +2127,7 @@ export default {
 
 /* Propósito Section - Modernizada */
 .proposito-section-modern {
-  padding: 1rem 2rem;
+  padding: 4rem 2rem;
   background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
   position: relative;
   overflow: hidden;
@@ -2183,14 +2198,13 @@ export default {
 }
 
 .proposito-tab-active {
-  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-  color: white;
-  box-shadow: 0 4px 15px rgba(223, 45, 178, 0.3);
+  background: rgba(24, 92, 230, 0.05);
+  color: #185CE6;
 }
 
 .proposito-tab-active:hover {
-  background: linear-gradient(135deg, #c528a0 0%, #1450c9 100%);
-  color: white;
+  background: rgba(24, 92, 230, 0.08);
+  color: #185CE6;
 }
 
 .proposito-tab-active svg {
@@ -2388,8 +2402,8 @@ export default {
 }
 
 .carousel-nav-btn {
-  background: white;
-  border: 2px solid #E5E7EB;
+  background: #6B7280;
+  border: 2px solid #6B7280;
   border-radius: 50%;
   width: 48px;
   height: 48px;
@@ -2398,24 +2412,23 @@ export default {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .carousel-nav-btn:hover {
-  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-  border-color: transparent;
-  transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(223, 45, 178, 0.3);
+  background: #6B7280;
+  border-color: #6B7280;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-.carousel-nav-btn img {
-  width: 20px;
-  height: 20px;
-  transition: filter 0.3s ease;
+.carousel-nav-btn svg {
+  color: white;
+  transition: all 0.3s ease;
 }
 
-.carousel-nav-btn:hover img {
-  filter: brightness(0) invert(1);
+.carousel-nav-btn:hover svg {
+  color: white;
 }
 
 /* Transiciones */
@@ -2437,7 +2450,7 @@ export default {
 /* Responsive */
 @media (max-width: 768px) {
   .proposito-section-modern {
-    padding: 4rem 1rem;
+    padding: 3rem 1rem;
   }
 
   .proposito-title {
@@ -2504,7 +2517,7 @@ export default {
 
 /* Ofrecemos Section - Modernizada */
 .ofrecemos-section-modern {
-  padding: 6rem 0;
+  padding: 4rem 0;
   background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
   position: relative;
   overflow: hidden;
@@ -2641,8 +2654,8 @@ export default {
 }
 
 .ofrecemos-nav-btn {
-  background: white;
-  border: 2px solid #E5E7EB;
+  background: #6B7280;
+  border: 2px solid #6B7280;
   border-radius: 50%;
   width: 56px;
   height: 56px;
@@ -2651,26 +2664,24 @@ export default {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   outline: none;
 }
 
 .ofrecemos-nav-btn:hover {
-  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-  border-color: transparent;
-  transform: scale(1.15);
-  box-shadow: 0 8px 25px rgba(223, 45, 178, 0.4);
+  background: #6B7280;
+  border-color: #6B7280;
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-.ofrecemos-nav-btn img {
-  width: 20px;
-  height: 20px;
+.ofrecemos-nav-btn svg {
+  color: white;
   transition: all 0.3s ease;
 }
 
-.ofrecemos-nav-btn:hover img {
-  filter: brightness(0) invert(1);
-  transform: scale(1.1);
+.ofrecemos-nav-btn:hover svg {
+  color: white;
 }
 
 /* Estilos del carousel */
@@ -2728,7 +2739,7 @@ export default {
 /* Responsive */
 @media (max-width: 768px) {
   .ofrecemos-section-modern {
-    padding: 4rem 0;
+    padding: 3rem 0;
   }
 
   .ofrecemos-container {
@@ -2803,7 +2814,7 @@ export default {
 
 /* CTA Section */
 .cta-section {
-  margin: 6rem 0;
+  margin: 4rem 0;
   padding: 0 1rem;
 }
 
@@ -2962,7 +2973,7 @@ export default {
 /* CTA Responsive */
 @media (max-width: 768px) {
   .cta-section {
-    margin: 4rem 0;
+    margin: 3rem 0;
   }
 
   .cta-container {

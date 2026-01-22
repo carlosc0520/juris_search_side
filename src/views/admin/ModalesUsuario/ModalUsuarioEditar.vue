@@ -53,16 +53,36 @@
 
                 <div class="col-md-4 col-12 mb-3">
                     <label for="BLOG3" class="form-label">Fecha Nacimiento <span class="text-danger">*</span></label>
-                    <date-picker :class="{ error: validation.hasError('modelo.FNACIMIENTO') }"
-                        v-model="modelo.FNACIMIENTO" :value="modelo.FNACIMIENTO" valueType="format"
+                    <div style="height:44px;">
+                      <date-picker
+                        :class="{ error: validation.hasError('modelo.FNACIMIENTO') }"
+                        v-model="modelo.FNACIMIENTO"
+                        :value="modelo.FNACIMIENTO"
+                        valueType="format"
                         :disabledDate="time => time.getTime() > Date.now()"
-                        @change="(date) => modelo.FNACIMIENTO = date"></date-picker>
+                        @change="(date) => modelo.FNACIMIENTO = date"
+                        style="width:100%;height:100%;border:none;background:transparent;"
+                      />
+                    </div>
                     <span class="message" v-if="validation.hasError('modelo.FNACIMIENTO')">
                         {{ validation.firstError('modelo.FNACIMIENTO') }}
                     </span>
                 </div>
             </div>
         </form>
+
+        <!-- Modal footer with distributed buttons -->
+        <!-- Moved inside b-modal slot for single root compliance -->
+        <template #footer v-if="!loadingSubmit">
+          <div class="modal-footer d-flex flex-wrap justify-content-center gap-3">
+            <button type="button" class="btn btn-primary" @click="submit">
+              Guardar
+            </button>
+            <button type="button" class="btn btn-secondary" @click="close">
+              Cancelar
+            </button>
+          </div>
+        </template>
     </b-modal>
 </template>
 

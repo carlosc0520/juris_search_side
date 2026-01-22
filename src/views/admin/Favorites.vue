@@ -1,10 +1,12 @@
 <template>
-    <section class="favorites-container mt-4 pt-2">
+    <section class="favorites-container">
         <div class="favorites-header">
             <div class="favorites-header-content">
                 <div class="header-title-section">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        class="header-icon">
+                        <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                     </svg>
                     <div>
                         <h1 class="favorites-title">Mis Favoritos</h1>
@@ -16,22 +18,18 @@
 
         <div class="favorites-content">
             <div class="tabs-modern">
-                <button 
-                    class="tab-button" 
-                    :class="{ 'tab-active': active === 'documentos' }"
+                <button class="tab-button" :class="{ 'tab-active': active === 'documentos' }"
                     @click="updateActive('documentos')">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
                     </svg>
                     <span>Documentos</span>
                 </button>
-                <button 
-                    class="tab-button" 
-                    :class="{ 'tab-active': active === 'directorios' }"
+                <button class="tab-button" :class="{ 'tab-active': active === 'directorios' }"
                     @click="updateActive('directorios')">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+                        <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
                     </svg>
                     <span>Directorios</span>
                 </button>
@@ -42,25 +40,24 @@
                 <div v-if="active === 'documentos'" class="fade-in">
                     <div class="filters-card">
                         <div class="filters-header">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8"/>
-                                <path d="M21 21l-4.35-4.35"/>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="M21 21l-4.35-4.35" />
                             </svg>
                             <h3>Filtros de Búsqueda</h3>
                         </div>
-                        
+
                         <div class="filters-grid">
                             <div class="form-group form-group-full">
                                 <label class="form-label">Buscar documentos</label>
                                 <div class="input-wrapper">
-                                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="11" cy="11" r="8"/>
-                                        <path d="M21 21l-4.35-4.35"/>
+                                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <path d="M21 21l-4.35-4.35" />
                                     </svg>
-                                    <input 
-                                        v-model="filter.SEARCH" 
-                                        class="form-input" 
-                                        type="text"
+                                    <input v-model="filter.SEARCH" class="form-input" type="text"
                                         placeholder="Buscar por nombre, título alternativo..." />
                                 </div>
                             </div>
@@ -68,17 +65,9 @@
                             <div class="form-group" v-if="active === 'documentos' || !visibleDirectorios.visible">
                                 <label class="form-label">Directorio</label>
                                 <div class="input-wrapper">
-                                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
-                                    </svg>
-                                    <select 
-                                        v-model="filter.IDDIRECTORIO" 
-                                        :disabled="!visibleDirectorios.visible"
-                                        class="form-input form-select">
-                                        <option 
-                                            v-for="item in directorios" 
-                                            :key="item.ID" 
-                                            :value="item.ID">
+                                    <select v-model="filter.IDDIRECTORIO" :disabled="!visibleDirectorios.visible"
+                                        class="form-input form-select form-select-no-icon">
+                                        <option v-for="item in directorios" :key="item.ID" :value="item.ID">
                                             {{ item.DSCRPCN }}
                                         </option>
                                     </select>
@@ -88,11 +77,7 @@
                             <div class="form-group" v-if="active === 'documentos' || !visibleDirectorios.visible">
                                 <label class="form-label">Tipo</label>
                                 <div class="input-wrapper">
-                                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                                        <polyline points="9 22 9 12 15 12 15 22"/>
-                                    </svg>
-                                    <select v-model="filter.SHARED" class="form-input form-select">
+                                    <select v-model="filter.SHARED" class="form-input form-select form-select-no-icon">
                                         <option value="T">Todos</option>
                                         <option value="M">Mis Documentos</option>
                                         <option value="C">Documentos Compartidos</option>
@@ -101,10 +86,12 @@
                             </div>
 
                             <div class="filters-actions">
-                                <button class="btn-search" @click="active === 'documentos' || !visibleDirectorios.visible ? searchDocuments() : searchDirectorios()">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="11" cy="11" r="8"/>
-                                        <path d="M21 21l-4.35-4.35"/>
+                                <button class="btn-search"
+                                    @click="active === 'documentos' || !visibleDirectorios.visible ? searchDocuments() : searchDirectorios()">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <path d="M21 21l-4.35-4.35" />
                                     </svg>
                                     Buscar
                                 </button>
@@ -113,12 +100,8 @@
                     </div>
 
                     <div class="documents-table-card">
-                        <card-table 
-                            :search="searchDocuments" 
-                            :fields="fieldsDocumentos"
-                            :items="dataDocuments" 
-                            :grid="grid" 
-                            :actions="actionsDocuments" />
+                        <card-table :search="searchDocuments" :fields="fieldsDocumentos" :items="dataDocuments"
+                            :grid="grid" :actions="actionsDocuments" />
                     </div>
                 </div>
 
@@ -127,40 +110,41 @@
                     <!-- Filters for directorios search -->
                     <div class="filters-card">
                         <div class="filters-header">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8"/>
-                                <path d="M21 21l-4.35-4.35"/>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="M21 21l-4.35-4.35" />
                             </svg>
                             <h3>Filtros de Búsqueda</h3>
                         </div>
-                        
+
                         <div class="filters-grid">
                             <div class="form-group form-group-full">
                                 <label class="form-label">Buscar directorios</label>
                                 <div class="input-wrapper">
-                                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="11" cy="11" r="8"/>
-                                        <path d="M21 21l-4.35-4.35"/>
+                                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <path d="M21 21l-4.35-4.35" />
                                     </svg>
-                                    <input 
-                                        v-model="filter.SEARCH" 
-                                        class="form-input" 
-                                        type="text"
+                                    <input v-model="filter.SEARCH" class="form-input" type="text"
                                         placeholder="Buscar por nombre de directorios..." />
                                 </div>
                             </div>
 
                             <div class="filters-actions">
                                 <button class="btn-search" @click="searchDirectorios()">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="11" cy="11" r="8"/>
-                                        <path d="M21 21l-4.35-4.35"/>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <path d="M21 21l-4.35-4.35" />
                                     </svg>
                                     Buscar
                                 </button>
                                 <button class="btn-create" @click="createDirectory">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 5v14M5 12h14"/>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M12 5v14M5 12h14" />
                                     </svg>
                                     Nuevo
                                 </button>
@@ -171,16 +155,18 @@
                     <!-- Directory actions when directory is visible -->
                     <div class="directory-actions-bar" v-if="visibleDirectorios.visible">
                         <button class="action-bar-btn" @click="saveNameDirectory">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
-                                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
                             </svg>
                             Cambiar nombre
                         </button>
                         <button class="action-bar-btn action-bar-btn-delete" @click="deleteDirectorys">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="3 6 5 6 21 6"/>
-                                <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
                             </svg>
                             Eliminar
                         </button>
@@ -188,22 +174,18 @@
 
                     <!-- Directories Grid -->
                     <div v-if="visibleDirectorios.visible" class="directories-grid">
-                        <div 
-                            v-for="(item, index) in directoriosUser" 
-                            :key="index" 
-                            class="directory-card"
+                        <div v-for="(item, index) in directoriosUser" :key="index" class="directory-card"
                             @click="isVisibleTable(item)">
                             <div class="directory-card-header">
                                 <div class="directory-icon-lg">
-                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
                                     </svg>
                                 </div>
                                 <div class="directory-checkbox">
-                                    <input 
-                                        type="checkbox" 
-                                        @click.stop 
-                                        @change="saveSelectedDirectory(item)"
+                                    <input type="checkbox" @click.stop @change="saveSelectedDirectory(item)"
                                         class="checkbox-input" />
                                 </div>
                             </div>
@@ -211,28 +193,55 @@
                                 <h4 class="directory-name">{{ item.label }}</h4>
                                 <div class="directory-stats">
                                     <div class="stat-item">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                                            <polyline points="14 2 14 8 20 8"/>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                                            <polyline points="14 2 14 8 20 8" />
                                         </svg>
-                                        <span>{{ item.children.length }} {{ item.children.length == 1 ? 'documento' : 'documentos' }}</span>
+                                        <span>{{ item.children.length }} {{ item.children.length == 1 ? 'documento' :
+                                            'documentos' }}</span>
                                     </div>
                                     <div class="stat-item">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                            <line x1="16" y1="2" x2="16" y2="6"/>
-                                            <line x1="8" y1="2" x2="8" y2="6"/>
-                                            <line x1="3" y1="10" x2="21" y2="10"/>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                            <line x1="16" y1="2" x2="16" y2="6" />
+                                            <line x1="8" y1="2" x2="8" y2="6" />
+                                            <line x1="3" y1="10" x2="21" y2="10" />
                                         </svg>
                                         <span>{{ item.fcrcn }}</span>
                                     </div>
                                 </div>
                                 <div class="directory-creator">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                                        <circle cx="12" cy="7" r="4"/>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
                                     </svg>
                                     <span>{{ item.ucrcn }}</span>
+                                </div>
+                                <div class="directory-actions">
+                                    <button class="directory-action-btn directory-action-download"
+                                        @click.stop="downloadDirectory(item)" title="Descargar directorio">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                                            <polyline points="7 10 12 15 17 10" />
+                                            <line x1="12" y1="15" x2="12" y2="3" />
+                                        </svg>
+                                        <span>Descargar</span>
+                                    </button>
+                                    <button class="directory-action-btn directory-action-shared"
+                                        @click.stop="viewDirectorySharedUsers(item)" title="Ver usuarios compartidos">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                                            <circle cx="9" cy="7" r="4" />
+                                            <path d="M23 21v-2a4 4 0 00-3-3.87" />
+                                            <path d="M16 3.13a4 4 0 010 7.75" />
+                                        </svg>
+                                        <span>Usuarios</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -241,35 +250,36 @@
                     <!-- Back button and table view for selected directory -->
                     <div v-else class="directory-detail-view">
                         <button class="btn-back" @click="visibleDirectorios.visible = true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15 18 9 12 15 6"/>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="15 18 9 12 15 6" />
                             </svg>
                             Regresar
                         </button>
                         <div class="documents-table-card">
-                            <card-table 
-                                :search="searchDocuments" 
-                                :fields="fieldsDocumentos"
-                                :items="dataDocuments" 
-                                :grid="grid" 
-                                :actions="actionsDocuments" />
+                            <card-table :search="searchDocuments" :fields="fieldsDocumentos" :items="dataDocuments"
+                                :grid="grid" :actions="actionsDocuments" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-            <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
+        <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
 
-            <ModalMostrarResolucion :openModal="openModal" :toggleModal="() => this.openModal = !this.openModal"
-                :pdfUrl="pdfUrl" :data="rowData" :isFav="false" :role="role" />
+        <ModalMostrarResolucion :openModal="openModal" :toggleModal="() => this.openModal = !this.openModal"
+            :pdfUrl="pdfUrl" :data="rowData" :isFav="false" :role="role" />
 
-            <ModalCompartirEntrada :openModal="openModalCompartir"
-                :toggleModal="() => this.openModalCompartir = !this.openModalCompartir" :data="rowDataCompartir" />
+        <ModalCompartirEntrada :openModal="openModalCompartir"
+            :toggleModal="() => this.openModalCompartir = !this.openModalCompartir" :data="rowDataCompartir" />
 
-            <ModalUsuariosCompartidos :openModal="openModalUsuariosCompartidos"
-                :toggleModal="() => this.openModalUsuariosCompartidos = !this.openModalUsuariosCompartidos"
-                :data="rowDataUsuariosCompartidos" />
+        <ModalUsuariosCompartidos :openModal="openModalUsuariosCompartidos"
+            :toggleModal="() => this.openModalUsuariosCompartidos = !this.openModalUsuariosCompartidos"
+            :data="rowDataUsuariosCompartidos" />
+
+        <ModalDirectorioCompartido :openModal="openModalDirectorioCompartido"
+            :toggleModal="() => this.openModalDirectorioCompartido = !this.openModalDirectorioCompartido"
+            :data="rowDataDirectorioCompartido" />
     </section>
 
 </template>
@@ -282,13 +292,15 @@ import CardTable from "@/components/Cards/CardTable.vue";
 import ModalMostrarResolucion from './Modales/ModalMostrarResolucion.vue';
 import ModalCompartirEntrada from './Modales/ModalCompartirEntrada.vue';
 import ModalUsuariosCompartidos from './Modales/ModalUsuariosCompartidos.vue';
+import ModalDirectorioCompartido from './Modales/ModalDirectorioCompartido.vue';
 
 export default {
     components: {
         CardTable,
         ModalMostrarResolucion,
         ModalCompartirEntrada,
-        ModalUsuariosCompartidos
+        ModalUsuariosCompartidos,
+        ModalDirectorioCompartido
     },
     props: {
         role: {
@@ -329,6 +341,9 @@ export default {
 
             openModalUsuariosCompartidos: false,
             rowDataUsuariosCompartidos: {},
+
+            openModalDirectorioCompartido: false,
+            rowDataDirectorioCompartido: {},
 
             selectedDirectorios: [],
             directorios: [],
@@ -513,6 +528,7 @@ export default {
                             ucrcn: item.UCRCN,
                             directorio: item.ID,
                             shared: item.SHARED,
+                            COMPARTIDS: item.COMPARTIDS,
                             children: childrens.map((entrie) => {
                                 return {
                                     key: entrie.ID,
@@ -521,6 +537,9 @@ export default {
                                     isDirectory: false,
                                     label: entrie.TITULO,
                                     icon: 'fa fa-file',
+                                    FCRCN: entrie.FCRCN,
+                                    FLGDOC: entrie.FLGDOC,
+                                    ENTRIEFILE: entrie.ENTRIEFILE,
                                 }
                             })
                         };
@@ -561,21 +580,25 @@ export default {
         },
         async createDirectory() {
             this.$swal({
-                title: "Crear directorio",
-                html: `¿Está seguro de que desea crear un nuevo directorio?`,
+                title: '<span style="color:#185CE6;font-weight:700;">Crear nuevo directorio</span>',
+                html: `<div style='font-size:1.1em;'>¿Deseas crear un nuevo directorio?<br><span style='color:#6B7280;'>Ingresa el nombre a continuación.</span></div>`,
                 input: "text",
                 inputPlaceholder: "Nombre del directorio",
-                icon: "warning",
+                icon: "info",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
+                confirmButtonColor: "#38a169",
                 cancelButtonColor: "#d33",
-                cancelButtonText: "No, cancelar",
-                confirmButtonText: "Sí, crear",
+                cancelButtonText: "Cancelar",
+                confirmButtonText: "Crear directorio",
                 inputValidator: (value) => {
                     if (!value) {
-                        return "Debe ingresar un nombre";
+                        return "Debes ingresar un nombre";
                     }
                 },
+                customClass: {
+                    confirmButton: 'swal2-confirm btn btn-success',
+                    cancelButton: 'swal2-cancel btn btn-danger'
+                }
             }).then(async (result) => {
                 if (result.isConfirmed && result.value) {
                     this.isLoading = true;
@@ -609,21 +632,25 @@ export default {
             }
 
             this.$swal({
-                title: "Cambiar nombre",
-                html: `¿Está seguro de que desea cambiar el nombre del directorio <strong>${this.selectedDirectorios[0].label}</strong>?`,
+                title: '<span style="color:#185CE6;font-weight:700;">Renombrar directorio</span>',
+                html: `<div style='font-size:1.1em;'>¿Quieres cambiar el nombre del directorio <strong style='color:#185CE6;'>${this.selectedDirectorios[0].label}</strong>?<br><span style='color:#6B7280;'>Ingresa el nuevo nombre a continuación.</span></div>`,
                 input: "text",
                 inputPlaceholder: "Nuevo nombre del directorio",
-                icon: "warning",
+                icon: "info",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
+                confirmButtonColor: "#185CE6",
                 cancelButtonColor: "#d33",
-                cancelButtonText: "No, cancelar",
-                confirmButtonText: "Sí, cambiar",
+                cancelButtonText: "Cancelar",
+                confirmButtonText: "Renombrar",
                 inputValidator: (value) => {
                     if (!value) {
-                        return "Debe ingresar un nuevo nombre";
+                        return "Debes ingresar un nuevo nombre";
                     }
                 },
+                customClass: {
+                    confirmButton: 'swal2-confirm btn btn-primary',
+                    cancelButton: 'swal2-cancel btn btn-danger'
+                }
             }).then(async (result) => {
                 if (result.isConfirmed && result.value) {
                     this.isLoading = true;
@@ -653,25 +680,21 @@ export default {
             }
 
             this.$swal({
-                title: "Eliminar directorios",
-                html: `<p>¿Está seguro de que desea eliminar ${this.selectedDirectorios.length} directorios?<p>
-                <p style="color: red;font-size: 11px;">
-                    Si elimina un directorio, se eliminarán todos los documentos que contenga la carpeta
-                </p>    
-                <ul style="list-style: none; padding-left: 0;">
-                    ${this.selectedDirectorios.map((item) => `<li
-                        style="padding: 5px 0; font-size: 14px; color: #000000;">
-                        <i class="fa fa-folder"></i>
-                        <strong>${item.label}</strong>
-                    </li>`).join('')}
-                </ul>
-                    `,
-                icon: "warning",
+                title: '<span style="color:#e53e3e;font-weight:700;">Eliminar directorios</span>',
+                html: `<div style='font-size:1.1em;'>¿Seguro que deseas eliminar <strong>${this.selectedDirectorios.length}</strong> directorios?<br><span style='color:#e53e3e;font-size:12px;'>Esta acción eliminará todos los documentos dentro de cada carpeta.</span></div>
+                <ul style="list-style: none; padding-left: 0; margin-top:10px;">
+                    ${this.selectedDirectorios.map((item) => `<li style="padding: 5px 0; font-size: 14px; color: #000000;"><i class='fa fa-folder'></i> <strong>${item.label}</strong></li>`).join('')}
+                </ul>`,
+                icon: "error",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                cancelButtonText: "No, cancelar",
-                confirmButtonText: "Sí, eliminar",
+                confirmButtonColor: "#e53e3e",
+                cancelButtonColor: "#6B7280",
+                cancelButtonText: "Cancelar",
+                confirmButtonText: "Eliminar todo",
+                customClass: {
+                    confirmButton: 'swal2-confirm btn btn-danger',
+                    cancelButton: 'swal2-cancel btn btn-secondary'
+                }
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     this.isLoading = true;
@@ -714,45 +737,33 @@ export default {
             }
 
             this.$swal.fire({
-                title: "Actualizar Datos",
+                title: '<span style="color:#185CE6;font-weight:700;">Actualizar datos del documento</span>',
                 html: `
                     <div class="row" style="text-align: left;">
                         <div class="col-md-12 mb-3">
-                            <label
-                            class="mb-1"
-                            style="text-align: left; font-size: 14px; color: #000000;"
-                            for="swal-input-name">Nombre del directorio</label>
-                            <select 
-                            value="${item.IDDIRECTORIO || ''}"
-                            id="swal-select-status" class="swal2-select"
-                            style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; width: 100%;">
+                            <label class="mb-1" style="text-align: left; font-size: 14px; color: #185CE6; font-weight:600;" for="swal-input-name">Directorio</label>
+                            <select value="${item.IDDIRECTORIO || ''}" id="swal-select-status" class="swal2-select" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; width: 100%;">
                                 ${this.directorios.map((directory) => `
-                                    <option 
-                                    ${item.IDDIRECTORIO === directory.ID ? 'selected' : ''}
-                                    value="${directory.ID}">${directory.DSCRPCN}</option>
+                                    <option ${item.IDDIRECTORIO === directory.ID ? 'selected' : ''} value="${directory.ID}">${directory.DSCRPCN}</option>
                                 `).join('')}
                             </select>
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label 
-                            class="mb-1"
-                            style="text-align: left; font-size: 14px; color: #000000;"
-                            for="swal-input-name">Titulo alternativo</label>
-                            <input 
-                                value="${item.TITLEALT || ''}"
-                                id="swal-input-name" class="m-0 swal2-input" placeholder="Ingrese un nombre"
-                                style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; width: 100%;" />
+                            <label class="mb-1" style="text-align: left; font-size: 14px; color: #185CE6; font-weight:600;" for="swal-input-name">Título alternativo</label>
+                            <input value="${item.TITLEALT || ''}" id="swal-input-name" class="m-0 swal2-input" placeholder="Ingrese un nombre" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; width: 100%;" />
                         </div>
                     </div>
                 `,
-                icon: "warning",
+                icon: "info",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                cancelButtonText: "No, cancelar",
-                confirmButtonText: "Sí, guardar",
+                confirmButtonColor: "#185CE6",
+                cancelButtonColor: "#6B7280",
+                cancelButtonText: "Cancelar",
+                confirmButtonText: "Guardar cambios",
                 customClass: {
-                    popup: 'crear-directorio-swal'
+                    popup: 'crear-directorio-swal',
+                    confirmButton: 'swal2-confirm btn btn-primary',
+                    cancelButton: 'swal2-cancel btn btn-secondary'
                 },
                 allowOutsideClick: false,
                 allowEscapeKey: false,
@@ -798,6 +809,122 @@ export default {
             this.filter.SHARED = 'T';
             this.visibleDirectorios.visible = false;
         },
+        async downloadDirectory(item) {
+            if (!item.children || item.children.length === 0) {
+                toast.warning('Este directorio no tiene documentos para descargar');
+                return;
+            }
+
+            this.$swal({
+                title: "Descargar directorio",
+                html: `¿Está seguro de que desea descargar todos los documentos del directorio <strong>${item.label}</strong>?<br><small>Se descargarán ${item.children.length} ${item.children.length === 1 ? 'documento' : 'documentos'}</small>`,
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Cancelar",
+                confirmButtonText: "Sí, descargar",
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    this.isLoading = true;
+                    try {
+                        toast.info(`Iniciando descarga de ${item.children.length} documentos...`);
+                        
+                        const paths = JSON.stringify(item.children.map(doc => ({
+                            FLGDOC: doc.FLGDOC,
+                            ENTRIEFILE: doc.ENTRIEFILE,
+                            TITLE: doc.label,
+                            ID: doc.id,
+                            FCRCN: doc.FCRCN,
+                        })));
+
+                        const blob = await AdminEntriesProxy.getDocumentZipAll({ paths });
+                        
+                        // Verificar que el blob tiene contenido
+                        if (!blob || blob.size === 0) {
+                            throw new Error('El archivo descargado está vacío');
+                        }
+                        
+                        const url = window.URL.createObjectURL(new Blob([blob]));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', `${item.label.replace(/[^a-z0-9]/gi, '_')}_${new Date().getTime()}.zip`);
+                        document.body.appendChild(link);
+                        link.click();
+                        
+                        // Limpiar después de un pequeño delay
+                        setTimeout(() => {
+                            link.remove();
+                            window.URL.revokeObjectURL(url);
+                        }, 100);
+                        
+                        toast.success('Descarga completada con éxito');
+                    } catch (error) {
+                        toast.error(error?.MESSAGE || 'Error al descargar el directorio');
+                    } finally {
+                        this.isLoading = false;
+                    }
+                }
+            });
+        },
+        viewDirectorySharedUsers(item) {
+            this.rowDataDirectorioCompartido = item;
+            this.openModalDirectorioCompartido = true;
+        },
+        async viewDirectoryShared(item) {
+            this.isLoading = true;
+            try {
+                // Verificar si el directorio está compartido
+                if (item.shared === 0 || !item.shared) {
+                    toast.info('Este directorio no está compartido con otros usuarios');
+                    this.isLoading = false;
+                    return;
+                }
+
+                // Aquí puedes hacer una llamada al backend para obtener los usuarios con los que está compartido
+                await UserProxy.getDirectorySharedUsers(item.directorio)
+                    .then((response) => {
+                        if (response && response.length > 0) {
+                            const usersList = response.map(user =>
+                                `<li style="padding: 8px; border-bottom: 1px solid #e2e8f0;">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <img src="${user.RTAFTO || 'https://placehold.co/40x40'}" 
+                                             style="width: 40px; height: 40px; border-radius: 50%;" />
+                                        <div>
+                                            <strong>${user.NOMBRE}</strong><br>
+                                            <small style="color: #718096;">${user.EMAIL}</small>
+                                        </div>
+                                    </div>
+                                </li>`
+                            ).join('');
+
+                            this.$swal({
+                                title: "Usuarios con acceso",
+                                html: `
+                                    <div style="text-align: left;">
+                                        <p style="margin-bottom: 15px;">El directorio <strong>${item.label}</strong> está compartido con:</p>
+                                        <ul style="list-style: none; padding: 0; max-height: 400px; overflow-y: auto;">
+                                            ${usersList}
+                                        </ul>
+                                    </div>
+                                `,
+                                icon: "info",
+                                confirmButtonText: "Cerrar",
+                                width: '600px'
+                            });
+                        } else {
+                            toast.info('Este directorio no está compartido con otros usuarios');
+                        }
+                    })
+                    .catch((error) => {
+                        toast.error(error?.MESSAGE || 'Error al obtener los usuarios compartidos');
+                    });
+            } catch (error) {
+                toast.error(error?.MESSAGE || 'Error al consultar usuarios compartidos');
+            } finally {
+                this.isLoading = false;
+            }
+        },
     },
     // escucha de active
     watch: {
@@ -835,18 +962,18 @@ export default {
                 ...this.actionsDocuments.delete,
                 action: (item) => {
                     this.$swal({
-                        title: "Eliminar documento",
-                        html: `
-                            ¿Está seguro de que desea eliminar el documento <strong>${item.TITULO}</strong>?
-                            ${item.CANT > 0 ? `<p style="color: #FF0000;">Este documento se ha compartido con ${item.CANT} usuarios, si lo elimina, se eliminará para todos los usuarios que lo tengan compartido.
-                                </p>` : ''}
-                        `,
-                        icon: "warning",
+                        title: '<span style="color:#e53e3e;font-weight:700;">Eliminar documento</span>',
+                        html: `<div style='font-size:1.1em;'>¿Seguro que deseas eliminar el documento <strong style='color:#e53e3e;'>${item.TITULO}</strong>?<br>${item.CANT > 0 ? `<span style='color:#e53e3e;font-size:12px;'>Este documento está compartido con ${item.CANT} usuario(s). Si lo eliminas, se eliminará para todos.</span>` : ''}</div>`,
+                        icon: "error",
                         showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        cancelButtonText: "No, cancelar",
-                        confirmButtonText: "Sí, eliminar",
+                        confirmButtonColor: "#e53e3e",
+                        cancelButtonColor: "#6B7280",
+                        cancelButtonText: "Cancelar",
+                        confirmButtonText: "Eliminar",
+                        customClass: {
+                            confirmButton: 'swal2-confirm btn btn-danger',
+                            cancelButton: 'swal2-cancel btn btn-secondary'
+                        }
                     }).then(async (result) => {
                         if (result.isConfirmed) {
                             this.isLoading = true;
@@ -925,8 +1052,15 @@ export default {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .favorites-header {
@@ -947,6 +1081,13 @@ export default {
     display: flex;
     align-items: center;
     gap: 1.5rem;
+    width: 100%;
+}
+
+.header-title-section > div {
+    flex: 1;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .header-icon,
@@ -957,8 +1098,15 @@ export default {
 }
 
 @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
 }
 
 .favorites-title {
@@ -969,12 +1117,21 @@ export default {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    width: 100%;
 }
 
 .favorites-subtitle {
     color: #6B7280;
     font-size: 0.95rem;
     margin: 0.25rem 0 0 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    max-width: 100%;
+    width: 100%;
 }
 
 .favorites-content {
@@ -1025,14 +1182,14 @@ export default {
 
 .tab-button.active,
 .tab-button.tab-active {
-    background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-    color: white !important;
-    box-shadow: 0 4px 15px rgba(223, 45, 178, 0.3);
+    background: rgba(24, 92, 230, 0.05);
+    color: #185CE6 !important;
 }
 
 .tab-button.active:hover,
 .tab-button.tab-active:hover {
-    background: linear-gradient(135deg, #c528a0 0%, #1450c9 100%);
+    background: rgba(24, 92, 230, 0.08);
+    color: #185CE6;
 }
 
 .tab-content {
@@ -1045,29 +1202,31 @@ export default {
 
 .filters-card {
     background: white;
-    border-radius: 16px;
+    border-radius: 20px;
     padding: 2rem;
     margin-bottom: 2rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #F3F4F6;
 }
 
 .filters-header {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
-    border-bottom: 2px solid #f7fafc;
+    border-bottom: 2px solid #F3F4F6;
 }
 
 .filters-header svg {
-    color: #E71FB3;
+    color: #185CE6;
+    flex-shrink: 0;
 }
 
 .filters-header h3 {
     font-size: 1.25rem;
-    font-weight: 600;
-    color: #1a202c;
+    font-weight: 700;
+    color: #1F2937;
     margin: 0;
 }
 
@@ -1088,10 +1247,12 @@ export default {
 }
 
 .form-label {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    color: #4a5568;
-    margin-bottom: 0.5rem;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
 }
 
 .input-wrapper {
@@ -1103,35 +1264,53 @@ export default {
 .input-icon {
     position: absolute;
     left: 1rem;
-    color: #a0aec0;
+    color: #9CA3AF;
     pointer-events: none;
-    z-index: 1;
+    z-index: 10;
+    flex-shrink: 0;
 }
 
 .form-input {
     width: 100%;
-    padding: 0.75rem 1rem 0.75rem 3.25rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 10px;
-    font-size: 1rem;
-    color: #2d3748;
+    padding: 0.875rem 1rem 0.875rem 3rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: #1F2937;
     background: white;
     transition: all 0.3s ease;
 }
 
 .form-input:focus {
     outline: none;
-    border-color: #E71FB3;
-    box-shadow: 0 0 0 3px rgba(231, 31, 179, 0.1);
+    border-color: #185CE6;
+    box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.form-input::placeholder {
+    color: #9CA3AF;
 }
 
 .form-select {
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a0aec0' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 1rem center;
     padding-right: 3rem;
     cursor: pointer;
+    background-color: transparent;
+}
+
+.form-input:disabled {
+    background-color: #F9FAFB;
+    color: #9CA3AF;
+    cursor: not-allowed;
+}
+
+.form-select-no-icon {
+    padding-left: 1rem !important;
 }
 
 .filters-actions {
@@ -1139,7 +1318,8 @@ export default {
     gap: 1rem;
 }
 
-.btn-search, .btn-create {
+.btn-search,
+.btn-create {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -1153,14 +1333,14 @@ export default {
 }
 
 .btn-search {
-    background: linear-gradient(135deg, #E71FB3 0%, #FF6B9D 100%);
+    background: linear-gradient(135deg, #8B5CF6 0%, #185CE6 100%);
     color: white;
-    box-shadow: 0 4px 12px rgba(231, 31, 179, 0.3);
+    box-shadow: 0 4px 12px rgba(24, 92, 230, 0.3);
 }
 
 .btn-search:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(231, 31, 179, 0.4);
+    box-shadow: 0 6px 20px rgba(24, 92, 230, 0.4);
 }
 
 .btn-create {
@@ -1231,9 +1411,9 @@ export default {
 }
 
 .directory-card:hover {
-    transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    border-color: #E71FB3;
+    /* // un azul bebe */
+    border-color: rgba(24, 92, 230, 0.05);
 }
 
 .directory-card-header {
@@ -1261,7 +1441,7 @@ export default {
     width: 20px;
     height: 20px;
     cursor: pointer;
-    accent-color: #E71FB3;
+    accent-color: #60A5FA;
 }
 
 .directory-name {
@@ -1316,9 +1496,321 @@ export default {
     transform: translateX(-4px);
 }
 
+.directory-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+    justify-content: flex-end;
+}
+
+.directory-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.directory-action-btn span {
+    display: none;
+}
+
+.directory-action-download,
+.directory-action-shared {
+    background: transparent;
+    color: #6B7280;
+    box-shadow: none;
+}
+
+.directory-action-download:hover {
+    background: rgba(107, 114, 128, 0.1);
+    color: #4B5563;
+}
+
+.directory-action-shared:hover {
+    background: rgba(107, 114, 128, 0.1);
+    color: #4B5563;
+}
+
+.directory-action-btn svg {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+}
+
 @media (max-width: 768px) {
-    .favorites-container { padding: 1rem; }
-    .filters-grid { grid-template-columns: 1fr; }
-    .directories-grid { grid-template-columns: 1fr; }
+    .favorites-container {
+        padding-bottom: 2rem;
+    }
+
+    .favorites-header {
+        padding: 1.25rem 0;
+    }
+
+    .favorites-header-content {
+        padding: 0 1rem;
+    }
+
+    .header-title-section {
+        gap: 0.875rem;
+        flex-wrap: wrap;
+    }
+
+    .header-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .favorites-title {
+        font-size: 1.5rem;
+    }
+
+    .favorites-subtitle {
+        font-size: 0.875rem;
+    }
+
+    .favorites-content {
+        padding: 0 1rem;
+    }
+
+    .tabs-modern {
+        gap: 0.5rem;
+        padding: 0.375rem;
+    }
+
+    .tab-button {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .tab-button svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .filters-card {
+        padding: 1.5rem 1.25rem;
+        border-radius: 16px;
+    }
+
+    .filters-header h3 {
+        font-size: 1.1rem;
+    }
+
+    .filters-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .form-input {
+        padding: 0.875rem 1rem 0.875rem 2.75rem;
+        font-size: 0.9rem;
+    }
+
+    .input-icon {
+        left: 0.875rem;
+        width: 16px;
+        height: 16px;
+    }
+
+    .form-label {
+        font-size: 0.85rem;
+    }
+
+    .filters-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .btn-search,
+    .btn-create {
+        width: 100%;
+        justify-content: center;
+        padding: 0.875rem 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    .documents-table-card {
+        padding: 1.5rem 1rem;
+        border-radius: 16px;
+    }
+
+    .directories-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .directory-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .directory-card-header {
+        margin-bottom: 1rem;
+    }
+
+    .directory-icon-lg {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+    }
+
+    .directory-icon-lg svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .checkbox-input {
+        width: 18px;
+        height: 18px;
+    }
+
+    .directory-name {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .directory-stats {
+        gap: 0.375rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .stat-item {
+        font-size: 0.8rem;
+    }
+
+    .stat-item svg {
+        width: 13px;
+        height: 13px;
+    }
+
+    .directory-creator {
+        font-size: 0.8rem;
+        padding-top: 0.625rem;
+    }
+
+    .directory-creator svg {
+        width: 13px;
+        height: 13px;
+    }
+
+    .directory-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .favorites-title {
+        font-size: 1.25rem;
+    }
+
+    .favorites-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .header-title-section {
+        gap: 0.75rem;
+    }
+
+    .header-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .filters-card {
+        padding: 1.25rem 1rem;
+    }
+
+    .filters-header h3 {
+        font-size: 1rem;
+    }
+
+    .form-input {
+        padding: 0.75rem 0.875rem 0.75rem 2.5rem;
+        font-size: 0.875rem;
+    }
+
+    .tab-button {
+        padding: 0.625rem 0.375rem;
+        font-size: 0.8rem;
+    }
+
+    .btn-search,
+    .btn-create {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.875rem;
+    }
+
+    .documents-table-card {
+        padding: 1.25rem 0.875rem;
+    }
+
+    .directory-card {
+        padding: 0.875rem;
+    }
+
+    .directory-icon-lg {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+    }
+
+    .directory-icon-lg svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .checkbox-input {
+        width: 16px;
+        height: 16px;
+    }
+
+    .directory-name {
+        font-size: 0.9rem;
+        margin-bottom: 0.625rem;
+    }
+
+    .directory-stats {
+        gap: 0.25rem;
+        margin-bottom: 0.625rem;
+    }
+
+    .stat-item,
+    .directory-creator {
+        font-size: 0.75rem;
+    }
+
+    .stat-item svg,
+    .directory-creator svg {
+        width: 12px;
+        height: 12px;
+    }
+
+    .directory-actions {
+        margin-top: 0.625rem;
+        padding-top: 0.625rem;
+    }
+
+    .directory-action-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .directory-action-btn svg {
+        width: 14px;
+        height: 14px;
+    }
 }
 </style>

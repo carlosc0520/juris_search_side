@@ -1,5 +1,5 @@
 <template>
-    <section class="mantenimiento-container mt-4 pt-2">
+    <section class="mantenimiento-container">
         <!-- Header con Título -->
         <div class="mantenimiento-header">
             <div class="mantenimiento-header-content">
@@ -465,24 +465,28 @@ export default {
 
 <style scoped>
 /* Container Principal */
+/* Container Principal */
 .mantenimiento-container {
     min-height: 100vh;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    padding: 0 2rem;
 }
 
+/* Header */
 /* Header */
 .mantenimiento-header {
     background: white;
     border-bottom: 1px solid #E5E7EB;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    padding: 2rem 0;
-    margin-bottom: 2rem;
+    padding: 0 0 1.5rem 0;
+    margin: 0 -2rem 2rem -2rem;
 }
 
+/* Header Content */
 .mantenimiento-header-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 1.5rem 2rem 0 2rem;
 }
 
 .header-title-section {
@@ -525,10 +529,11 @@ export default {
 }
 
 /* Content */
+/* Content Wrapper */
 .mantenimiento-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 2rem 2rem;
+    padding: 0 0 2rem 0;
 }
 
 /* Modern Tabs */
@@ -561,14 +566,13 @@ export default {
 }
 
 .tab-button:hover {
-    background: rgba(139, 92, 246, 0.08);
-    color: #8B5CF6;
+    background: rgba(24, 92, 230, 0.05);
+    color: #185CE6;
 }
 
 .tab-button.tab-active {
-    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-    color: white;
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    background: rgba(24, 92, 230, 0.05);
+    color: #185CE6 !important;
 }
 
 .tab-button svg {
@@ -577,12 +581,14 @@ export default {
 }
 
 /* Filters Section */
+/* Filters Section */
 .filters-section {
     background: white;
-    border-radius: 16px;
-    padding: 1.5rem;
+    border-radius: 20px;
+    padding: 2rem;
     margin-bottom: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #F3F4F6;
     display: grid;
     grid-template-columns: 2fr 1fr auto;
     gap: 1rem;
@@ -604,27 +610,29 @@ export default {
     pointer-events: none;
 }
 
+/* Search Input */
+/* Search Input */
 .modern-input {
     width: 100%;
-    padding: 12px 14px 12px 44px;
-    border: 2px solid #e2e8f0;
+    padding: 0.875rem 1rem 0.875rem 2.75rem;
+    border: 2px solid #E5E7EB;
     border-radius: 12px;
     font-family: Lato, sans-serif;
-    font-size: 15px;
-    color: #1e293b;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: #f8fafc;
+    font-size: 0.95rem;
+    color: #1F2937;
+    transition: all 0.3s ease;
+    background: white;
 }
 
 .modern-input:focus {
     outline: none;
-    border-color: #8B5CF6;
+    border-color: #185CE6;
     background: white;
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
 }
 
 .modern-input::placeholder {
-    color: #94a3b8;
+    color: #9CA3AF;
 }
 
 /* Select Wrapper */
@@ -632,24 +640,26 @@ export default {
     position: relative;
 }
 
+/* Select Wrapper */
+/* Select Wrapper */
 .modern-select {
     width: 100%;
-    padding: 12px 14px;
-    border: 2px solid #e2e8f0;
+    padding: 0.875rem 1rem;
+    border: 2px solid #E5E7EB;
     border-radius: 12px;
     font-family: Lato, sans-serif;
-    font-size: 15px;
-    color: #1e293b;
-    background: #f8fafc;
+    font-size: 0.95rem;
+    color: #1F2937;
+    background: white;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
 }
 
 .modern-select:focus {
     outline: none;
-    border-color: #8B5CF6;
+    border-color: #185CE6;
     background: white;
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
 }
 
 /* Button Group */
@@ -701,62 +711,160 @@ export default {
 }
 
 /* Table Section */
+/* Table Section */
 .table-section {
     background: white;
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #F3F4F6;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+    .mantenimiento-container {
+        padding: 0 1.5rem;
+    }
+    .mantenimiento-header {
+        margin: 0 -1.5rem 2rem -1.5rem;
+    }
     .mantenimiento-header-content {
+        padding: 1.5rem 1.5rem 0 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .mantenimiento-container {
         padding: 0 1rem;
     }
-
+    .mantenimiento-header {
+        padding: 0 0 1.25rem 0;
+        margin: 0 -1rem 1.5rem -1rem;
+    }
+    .mantenimiento-header-content {
+        padding: 1.25rem 1rem 0 1rem;
+    }
     .header-title-section {
-        gap: 1rem;
+        gap: 0.875rem;
     }
-
     .header-icon {
-        width: 24px;
-        height: 24px;
+        width: 26px;
+        height: 26px;
     }
-
     .mantenimiento-title {
-        font-size: 1.5rem;
+        font-size: 1.35rem;
+        line-height: 1.3;
     }
-
     .mantenimiento-subtitle {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
+        line-height: 1.4;
     }
-
     .mantenimiento-content {
         padding: 0 1rem 1rem;
     }
-
     .tabs-modern {
         flex-direction: column;
         gap: 8px;
     }
-
     .tab-button {
         width: 100%;
         padding: 12px 20px;
     }
-
     .filters-section {
         grid-template-columns: 1fr;
-        padding: 1rem;
+        padding: 1.25rem;
+        border-radius: 16px;
     }
-
     .button-group {
         width: 100%;
     }
-
     .modern-btn {
         flex: 1;
         justify-content: center;
+        padding: 0.875rem 1.25rem;
+        font-size: 0.9rem;
+    }
+    .table-section {
+        border-radius: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mantenimiento-container {
+        padding: 0 0.875rem;
+    }
+    .mantenimiento-header {
+        padding: 0 0 1rem 0;
+        margin: 0 -0.875rem 1.25rem -0.875rem;
+    }
+    .mantenimiento-header-content {
+        padding: 1rem 0.875rem 0 0.875rem;
+    }
+    .header-title-section {
+        gap: 0.625rem;
+        align-items: flex-start;
+    }
+    .header-icon {
+        width: 22px;
+        height: 22px;
+        margin-top: 0.125rem;
+    }
+    .mantenimiento-title {
+        font-size: 1.05rem;
+        line-height: 1.3;
+        overflow-wrap: break-word;
+    }
+    .mantenimiento-subtitle {
+        font-size: 0.72rem;
+        line-height: 1.3;
+        overflow-wrap: break-word;
+    }
+    .tabs-modern {
+        padding: 0.25rem;
+        gap: 0.375rem;
+        border-radius: 12px;
+    }
+    .tab-button {
+        padding: 0.625rem 0.5rem;
+        gap: 0.25rem;
+        border-radius: 8px;
+        font-size: 0.8rem;
+    }
+    .tab-button svg {
+        width: 16px;
+        height: 16px;
+    }
+    .filters-section {
+        padding: 1rem;
+        border-radius: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .search-input-wrapper,
+    .select-wrapper {
+        width: 100%;
+    }
+    .modern-input,
+    .modern-select {
+        padding: 1rem 1.25rem;
+        font-size: 1rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .button-group {
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+    .modern-btn {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+        width: 100%;
+        justify-content: center;
+    }
+    .table-section {
+        border-radius: 14px;
     }
 }
 </style>

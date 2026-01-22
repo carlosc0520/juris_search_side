@@ -291,10 +291,12 @@ export default {
       this.paseForm = paso;
     },
     async loginWithGoogle() {
-      window.location.href = `${this.urlApi}/auth/google-register`;
+      // window.location.href = `${this.urlApi}/auth/google-register`;
+      return 1
     },
     async loginWithLinkedin() {
-      window.location.href = `${this.urlApi}/auth/linkedin-register`;
+      // window.location.href = `${this.urlApi}/auth/linkedin-register`;
+      return 1
     },
     togglePassword(indicador = 1) {
       if (indicador == 1) {
@@ -383,7 +385,7 @@ export default {
 
 .social-btn:hover {
   background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(139, 92, 246, 0.05) 50%, rgba(24, 92, 230, 0.05) 100%);
-  border-color: #c4b5fd;
+  border-color: #E5E7EB;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
 }
@@ -600,10 +602,7 @@ form {
 .register-title {
   font-size: 28px;
   font-weight: 700;
-  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #6B7280;
   margin-bottom: 1.5rem;
 }
 

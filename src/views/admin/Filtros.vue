@@ -1,5 +1,5 @@
 <template>
-    <section class="filtros-container mt-4 pt-2">
+    <section class="filtros-container">
         <!-- Header con Título -->
         <div class="filtros-header">
             <div class="filtros-header-content">
@@ -745,14 +745,13 @@ export default {
 }
 
 .tab-button:not(.tab-disabled):hover {
-    background: rgba(139, 92, 246, 0.08);
-    color: #8B5CF6;
+    background: rgba(24, 92, 230, 0.05);
+    color: #185CE6;
 }
 
 .tab-button.tab-active {
-    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-    color: white;
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    background: rgba(24, 92, 230, 0.05);
+    color: #185CE6 !important;
 }
 
 .tab-button.tab-disabled {
@@ -834,11 +833,12 @@ export default {
     background: #f8fafc;
 }
 
+
 .modern-input:focus {
     outline: none;
-    border-color: #8B5CF6;
+    border-color: #185CE6;
     background: white;
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
 }
 
 .modern-input::placeholder {
@@ -863,11 +863,12 @@ export default {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+
 .modern-select:focus {
     outline: none;
-    border-color: #8B5CF6;
+    border-color: #185CE6;
     background: white;
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
 }
 
 /* Button Group Extended */
@@ -933,62 +934,168 @@ export default {
 /* Table Section */
 .table-section {
     background: white;
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #F3F4F6;
 }
 
 /* Responsive */
-@media (max-width: 1200px) {
-    .tabs-modern {
-        grid-template-columns: repeat(4, 1fr);
+@media (max-width: 1024px) {
+    .filtros-container {
+        padding: 0 1.5rem;
+    }
+    .filtros-header {
+        margin: 0 -1.5rem 2rem -1.5rem;
+    }
+    .filtros-header-content {
+        padding: 1.5rem 1.5rem 0 1.5rem;
     }
 }
 
 @media (max-width: 768px) {
-    .filtros-header-content {
-        padding: 0 1rem;
+    .filtros-container {
+        padding: 0 0.5rem;
     }
-
-    .header-title-section {
-        gap: 1rem;
-    }
-
-    .header-icon {
-        width: 24px;
-        height: 24px;
-    }
-
-    .filtros-title {
-        font-size: 1.5rem;
-    }
-
-    .filtros-subtitle {
-        font-size: 0.85rem;
-    }
-
     .filtros-content {
-        padding: 0 1rem 1rem;
+        padding: 0 0.5rem 1rem 0.5rem;
     }
-
+    .filtros-header {
+        padding: 0 0 1.25rem 0;
+        margin: 0 -0.5rem 1.5rem -0.5rem;
+    }
+    .filtros-header-content {
+        padding: 1.25rem 0.5rem 0 0.5rem;
+    }
+    .header-title-section {
+        gap: 0.875rem;
+    }
+    .header-icon {
+        width: 26px;
+        height: 26px;
+    }
+    .filtros-title {
+        font-size: 1.35rem;
+        line-height: 1.3;
+    }
+    .filtros-subtitle {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
     .tabs-modern {
-        grid-template-columns: repeat(2, 1fr);
+        flex-direction: row;
+        gap: 0.5rem;
+        padding: 0.375rem;
+        border-radius: 14px;
     }
-
+    .tab-button {
+        padding: 0.75rem 0.625rem;
+        font-size: 0.85rem;
+        flex-direction: column;
+        gap: 0.375rem;
+        border-radius: 10px;
+    }
+    .tab-button svg {
+        width: 18px;
+        height: 18px;
+    }
     .filters-section {
+        padding: 1.25rem;
+        border-radius: 16px;
         grid-template-columns: 1fr;
-        padding: 1rem;
     }
-
     .button-group-extended {
         width: 100%;
+        flex-direction: column;
+        gap: 12px;
     }
-
     .modern-btn {
         flex: 1;
         justify-content: center;
-        font-size: 13px;
-        padding: 10px 16px;
+        padding: 0.875rem 1.25rem;
+        font-size: 0.9rem;
+    }
+    .table-section {
+        border-radius: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .filtros-container {
+        padding: 0 0.875rem;
+    }
+    .filtros-header {
+        padding: 0 0 1rem 0;
+        margin: 0 -0.875rem 1.25rem -0.875rem;
+    }
+    .filtros-header-content {
+        padding: 1rem 0.875rem 0 0.875rem;
+    }
+    .header-title-section {
+        gap: 0.625rem;
+        align-items: flex-start;
+    }
+    .header-icon {
+        width: 22px;
+        height: 22px;
+        margin-top: 0.125rem;
+    }
+    .filtros-title {
+        font-size: 1.05rem;
+        line-height: 1.3;
+        overflow-wrap: break-word;
+    }
+    .filtros-subtitle {
+        font-size: 0.72rem;
+        line-height: 1.3;
+        overflow-wrap: break-word;
+    }
+    .tabs-modern {
+        padding: 0.25rem;
+        gap: 0.375rem;
+        border-radius: 12px;
+    }
+    .tab-button {
+        padding: 0.625rem 0.5rem;
+        gap: 0.25rem;
+        border-radius: 8px;
+        font-size: 0.8rem;
+    }
+    .tab-button svg {
+        width: 16px;
+        height: 16px;
+    }
+    .filters-section {
+        padding: 1.25rem;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .search-input-wrapper,
+    .select-wrapper {
+        width: 100%;
+    }
+    .modern-input,
+    .modern-select {
+        padding: 1rem 1.25rem;
+        font-size: 1rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .button-group-extended {
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+    .modern-btn {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+        width: 100%;
+        justify-content: center;
+    }
+    .table-section {
+        border-radius: 14px;
     }
 }
 </style>

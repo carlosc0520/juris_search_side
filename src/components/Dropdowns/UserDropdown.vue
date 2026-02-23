@@ -268,7 +268,7 @@ export default {
         EMAIL: "",
         RTAFTO: "",
       },
-      domain: "http://localhost:8080" + "/usuario/investigacion?search=",
+      domain: "https://side.jurissearch.com" + "/usuario/investigacion?search=",
     };
   },
   props: {

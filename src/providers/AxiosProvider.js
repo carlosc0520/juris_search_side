@@ -12,8 +12,8 @@ axios.interceptors.request.use(
     //   request.url = "http://localhost:3000" + request.url;
     // }
     if (request.url){
-      //  request.url = "https://api.jurissearch.com" + request.url;
-      request.url = "http://localhost:3000" + request.url;
+       request.url = "https://api.jurissearch.com" + request.url;
+      // request.url = "http://localhost:3000" + request.url;
     }
     // const token = app.$store.state.auth.token;
     const token = localStorage.getItem('accessToken');

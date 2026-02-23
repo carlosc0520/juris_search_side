@@ -337,7 +337,7 @@
             </div>
             <div v-for="(item, index) in resultados" :key="index" class="result-item">
                 <!-- Título con flecha -->
-                <div class="result-title" @click="openModalWithData(item)">
+                <div class="result-title" @click="openModalWithData(item, index)">
                     <span v-html="highlightText(item.TITULO)"></span>
                     <div class="copy-btn-container">
                         <button @click.stop="copyToClipboard(item.TITULO, index)" class="copy-btn" title="Copiar título">
@@ -504,8 +504,16 @@
             </div>
         </transition>
 
-        <ModalMostrarResolucion :openModal="openModal" :toggleModal="() => this.openModal = !this.openModal"
-            :pdfUrl="pdfUrl" :data="rowData" :role="role" />
+        <ModalMostrarResolucion 
+            :openModal="openModal" 
+            :toggleModal="() => this.openModal = !this.openModal"
+            :pdfUrl="pdfUrl" 
+            :data="rowData" 
+            :role="role"
+            :currentIndex="currentResultIndex"
+            :totalResults="resultados.length"
+            :showNavigation="true"
+            @navigate="navigateResults" />
 
         <!-- Botón scroll to top -->
         <transition name="fade-scale">
@@ -653,7 +661,8 @@ export default {
             dataComplete: [],
             rowData: {},
             showScrollTop: false,
-            showCopyMessage: null
+            showCopyMessage: null,
+            currentResultIndex: 0
         };
     },
     components: {
@@ -831,9 +840,18 @@ export default {
                 return null;
             }
         },
-        openModalWithData(item) {
+        openModalWithData(item, index) {
             this.rowData = item;
+            this.currentResultIndex = index;
             this.openModal = true;
+        },
+        navigateResults(direction) {
+            if (direction === 'next' && this.currentResultIndex < this.resultados.length - 1) {
+                this.currentResultIndex++;
+            } else if (direction === 'prev' && this.currentResultIndex > 0) {
+                this.currentResultIndex--;
+            }
+            this.rowData = this.resultados[this.currentResultIndex];
         },
         searchSugges() {
             if (this.filter.GLOBAL?.length < 5) return;

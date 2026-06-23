@@ -142,6 +142,20 @@
             <span>Ingresar</span>
           </button>
 
+          <!-- Migración S3 → Hostinger (solo visible con ?migra=1) -->
+          <button v-if="showMigracion" class="modern-btn" style="background:#7c3aed;color:#fff;" @click="openMigracion">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>Migrar S3→Hostinger</span>
+          </button>
+
+          <!-- Sync archivos desde JSON de V2 -->
+          <!-- <button class="modern-btn" style="background:#0d9488;color:#fff;" @click="$refs.syncJsonInput.click()" :disabled="syncFilesLoading">
+            <svg v-if="syncFilesLoading" style="animation:spin 1s linear infinite" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+            <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            <span>{{ syncFilesLoading ? 'Sincronizando...' : 'Sync Archivos' }}</span>
+          </button>
+          <input ref="syncJsonInput" type="file" accept=".json" style="display:none" @change="onSyncJsonSelected" /> -->
+
           <div class="dropdown-modern">
             <button class="modern-btn btn-export dropdown-toggle" type="button" id="dropdownExport" data-bs-toggle="dropdown" aria-expanded="false">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -227,6 +241,51 @@
       <ModalEliminar :role="role" :message="'¿Está seguro de cambiar el estado de este registro?'"
         :buttonOk="'Si, cambiar'" :action="deleteRow" :openDelete="modalEliminar.show"
         :closeHandler="() => modalEliminar.show = false" />
+
+      <!-- Modal Migración S3 → Hostinger -->
+      <div v-if="migracion.show" class="modal-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;">
+        <div style="background:#fff;border-radius:12px;padding:28px;width:520px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.3);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <h5 style="margin:0;font-weight:700;color:#1e3a5f;">Migración S3 → Hostinger</h5>
+            <button @click="closeMigracion" style="background:none;border:none;font-size:20px;cursor:pointer;color:#6b7280;">✕</button>
+          </div>
+
+          <!-- Preview -->
+          <div v-if="migracion.status === 'idle'" style="text-align:center;padding:16px 0;">
+            <p style="color:#374151;font-size:15px;">Archivos pendientes de migración (rutas S3):</p>
+            <p style="font-size:32px;font-weight:800;color:#7c3aed;">{{ migracion.total }}</p>
+            <button @click="startMigracion" class="modern-btn" style="background:#7c3aed;color:#fff;margin-top:12px;" :disabled="migracion.total === 0">
+              Iniciar Migración
+            </button>
+          </div>
+
+          <!-- Progreso -->
+          <div v-if="migracion.status === 'running'" style="padding:8px 0;">
+            <p style="color:#374151;margin-bottom:8px;">Migrando archivos... {{ migracion.current }} / {{ migracion.total }}</p>
+            <div style="background:#e5e7eb;border-radius:99px;height:10px;overflow:hidden;">
+              <div :style="`width:${migracion.total ? Math.round(migracion.current/migracion.total*100) : 0}%;background:#7c3aed;height:100%;transition:width .3s`"></div>
+            </div>
+            <p style="margin-top:10px;font-size:13px;color:#6b7280;">
+              ✅ {{ migracion.ok }} correctos &nbsp;|&nbsp; ❌ {{ migracion.errors }} errores
+            </p>
+          </div>
+
+          <!-- Resultado -->
+          <div v-if="migracion.status === 'done'" style="text-align:center;padding:8px 0;">
+            <p style="font-size:22px;font-weight:700;color:#16a34a;">✅ Migración completada</p>
+            <p style="color:#374151;margin:8px 0;">{{ migracion.ok }} archivos migrados &nbsp;|&nbsp; {{ migracion.errors }} errores</p>
+            <button @click="downloadMigExcel" class="modern-btn" style="background:#1e3a5f;color:#fff;margin-top:10px;">
+              Descargar Excel
+            </button>
+          </div>
+
+          <!-- Error fatal -->
+          <div v-if="migracion.status === 'error'" style="text-align:center;color:#dc2626;padding:16px 0;">
+            <p>❌ Error durante la migración</p>
+            <p v-if="migracion.errMsg" style="font-size:12px;background:#fef2f2;border:1px solid #fca5a5;border-radius:6px;padding:8px;margin-top:8px;text-align:left;word-break:break-all;">{{ migracion.errMsg }}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -269,6 +328,12 @@ export default {
   },
   data() {
     return {
+      syncFilesLoading: false,
+      showMigracion: new URLSearchParams(window.location.search).get('migra') === '1',
+      migracion: {
+        show: false, status: 'idle', total: 0, current: 0, ok: 0, errors: 0,
+        jobId: null, _pollTimer: null, errMsg: null,
+      },
       currentPage: 10,
       data: [],
       grid: {
@@ -464,6 +529,68 @@ export default {
     }
   },
   methods: {
+    async openMigracion() {
+      this.migracion.show = true;
+      this.migracion.status = 'idle';
+      this.migracion.total = 0;
+      try {
+        const { total } = await adminEntriesProxy.migrationPreview();
+        this.migracion.total = total;
+      } catch { this.migracion.total = 0; }
+    },
+    closeMigracion() {
+      if (this.migracion._pollTimer) clearInterval(this.migracion._pollTimer);
+      this.migracion.show = false;
+    },
+    async startMigracion() {
+      this.migracion.status = 'running';
+      this.migracion.current = 0; this.migracion.ok = 0; this.migracion.errors = 0;
+      const { jobId } = await adminEntriesProxy.migrationStart();
+      this.migracion.jobId = jobId;
+      this.migracion._pollTimer = setInterval(async () => {
+        try {
+          const p = await adminEntriesProxy.migrationProgress(jobId);
+          this.migracion.current = p.current;
+          this.migracion.ok      = p.ok;
+          this.migracion.errors  = p.errors;
+          if (p.errMsg) this.migracion.errMsg = p.errMsg;
+          if (p.status === 'done' || p.status === 'error') {
+            clearInterval(this.migracion._pollTimer);
+            this.migracion.status = p.status;
+          }
+        } catch { /* ignora errores de polling */ }
+      }, 2000);
+    },
+    async downloadMigExcel() {
+      try {
+        const blob = await adminEntriesProxy.migrationExcel(this.migracion.jobId);
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href = url; a.download = 'migracion.xlsx'; a.click();
+        URL.revokeObjectURL(url);
+      } catch { toast.error('Error al descargar el Excel'); }
+    },
+    async onSyncJsonSelected(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      event.target.value = ''; // reset para permitir seleccionar el mismo archivo de nuevo
+      this.syncFilesLoading = true;
+      try {
+        const text = await file.text();
+        const entries = JSON.parse(text);
+        if (!Array.isArray(entries)) throw new Error('El archivo no contiene un array válido');
+        const result = await adminEntriesProxy.syncFiles(entries);
+        toast.success(
+          `Se subieron ${result.subidos} registros y se actualizaron ${result.actualizados} registros`,
+          { autoClose: 8000 }
+        );
+        this.getEntries(this.grid.currentPage, this.grid.perPage);
+      } catch (err) {
+        toast.error('Error al sincronizar: ' + (err?.message || 'Error desconocido'));
+      } finally {
+        this.syncFilesLoading = false;
+      }
+    },
     async getEntries(currentPage, perPage) {
       const init = (currentPage - 1) * perPage;
       const rows = perPage;

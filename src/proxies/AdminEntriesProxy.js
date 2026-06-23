@@ -205,6 +205,31 @@ class AdminEntriesProxy {
     const { data } = await axios.post(`/admin/entries/intercambio-order-search`, { IdOrden, IdOrden2 });
     return data;
   }
+
+  async migrationPreview() {
+    const { data } = await axios.get('/admin/entries/migration/preview');
+    return data;
+  }
+
+  async migrationStart() {
+    const { data } = await axios.post('/admin/entries/migration/start');
+    return data;
+  }
+
+  async migrationProgress(jobId) {
+    const { data } = await axios.get(`/admin/entries/migration/progress/${jobId}`);
+    return data;
+  }
+
+  async migrationExcel(jobId) {
+    const { data } = await axios.get(`/admin/entries/migration/excel/${jobId}`, { responseType: 'blob' });
+    return data;
+  }
+
+  async syncFiles(entries) {
+    const { data } = await axios.post(`/admin/entries/sync-files`, { entries });
+    return data;
+  }
 }
 
 export default new AdminEntriesProxy();

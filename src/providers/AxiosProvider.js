@@ -50,9 +50,14 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
+    console.log(`[API] ${response.config?.method?.toUpperCase()} ${response.config?.url} →`, response.data);
     return response;
   },
   async (error) => {
+    console.error(
+      `[API ERROR] ${error.config?.method?.toUpperCase()} ${error.config?.url} → status=${error.response?.status}`,
+      error.response?.data ?? error.message,
+    );
     const originalRequest = error.config;
 
     // Si el error es 401 y no estamos en login/refresh y no hemos reintentado
@@ -165,6 +170,6 @@ axios.interceptors.response.use(
       }
     }
 
-    return Promise.reject(error.response?.data);
+    return Promise.reject(error.response?.data ?? { MESSAGE: error.message || 'Error de conexión con el servidor', STATUS: false });
   }
 );

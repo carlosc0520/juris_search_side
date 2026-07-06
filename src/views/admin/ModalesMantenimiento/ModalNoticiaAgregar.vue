@@ -75,8 +75,10 @@
                 <!-- FECHA PUBLICACIÓN -->
                 <div class="col-md-6 col-12 mb-3" v-if="isView.FECHAS_PUB.includes(modelo.TIPO)">
                     <label class="form-label">Fecha de publicación <span class="text-danger">*</span></label>
-                    <input type="date" v-model="modelo.FCHPUB" class="form-control"
-                        :class="{ error: validation.hasError('modelo.FCHPUB') }" />
+                    <date-picker :class="{ error: validation.hasError('modelo.FCHPUB') }"
+                        v-model="modelo.FCHPUB" :value="modelo.FCHPUB" valueType="format"
+                        placeholder="Seleccione una fecha"
+                        @change="(date) => modelo.FCHPUB = date"></date-picker>
                     <span class="message" v-if="validation.hasError('modelo.FCHPUB')">
                         {{ validation.firstError('modelo.FCHPUB') }}
                     </span>
@@ -85,8 +87,10 @@
                 <!-- FECHA CONSULTA -->
                 <div class="col-md-6 col-12 mb-3" v-if="isView.FECHAS_CONSULTA.includes(modelo.TIPO)">
                     <label class="form-label">Fecha de consulta <span class="text-danger">*</span></label>
-                    <input type="date" v-model="modelo.FCHCONSULTA" class="form-control"
-                        :class="{ error: validation.hasError('modelo.FCHCONSULTA') }" />
+                    <date-picker :class="{ error: validation.hasError('modelo.FCHCONSULTA') }"
+                        v-model="modelo.FCHCONSULTA" :value="modelo.FCHCONSULTA" valueType="format"
+                        placeholder="Seleccione una fecha"
+                        @change="(date) => modelo.FCHCONSULTA = date"></date-picker>
                     <span class="message" v-if="validation.hasError('modelo.FCHCONSULTA')">
                         {{ validation.firstError('modelo.FCHCONSULTA') }}
                     </span>
@@ -219,8 +223,11 @@ export default {
             formData.append('IDAUTORES', this.modelo.IDAUTORES?.length ? this.modelo.IDAUTORES.join(',') : '');
             if (this.pdfFile) formData.append('pdf', this.pdfFile);
 
+            console.log('[ModalNoticiaAgregar] enviando formData:', Object.fromEntries(formData.entries()));
+
             await MantenimientoProxy.create(formData)
                 .then(response => {
+                    console.log('[ModalNoticiaAgregar] respuesta del API:', response);
                     if (response.STATUS) {
                         toast.success('Registro creado con éxito');
                         this.reset();
@@ -230,7 +237,10 @@ export default {
                         toast.error(response.MESSAGE || 'Error al crear el registro');
                     }
                 })
-                .catch(err => toast.error(err?.MESSAGE || 'Error al crear el registro'))
+                .catch(err => {
+                    console.error('[ModalNoticiaAgregar] error del API:', err);
+                    toast.error(err?.MESSAGE || 'Error al crear el registro');
+                })
                 .finally(() => {
                     toast.remove(loadingToast);
                     this.loadingSubmit = false;
